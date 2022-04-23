@@ -1,0 +1,174 @@
+---
+title: "Validating Simulation Results with pmxTools"
+author: Kyle Baron
+date: "4/23/2022"
+description: > 
+  In this blog post, we run some simulations with mrgsolve and the excellent
+  pmxTools package and compare results. 
+---
+
+
+I just discovered this nifty tool published by the folks over at <red>Occams</red> (with 
+other contributors as well) called [<red>pmxTools</red>](https://CRAN.R-project.org/package=pmxTools).  There 
+are a lot of really useful R functions for your pharmacometrics workflow in this 
+package and worth checking it out in depth! 
+
+What I want to focus on for this post is how we can use this package to 
+cross validate mrgsolve output: we'll simulate with pmxTools and mrgsolve
+just to see the different workflows and check the output values.  If
+users are interested in other validation tests for mrgsolve, please see the 
+document [<red>here</red>](https://github.com/mrgsolve/nmtests).  _This is not a 
+"lets-go-head-to-head with another project" type post_.  I just found this 
+tool very useful as a complement to my workflow.  I hope you find it useful too.
+
+
+# Setup
+
+```{r}
+#| message: false
+#| warning: false
+library(mrgsolve)
+library(dplyr)
+library(ggplot2)
+theme_set(theme_bw())
+options(mrgsolve.soloc="build")
+```
+
+```{r}
+library(pmxTools)
+```
+
+# Two-compartment infusion
+
+## Simulate with `pmxTools::pk_curve`
+
+You can use this function to generate a PK profile based on super-positioning.
+
+
+To simulate a 2-compartment model after IV infusion of 100 mg over 10 hours, 
+first define a list of pk parameters, including `tinf`, the infusion duration
+
+```{r}
+pars <- list(CL = 1, V1 = 4, V2 = 50, Q = 5, tinf=10)
+```
+
+
+Call `pk_curve` and provide simulation times, dose regimen (including 
+`dose`, `ii`, `addl`), the model parameters, and select the model, 
+in this case it is `2cmt_infusion`
+
+
+```{r}
+
+calc <- pk_curve(
+  t = seq(0,400,0.1), 
+  dose = 100, 
+  ii = 24, 
+  addl = 9, 
+  params = pars, 
+  model="2cmt_infusion"
+)
+```
+
+```{r}
+head(calc)
+```
+
+```{r}
+ggplot(data = calc, aes(t,cp)) + geom_line() + theme_bw()
+```
+
+__Pretty easy!__
+
+## Simulate with mrgsolve
+
+We can load the 2-compartment model from our model library, and 
+update the parameter set.  We make an event object with the dosing 
+information and simulate:
+
+
+```{r}
+mod <- 
+  modlib("pk2", delta = 0.1, end = 400) %>% 
+  param(CL = 1, V2 = 4, V3 = 50, Q = 5)
+
+e <- ev(amt = 100, rate = 10, ii = 24, addl = 9, cmt = 2)
+
+out <- mrgsim_e(mod,e, obsonly=TRUE, recsort=3)
+```
+
+```{r}
+plot(out, CP~time)
+
+head(out)
+```
+
+
+## Are they the same?
+
+We can check the difference between the values:
+
+```{r}
+summary(out$CP-calc[["cp"]])
+```
+
+
+# Oral dosing example
+
+To do a model for first-order absorption
+
+```{r}
+pars <- list(CL = 1, V = 20, ka = 1.2)
+
+calc <- pk_curve(
+  t = seq(0,400,0.1), 
+  dose = 100, 
+  ii = 24, 
+  addl = 9, 
+  params = pars, 
+  model = "1cmt_oral"
+)
+
+ggplot(calc, aes(t,cp)) + geom_line() + theme_bw()
+```
+
+
+```{r}
+mod <- modlib("pk1", param = list(CL=1, V = 20, KA = 1.2), end=400, delta=0.1)
+
+out <- mrgsim_e(
+  mod, 
+  mutate(e, rate = 0, cmt = 1),
+  recsort = 3, 
+  obsonly = TRUE
+)
+```
+
+
+```{r}
+plot(out, CP~time)
+```
+
+```{r}
+summary(out$CP-calc[["cp"]])
+```
+
+# Caution
+Please note that we used some specific options to get the results exactly 
+comparable.  It really does take a lot of care to ensure that the setup
+is exactly the same for both tools when doing comparisons like this.  If you 
+start benchmarking and the results don't come out the same, please
+go back and double check your setup to make sure you haven't made any 
+assumptions about how each tool works. 
+
+# Building our community
+
+As I noted earlier, the goal of this post wasn't to go head-to-head with
+pmxTools.  Rather, I wanted to show how the mrgsolve project can take advantage
+of this great tool to help our development and validate what we're doing.  I can
+only hope that others also find mrgsolve as useful for their project, validation
+or other type of simulation work that needs to get done.  This sort of synergy
+between development projects is only possible with an open-source community 
+dedicated to open and public development projects and sharing of knowledge and 
+tools.  The more we do this in our pharmacometrics community, the more progress 
+we'll all make and our science will advance.  And we will have done it together.

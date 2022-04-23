@@ -1,0 +1,183 @@
+---
+title: "Simulate From EBE"
+author: Kyle Baron
+date: 4/23/2022
+description: > 
+  This blog post will show you how to use a single model to do both  population 
+  simulation  and simulation from a specific set of empirical Bayes estimates. 
+  The basic implementation for this approach was pioneered by Tim Waterhouse
+  at MetrumRG.
+---
+
+# Introduction
+This blog post will show you how to use a single model to do both  
+population simulation (with patient-specific covariates and random `ETA`s) and
+simulation from a specific set of empirical Bayes estimates (EBE; a specific, 
+pre-defined set of individual parameters like what you get out of your NONMEM
+run). The basic implementation for this approach was pioneered by 
+**Tim Waterhouse** at MetrumRG.
+
+# Background
+
+The situation is this: you've coded your population model in terms of 
+`THETA`, `ETA`, some covariates and the like:
+
+```{c, eval = FALSE}
+[ param ] WT = 70 , BMI = 23
+
+[ main ] 
+
+double CL = THETA1 * pow(WT/70,0.75)    * exp(ETA(1));
+double V  = THETA2 * pow(BMI/23,THETA3) * exp(ETA(2));
+```
+
+For this model, you feed in subject-specific `WT` and `BMI`, mrgsolve will 
+simulate `ETA(1)` and `ETA(2)` and you will get a subject-specific `CL`
+and `V` that can be used to advance the system.
+
+But what if you have a specific set of `CL` and `V` that came from your 
+NONMEM model output that you want to used here instead?  For example, I have
+this set of EBE that I want to use?
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+#| message: false
+#| warning: false
+library(dplyr)
+set.seed(123)
+par <- tibble(
+  ID = c(1,2,3), 
+  CL = runif(3, 0.5, 1.5), 
+  V  = runif(3, 35, 67)
+)
+```
+
+```{r}
+par
+```
+
+How can I work these into these into the simulation with this model?
+
+# A solution
+
+## Re-name the EBE
+
+Instead of using `CL` and `V` in your data, rename them to `CLI` and `VI`
+
+```{r}
+par <- rename(par, CLI = CL, VI = V)
+par
+```
+
+The specific names you choose isn't as important as naming them something 
+other than what you used in the model.
+
+## Add parameters to the model
+Now you need to add these as parameters in the model so mrgsolve will pick them 
+up when you pass them in on the data set
+
+```{c, eval = FALSE}
+[ param ] 
+WT = 70 , BMI = 23
+CLI = -1, VI = -1
+```
+
+Note we gave these parameters a special value: `-1`. This will be important 
+for the next step.
+
+## Conditional update of CL and V
+
+Now, after the population parameters are declared and defined, you can 
+put a block of code that updates those variables only if `CLI` is greater than 
+zero; that is, if the updated parameter is something other than that special / 
+null value, we'll use that; otherwise use the random simulated value
+
+```{c, eval = FALSE}
+[ main ] 
+
+double CL = THETA1 * pow(WT/70,0.75)    * exp(ETA(1));
+double V  = THETA2 * pow(BMI/23,THETA3) * exp(ETA(2));
+
+if(CLI > 0) {
+  CL = CLI;
+  V = VI;
+}
+```
+
+## Include CLI and VI in the data
+
+Now, whenever we attach these specially named parameters to the data, we'll 
+get a simulation from the EBE; otherwise, we'll get the simulation from 
+the covariates and randomly drawn ETA.
+
+```{r, warning = FALSE, message = FALSE}
+library(mrgsolve)
+data <- expand.ev(amt = 100, ID = 1:3) %>% left_join(par)
+data
+```
+
+# Example 
+
+## Model
+
+```{r}
+code <- '
+[ param ] 
+WT = 70 , BMI = 23, KA = 1
+CLI = -1, VI = -1
+
+[ param ] THETA1 = 1, THETA2 = 30, THETA3 = 0.21
+
+[ main ] 
+
+double CL = THETA1 * pow(WT/70,0.75)    * exp(ETA(1));
+double V  = THETA2 * pow(BMI/23,THETA3) * exp(ETA(2));
+
+if(CLI > 0) {
+  CL = CLI;
+  V = VI;
+}
+
+[ omega ] 0.2 0.8
+
+[ pkmodel ] cmt = "depot,cent", depot = TRUE
+
+[ error ] 
+double cp = cent/V;
+'
+mod <- mcode("ebe", code, capture = "CL,V,cp")
+```
+
+## Simulate
+
+```{r, fig.width = 8, fig.height = 4}
+out <- mrgsim(mod, data, end = 72) 
+plot(out, "CL,V,cp")
+```
+
+## Check
+
+Verify that the `CL` and `V` in the output match the `CLI` and `VI` in the 
+input
+
+```{r}
+data
+count(as_tibble(out), ID, CL, V)
+```
+
+## Random simulation
+
+Now, if we drop the EBE from the data, we get our random basic random simulation
+
+```{r}
+data2 <- mutate(
+  data, 
+  CLI = NULL, 
+  VI = NULL, 
+  BMI = c(20, 23, 26), 
+  WT = c(60, 70, 80)
+)
+mrgsim_df(mod, data2) %>% count(ID, CL, V)
+mrgsim_df(mod, data2) %>% count(ID, CL, V)
+```
+

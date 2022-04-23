@@ -1,0 +1,156 @@
+---
+title: "Stopping long-running simulations"
+author: Kyle Baron
+date: 4/23/2022
+description: > 
+  Sometimes, you want to stop a simulation that is running (or might run) 
+  longer than you want. Find out how.
+---
+
+Sometimes you have a simulation that is running longer than it needs to run 
+or longer than you want it to run.
+
+```{r}
+#| message: false
+#| warning: false
+library(mrgsolve)
+library(tidyverse)
+```
+
+Some examples include
+
+- you create a large input data set and send it off for simulation, but you 
+  discovered an error in the code while the simulation was running
+- maybe the simulation is running longer than you thought it would and you want 
+  to kill it to take a closer look
+- you have run the system until some critical event happened (the patient was 
+  cured!) and you really don't need to simulate that last 5 year of treatment
+- you want to let a simulation run for 3 minutes maximum; if it is not done by 
+  then, just give up and move on
+
+This blog post is about stopping those runs and most of the time, this requires
+writing a bit of code into the model. 
+
+# User interrupt
+
+When mrgsolve is simulating a data set, it stops every so often to check for the
+user interrupt signal (Control-C or Esc). So if you have some regrets after
+starting a simulation, hit Control-C or Esc a bunch of times and that will 
+eventually stop the simulation. 
+
+mrgsolve has to stop to check for user interrupt; we don't want to stop to 
+frequently so as to hurt performance, but we don't want to stop too 
+infrequently either - that would make you have to wait too long to stop the 
+simulation. By default, mrgsolve counts the records that is processes and 
+stops every`256` records to look for the interrupt. This default value can be
+checked or modified as the `interrupt` argument to `mrgsim()` and friends.
+If you have both observations and records in your data set, this check interval
+will roughly correspond to every `256` output records. I say `roughly` because 
+mrgsolve also counts some records that aren't in your data set but still 
+get implemented (like turning off an infusion). You might want it to look more
+frequently if you have a model that is very difficult to solve or if you have 
+long spans of time between records. You might want to check less often if 
+the model is very easy to solve. You can set `interrupt` to a negative number 
+to have is avoid checking at all. Most of the time, it is not necessary to 
+change the check interval.
+
+# Stopping a model early 
+
+mrgsolve has some `C++` functions that you can write into your model that will 
+stop the simulation once some condition is met. The functions are
+
+- `self.stop()`
+- `self.stop_id()`
+- `self.stop_id_cf()`
+
+We'll walk through each of them. 
+
+To stop the simulation and throw an error, use 
+
+```{c, eval = FALSE}
+self.stop();
+```
+
+This can be called in `$MAIN` or `$TABLE` and it will just stop the simulation
+with an error message. You can catch this condition by wrapping the simulation 
+call in `try()`
+
+```{r, eval = FALSE}
+output <- try(mrsim(model, data))
+```
+
+and then check to see if the simulation failed
+
+```{r, eval = FALSE}
+if(inherits(output, "try-error")) {
+  # bail out  
+} else {
+  # keep going  
+}
+```
+
+If you want to just stop simulating the _current individual_, you can use 
+
+```{c, eval = FALSE}
+self.stop_id();
+```
+
+or 
+
+```{c, eval = FALSE}
+self.stop_id_cf();
+```
+
+Both of these will stop _simulating_ the current subject and then move on to the 
+next subject. The difference in behavior comes from what gets filled in for 
+the remaining records for that subject. 
+
+- `self.stop_id()` fills in the remaining rows with `NA_real_` so that an easy 
+  way to find the stopping point is to select records where `ID` is not `NA`
+- `self.stop_id_cf()` fills in the remaining rows with the last simulated value; 
+  this approach might be useful in more limited circumstances, but available if
+  needed
+  
+
+# Setting a maximum run time
+
+It is possible to limit the simulation time for an individual or for the entire
+problem. This isn't handled automatically by mrgsolve, but we'll show you how 
+to write a small bit of code to do this in a very flexible way.
+
+Recall that the `$PREAMBLE` block gets called _once_ at the start of the problem. 
+
+```{c, eval = FALSE}
+$GLOBAL
+#include <time.h>
+
+$PREAMBLE
+time_t tstart = time(0);
+```
+
+
+In `$PREAMBLE`, I got the current time with `time(0)` and saved it to `tstart` 
+The units for `start` are `seconds`. Also note that we had to `#include` the 
+header file (`<time.h>`) to get that function. 
+
+Now, we'll write some code to check the elapsed time in `$TABLE` and set a 
+maximum run duration in `$PARAM`
+
+```{c, eval = FALSE}
+$PARAM MAXTIME = 180
+
+$TABLE
+if( (tstart - time(0) ) > MAXTIME) {
+  self.stop_id();
+}
+```
+
+So once the run time exceeds `MAXTIME` (180 seconds), we will stop the run 
+graciously using `self.stop_id()`. You could make a case for using `self.stop()`
+here too, but you get the picture: you can determine (1) when to check the 
+duration (2) what is the maximum duration (3) what to do when the maximum 
+duration is exceeded, etc. The behavior is really up to you with a little bit
+of coding. 
+
+I like this pattern and have plans to write a `[ plugin ]` that will make 
+coding this a little easier. Stay tuned. 

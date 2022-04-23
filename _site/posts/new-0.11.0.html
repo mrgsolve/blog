@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.299">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kyle Baron">
+<meta name="description" content="Find out what’s new in mrgsolve version 0.11.0 and 0.11.1.">
+
+<title>mrgsolve blog - New in 0.11.0 and 0.11.1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">mrgsolve blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/metrumresearchgroup"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/mrgsolve"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#resimulate-a-single-eta-or-eps" id="toc-resimulate-a-single-eta-or-eps" class="nav-link" data-scroll-target="#resimulate-a-single-eta-or-eps">Resimulate a single ETA or EPS</a></li>
+  <li><a href="#dynamic-capture" id="toc-dynamic-capture" class="nav-link" data-scroll-target="#dynamic-capture">Dynamic capture</a>
+  <ul class="collapse">
+  <li><a href="#see-model-variables" id="toc-see-model-variables" class="nav-link" data-scroll-target="#see-model-variables">See model variables</a></li>
+  <li><a href="#why-would-i-use-this" id="toc-why-would-i-use-this" class="nav-link" data-scroll-target="#why-would-i-use-this">Why would I use this???</a></li>
+  </ul></li>
+  <li><a href="#simulate-with-negative-times" id="toc-simulate-with-negative-times" class="nav-link" data-scroll-target="#simulate-with-negative-times">Simulate with negative times</a></li>
+  <li><a href="#path-to-nm-results-using-nmext-and-nmxml" id="toc-path-to-nm-results-using-nmext-and-nmxml" class="nav-link" data-scroll-target="#path-to-nm-results-using-nmext-and-nmxml">Path to NM results using NMEXT and NMXML</a>
+  <ul class="collapse">
+  <li><a href="#root-path" id="toc-root-path" class="nav-link" data-scroll-target="#root-path">Root path</a></li>
+  <li><a href="#select-table-number-in-nmext" id="toc-select-table-number-in-nmext" class="nav-link" data-scroll-target="#select-table-number-in-nmext">Select table number in NMEXT</a></li>
+  <li><a href="#reveal-results-file" id="toc-reveal-results-file" class="nav-link" data-scroll-target="#reveal-results-file">Reveal results file</a></li>
+  </ul></li>
+  <li><a href="#programmatic-block-initialization" id="toc-programmatic-block-initialization" class="nav-link" data-scroll-target="#programmatic-block-initialization">Programmatic block initialization</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">New in 0.11.0 and 0.11.1</h1>
+</div>
+
+<div>
+  <div class="description">
+    <p>Find out what’s new in mrgsolve version 0.11.0 and 0.11.1.</p>
+  </div>
+</div>
+
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kyle Baron </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">4/23/2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This blog post introduces some new features / new behavior with mrgsolve versions <code>0.11.0</code> and <code>0.11.1</code>.</p>
+</section>
+<section id="resimulate-a-single-eta-or-eps" class="level1">
+<h1>Resimulate a single ETA or EPS</h1>
+<p>Up to version <code>0.11.0</code>, calling <code>simeta()</code> or <code>simeps()</code> would resimulate every <code>ETA()</code> or <code>EPS()</code> values. There was no way to just resimulate a single <code>ETA()</code> or <code>EPS()</code>.</p>
+<p>Starting with <code>0.11.0</code>, you can now pass an integer specifying which <code>ETA()</code> or <code>EPS()</code> to resimulate.</p>
+<p>For example, this code will resimulate <code>ETA(1)</code> (only) while leaving the other <code>ETAs</code> alone:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> param <span class="op">]</span> tvbase <span class="op">=</span> <span class="dv">70</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> omega <span class="op">]</span> <span class="dv">1</span> <span class="dv">1</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> base <span class="op">=</span> tvbase <span class="op">+</span> ETA<span class="op">(</span><span class="dv">1</span><span class="op">);</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span><span class="op">(</span>base <span class="op">&lt;</span> <span class="dv">50</span> <span class="op">||</span> base <span class="op">&gt;</span> <span class="dv">90</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  simeta<span class="op">(</span><span class="dv">1</span><span class="op">);</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  base <span class="op">=</span> tvbase <span class="op">+</span> ETA<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="dynamic-capture" class="level1">
+<h1>Dynamic capture</h1>
+<p>This is one of my favorite new features. I’ve written about it before, but as a review: we added a <code>capture</code> argument to <code>mread()</code> so you can opt in to capture additional model variables in the simulated output.</p>
+<p>For example, let’s look at this model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"irm1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building irm1 ... done.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">outvars</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$cmt
+[1] "EV1"    "CENT"   "PERIPH" "RESP"   "EV2"   
+
+$capture
+[1] "CP"</code></pre>
+</div>
+</div>
+<p>You can see the compartments (<code>cmt</code>) and other model variables that are getting captured (<code>capture</code>).</p>
+<section id="see-model-variables" class="level2">
+<h2 class="anchored" data-anchor-id="see-model-variables">See model variables</h2>
+<p>We can now look into the model and see which variables are available to capture. First, coerce <code>mod</code> to a <code>list()</code> and then look at the <code>cpp_variables</code> item:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cpp_variables <span class="ot">&lt;-</span> <span class="fu">as.list</span>(mod)<span class="sc">$</span>cpp_variables</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cpp_variables</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    type  var context
+1 define   CP  global
+2 define   CT  global
+3 define CLNL  global
+4 define  INH  global</code></pre>
+</div>
+</div>
+<p>This tells us what we <strong>could</strong> capture. Now that we have the information, let’s capture everything possible:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"irm1"</span>, <span class="at">capture =</span> cpp_variables<span class="sc">$</span>var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building irm1 ... done.</code></pre>
+</div>
+</div>
+<p>Now, everything is getting captured:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">outvars</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$cmt
+[1] "EV1"    "CENT"   "PERIPH" "RESP"   "EV2"   
+
+$capture
+[1] "CP"   "CT"   "CLNL" "INH" </code></pre>
+</div>
+</div>
+<p>and will appear in the simulated output:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="at">events =</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>), <span class="at">param =</span> <span class="fu">list</span>(<span class="at">VMAX  =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  irm1 
+Dim:    26 x 11 
+Time:   0 to 24 
+ID:     1 
+    ID time      EV1  CENT PERIPH  RESP EV2    CP     CT   CLNL    INH
+1:   1    0   0.0000  0.00  0.000 5.000   0 0.000 0.0000 1.0000 0.0000
+2:   1    0 100.0000  0.00  0.000 5.000   0 0.000 0.0000 1.0000 0.0000
+3:   1    1  36.7879 57.40  3.221 2.837   0 2.870 0.3221 0.4107 0.5893
+4:   1    2  13.5335 70.69  8.641 1.988   0 3.534 0.8641 0.3614 0.6386
+5:   1    3   4.9787 69.58 13.484 1.834   0 3.479 1.3484 0.3650 0.6350
+6:   1    4   1.8316 64.48 17.119 1.875   0 3.224 1.7119 0.3828 0.6172
+7:   1    5   0.6738 58.87 19.596 1.970   0 2.943 1.9596 0.4046 0.5954
+8:   1    6   0.2479 53.77 21.135 2.078   0 2.689 2.1135 0.4266 0.5734</code></pre>
+</div>
+</div>
+<p>In this example, we could choose from a bunch of pre-processor directives, but the only reason for that is this is the way the model was coded. We can look at another example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"pbpk"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building pbpk ... done.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.list</span>(mod)<span class="sc">$</span>cpp_variables <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    type var context
+1 double Vad    main
+2 double Vbo    main
+3 double Vbr    main
+4 double Vgu    main
+5 double Vhe    main
+6 double Vki    main</code></pre>
+</div>
+</div>
+</section>
+<section id="why-would-i-use-this" class="level2">
+<h2 class="anchored" data-anchor-id="why-would-i-use-this">Why would I use this???</h2>
+<p>Here’s an example: I have a covariate model going and I want to get parameter values given some covariates. I can write:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"popex"</span>, <span class="at">capture =</span> <span class="st">"CL,V,KA"</span>) <span class="sc">%&gt;%</span> <span class="fu">zero_re</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building popex ... done.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">WT =</span> <span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">140</span>,<span class="dv">5</span>))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="at">idata =</span> idata, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  popex 
+Dim:    21 x 10 
+Time:   0 to 0 
+ID:     21 
+    ID time GUT CENT ECL IPRED DV     CL     V  KA
+1:   1    0   0    0   0     0  0 0.6572 13.71 0.5
+2:   2    0   0    0   0     0  0 0.7179 15.43 0.5
+3:   3    0   0    0   0     0  0 0.7770 17.14 0.5
+4:   4    0   0    0   0     0  0 0.8345 18.86 0.5
+5:   5    0   0    0   0     0  0 0.8908 20.57 0.5
+6:   6    0   0    0   0     0  0 0.9459 22.29 0.5
+7:   7    0   0    0   0     0  0 1.0000 24.00 0.5
+8:   8    0   0    0   0     0  0 1.0531 25.71 0.5</code></pre>
+</div>
+</div>
+<p>Now, I have <code>CL</code>, <code>V</code> and <code>KA</code> all calculated as a function of <code>WT</code>.</p>
+</section>
+</section>
+<section id="simulate-with-negative-times" class="level1">
+<h1>Simulate with negative times</h1>
+<p>Until <code>0.11.0</code>, it was an error whenever negative times were requested in the simulation. Now, negative times are accepted without error.Keep in mind that the data set still needs to be sorted by time when passing <code>data</code>.</p>
+<p>As an example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"irm2"</span>) <span class="sc">%&gt;%</span> <span class="fu">param</span>(<span class="at">KOUT =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building irm2 ... done.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  mod <span class="sc">%&gt;%</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ii =</span> <span class="dv">48</span>, <span class="at">addl =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mrgsim</span>(<span class="at">start =</span> <span class="sc">-</span><span class="dv">72</span>, <span class="at">end =</span> <span class="dv">240</span>) </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>sims</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  irm2 
+Dim:    314 x 8 
+Time:   -72 to 240 
+ID:     1 
+    ID time EV1 CENT PERIPH RESP EV2 CP
+1:   1  -72   0    0      0  200   0  0
+2:   1  -71   0    0      0  200   0  0
+3:   1  -70   0    0      0  200   0  0
+4:   1  -69   0    0      0  200   0  0
+5:   1  -68   0    0      0  200   0  0
+6:   1  -67   0    0      0  200   0  0
+7:   1  -66   0    0      0  200   0  0
+8:   1  -65   0    0      0  200   0  0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sims, <span class="st">"EV1 CP RESP"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="new-0.11.0_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="path-to-nm-results-using-nmext-and-nmxml" class="level1">
+<h1>Path to NM results using NMEXT and NMXML</h1>
+<p>This is pretty subtle issue but I’ve grown very sensitive to it recently and decided we needed to change this.</p>
+<p>When you use the <code>$NMEXT</code> or <code>$NMXML</code> blocks, you are asking <code>mrgsolve</code> to import <code>THETA</code>, <code>OMEGA</code> and / or <code>SIGMA</code> from a completed NONMEM run. And we need to specify the path to those results.</p>
+<p>So far, we have had you typically specify the path relative to the <strong>current working directory</strong>. This was ok, but problems happened if you wanted to use the model from a different working directory (you’d get an error).</p>
+<p>So we added an argument called <code>root</code> to <code>$NMEXT</code> and <code>$NMXML</code> that lets you change how that path is interpreted.</p>
+<section id="root-path" class="level2">
+<h2 class="anchored" data-anchor-id="root-path">Root path</h2>
+<p>The current default behavior is to interpret the path relative to the current working directory:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is equivalent to invoking the new <code>root</code> argument and setting it to <code>"working"</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">"working"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>I am encouraging you</strong> to start setting this <code>root</code> argument to <code>"cppfile"</code> which tells mrgsolve to interpret the path relative to wherever the model code is located:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">"cppfile"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When you do this, you can load this model from any working directory as long as the file remains in the same location. I am encouraging you to start using this because I think we will eventually make <code>"cppfile"</code> the default root because it makes so much more sense.</p>
+<p>Note that you can always specify an absolute path here and in that case, it doesn’t matter what you use for the <code>root</code> argument (see the discussion on <code>here()</code> in the following section).</p>
+<p><strong>With here()</strong></p>
+<p>Some are also using the <code>here::here()</code> function. This is totally independent of any <code>mrgsolve</code> functionality, but <code>here()</code> will return the absolute path relative to your <code>Rstudio</code> project root. So, if all my models were in the <code>model/nonmem</code> directory, I can always get the absolute path using <code>here()</code> regardless of the working directory and regardless of where the <code>cpp</code> file is located.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> here<span class="op">::</span>here<span class="op">(</span><span class="st">"model/nonmem"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note here that the argument / options here are evaluated by the R interpreter so that the <code>here()</code> call resolves to the correct project directory.</p>
+</section>
+<section id="select-table-number-in-nmext" class="level2">
+<h2 class="anchored" data-anchor-id="select-table-number-in-nmext">Select table number in NMEXT</h2>
+<p>The <code>[ nmext ]</code> block gains an index argument that will let you select which table in the <code>.ext</code> file to import from when there are multiple.</p>
+<ul>
+<li>the default is <code>last</code></li>
+<li>otherwise, pass an integer (e.g.&nbsp;1 for first, 3 for 3rd)</li>
+<li>see the <code>?nmext</code> help topic for more info on this and other argument / options for the <code>nmxml</code> block</li>
+</ul>
+<p>To select the 2nd table:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">"cppfile"</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">2</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The default is to select the <code>last</code> table:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">"cppfile"</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="st">"last"</span> <span class="co">// "first"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="reveal-results-file" class="level2">
+<h2 class="anchored" data-anchor-id="reveal-results-file">Reveal results file</h2>
+<p>When you import nonmem results from an <code>.ext</code> file (via <code>[nmext]</code>) or an <code>.xml</code> file (via <code>[nmxml]</code>), the source file is now saved in the model object so that it can be checked later.</p>
+<p>The internal model library contains an embedded nonmem run numbered <code>1005</code>; this run imports <code>THETA</code>, <code>OMEGA</code> and <code>SIGMA</code> from a finished nonmem run. You can load this model with the <code>modlib()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"1005"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required namespace: xml2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building 1005 ... done.</code></pre>
+</div>
+</div>
+<p>By coercing the model to list and checking the <code>nm_import</code> item, you’ll get a character vector with the full (absolute) path to either the <code>.ext</code> or <code>.xml</code> file that was imported from</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.list</span>(mod)<span class="sc">$</span>nm_import</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "/Users/kyleb/Rlibs-MPN/mrgsolve/nonmem/1005/1005.xml"</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="programmatic-block-initialization" class="level1">
+<h1>Programmatic block initialization</h1>
+<p>I don’t expect you’ll be using this much but when you need it it will come in handy.</p>
+<p>For example, let’s say you wanted to write a model with a 30 x 30 omega matrix. This would be a pain to code given the current syntax for <code>$OMEGA</code>. I recently refactored and standardized the way you can initialize this block programmatically.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="st">$OMEGA @as_object</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="st">matrix(0, nrow = 30, ncol = 30)</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"omega"</span>, code, <span class="at">compile =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We didn’t run the code because the screen would fill up, but you can try it. You will see that <code>$OMEGA</code> is a 30 x 30 matrix and it was easy to code. Obviously, you’ll have to update this with all the elements but we have given you the ability to easily initialize this matrix.</p>
+<p>In the example, we used the <code>@as_object</code> directive. The other way to do it would be to create the object in <code>$ENV</code> and then use <code>@object</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>$ENV</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>foo <span class="op">&lt;-</span> matrix<span class="op">(</span><span class="dv">0</span><span class="op">,</span> nrow <span class="op">=</span> <span class="dv">30</span><span class="op">,</span> ncol <span class="op">=</span> <span class="dv">30</span><span class="op">)</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>$OMEGA @object foo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>With this approach, use <code>@object</code> and then name the object that you want to use to populate the block.</p>
+<p>Other blocks that you can use this programmatic initialization:</p>
+<ul>
+<li><code>$SIGMA</code> - return a matrix</li>
+<li><code>$CMT</code> - return a character vector of compartment names</li>
+<li><code>$INIT</code> - return a named list</li>
+<li><code>$PARAM</code> - return a named list</li>
+<li><code>$THETA</code> - return a numeric vector</li>
+<li><code>$FIXED</code> - return a named list</li>
+</ul>
+<p>For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM @as_object</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="st">x &lt;- seq(1,26)</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="st">names(x) &lt;- letters</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="st">as.list(x)</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"letters"</span>, code, <span class="at">compile =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="fu">param</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Model parameters (N=26):
+ name value . name value
+ a    1     | n    14   
+ b    2     | o    15   
+ c    3     | p    16   
+ d    4     | q    17   
+ e    5     | r    18   
+ f    6     | s    19   
+ g    7     | t    20   
+ h    8     | u    21   
+ i    9     | v    22   
+ j    10    | w    23   
+ k    11    | x    24   
+ l    12    | y    25   
+ m    13    | z    26   </code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

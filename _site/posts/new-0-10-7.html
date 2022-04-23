@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.299">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kyle Baron">
+<meta name="dcterms.date" content="2020-12-01">
+<meta name="description" content="Find out what’s new in mrgsolve version 0.10.7.">
+
+<title>mrgsolve blog - New in 0.10.7</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">mrgsolve blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/metrumresearchgroup"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/mrgsolve"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#specify-capture-at-compile-time" id="toc-specify-capture-at-compile-time" class="nav-link" data-scroll-target="#specify-capture-at-compile-time">Specify capture at compile time</a></li>
+  <li><a href="#smarter-warnings-when-non-numeric-columns-are-dropped" id="toc-smarter-warnings-when-non-numeric-columns-are-dropped" class="nav-link" data-scroll-target="#smarter-warnings-when-non-numeric-columns-are-dropped">Smarter warnings when non-numeric columns are dropped</a></li>
+  <li><a href="#error" id="toc-error" class="nav-link" data-scroll-target="#error"><code>$ERROR</code></a></li>
+  <li><a href="#try-loading-the-model-at-runtime-if-it-isnt-loaded" id="toc-try-loading-the-model-at-runtime-if-it-isnt-loaded" class="nav-link" data-scroll-target="#try-loading-the-model-at-runtime-if-it-isnt-loaded">Try loading the model at runtime if it isn’t loaded</a></li>
+  <li><a href="#time-after-dose-in-specific-compartment" id="toc-time-after-dose-in-specific-compartment" class="nav-link" data-scroll-target="#time-after-dose-in-specific-compartment">Time after dose in specific compartment</a></li>
+  <li><a href="#improved-handling-of-time-varying-covariates" id="toc-improved-handling-of-time-varying-covariates" class="nav-link" data-scroll-target="#improved-handling-of-time-varying-covariates">Improved handling of time-varying covariates</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">New in 0.10.7</h1>
+</div>
+
+<div>
+  <div class="description">
+    <p>Find out what’s new in mrgsolve version 0.10.7.</p>
+  </div>
+</div>
+
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kyle Baron </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">12/01/2020</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This blog post shows some of the new features that came into mrgsolve starting with version <code>0.10.7</code> (December 2020). The purpose is to illustrate what is possible rather than detailed documentation. There were other small bugs and gremlins fixed as well, but we are focused on bigger, user-facing changes here.</p>
+</section>
+<section id="specify-capture-at-compile-time" class="level1">
+<h1>Specify capture at compile time</h1>
+<p><strong>Big Idea</strong>: The feature helps give you more flexibility for getting data out of your model and into your simulated output. You have the ability to select output items when you run <code>mread()</code> in addition to specifying them in the model code.</p>
+<p>In your mrgsolve model, you can request that the values of different variables are written into the simulated output. This is done through the capture block or by declaring variables as type <code>capture</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"popexample.mod"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building popexample_mod ... done.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">blocks</span>(mod, MAIN, TABLE, CAPTURE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Model file: popexample.mod 
+
+$MAIN
+double CL = exp(log(TVCL) + 0.75*log(WT/70) + ECL);
+double V  = exp(log(TVV)  +      log(WT/70) + EV );
+double KA = exp(log(TVKA)                   + EKA);
+
+$TABLE
+double IPRED = CENT/V;
+capture DV = IPRED*exp(EPS(1));
+
+$CAPTURE
+CL</code></pre>
+</div>
+</div>
+<p>Here we have derived several variables (<code>CL</code>, <code>V</code>, <code>KA</code>, <code>IPRED</code>, <code>DV</code>) and some of them have been marked for “capture” (<code>DV</code> and <code>CL</code>).</p>
+<p>We can check what will be captured:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">outvars</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$cmt
+[1] "GUT"  "CENT"
+
+$capture
+[1] "CL" "DV"</code></pre>
+</div>
+</div>
+<p>Starting with mrgsolve 0.10.7, you can specify additional variables for capture when you read in the model with <code>mread()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"popexample.mod"</span>, <span class="at">capture =</span> <span class="st">"ETA(1), WT, IPRED, V"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building popexample_mod ... (waiting) ...
+done.</code></pre>
+</div>
+</div>
+<p>Here, I’ve asked for the value of one of the ETAs, a parameter (<code>WT</code>) and a couple of derived quantities (<code>IPRED</code> and <code>V</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">outvars</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$cmt
+[1] "GUT"  "CENT"
+
+$capture
+[1] "CL"    "DV"    "ETA_1" "WT"    "IPRED" "V"    </code></pre>
+</div>
+</div>
+<p>And now when I simulate from the model, I’ll get all of these quantities back: ::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  popexample_mod 
+Dim:    482 x 10 
+Time:   0 to 240 
+ID:     1 
+    ID time    GUT   CENT    CL     DV ETA_1 WT IPRED V
+1:   1  0.0   0.00  0.000 0.351 0.0000     0  0     0 0
+2:   1  0.0 100.00  0.000 0.351 0.0000     0  0     0 0
+3:   1  0.5  92.65  7.324 0.351 0.2919     0  0     0 0
+4:   1  1.0  85.84 14.058 0.351 0.5602     0  0     0 0
+5:   1  1.5  79.53 20.247 0.351 0.8068     0  0     0 0
+6:   1  2.0  73.69 25.931 0.351 1.0333     0  0     0 0
+7:   1  2.5  68.27 31.147 0.351 1.2412     0  0     0 0
+8:   1  3.0  63.25 35.930 0.351 1.4318     0  0     0 0</code></pre>
+</div>
+<p>:::</p>
+<p>This is temporary until the model is re-compiled again ::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mread</span>(<span class="st">"popexample.mod"</span>) <span class="sc">%&gt;%</span> outvars</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building popexample_mod ... done.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$cmt
+[1] "GUT"  "CENT"
+
+$capture
+[1] "CL" "DV"</code></pre>
+</div>
+<p>:::</p>
+</section>
+<section id="smarter-warnings-when-non-numeric-columns-are-dropped" class="level1">
+<h1>Smarter warnings when non-numeric columns are dropped</h1>
+<p>mrgsolve warns you when non-numeric columns are dropped from the data set when you run the model. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"popex"</span>) <span class="sc">%&gt;%</span> <span class="fu">update</span>(<span class="at">outvars =</span> <span class="st">"IPRED"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this model, we have the following parameters: ::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">param</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Model parameters (N=4):
+ name value . name value
+ TVCL 1     | TVV  24   
+ TVKA 0.5   | WT   70   </code></pre>
+</div>
+<p>:::</p>
+<p>Let’s create an input data set with some character values: two parameter columns and one non-parameter column: ::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">WT =</span> <span class="st">"500"</span>, <span class="at">TVV =</span> <span class="st">"ABC"</span>, <span class="at">name =</span> <span class="st">"KYLE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
+<p>When we simulation, we get some messages for dropped columns: ::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[data-set] dropped non-numeric: WT</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[data-set] dropped non-numeric: TVV</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  popex 
+Dim:    482 x 3 
+Time:   0 to 240 
+ID:     1 
+    ID time  IPRED
+1:   1  0.0 0.0000
+2:   1  0.0 0.0000
+3:   1  0.5 0.7281
+4:   1  1.0 1.2670
+5:   1  1.5 1.6621
+6:   1  2.0 1.9478
+7:   1  2.5 2.1506
+8:   1  3.0 2.2905</code></pre>
+</div>
+<p>:::</p>
+<p>Previously, mrgsolve would have warned you about all 3 columns; now it only warns you about columns that are dropped and would have been relevant to the simulation.</p>
+<p>This example is made up to illustrate the behavior. But in typical usage when we do things right, we might have extra character columns that we don’t care about. <strong>In this case we get no warnings</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">amt =</span> <span class="dv">100</span>, <span class="at">WT =</span> <span class="dv">70</span>, <span class="at">TVV =</span> <span class="dv">20</span>, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">"KYLE"</span>, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="st">"minnesota"</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  popex 
+Dim:    482 x 3 
+Time:   0 to 240 
+ID:     1 
+    ID time IPRED
+1:   1  0.0 0.000
+2:   1  0.0 0.000
+3:   1  0.5 1.130
+4:   1  1.0 2.032
+5:   1  1.5 2.747
+6:   1  2.0 3.308
+7:   1  2.5 3.742
+8:   1  3.0 4.072</code></pre>
+</div>
+</div>
+<p>Remember, we can still ask for non-numeric items to be brought into the data set with the <code>recover</code> argument:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, data, <span class="at">recover =</span> <span class="st">"name,state"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  popex 
+Dim:    482 x 5 
+Time:   0 to 240 
+ID:     1 
+    ID time IPRED name     state
+1:   1  0.0 0.000 KYLE minnesota
+2:   1  0.0 0.000 KYLE minnesota
+3:   1  0.5 0.948 KYLE minnesota
+4:   1  1.0 1.719 KYLE minnesota
+5:   1  1.5 2.343 KYLE minnesota
+6:   1  2.0 2.848 KYLE minnesota
+7:   1  2.5 3.253 KYLE minnesota
+8:   1  3.0 3.576 KYLE minnesota</code></pre>
+</div>
+</div>
+</section>
+<section id="error" class="level1">
+<h1><code>$ERROR</code></h1>
+<p>There is a new block alias called <code>$ERROR</code> that is just an alias for <code>$TABLE</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM CL = 1, V = 20, KA = 1</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="st">$PKMODEL cmt = "CENT"</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="st">$ERROR</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="st">capture CP = CENT/V;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"error"</span>, code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building error ... done.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  error 
+Dim:    26 x 4 
+Time:   0 to 24 
+ID:     1 
+    ID time   CENT    CP
+1:   1    0   0.00 0.000
+2:   1    0 100.00 5.000
+3:   1    1  95.12 4.756
+4:   1    2  90.48 4.524
+5:   1    3  86.07 4.304
+6:   1    4  81.87 4.094
+7:   1    5  77.88 3.894
+8:   1    6  74.08 3.704</code></pre>
+</div>
+</div>
+</section>
+<section id="try-loading-the-model-at-runtime-if-it-isnt-loaded" class="level1">
+<h1>Try loading the model at runtime if it isn’t loaded</h1>
+<p>Sometimes, you find yourself with a model object but the shared object hasn’t been loaded into the session. This could happen when you are running simulations in parallel and the model doesn’t get loaded in the worker R process. For the post, I’ll just phony up a model that happens to not be loaded:</p>
+<p>This code loads and then unloads the model, and then shows that it is not loaded:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"pk1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building pk1 ... done.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>mrgsolve<span class="sc">:::</span><span class="fu">unloadso.mrgmod</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>unloaded pk1-so-17997271698ee.so</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>mrgsolve<span class="sc">:::</span><span class="fu">funset</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$symbols
+                 name loaded
+1   _model_pk1_main__  FALSE
+2    _model_pk1_ode__  FALSE
+3  _model_pk1_table__  FALSE
+4 _model_pk1_config__  FALSE
+
+$shlib
+               package    version compiled
+1 pk1-so-17997271698ee 1.0.3.9000     TRUE</code></pre>
+</div>
+</div>
+<p>We can still simulate from this model; mrgsolve will determine that the model isn’t loaded and it will try to load it for you. ::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  pk1 
+Dim:    25 x 5 
+Time:   0 to 24 
+ID:     1 
+    ID time EV CENT CP
+1:   1    0  0    0  0
+2:   1    1  0    0  0
+3:   1    2  0    0  0
+4:   1    3  0    0  0
+5:   1    4  0    0  0
+6:   1    5  0    0  0
+7:   1    6  0    0  0
+8:   1    7  0    0  0</code></pre>
+</div>
+<p>:::</p>
+<p>It’s possible that the model can’t be loaded (e.g.&nbsp;due to missing <code>.so</code> file). In that case, mrgsolve will give you the usual error message that the model needs to be compiled.</p>
+</section>
+<section id="time-after-dose-in-specific-compartment" class="level1">
+<h1>Time after dose in specific compartment</h1>
+<p>Version 0.10.7 also adds a new plugin with the ability to calculate time after dose in any compartment.</p>
+<p>We write a model using the <code>tad</code> plugin to track time after dose in compartments <code>one</code> and <code>two</code>. We create <code>tadose</code> objects to track this and we can call the <code>tad()</code> method on these objects, passing in the <code>self</code> data item.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="st">[plugin] tad</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="st">[ global ] </span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="st">mrg::tadose tad_cmt_1(1); </span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="st">mrg::tadose tad_cmt_2(2);</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="st">[ pkmodel ] cmt = "GUT,CENT", depot = TRUE</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="st">[ param ] CL = 1, V = 20, KA = 1</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="st">[ main ] </span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a><span class="st">capture tad1 = tad_cmt_1.tad(self); </span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="st">capture tad2 = tad_cmt_2.tad(self);</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"tad"</span>, code, <span class="at">soloc =</span> <span class="st">'.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building tad ... done.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">cmt =</span> <span class="dv">1</span>, <span class="at">time =</span> <span class="dv">1</span>), </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">200</span>, <span class="at">cmt =</span> <span class="dv">2</span>, <span class="at">time =</span> <span class="dv">3</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  tad 
+Dim:    27 x 6 
+Time:   0 to 24 
+ID:     1 
+    ID time     GUT   CENT tad1 tad2
+1:   1    0   0.000   0.00   -1   -1
+2:   1    1   0.000   0.00   -1   -1
+3:   1    1 100.000   0.00    0   -1
+4:   1    2  36.788  61.41    1   -1
+5:   1    3  13.534  81.00    2   -1
+6:   1    3  13.534 281.00    2    0
+7:   1    4   4.979 275.61    3    1
+8:   1    5   1.832 265.22    4    2</code></pre>
+</div>
+</div>
+<p>Note that time after dose is -1 until a dose is administered.</p>
+<p>Recall also that time after dose can be calculated more simply if there is only one dose type by passing the <code>tad</code> argument:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(data, cmt <span class="sc">==</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">time =</span> <span class="dv">3</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(data1, <span class="at">tad =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model:  tad 
+Dim:    26 x 7 
+Time:   0 to 24 
+ID:     1 
+    ID time tad     GUT  CENT tad1 tad2
+1:   1    0  -3   0.000  0.00   -1   -1
+2:   1    1  -2   0.000  0.00   -1   -1
+3:   1    2  -1   0.000  0.00   -1   -1
+4:   1    3   0   0.000  0.00   -1   -1
+5:   1    3   0 100.000  0.00    0   -1
+6:   1    4   1  36.788 61.41    1   -1
+7:   1    5   2  13.534 81.00    2   -1
+8:   1    6   3   4.979 85.36    3   -1</code></pre>
+</div>
+</div>
+<p>This is a little nicer because it will fill in negative <code>tad</code> values for you.</p>
+</section>
+<section id="improved-handling-of-time-varying-covariates" class="level1">
+<h1>Improved handling of time-varying covariates</h1>
+<p>This one is a little harder to demonstrate. mrgsolve has always been able to simulate time-varying covariates, but it hasn’t always inserted a hard discontinuity when parameter values change in the data set over time. Starting in 0.10.7, when parameters are read from the <code>data-set</code> and they change from record to record, we now re-initialize the ode solver so a hard discontinuity is created in the simulation. This will create more accurate simulations around the time that the covariate value changes. This results in no change when running 1- and 2-compartment models which are handled with the closed form equations.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

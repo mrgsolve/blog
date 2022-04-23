@@ -1,0 +1,20 @@
+---
+title: "About"
+image: MRG-Solve-Hex.png
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/mrgsolve
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com
+    - icon: github
+      text: Github
+      href: https://github.com/metrumresearchgroup/mrgsolve
+
+---
+
+A non-blog blog about mrgsolve. Find more mrgsolve-related resources at 
+[mrgsolve.org](https://mrgsolve.org).

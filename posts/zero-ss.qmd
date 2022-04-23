@@ -1,0 +1,58 @@
+---
+title: "Zero-order steady state infusion"
+author: Kyle Baron
+date: 4/23/2022
+description: >
+  Starting with version 0.10.0, mrgsolve can implement dosing records
+  calling for a zero-order infusion at steady state. Find out more in this 
+  blog post. 
+---
+
+# Introduction
+
+Starting with version 0.10.0 (released October, 2019), mrgsolve can implement 
+dosing records calling for a zero-order infusion at steady state.  To do this, 
+set `rate` to a non-zero value, `amt` to zero, and `ss` to 1.
+
+
+# Example
+
+For a 10 mg/hr infusion at steady state
+
+```{r}
+#| message: false
+#| warning: false
+
+library(mrgsolve)
+library(dplyr)
+
+mod <- house(end = 72, delta = 0.1) %>% update(outvars = "CP")
+
+mod <- param(mod, CL = 2)
+
+dose <- ev(amt = 0, rate = 100, ss = 1, cmt = 2)
+```
+
+The dosing event looks like
+
+```{r}
+dose
+```
+
+
+With `CL` set to 2, we expect the system to start out at 50
+```{r}
+mrgsim(mod,dose,recsort = 3) %>% plot()
+```
+
+# Notes
+
+- It is an error to include addl
+- You can model the rate
+  - Set `rate` to -1 in the input data
+  - Set `R_CMT` in `[main]`
+- It is an error to try to model the duration
+  - Set `rate` to -2 in the input data
+  - Set `D_CMT` in `[main]`
+  
+

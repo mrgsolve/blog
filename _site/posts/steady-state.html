@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.299">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kyle Baron">
+
+<title>mrgsolve blog - Steady State in mrgsolve</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">mrgsolve blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/metrumresearchgroup"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/mrgsolve"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#tldr" id="toc-tldr" class="nav-link" data-scroll-target="#tldr">tl;dr</a></li>
+  </ul></li>
+  <li><a href="#how-does-mrgsolve-advance-the-pk-system-to-steady-state" id="toc-how-does-mrgsolve-advance-the-pk-system-to-steady-state" class="nav-link" data-scroll-target="#how-does-mrgsolve-advance-the-pk-system-to-steady-state">How does mrgsolve advance the PK system to steady state?</a>
+  <ul class="collapse">
+  <li><a href="#for-example" id="toc-for-example" class="nav-link" data-scroll-target="#for-example">For example</a></li>
+  </ul></li>
+  <li><a href="#how-close-is-close-enough" id="toc-how-close-is-close-enough" class="nav-link" data-scroll-target="#how-close-is-close-enough">How close is close enough?</a></li>
+  <li><a href="#how-many-doses" id="toc-how-many-doses" class="nav-link" data-scroll-target="#how-many-doses">How many doses?</a></li>
+  <li><a href="#what-could-possibly-go-wrong" id="toc-what-could-possibly-go-wrong" class="nav-link" data-scroll-target="#what-could-possibly-go-wrong">What could possibly go wrong?</a>
+  <ul class="collapse">
+  <li><a href="#long-half-life" id="toc-long-half-life" class="nav-link" data-scroll-target="#long-half-life">Long half-life</a></li>
+  <li><a href="#one-compartment-misbehaves" id="toc-one-compartment-misbehaves" class="nav-link" data-scroll-target="#one-compartment-misbehaves">One compartment misbehaves</a></li>
+  <li><a href="#auc-compartment-in-the-model" id="toc-auc-compartment-in-the-model" class="nav-link" data-scroll-target="#auc-compartment-in-the-model">AUC compartment in the model</a></li>
+  <li><a href="#only-consider-a-single-compartment" id="toc-only-consider-a-single-compartment" class="nav-link" data-scroll-target="#only-consider-a-single-compartment">Only consider a single compartment</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Steady State in mrgsolve</h1>
+</div>
+
+
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kyle Baron </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">4/23/2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<p>This blog post describes the mechanism by which mrgsolve finds steady state under this new change set (starting late 2019 to early 2020) and describes some of the settings that users can control to their advantage.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>When mrgsolve 0.10.0 was released in October, 2019, we made some changes to how the PK system was advanced to steady state. This gave better control over the process and more-faithful result. But it also created opportunities for users to see warning messages that they hadn’t seen before. Further changes were made in the 0.10.1 release in February, 2020.</p>
+<p>In this post, we’ll dive into the weeds around how mrgsolve runs to steady state and how you can control that.</p>
+<section id="tldr" class="level2">
+<h2 class="anchored" data-anchor-id="tldr">tl;dr</h2>
+<ul>
+<li>pass <code>ss_n</code> to put an upper cap on number of doses to give when finding SS</li>
+<li>pass <code>ss_fixed</code> to silence warnings when ss isn’t met</li>
+<li>set <code>ss_cmt</code> (in <code>[ set ]</code>) to include or exclude certain compartments for consideration when finding SS</li>
+<li>use <code>SS_ADVANCE</code> logical flag in <code>[ ode ]</code> to not advance certain compartments when mrgsolve is working to find SS</li>
+</ul>
+</section>
+</section>
+<section id="how-does-mrgsolve-advance-the-pk-system-to-steady-state" class="level1">
+<h1>How does mrgsolve advance the PK system to steady state?</h1>
+<p>It’s important to recognize that <code>SS</code> is related to the PK dosing system. It is finding the state of the system after an infinite number of doses have been administered under a certain regimen. And this is essentially how mrgsolve goes about finding steady state.</p>
+<section id="for-example" class="level2">
+<h2 class="anchored" data-anchor-id="for-example">For example</h2>
+<p>Let’s load a PK model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"pk2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And let’s imagine a 100 mg QD dosing regimen</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dose <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ii =</span> <span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And give that dose a large number of times ::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dose <span class="ot">&lt;-</span> <span class="fu">mutate</span>(dose, <span class="at">total =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
+<p>Let’s just look at trough concentrations and see how the trough develops over the dosing period</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">update</span>(mod, <span class="at">delta =</span> <span class="dv">24</span>, <span class="at">end =</span> <span class="dv">24</span><span class="sc">*</span><span class="dv">20</span>, <span class="at">outvars =</span> <span class="st">"CENT,PERIPH"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And simulate that out ::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim_e</span>(mod,dose,<span class="at">recsort=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="steady-state_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Obviously, the trough concentration starts to increase and after a certain period stops changing</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(out) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   ID time     CENT   PERIPH
+17  1  360 53.95222 31.95587
+18  1  384 53.95257 31.95608
+19  1  408 53.95274 31.95618
+20  1  432 53.95281 31.95622
+21  1  456 53.95285 31.95625
+22  1  480 53.95287 31.95626</code></pre>
+</div>
+</div>
+<p>Looking at the compartment amount at the last trough compared to the second to the last trough, the amounts aren’t changing very much. This is how mrgsolve finds steady state: it keeps giving the dose at the dosing interval until the pre-dose concentration stops changing very much.</p>
+</section>
+</section>
+<section id="how-close-is-close-enough" class="level1">
+<h1>How close is close enough?</h1>
+<p>We need some criterion to determine how much change in pre-dose concentration we’ll tolerate an still call it good enough. mrgsolve uses the local error estimate for the differential equation solver to determine this. This is determined by both <code>rtol</code> (the relative tolerance) and <code>atol</code> (the absolute tolerance). So once the difference between two trough concentrations is less than A<span class="math inline">\(_{trough}\)</span> * <code>rtol</code> + <code>atol</code>, then the system is said to be at steady state. This calculation is done for every single compartment in the model and all compartments have to meet this criteria before the system is said to be at steady state. So, increasing <code>rtol</code> (say from 1e-8 to 1e-3) will give us less precision in the answer and it will also allow us to call it “good” with respect to steady state sooner. When using one of the analytical models (one- and two-compartment models not solved by ODEs), then changing <code>rtol</code> will have no influence on the answer (the answer is known in closed form) but will continue to influence how easily and quickly steady state is achieved.</p>
+</section>
+<section id="how-many-doses" class="level1">
+<h1>How many doses?</h1>
+<p>When the volume is larger, it will take more doses to get to steady state and more time and work for us to get to that place. Sometimes, simulated (many doses) to reach steady state. The <a href="https://mrgsolve.github.io/docs/reference/mrgsim.html">mrgsim function</a> has an argument called <code>ss_n</code>. This is the maximum number of doses that will be given when trying to find steady state before mrgsolve gives up, issues a warning and keeps going with the problem. The default value is 500. So, if the system gives 500 doses and still can’t say that the system is at steady state, it will stop, issue a warning and keep going with the problem. If you were expecting the system to reach steady state before 500 doses, then it might be good to go back and look at the model structure or look at the parameters.</p>
+<p>It might be that just a handful of individuals are taking a very long time and you’re fine with just cutting them off after the 500th dose. In that case, you can invoke the <code>ss_fixed</code> argument. <code>ss_fixed</code> is false by default, ensuring that you will get a warning message if the system fails to reach steady state. But if you set <code>ss_fixed</code> to true, then the system will give <strong>up to</strong> <code>ss_n</code> doses and stop without warning. So, here are the possibilities with <code>ss_n</code> equal to 500:</p>
+<ul>
+<li>SS is reached in 10 doses: great! stop after 10 doses and keep going regardless of whether <code>ss_fixed</code> is true or false</li>
+<li>SS is not reached by the 500th dose and <code>ss_fixed</code> is false: keep going after issuing a warning that the SS process failed</li>
+<li>SS is not reached by the 500th dose and <code>ss_fixed</code> is true: keep going without issuing a warning</li>
+</ul>
+</section>
+<section id="what-could-possibly-go-wrong" class="level1">
+<h1>What could possibly go wrong?</h1>
+<p>Well, you might have seen some warnings come up and wondered why.</p>
+<section id="long-half-life" class="level2">
+<h2 class="anchored" data-anchor-id="long-half-life">Long half-life</h2>
+<p>Sometimes it happens that you have simulated parameters with very long half-life and very long time to steady state, even more than 500 doses. It might happen in 1 or 2 out of 3000 simulated individuals and it will still give the warning. So it might be that you have to set <code>ss_n</code> to something reasonable and also set <code>ss_fixed</code> to true so that you don’t get the warnings.</p>
+</section>
+<section id="one-compartment-misbehaves" class="level2">
+<h2 class="anchored" data-anchor-id="one-compartment-misbehaves">One compartment misbehaves</h2>
+<p>I have seen this with the dosing compartment when there is a very large inter-dose interval. So the amount gets driven very small, maybe flips sign and the calculations for steady state just don’t work out right to call it “good”. Here’s what you can do:</p>
+<p>In your model, you can now give a vector of compartment to not look at for handling steady state:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> set <span class="op">]</span> ss_cmt <span class="op">=</span> <span class="st">"-DEPOT"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> cmt <span class="op">]</span> DEPOT CENT PERIPH</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> ode <span class="op">]</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>dxdt_DEPOT  <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>dxdt_CENT   <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>dxdt_PERIPH <span class="op">=</span> <span class="op">...;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>-DEPOT</code> says “forget about the DEPOT compartment when running up to steady state”; it was giving me numerical problems and I don’t really care about that one so much either.</p>
+</section>
+<section id="auc-compartment-in-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="auc-compartment-in-the-model">AUC compartment in the model</h2>
+<p>Let’s say you’re accumulating stuff in a compartment for AUC calculation. When you have this in the model, you’ll never make it to steady state according to the definition set out above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> set <span class="op">]</span> ss_cmt <span class="op">=</span> <span class="st">"-AUC"</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> cmt <span class="op">]</span> DEPOT CENT PERIPH AUC</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> ode <span class="op">]</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>dxdt_DEPOT  <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>dxdt_CENT   <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>dxdt_PERIPH <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>dxdt_AUC <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Rather than trying to figure that out under the hood, mrgsolve just asks you to tell it to forget about the <code>AUC</code> compartment when determining steady state.</p>
+<p>There is another (better) way to handle this. Users have a new variable that they can check that evaluates to <code>true</code> when mrgsolve is advancing the system to steady state. So you might write this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> cmt <span class="op">]</span> DEPOT CENT PERIPH AUC</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> ode <span class="op">]</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>dxdt_DEPOT  <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>dxdt_CENT   <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>dxdt_PERIPH <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>dxdt_AUC <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>SS_ADVANCE<span class="op">)</span> dxdt_AUC <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This will prevent the <code>AUC</code> compartment from advancing at all when mrgsolve is looking for steady state. And this compartment won’t be a stumbling block for the SS determination (as described above).</p>
+</section>
+<section id="only-consider-a-single-compartment" class="level2">
+<h2 class="anchored" data-anchor-id="only-consider-a-single-compartment">Only consider a single compartment</h2>
+<p>Rather than excluding the misbehaving compartment, we can also request that only one compartment be evaluated for SS</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> set <span class="op">]</span> ss_cmt <span class="op">=</span> <span class="st">"CENT"</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> cmt <span class="op">]</span> DEPOT CENT PERIPH </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> ode <span class="op">]</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>dxdt_DEPOT  <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>dxdt_CENT   <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>dxdt_PERIPH <span class="op">=</span> <span class="op">...;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This ignores every compartment except for <code>CENT</code> when figuring out SS.</p>
+</section>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<ul>
+<li>pass <code>ss_n</code> to put an upper cap on number of doses to give when finding SS</li>
+<li>pass <code>ss_fixed</code> to silence warnings when ss isn’t met</li>
+<li>set <code>ss_cmt</code> (in <code>[ set ]</code>) to include or exclude certain compartments for consideration when finding SS</li>
+<li>use <code>SS_ADVANCE</code> logical flag in <code>[ ode ]</code> to not advance certain compartments when mrgsolve is working to find SS</li>
+</ul>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>I hope this has been helpful to explain steady state concepts in mrgsolve and you have better control of this process in your modeling workflow. I do see some additional opportunities potentially coming in the future, like asking the steady state finder to use a different <code>rtol</code> than that which is used for solving differential equations. For the time being, we’ll play with this configuration and see what additional changes would be helpful.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

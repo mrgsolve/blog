@@ -1,0 +1,266 @@
+---
+title: "New in 0.10.0 and 0.10.1"
+author: Kyle Baron
+date: 02/01/2020
+description: > 
+  Find out what's new in mrgsolve version 0.10.0 and 0.10.1.
+---
+
+```{r}
+#| message: false
+#| warning: false
+library(dplyr)
+library(mrgsolve)
+```
+
+
+# Introduction
+
+This blog post shows some of the new features that came into mrgsolve starting
+with version `0.10.0` (October 2019) and `0.10.1` (February 2020).  The purpose 
+is to illustrate what is possible rather than detailed documentation.  
+
+# Steady-state
+
+This is a big topic, so I put together a [separate blog entry](steady-state.html) 
+to look at new features around steady state. 
+
+# house is now exported
+
+Since the beginning, we have maintained a model **inside mrgsolve itself** that
+we call `house`.  It's a basic PKPD model that we use to test and demo. The 
+interesting thing about this model is that it is compiled when mrgsolve is
+installed.  So the model is always ready to go. 
+
+It use to be unexported so you would have to access the model like this:
+
+```{r, eval=FALSE}
+mod <- mrgsolve:::house()
+```
+
+The `:::` means that we go into the mrgsolve namespace to call the function 
+that returns the model object. 
+
+Now, `house` is exported
+
+```{r, eval=FALSE}
+mod <- house()
+```
+
+
+# select_sims
+
+There is a series of dplyr-like functions that allow you to work on the 
+simulation output object (`mrgsims`) while keeping it a simulation output 
+object.  Starting in version `0.10.1`, we have a `select_sims` function which 
+allows you to select certain columns in the simulation object
+
+```{r}
+out <- mrgsim(house(), ev(amt = 100))
+
+out 
+
+out <- select_sims(out, RESP, CP)
+
+out
+```
+
+Notice that `ID` and `time` are retained.  The motivation here is to allow you
+to request many columns and then pare back so that, for example, plotting is 
+more convenient
+
+```{r}
+plot(out)
+```
+
+Other functions include
+
+```{r}
+mutate_sims(out, name = "kyle")
+```
+
+```{r}
+filter_sims(out, time > 2)
+```
+
+Notice in all of these operations, the `mrgsims` object is returned.  If you 
+want to `mutate` or `select` and get a `tibble` back, then just call
+
+```{r}
+mutate(out, name = "Kyle")
+```
+
+# Plot from character vector of column names
+
+
+The plot method has so far required you to enter a formula to select columns to
+plot
+```{r}
+out <- mrgsim(house(), ev(amt = 100))
+
+plot(out, CP~time)
+```
+
+
+This works well is many circumstances.  The new feature here is that you can
+list the columns to plot as a character vector.  Let's mrgsolve determine what
+column to put on the x-axis
+
+```{r}
+plot(out, "CP RESP GUT")
+```
+
+The motivation came from simulations that I was doing where there were a lot 
+of columns in the output and I had many different panel plots I wanted to make. 
+It was helpful to select the columns in a character vector rather than typing 
+out the formula
+
+```{r}
+mod <- modlib("pbpk")
+
+out <- mrgsim(mod, ev(amt = 100))
+```
+
+```{r}
+set1 <- "Aad Abo Abr Ahe"
+set2 <- "Ave Are Ask Asp Ali Aki"
+
+plot(out, set1)
+
+plot(out, set2)
+```
+
+As you expect with mrgsolve, there is no need to specify a real R vector for 
+listing the column names.  We'll split a string on space or comma.  For this 
+feature, we'll also split on newline (helpful when the names are very long or 
+you just want some structure to the layout
+
+```{r}
+set3 <- '
+  Aad Abo Abr Ahe
+  Ave Are Ask Asp Ali Aki
+'
+
+plot(out, set3)
+```
+
+
+# outvars
+
+Query the model object for the names of variables that you could ask for in a 
+simulation
+
+```{r}
+outvars(house())
+```
+
+Some names are compartments, some are captured.
+
+
+# Improvements to event objects
+
+To make an event object
+```{r}
+ev(amt = 100)
+```
+
+We can reference names in the object during construction
+
+```{r}
+ev(amt = 100, rate = amt/2)
+```
+
+
+I can also access columns in the event object
+```{r}
+x <- ev(amt = 100, rate = amt/3)
+x$rate
+```
+
+And we have been able to mutate these objects for a while now
+
+```{r}
+x <- ev(amt = 100) 
+
+mutate(x, rate = amt / 5)
+```
+
+
+Check out the `tinf` argument to say how long you want an infusion to last
+
+```{r}
+ev(amt = 100, tinf = 3)
+```
+
+
+
+# New error message
+
+You might see this
+
+```{r}
+dose <- ev(amt = 100)
+
+try(mrgsim(dose, mod))
+```
+
+Which just means you passed things in in the wrong order. 
+
+
+# Steady state infusion
+
+mrgsolve can now run a zero-order infusion to steady state.  Set `amt` to 0, 
+`rate` to something positive and `ss` to 1.  We change `recsort` just to show 
+that things start at steady state.
+
+```{r}
+ssinf <- ev(amt = 0, rate = 5, ss = 1)
+
+mrgsim(house(), event = ssinf, recsort=3) %>% plot
+```
+
+You can also set `rate` to -1 if you are modeling the rate.  But it can't be 
+set to `-2`. 
+
+# Access model information
+
+For a while, you could access model parameters with `$` operator
+
+```{r}
+mod <- house()
+
+mod$CL
+```
+
+Now you can access initial compartment values
+
+```{r}
+mod$RESP
+```
+
+
+And other goodies
+
+```{r}
+mod$end
+```
+
+# Access compartment numbers
+
+Sometimes when writing a model, we would like to know the number of a 
+compartment when we only know the name.  There is a plugin to make that doable
+now
+
+
+```{c,eval=FALSE}
+$CMT CENTRAL
+
+$PLUGIN N_CMT
+
+$MAIN
+
+if(CMT==N_CENTRAL) {
+  // ......
+}
+```
+

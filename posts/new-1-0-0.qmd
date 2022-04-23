@@ -1,0 +1,275 @@
+---
+title: "New in version 1.0.0"
+author: Kyle Baron
+date: 4/23/2022
+description: > 
+  mrgsolve celebrates her version 1.0.0 release. Find out about some very cool
+  and powerful features that we included in this release. 
+---
+
+There are a bunch of new features out now in the mrgsolve 1.0.0 release. Most 
+of these are related to model syntax (what / how you write your model in the 
+`.mod` or `.cpp` file) rather than model functionality. 
+
+```{r}
+#| message: false
+#| warning: false
+library(mrgsolve)
+library(tidyverse)
+```
+
+# Use THETA(n) to refer to THETAn
+
+All models will be able to use `THETA(n)` to refer to `THETAn`. For example:
+
+
+```{c, eval = FALSE}
+[ nmxml ] 
+run = 100
+root = "cppfile"
+
+[ main ] 
+double CL = THETA(1) * pow(WT/70, 0.75);
+```
+
+You'll notice that we referred to a nonmem run with `[ nmxml ]` so this syntax
+is meant be one small step toward making it easier to translate your model 
+from the nonmem control stream to mrgsolve format. This is pretty simple, but 
+will mean less time removing parentheses when copying over model code. 
+
+# New plugin called `autodec`
+
+Plugins are extra functionality that you can invoke when coding your model. 
+For example, plugins exist for calculating time after dose, adding Rcpp 
+functionality to your model etc and [more](https://mrgsolve.org/user_guide/model-specification.html#block-plugin).
+
+One new plugin is called `autodec`. This plugin will automatically declare 
+C++ variables for you. For example, I can code the snipped from the previous
+block using `autodec` plugin and mrgsolve will discover that `CL` needs to be
+declared:
+
+```{c, eval = FALSE}
+[ plugin ] autodec
+
+[ nmxml ] 
+run = 100
+root = "cppfile"
+
+[ main ] 
+CL = THETA(1) * pow(WT/70, 0.75);
+```
+
+The motivation behind this feature is to make it easier to code models with 
+lots of variables when all your variables are simple double precision floating 
+point numbers.
+
+# New plugin called `nm-vars`
+
+This plugin provided a nonmem-like syntax for _certain model elements_, 
+including 
+
+- `Fn`, `Dn`, `Rn`, and `ALAGn`
+- `A(n)`, `A_0(n)` and `DADT(n)`
+- `T` (used for `SOLVERTIME` in `$ODE`)
+
+So your mrgsolve model translated from nonmem might look like this
+
+```{r, results = "hide"}
+see(modlib("nm-like"))
+```
+
+```{c, eval=FALSE, code = modlib("nm-like", compile = FALSE)@code}
+
+```
+
+Notice that __not all nonmem syntax is supported__; just select data structures
+that use `A` and `DADT` to refer to compartments and differential equations.
+Also notice that we still require `;` at the end of each line and we still 
+need to use `pow(base, exponent)` to calculate exponent of some number. 
+
+# Compartment
+
+The `$CMT` block has two new options: `@number` and `@prefix` that let you 
+quickly specify a numbered series of compartments in the model similar to 
+nonmem. The default `@prefix` is `A` so that this code
+
+```{c, eval = FALSE}
+$CMT @number 3
+```
+
+will put compartments `A1`, `A2`, `A3` into your model. 
+
+# New model in `modlib`: `nm-like`
+
+You can see a model coded with these new syntax features in the internal model
+library; the model is called `nm-like`
+
+```{r, message = FALSE}
+mod <- modlib("nm-like")
+see(mod)
+```
+
+Here, I've coded the `THETA`s in a parameter block; these would ordinarily 
+come into the model via `$NMXML` or `$NMEXT`, which automatically import these
+parameters and estimates. But note that we can still refer to `THETA(1)` and 
+others ... this resolves to `THETA1` regardless.
+
+
+# Audit 
+
+When mrgsolve loads your model, it checks the `$ODE` block to make sure you have
+differential equations for every compartment in your model. A long time ago, 
+I started calling this check `audit` and it was something that was on by default
+but could be turned off via the call to `mread()`. 
+
+Starting with version 1.0.0, `audit` can be controlled at the `$ODE` block 
+level like this
+
+```{c, eval = FALSE}
+[ ode ] @audit
+
+dxdt_A1 = ...
+dxdt_A2 = ...
+```
+
+to explicitly tell mrgsolve to audit the equations or
+
+```{c, eval = FALSE}
+[ ode ] @!audit
+
+dxdt_A1 = ...
+dxdt_A2 = ...
+```
+
+to disable the audit. The audit is on by default and should only be turned off
+when you have written some special construct in `[ ode ]` to code the 
+differential equations (e.g. odes are written programmatically). 
+
+
+# New time spacer for event sequences
+
+The new feature is an `ii` spacer for sequences of event objects. 
+
+Using [event objects](https://mrgsolve.org/user_guide/event-chapter.html), 
+we can create complicated dosing regimens from simpler ones. For example, we
+might have a week of 50 mg dosing followed by a week of 100 mg dosing and then 
+up to 200 mg dosing. We can accomplish that with an event sequence
+
+First create the individual pieces
+
+```{r}
+a <- ev(amt = 50,  ii = 24, addl = 6)
+b <- ev(amt = 100, ii = 24, addl = 6)
+c <- ev(amt = 200, ii = 24, addl = 6)
+```
+
+Then put them in a sequence
+
+```{r}
+data <- ev_seq(a, b, c)
+data
+```
+
+When they are sequenced, you'll see that the second piece (`b`) starts one
+dosing interval after the last dose in the first piece (`a`). 
+
+We can put a 24 hour spacer between `a` and `b`
+
+```{r}
+seq(a, wait = 24, b)
+```
+
+Here, the last dose in `a` is given, we wait one dosing interval (24 hours) then 
+wait another 24 hours (via `wait`) and then start `b`. 
+
+Rather than using `wait`, we can use `ii` to specify the amount of time 
+from the last dose in `a` to the first dose in `b`. So if we want to wait 3 days
+between the last dose in `a` and the first dose in `b`
+
+```{r}
+ev_seq(a, ii = 3*24, b)
+```
+
+Notice that this same behavior can be achieved with `wait` but using `ii` 
+might be easier to interpret in some cases. 
+
+#  Collapse matrices
+
+Sometimes in your model, you have multiple OMEGA or SIGMA blocks like this
+
+```{r}
+code <- '
+$OMEGA  @name first
+1 2 3
+
+$OMEGA @name second
+4
+'
+mod <- mcode("collapse", code, compile = FALSE)
+
+omat(mod)
+```
+
+
+If I want to update these values but I only have a 4x4 matrix
+
+```{r, include = FALSE}
+mat <- as.matrix(omat(mod))  / 10
+
+```
+
+```{r}
+mat
+```
+
+I can't do it; mrgsolve wants a 3x3 matrix for the first slot and 1x1 matrix
+for the second. 
+
+A new function will collapse the model matrix into larger matrices
+
+```{r}
+mod <- collapse_omega(mod)
+omat(mod)
+```
+
+```{r}
+mod <- update(mod, omat = mat)
+omat(mod)
+```
+
+You can't split matrices up into smaller chunks, but if there are more than 
+two blocks, you can select which blocks to join
+
+```{r}
+code <- '
+$OMEGA  @name first
+1 2 3
+
+$OMEGA @name second
+4
+
+$OMEGA @name third
+5 6 7 8
+'
+mod <- mcode("collapse2", code, compile = FALSE)
+
+omat(mod)
+
+mod <- collapse_omega(mod, range = c(2, NA), name = "remainder")
+omat(mod)
+```
+
+
+# Deprecated simeta(n) and simeps(n)
+
+We recently rolled out a feature where the user could call `simeta()` and 
+pass an integer that would indicate a single `ETA()` to update, leaving the 
+others alone. This proved to be more than a little dangerous when `$OMEGA`
+had off-diagonal elements. We will be deprecating this feature starting 
+with version 1.0.0.  When you load a model that contains `simeta(n)` or 
+`simeps(n)`, there will be a warning about the syntax. The warning 
+includes some code you can write to silence the warning, but this will be 
+temporary. In a future release, we will always warn when this syntax us used
+and eventually generate an error. It is recommended to always use `simeta()`
+or `simeps()` when re-simulating random effects. 
+

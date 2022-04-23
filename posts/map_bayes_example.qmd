@@ -1,0 +1,191 @@
+---
+title: "MAP Bayes example"
+author: Kyle Baron
+date: 4/23/2022
+---
+
+This is a shortened version of [map_bayes.html](map_bayes.html), showing only 
+the estimation step.
+
+
+```{r, message=FALSE}
+#| message: false
+#| warning: false
+library(ggplot2)
+library(mrgsolve)
+library(nloptr)
+library(dplyr)
+library(magrittr)
+options(mrgsolve.soloc="build")
+```
+
+
+
+# The model
+
+We code up a one-compartment model, with fixed TVCL and TVV.  We have `ETA1`
+and `ETA2` as parameters in the model so that we can update them as the optimizer
+proceeds.  Our goal is to find the values of `ETA` that are most consistent with 
+the data.
+
+
+```{r,message=FALSE}
+code <- '
+$SET request=""
+
+$PARAM ETA1 = 0, ETA2 = 0
+
+$CMT CENT
+
+$PKMODEL ncmt=1
+
+$MAIN
+double TVCL = 1.5;
+double TVVC = 23.4;
+double CL = TVCL*exp(ETA1);
+double V =  TVVC*exp(ETA2);
+
+$TABLE 
+capture DV = (CENT/V);
+'
+
+mod <- mcode_cache("map", code)
+```
+
+We also have the `OMEGA` and `SIGMA` matrices from the population model estimation
+step. 
+
+```{r}
+omega <- cmat(0.23,-0.78, 0.62)
+omega.inv <- solve(omega)
+sigma <- matrix(0.0032)
+```
+
+
+Read in the data set.  Notice that `DV` has value `NA` for dosing records.  When
+calculating the joint likelihood of all the data, we will remove the missing 
+values (dosing records don't have observations that contribute to the likelihood
+value).
+
+```{r}
+data <- readRDS("map_bayes_data.RDS")
+
+head(data)
+```
+
+
+# Optimize
+
+This function takes in a set of proposed $\eta$s along with 
+the observed data vector, the data set and a model object and returns
+the value of the EBE objective function
+
+* When we do the estimation, the fixed effects and random effect
+variances are fixed.  
+
+* The estimates are the $\eta$ for clearance and volume
+
+Arguments: 
+
+* `eta` the current values from the optimizer
+* `ycol` the observed data column name
+* `d` the data set
+* `m` the model object
+* `dvcol` the predicted data column name
+* `pred` if `TRUE`, just return predicted values
+
+
+## What is this function doing?
+
+1. get the matrix for residual error
+1. Make sure `eta` is a list
+1. Make sure `eta` is properly named (i.e. `ETA1` and `ETA2`)
+1. Copy `eta` into a matrix that is one row
+1. Update the model object (`m`) with the current values of `ETA1` and `ETA2`
+1. Simulate from data set `d` and save output to `out` object
+1. If we are just requesting predictions (`if(pred)`) return the simulated data
+1. The final lines calculate the EBE objective function; see [this paper](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/) for reference
+1. Notice that the function returns a single value (a number); the optimizer
+will minimize this value
+
+```{r}
+mapbayes <- function(eta,d,ycol,m,dvcol=ycol,pred=FALSE) {
+    
+  sig2 <- as.numeric(sigma)
+  eta <- as.list(eta)
+  names(eta) <- names(init)
+  eta_m <- eta %>% unlist %>% matrix(nrow=1)
+  m <-  param(m,eta)
+  out <- mrgsim(m,data=d,output="df")
+  if(pred) return(out)
+  # http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/
+  sig2j <- out[[dvcol]]^2*sig2
+  sqwres <- log(sig2j) + (1/sig2j)*(d[[ycol]] - out[[dvcol]])^2
+  nOn <- diag(eta_m %*% omega.inv %*% t(eta_m))
+  return(sum(sqwres,na.rm=TRUE) + nOn)
+}
+```
+
+
+## Initial estimate
+
+* Note again that we are optimizing the etas here
+
+```{r}
+init <- c(ETA1=-0.3, ETA2=0.2)
+```
+
+Fit the data
+
+* `newuoa` is from the `nloptr` package
+* Other optimizers (via `optim`) could probably also be used
+
+Arguments to `newuoa`
+
+* First: the initial estimates
+* Second: the function to optimize
+* The other argument are passed to `mapbayes`
+
+```{r}
+fit <- nloptr::newuoa(init,mapbayes,ycol="DV",m=mod,d=data)
+```
+
+
+Here are the final estimates
+```{r}
+fit$par
+```
+
+
+# Look at the result
+
+A data set and model to get predictions; this will 
+give us a smooth prediction line
+
+```{r}
+pdata <- data %>% filter(evid==1)
+pmod <- mod %>% update(end=24, delta=0.1) 
+```
+
+Predicted line based on final estimates
+```{r}
+pred <- mapbayes(fit$par,ycol="DV",pdata,pmod,pred=TRUE) %>% filter(time > 0)
+head(pred)
+```
+
+Predicted line based on initial estimates
+```{r}
+initial <- mapbayes(init,ycol="DV",pdata,pmod,,pred=TRUE) %>% filter(time > 0)
+head(initial)
+
+```
+
+
+Plot
+```{r}
+ggplot() + 
+  geom_line(data=pred, aes(time,DV),col="firebrick", lwd=1) + 
+  geom_line(data=initial,aes(time,DV), lty=2, col="darkgreen", lwd=1) + 
+  geom_point(data=data %>% filter(evid==0), aes(time,DV), col="darkslateblue",size=3) + 
+  theme_bw()
+```
