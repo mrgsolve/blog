@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2018-01-01">
 <meta name="description" content="This is just a post on a simplified implementation of modeled events in mrgsolve. There is also another, more complete blog post on this topic published previously">
 
-<title>mrgsolve blog - mtime</title>
+<title>mrgsolve.org - mtime</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -130,19 +130,59 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">mrgsolve blog</span>
+    <span class="navbar-title">mrgsolve.org</span>
   </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/user_guide">UserGuide</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/blog">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/vignettes">Vignettes</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../learn.html">Learn</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/docs">Docs</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/mrgsolve/depot">Models</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-source" role="button" data-bs-toggle="dropdown" aria-expanded="false">Source</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-source">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/metrumresearchgroup/mrgsolve">
+ <span class="dropdown-text">GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://cran.r-project.org/package=mrgsolve">
+ <span class="dropdown-text">CRAN</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-help" role="button" data-bs-toggle="dropdown" aria-expanded="false">Help</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-help">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/metrumresearchgroup/mrgsolve/discussions">
+ <span class="dropdown-text">Discuss</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/metrumresearchgroup/mrgsolve/issues">
+ <span class="dropdown-text">Report an issue</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://mrgsolve.org">Home</a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../about.html">About</a>
-  </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/metrumresearchgroup/mrgsolve"><i class="bi bi-github" role="img">
 </i> 
@@ -217,32 +257,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>Example with single mtime</h1>
 <p>For example, we might wish a rate constant to change at some time that is not found in a record in the input data set. We can make this happen from the model code itself. In addition to using <code>mevent</code> you can now use <code>mtime</code> to make this happen. <code>mtime</code> is just a simpler subset of the <code>mevent</code> functionality.</p>
 <p>Let’s make KA change at 2.1 hours (<code>change_t</code> parameter in the example below). ::: {.cell}</p>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>[ param ]</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">20</span>, KA1 <span class="ot">=</span> <span class="fl">0.1</span>, KA2 <span class="ot">=</span> <span class="fl">2.5</span>, change_t <span class="ot">=</span> <span class="fl">2.1</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>[ pkmodel ] </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>cmt <span class="ot">=</span> <span class="st">"GUT,CENT"</span>, depot <span class="ot">=</span> <span class="cn">TRUE</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>[ main ] </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>double mt <span class="ot">=</span> <span class="fu">self.mtime</span>(change_t);</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>capture KA <span class="ot">=</span> KA1;</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(TIME <span class="sc">&gt;</span> mt) KA <span class="ot">=</span> KA2;</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(TIME <span class="sc">==</span> change_t) {</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  mrg<span class="sc">::</span><span class="fu">report</span>(<span class="st">"wait a minute ... time is 2.1?"</span>);  </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>[ param ]</span>
+<span id="cb1-2"><a href="#cb1-2"></a>CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">20</span>, KA1 <span class="ot">=</span> <span class="fl">0.1</span>, KA2 <span class="ot">=</span> <span class="fl">2.5</span>, change_t <span class="ot">=</span> <span class="fl">2.1</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>[ pkmodel ] </span>
+<span id="cb1-5"><a href="#cb1-5"></a>cmt <span class="ot">=</span> <span class="st">"GUT,CENT"</span>, depot <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>[ main ] </span>
+<span id="cb1-8"><a href="#cb1-8"></a>double mt <span class="ot">=</span> <span class="fu">self.mtime</span>(change_t);</span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a>capture KA <span class="ot">=</span> KA1;</span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="cf">if</span>(TIME <span class="sc">&gt;</span> mt) KA <span class="ot">=</span> KA2;</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="cf">if</span>(TIME <span class="sc">==</span> change_t) {</span>
+<span id="cb1-15"><a href="#cb1-15"></a>  mrg<span class="sc">::</span><span class="fu">report</span>(<span class="st">"wait a minute ... time is 2.1?"</span>);  </span>
+<span id="cb1-16"><a href="#cb1-16"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>:::</p>
 <p>Again, the main motivation for this is just convenience and economy of code: we register the event time and get that time returned into a variable that we can reference later on, checking if we are past that time or not.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc =</span> <span class="st">"build"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"mtime_model.txt"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(<span class="at">delta =</span> <span class="fl">0.222</span>) <span class="sc">%&gt;%</span> <span class="fu">plot</span>(CENT<span class="sc">+</span>KA<span class="sc">~</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc =</span> <span class="st">"build"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"mtime_model.txt"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a>mod <span class="sc">%&gt;%</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(<span class="at">delta =</span> <span class="fl">0.222</span>) <span class="sc">%&gt;%</span> <span class="fu">plot</span>(CENT<span class="sc">+</span>KA<span class="sc">~</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="mtime_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -253,29 +293,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>Example with several mtimes</h1>
 <p>We could keep track of several mtimes like this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>[ set ] end<span class="ot">=</span><span class="dv">8</span>, delta<span class="ot">=</span><span class="fl">0.1</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>[ param ]</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">20</span>, KA1 <span class="ot">=</span> <span class="fl">0.1</span>, KA2 <span class="ot">=</span> <span class="fl">0.5</span>, KA3 <span class="ot">=</span> <span class="dv">5</span>, change_t <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>[ pkmodel ] </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>cmt <span class="ot">=</span> <span class="st">"GUT,CENT"</span>, depot <span class="ot">=</span> <span class="cn">TRUE</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>[ main ] </span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>double mt <span class="ot">=</span> <span class="fu">self.mtime</span>(change_t);</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>double mt2 <span class="ot">=</span> <span class="fu">self.mtime</span>(change_t <span class="sc">+</span> <span class="dv">1</span>);</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>capture KA <span class="ot">=</span> KA1;</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(TIME <span class="sc">&gt;</span> mt) KA <span class="ot">=</span> KA2;</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(TIME <span class="sc">&gt;</span> mt2) KA <span class="ot">=</span> KA3;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>[ set ] end<span class="ot">=</span><span class="dv">8</span>, delta<span class="ot">=</span><span class="fl">0.1</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>[ param ]</span>
+<span id="cb3-4"><a href="#cb3-4"></a>CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">20</span>, KA1 <span class="ot">=</span> <span class="fl">0.1</span>, KA2 <span class="ot">=</span> <span class="fl">0.5</span>, KA3 <span class="ot">=</span> <span class="dv">5</span>, change_t <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a>[ pkmodel ] </span>
+<span id="cb3-7"><a href="#cb3-7"></a>cmt <span class="ot">=</span> <span class="st">"GUT,CENT"</span>, depot <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a>[ main ] </span>
+<span id="cb3-10"><a href="#cb3-10"></a>double mt <span class="ot">=</span> <span class="fu">self.mtime</span>(change_t);</span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a>double mt2 <span class="ot">=</span> <span class="fu">self.mtime</span>(change_t <span class="sc">+</span> <span class="dv">1</span>);</span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a>capture KA <span class="ot">=</span> KA1;</span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="cf">if</span>(TIME <span class="sc">&gt;</span> mt) KA <span class="ot">=</span> KA2;</span>
+<span id="cb3-17"><a href="#cb3-17"></a></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="cf">if</span>(TIME <span class="sc">&gt;</span> mt2) KA <span class="ot">=</span> KA3;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"mtime_model_2.txt"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>() <span class="sc">%&gt;%</span> <span class="fu">plot</span>(CENT <span class="sc">+</span> KA <span class="sc">~</span> time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"mtime_model_2.txt"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a>mod <span class="sc">%&gt;%</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>() <span class="sc">%&gt;%</span> <span class="fu">plot</span>(CENT <span class="sc">+</span> KA <span class="sc">~</span> time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="mtime_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>

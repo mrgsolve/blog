@@ -9,7 +9,7 @@
 <meta name="author" content="Kyle Baron">
 <meta name="description" content="Find out what’s new in mrgsolve version 0.11.0 and 0.11.1.">
 
-<title>mrgsolve blog - New in 0.11.0 and 0.11.1</title>
+<title>mrgsolve.org - New in 0.11.0 and 0.11.1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -129,19 +129,59 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">mrgsolve blog</span>
+    <span class="navbar-title">mrgsolve.org</span>
   </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/user_guide">UserGuide</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/blog">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/vignettes">Vignettes</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../learn.html">Learn</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/docs">Docs</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/mrgsolve/depot">Models</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-source" role="button" data-bs-toggle="dropdown" aria-expanded="false">Source</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-source">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/metrumresearchgroup/mrgsolve">
+ <span class="dropdown-text">GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://cran.r-project.org/package=mrgsolve">
+ <span class="dropdown-text">CRAN</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-help" role="button" data-bs-toggle="dropdown" aria-expanded="false">Help</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-help">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/metrumresearchgroup/mrgsolve/discussions">
+ <span class="dropdown-text">Discuss</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/metrumresearchgroup/mrgsolve/issues">
+ <span class="dropdown-text">Report an issue</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://mrgsolve.org">Home</a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../about.html">About</a>
-  </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/metrumresearchgroup/mrgsolve"><i class="bi bi-github" role="img">
 </i> 
@@ -224,8 +264,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(mrgsolve)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
@@ -236,11 +276,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This is one of my favorite new features. I’ve written about it before, but as a review: we added a <code>capture</code> argument to <code>mread()</code> so you can opt in to capture additional model variables in the simulated output.</p>
 <p>For example, let’s look at this model:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"irm1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"irm1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building irm1 ... done.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">outvars</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">outvars</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$cmt
 [1] "EV1"    "CENT"   "PERIPH" "RESP"   "EV2"   
@@ -254,8 +294,8 @@ $capture
 <h2 class="anchored" data-anchor-id="see-model-variables">See model variables</h2>
 <p>We can now look into the model and see which variables are available to capture. First, coerce <code>mod</code> to a <code>list()</code> and then look at the <code>cpp_variables</code> item:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cpp_variables <span class="ot">&lt;-</span> <span class="fu">as.list</span>(mod)<span class="sc">$</span>cpp_variables</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cpp_variables</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>cpp_variables <span class="ot">&lt;-</span> <span class="fu">as.list</span>(mod)<span class="sc">$</span>cpp_variables</span>
+<span id="cb6-2"><a href="#cb6-2"></a>cpp_variables</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    type  var context
 1 define   CP  global
@@ -266,14 +306,14 @@ $capture
 </div>
 <p>This tells us what we <strong>could</strong> capture. Now that we have the information, let’s capture everything possible:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"irm1"</span>, <span class="at">capture =</span> cpp_variables<span class="sc">$</span>var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"irm1"</span>, <span class="at">capture =</span> cpp_variables<span class="sc">$</span>var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building irm1 ... done.</code></pre>
 </div>
 </div>
 <p>Now, everything is getting captured:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">outvars</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">outvars</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$cmt
 [1] "EV1"    "CENT"   "PERIPH" "RESP"   "EV2"   
@@ -284,7 +324,7 @@ $capture
 </div>
 <p>and will appear in the simulated output:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="at">events =</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>), <span class="at">param =</span> <span class="fu">list</span>(<span class="at">VMAX  =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">mrgsim</span>(mod, <span class="at">events =</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>), <span class="at">param =</span> <span class="fu">list</span>(<span class="at">VMAX  =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model:  irm1 
 Dim:    26 x 11 
@@ -303,11 +343,11 @@ ID:     1
 </div>
 <p>In this example, we could choose from a bunch of pre-processor directives, but the only reason for that is this is the way the model was coded. We can look at another example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"pbpk"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"pbpk"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building pbpk ... done.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.list</span>(mod)<span class="sc">$</span>cpp_variables <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">as.list</span>(mod)<span class="sc">$</span>cpp_variables <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    type var context
 1 double Vad    main
@@ -323,13 +363,13 @@ ID:     1
 <h2 class="anchored" data-anchor-id="why-would-i-use-this">Why would I use this???</h2>
 <p>Here’s an example: I have a covariate model going and I want to get parameter values given some covariates. I can write:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"popex"</span>, <span class="at">capture =</span> <span class="st">"CL,V,KA"</span>) <span class="sc">%&gt;%</span> <span class="fu">zero_re</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"popex"</span>, <span class="at">capture =</span> <span class="st">"CL,V,KA"</span>) <span class="sc">%&gt;%</span> <span class="fu">zero_re</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building popex ... done.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">WT =</span> <span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">140</span>,<span class="dv">5</span>))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="at">idata =</span> idata, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">WT =</span> <span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">140</span>,<span class="dv">5</span>))</span>
+<span id="cb20-2"><a href="#cb20-2"></a></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="fu">mrgsim</span>(mod, <span class="at">idata =</span> idata, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model:  popex 
 Dim:    21 x 10 
@@ -354,16 +394,16 @@ ID:     21
 <p>Until <code>0.11.0</code>, it was an error whenever negative times were requested in the simulation. Now, negative times are accepted without error.Keep in mind that the data set still needs to be sorted by time when passing <code>data</code>.</p>
 <p>As an example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"irm2"</span>) <span class="sc">%&gt;%</span> <span class="fu">param</span>(<span class="at">KOUT =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"irm2"</span>) <span class="sc">%&gt;%</span> <span class="fu">param</span>(<span class="at">KOUT =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building irm2 ... done.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  mod <span class="sc">%&gt;%</span> </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ii =</span> <span class="dv">48</span>, <span class="at">addl =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mrgsim</span>(<span class="at">start =</span> <span class="sc">-</span><span class="dv">72</span>, <span class="at">end =</span> <span class="dv">240</span>) </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>sims</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>sims <span class="ot">&lt;-</span> </span>
+<span id="cb24-2"><a href="#cb24-2"></a>  mod <span class="sc">%&gt;%</span> </span>
+<span id="cb24-3"><a href="#cb24-3"></a>  <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ii =</span> <span class="dv">48</span>, <span class="at">addl =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="fu">mrgsim</span>(<span class="at">start =</span> <span class="sc">-</span><span class="dv">72</span>, <span class="at">end =</span> <span class="dv">240</span>) </span>
+<span id="cb24-5"><a href="#cb24-5"></a></span>
+<span id="cb24-6"><a href="#cb24-6"></a>sims</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model:  irm2 
 Dim:    314 x 8 
@@ -379,7 +419,7 @@ ID:     1
 7:   1  -66   0    0      0  200   0  0
 8:   1  -65   0    0      0  200   0  0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sims, <span class="st">"EV1 CP RESP"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">plot</span>(sims, <span class="st">"EV1 CP RESP"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="new-0-11-0_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -395,32 +435,32 @@ ID:     1
 <h2 class="anchored" data-anchor-id="root-path">Root path</h2>
 <p>The current default behavior is to interpret the path relative to the current working directory:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb27-2"><a href="#cb27-2"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is equivalent to invoking the new <code>root</code> argument and setting it to <code>"working"</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">"working"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href="#cb28-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb28-2"><a href="#cb28-2"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb28-3"><a href="#cb28-3"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
+<span id="cb28-4"><a href="#cb28-4"></a>root <span class="op">=</span> <span class="st">"working"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>I am encouraging you</strong> to start setting this <code>root</code> argument to <code>"cppfile"</code> which tells mrgsolve to interpret the path relative to wherever the model code is located:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">"cppfile"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb29-1"><a href="#cb29-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb29-2"><a href="#cb29-2"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a>root <span class="op">=</span> <span class="st">"cppfile"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When you do this, you can load this model from any working directory as long as the file remains in the same location. I am encouraging you to start using this because I think we will eventually make <code>"cppfile"</code> the default root because it makes so much more sense.</p>
 <p>Note that you can always specify an absolute path here and in that case, it doesn’t matter what you use for the <code>root</code> argument (see the discussion on <code>here()</code> in the following section).</p>
 <p><strong>With here()</strong></p>
 <p>Some are also using the <code>here::here()</code> function. This is totally independent of any <code>mrgsolve</code> functionality, but <code>here()</code> will return the absolute path relative to your <code>Rstudio</code> project root. So, if all my models were in the <code>model/nonmem</code> directory, I can always get the absolute path using <code>here()</code> regardless of the working directory and regardless of where the <code>cpp</code> file is located.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> here<span class="op">::</span>here<span class="op">(</span><span class="st">"model/nonmem"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb30-1"><a href="#cb30-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb30-2"><a href="#cb30-2"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a>project <span class="op">=</span> here<span class="op">::</span>here<span class="op">(</span><span class="st">"model/nonmem"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note here that the argument / options here are evaluated by the R interpreter so that the <code>here()</code> call resolves to the correct project directory.</p>
 </section>
@@ -434,19 +474,19 @@ ID:     1
 </ul>
 <p>To select the 2nd table:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">"cppfile"</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">2</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb31-1"><a href="#cb31-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb31-2"><a href="#cb31-2"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb31-3"><a href="#cb31-3"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a>root <span class="op">=</span> <span class="st">"cppfile"</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a>index <span class="op">=</span> <span class="dv">2</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The default is to select the <code>last</code> table:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">"cppfile"</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="st">"last"</span> <span class="co">// "first"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb32-1"><a href="#cb32-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<span id="cb32-2"><a href="#cb32-2"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
+<span id="cb32-3"><a href="#cb32-3"></a>project <span class="op">=</span> <span class="st">"../model/nonmem"</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a>root <span class="op">=</span> <span class="st">"cppfile"</span></span>
+<span id="cb32-5"><a href="#cb32-5"></a>index <span class="op">=</span> <span class="st">"last"</span> <span class="co">// "first"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="reveal-results-file" class="level2">
@@ -454,7 +494,7 @@ ID:     1
 <p>When you import nonmem results from an <code>.ext</code> file (via <code>[nmext]</code>) or an <code>.xml</code> file (via <code>[nmxml]</code>), the source file is now saved in the model object so that it can be checked later.</p>
 <p>The internal model library contains an embedded nonmem run numbered <code>1005</code>; this run imports <code>THETA</code>, <code>OMEGA</code> and <code>SIGMA</code> from a finished nonmem run. You can load this model with the <code>modlib()</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"1005"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"1005"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required namespace: xml2</code></pre>
 </div>
@@ -464,7 +504,7 @@ ID:     1
 </div>
 <p>By coercing the model to list and checking the <code>nm_import</code> item, you’ll get a character vector with the full (absolute) path to either the <code>.ext</code> or <code>.xml</code> file that was imported from</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.list</span>(mod)<span class="sc">$</span>nm_import</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="fu">as.list</span>(mod)<span class="sc">$</span>nm_import</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "/Users/kyleb/Rlibs-MPN/mrgsolve/nonmem/1005/1005.xml"</code></pre>
 </div>
@@ -476,21 +516,21 @@ ID:     1
 <p>I don’t expect you’ll be using this much but when you need it it will come in handy.</p>
 <p>For example, let’s say you wanted to write a model with a 30 x 30 omega matrix. This would be a pain to code given the current syntax for <code>$OMEGA</code>. I recently refactored and standardized the way you can initialize this block programmatically.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="st">$OMEGA @as_object</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="st">matrix(0, nrow = 30, ncol = 30)</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"omega"</span>, code, <span class="at">compile =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a><span class="st">$OMEGA @as_object</span></span>
+<span id="cb38-3"><a href="#cb38-3"></a><span class="st">matrix(0, nrow = 30, ncol = 30)</span></span>
+<span id="cb38-4"><a href="#cb38-4"></a><span class="st">'</span></span>
+<span id="cb38-5"><a href="#cb38-5"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"omega"</span>, code, <span class="at">compile =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb38-6"><a href="#cb38-6"></a></span>
+<span id="cb38-7"><a href="#cb38-7"></a><span class="fu">omat</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We didn’t run the code because the screen would fill up, but you can try it. You will see that <code>$OMEGA</code> is a 30 x 30 matrix and it was easy to code. Obviously, you’ll have to update this with all the elements but we have given you the ability to easily initialize this matrix.</p>
 <p>In the example, we used the <code>@as_object</code> directive. The other way to do it would be to create the object in <code>$ENV</code> and then use <code>@object</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="er">$</span>ENV</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>foo <span class="op">&lt;-</span> matrix<span class="op">(</span><span class="dv">0</span><span class="op">,</span> nrow <span class="op">=</span> <span class="dv">30</span><span class="op">,</span> ncol <span class="op">=</span> <span class="dv">30</span><span class="op">)</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="er">$</span>OMEGA <span class="er">@</span>object foo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb39-1"><a href="#cb39-1"></a><span class="er">$</span>ENV</span>
+<span id="cb39-2"><a href="#cb39-2"></a>foo <span class="op">&lt;-</span> matrix<span class="op">(</span><span class="dv">0</span><span class="op">,</span> nrow <span class="op">=</span> <span class="dv">30</span><span class="op">,</span> ncol <span class="op">=</span> <span class="dv">30</span><span class="op">)</span></span>
+<span id="cb39-3"><a href="#cb39-3"></a></span>
+<span id="cb39-4"><a href="#cb39-4"></a><span class="er">$</span>OMEGA <span class="er">@</span>object foo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With this approach, use <code>@object</code> and then name the object that you want to use to populate the block.</p>
 <p>Other blocks that you can use this programmatic initialization:</p>
@@ -504,14 +544,14 @@ ID:     1
 </ul>
 <p>For example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM @as_object</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="st">x &lt;- seq(1,26)</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="st">names(x) &lt;- letters</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="st">as.list(x)</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"letters"</span>, code, <span class="at">compile =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="fu">param</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a><span class="st">$PARAM @as_object</span></span>
+<span id="cb40-3"><a href="#cb40-3"></a><span class="st">x &lt;- seq(1,26)</span></span>
+<span id="cb40-4"><a href="#cb40-4"></a><span class="st">names(x) &lt;- letters</span></span>
+<span id="cb40-5"><a href="#cb40-5"></a><span class="st">as.list(x)</span></span>
+<span id="cb40-6"><a href="#cb40-6"></a><span class="st">'</span></span>
+<span id="cb40-7"><a href="#cb40-7"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"letters"</span>, code, <span class="at">compile =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb40-8"><a href="#cb40-8"></a><span class="fu">param</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  Model parameters (N=26):

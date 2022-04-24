@@ -9,7 +9,7 @@
 <meta name="author" content="Kyle Baron">
 <meta name="description" content="This blog post will show you how to use a single model to do both population simulation and simulation from a specific set of empirical Bayes estimates. The basic implementation for this approach was pioneered by Tim Waterhouse at MetrumRG.">
 
-<title>mrgsolve blog - Simulate From EBE</title>
+<title>mrgsolve.org - Simulate From EBE</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -129,19 +129,59 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">mrgsolve blog</span>
+    <span class="navbar-title">mrgsolve.org</span>
   </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/user_guide">UserGuide</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/blog">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/vignettes">Vignettes</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../learn.html">Learn</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://mrgsolve.org/docs">Docs</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/mrgsolve/depot">Models</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-source" role="button" data-bs-toggle="dropdown" aria-expanded="false">Source</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-source">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/metrumresearchgroup/mrgsolve">
+ <span class="dropdown-text">GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://cran.r-project.org/package=mrgsolve">
+ <span class="dropdown-text">CRAN</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-help" role="button" data-bs-toggle="dropdown" aria-expanded="false">Help</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-help">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/metrumresearchgroup/mrgsolve/discussions">
+ <span class="dropdown-text">Discuss</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/metrumresearchgroup/mrgsolve/issues">
+ <span class="dropdown-text">Report an issue</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://mrgsolve.org">Home</a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../about.html">About</a>
-  </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/metrumresearchgroup/mrgsolve"><i class="bi bi-github" role="img">
 </i> 
@@ -233,12 +273,12 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 <h1>Background</h1>
 <p>The situation is this: you’ve coded your population model in terms of <code>THETA</code>, <code>ETA</code>, some covariates and the like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> param <span class="op">]</span> WT <span class="op">=</span> <span class="dv">70</span> <span class="op">,</span> BMI <span class="op">=</span> <span class="dv">23</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> CL <span class="op">=</span> THETA1 <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span><span class="fl">0.75</span><span class="op">)</span>    <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">1</span><span class="op">));</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> V  <span class="op">=</span> THETA2 <span class="op">*</span> pow<span class="op">(</span>BMI<span class="op">/</span><span class="dv">23</span><span class="op">,</span>THETA3<span class="op">)</span> <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">[</span> param <span class="op">]</span> WT <span class="op">=</span> <span class="dv">70</span> <span class="op">,</span> BMI <span class="op">=</span> <span class="dv">23</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="op">[</span> main <span class="op">]</span> </span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="dt">double</span> CL <span class="op">=</span> THETA1 <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span><span class="fl">0.75</span><span class="op">)</span>    <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">1</span><span class="op">));</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="dt">double</span> V  <span class="op">=</span> THETA2 <span class="op">*</span> pow<span class="op">(</span>BMI<span class="op">/</span><span class="dv">23</span><span class="op">,</span>THETA3<span class="op">)</span> <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For this model, you feed in subject-specific <code>WT</code> and <code>BMI</code>, mrgsolve will simulate <code>ETA(1)</code> and <code>ETA(2)</code> and you will get a subject-specific <code>CL</code> and <code>V</code> that can be used to advance the system.</p>
 <p>But what if you have a specific set of <code>CL</code> and <code>V</code> that came from your NONMEM model output that you want to used here instead? For example, I have this set of EBE that I want to use?</p>
@@ -246,7 +286,7 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>par</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>par</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
      ID    CL     V
@@ -264,8 +304,8 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 <h2 class="anchored" data-anchor-id="re-name-the-ebe">Re-name the EBE</h2>
 <p>Instead of using <code>CL</code> and <code>V</code> in your data, rename them to <code>CLI</code> and <code>VI</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>par <span class="ot">&lt;-</span> <span class="fu">rename</span>(par, <span class="at">CLI =</span> CL, <span class="at">VI =</span> V)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>par</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>par <span class="ot">&lt;-</span> <span class="fu">rename</span>(par, <span class="at">CLI =</span> CL, <span class="at">VI =</span> V)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>par</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
      ID   CLI    VI
@@ -281,9 +321,9 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 <h2 class="anchored" data-anchor-id="add-parameters-to-the-model">Add parameters to the model</h2>
 <p>Now you need to add these as parameters in the model so mrgsolve will pick them up when you pass them in on the data set</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> param <span class="op">]</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>WT <span class="op">=</span> <span class="dv">70</span> <span class="op">,</span> BMI <span class="op">=</span> <span class="dv">23</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>CLI <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> VI <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">[</span> param <span class="op">]</span> </span>
+<span id="cb6-2"><a href="#cb6-2"></a>WT <span class="op">=</span> <span class="dv">70</span> <span class="op">,</span> BMI <span class="op">=</span> <span class="dv">23</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>CLI <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> VI <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note we gave these parameters a special value: <code>-1</code>. This will be important for the next step.</p>
 </section>
@@ -291,24 +331,24 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 <h2 class="anchored" data-anchor-id="conditional-update-of-cl-and-v">Conditional update of CL and V</h2>
 <p>Now, after the population parameters are declared and defined, you can put a block of code that updates those variables only if <code>CLI</code> is greater than zero; that is, if the updated parameter is something other than that special / null value, we’ll use that; otherwise use the random simulated value</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> CL <span class="op">=</span> THETA1 <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span><span class="fl">0.75</span><span class="op">)</span>    <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">1</span><span class="op">));</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> V  <span class="op">=</span> THETA2 <span class="op">*</span> pow<span class="op">(</span>BMI<span class="op">/</span><span class="dv">23</span><span class="op">,</span>THETA3<span class="op">)</span> <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CLI <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  CL <span class="op">=</span> CLI<span class="op">;</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  V <span class="op">=</span> VI<span class="op">;</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="dt">double</span> CL <span class="op">=</span> THETA1 <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span><span class="fl">0.75</span><span class="op">)</span>    <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="dt">double</span> V  <span class="op">=</span> THETA2 <span class="op">*</span> pow<span class="op">(</span>BMI<span class="op">/</span><span class="dv">23</span><span class="op">,</span>THETA3<span class="op">)</span> <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="cf">if</span><span class="op">(</span>CLI <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>  CL <span class="op">=</span> CLI<span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>  V <span class="op">=</span> VI<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="include-cli-and-vi-in-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="include-cli-and-vi-in-the-data">Include CLI and VI in the data</h2>
 <p>Now, whenever we attach these specially named parameters to the data, we’ll get a simulation from the EBE; otherwise, we’ll get the simulation from the covariates and randomly drawn ETA.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(par)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(par)</span>
+<span id="cb8-3"><a href="#cb8-3"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID time amt cmt evid       CLI       VI
 1  1    0 100   1    1 0.7875775 63.25656
@@ -323,31 +363,31 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 <section id="model" class="level2">
 <h2 class="anchored" data-anchor-id="model">Model</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">[ param ] </span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">WT = 70 , BMI = 23, KA = 1</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">CLI = -1, VI = -1</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="st">[ param ] THETA1 = 1, THETA2 = 30, THETA3 = 0.21</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">[ main ] </span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">double CL = THETA1 * pow(WT/70,0.75)    * exp(ETA(1));</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">double V  = THETA2 * pow(BMI/23,THETA3) * exp(ETA(2));</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="st">if(CLI &gt; 0) {</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="st">  CL = CLI;</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="st">  V = VI;</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="st">[ omega ] 0.2 0.8</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="st">[ pkmodel ] cmt = "depot,cent", depot = TRUE</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="st">[ error ] </span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="st">double cp = cent/V;</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"ebe"</span>, code, <span class="at">capture =</span> <span class="st">"CL,V,cp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">[ param ] </span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="st">WT = 70 , BMI = 23, KA = 1</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="st">CLI = -1, VI = -1</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a></span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="st">[ param ] THETA1 = 1, THETA2 = 30, THETA3 = 0.21</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="st">[ main ] </span></span>
+<span id="cb10-9"><a href="#cb10-9"></a></span>
+<span id="cb10-10"><a href="#cb10-10"></a><span class="st">double CL = THETA1 * pow(WT/70,0.75)    * exp(ETA(1));</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="st">double V  = THETA2 * pow(BMI/23,THETA3) * exp(ETA(2));</span></span>
+<span id="cb10-12"><a href="#cb10-12"></a></span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="st">if(CLI &gt; 0) {</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a><span class="st">  CL = CLI;</span></span>
+<span id="cb10-15"><a href="#cb10-15"></a><span class="st">  V = VI;</span></span>
+<span id="cb10-16"><a href="#cb10-16"></a><span class="st">}</span></span>
+<span id="cb10-17"><a href="#cb10-17"></a></span>
+<span id="cb10-18"><a href="#cb10-18"></a><span class="st">[ omega ] 0.2 0.8</span></span>
+<span id="cb10-19"><a href="#cb10-19"></a></span>
+<span id="cb10-20"><a href="#cb10-20"></a><span class="st">[ pkmodel ] cmt = "depot,cent", depot = TRUE</span></span>
+<span id="cb10-21"><a href="#cb10-21"></a></span>
+<span id="cb10-22"><a href="#cb10-22"></a><span class="st">[ error ] </span></span>
+<span id="cb10-23"><a href="#cb10-23"></a><span class="st">double cp = cent/V;</span></span>
+<span id="cb10-24"><a href="#cb10-24"></a><span class="st">'</span></span>
+<span id="cb10-25"><a href="#cb10-25"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"ebe"</span>, code, <span class="at">capture =</span> <span class="st">"CL,V,cp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building ebe ... done.</code></pre>
 </div>
@@ -356,8 +396,8 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 <section id="simulate" class="level2">
 <h2 class="anchored" data-anchor-id="simulate">Simulate</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, data, <span class="at">end =</span> <span class="dv">72</span>) </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, <span class="st">"CL,V,cp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, data, <span class="at">end =</span> <span class="dv">72</span>) </span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">plot</span>(out, <span class="st">"CL,V,cp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="simulate-ebe_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="768"></p>
 </div>
@@ -367,14 +407,14 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 <h2 class="anchored" data-anchor-id="check">Check</h2>
 <p>Verify that the <code>CL</code> and <code>V</code> in the output match the <code>CLI</code> and <code>VI</code> in the input</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID time amt cmt evid       CLI       VI
 1  1    0 100   1    1 0.7875775 63.25656
 2  2    0 100   1    1 1.2883051 65.09495
 3  3    0 100   1    1 0.9089769 36.45781</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(<span class="fu">as_tibble</span>(out), ID, CL, V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">count</span>(<span class="fu">as_tibble</span>(out), ID, CL, V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 4
      ID    CL     V     n
@@ -389,21 +429,21 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 <h2 class="anchored" data-anchor-id="random-simulation">Random simulation</h2>
 <p>Now, if we drop the EBE from the data, we get our random basic random simulation</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  data, </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CLI =</span> <span class="cn">NULL</span>, </span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">VI =</span> <span class="cn">NULL</span>, </span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">BMI =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">23</span>, <span class="dv">26</span>), </span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">WT =</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">80</span>)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim_df</span>(mod, data2) <span class="sc">%&gt;%</span> <span class="fu">count</span>(ID, CL, V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(</span>
+<span id="cb17-2"><a href="#cb17-2"></a>  data, </span>
+<span id="cb17-3"><a href="#cb17-3"></a>  <span class="at">CLI =</span> <span class="cn">NULL</span>, </span>
+<span id="cb17-4"><a href="#cb17-4"></a>  <span class="at">VI =</span> <span class="cn">NULL</span>, </span>
+<span id="cb17-5"><a href="#cb17-5"></a>  <span class="at">BMI =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">23</span>, <span class="dv">26</span>), </span>
+<span id="cb17-6"><a href="#cb17-6"></a>  <span class="at">WT =</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">80</span>)</span>
+<span id="cb17-7"><a href="#cb17-7"></a>)</span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="fu">mrgsim_df</span>(mod, data2) <span class="sc">%&gt;%</span> <span class="fu">count</span>(ID, CL, V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID       CL        V  n
 1  1 2.002942 38.62481 26
 2  2 1.392939 54.66642 26
 3  3 1.047866 41.42735 26</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim_df</span>(mod, data2) <span class="sc">%&gt;%</span> <span class="fu">count</span>(ID, CL, V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">mrgsim_df</span>(mod, data2) <span class="sc">%&gt;%</span> <span class="fu">count</span>(ID, CL, V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID       CL         V  n
 1  1 1.372742 221.93263 26

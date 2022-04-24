@@ -3,24 +3,47 @@ project:
   output-dir: docs
 
 website:
-  title: "mrgsolve blog"
+  title: "mrgsolve.org"
   search:
     location: navbar
     type: overlay
+  primary: #097f5f
   navbar:
-    background: "#097f5f"
+    background: "white"
+    foreground: "#797979"
+    left:
+      - text: UserGuide
+        href: https://mrgsolve.org/user_guide
+      - text: Blog
+        href: https://mrgsolve.org/blog
+      - text: Vignettes
+        href: https://mrgsolve.org/vignettes
+      - text: Learn
+        href: learn.html
+      - text: Docs
+        href: https://mrgsolve.org/docs
+      - text: Models
+        href: https://github.com/mrgsolve/depot
+      - text: Source
+        menu:
+          - text: GitHub
+            href: https://github.com/metrumresearchgroup/mrgsolve
+          - text: CRAN
+            href: https://cran.r-project.org/package=mrgsolve
+      - text: Help
+        menu:
+          - text: Discuss
+            href: https://github.com/metrumresearchgroup/mrgsolve/discussions
+          - text: Report an issue
+            href: https://github.com/metrumresearchgroup/mrgsolve/issues
     right:
-      - text: Home
-        href: https://mrgsolve.org
-      - about.qmd
       - icon: github
         href: https://github.com/metrumresearchgroup/mrgsolve
       - icon: twitter
         href: https://twitter.com/mrgsolve
+
 format:
   html:
     theme: default
     css: styles.css
-
-
-
+    code-line-numbers: true

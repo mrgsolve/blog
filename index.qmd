@@ -1,12 +1,13 @@
 ---
-title: "mrgsolve blog"
+title: "<font color=white>mrgsolve blog</font>"
+subtitle: "<font color=white>Vignettes, development ideas and announcements about mrgsolve.</font>"
 listing:
   contents: posts
   sort: "date desc"
-  type: default
+  type: grid
   categories: true
 page-layout: full
-title-block-banner: false
+title-block-banner: "#097f5f"
 ---
 
 
