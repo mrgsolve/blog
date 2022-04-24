@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "mrgsolve.org"
+  title: "mrgsolve.org/blog"
   search:
     location: navbar
     type: overlay
@@ -37,6 +37,8 @@ website:
           - text: Report an issue
             href: https://github.com/metrumresearchgroup/mrgsolve/issues
     right:
+      - text: Home
+        href: https://mrgsolve.org
       - icon: github
         href: https://github.com/metrumresearchgroup/mrgsolve
       - icon: twitter
