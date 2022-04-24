@@ -18,7 +18,7 @@ website:
       - text: Vignettes
         href: https://mrgsolve.org/vignettes
       - text: Learn
-        href: learn.html
+        href: https://mrgsolve.org/learn.html
       - text: Docs
         href: https://mrgsolve.org/docs
       - text: Models
