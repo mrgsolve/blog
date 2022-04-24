@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -203,7 +209,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Generate MAP Bayes Parameter Estimates</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>This tutorial illustrates now to do MAP Bayes estimatation with mrgsolve.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -211,56 +252,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about" id="toc-about" class="nav-link active" data-scroll-target="#about">About</a></li>
-  <li><a href="#one-compartment-model-keep-it-simple-for-now" id="toc-one-compartment-model-keep-it-simple-for-now" class="nav-link" data-scroll-target="#one-compartment-model-keep-it-simple-for-now">One compartment model, keep it simple for now</a></li>
-  <li><a href="#first-simulate-some-data" id="toc-first-simulate-some-data" class="nav-link" data-scroll-target="#first-simulate-some-data">First, simulate some data</a></li>
-  <li><a href="#create-input-for-optimization" id="toc-create-input-for-optimization" class="nav-link" data-scroll-target="#create-input-for-optimization">Create input for optimization</a></li>
-  <li><a href="#optimize" id="toc-optimize" class="nav-link" data-scroll-target="#optimize">Optimize</a>
+  <li><a href="#about" id="toc-about" class="nav-link active" data-scroll-target="#about"> <span class="header-section-number">1</span> About</a></li>
+  <li><a href="#one-compartment-model-keep-it-simple-for-now" id="toc-one-compartment-model-keep-it-simple-for-now" class="nav-link" data-scroll-target="#one-compartment-model-keep-it-simple-for-now"> <span class="header-section-number">2</span> One compartment model, keep it simple for now</a></li>
+  <li><a href="#first-simulate-some-data" id="toc-first-simulate-some-data" class="nav-link" data-scroll-target="#first-simulate-some-data"> <span class="header-section-number">3</span> First, simulate some data</a></li>
+  <li><a href="#create-input-for-optimization" id="toc-create-input-for-optimization" class="nav-link" data-scroll-target="#create-input-for-optimization"> <span class="header-section-number">4</span> Create input for optimization</a></li>
+  <li><a href="#optimize" id="toc-optimize" class="nav-link" data-scroll-target="#optimize"> <span class="header-section-number">5</span> Optimize</a>
   <ul class="collapse">
-  <li><a href="#what-is-this-function-doing" id="toc-what-is-this-function-doing" class="nav-link" data-scroll-target="#what-is-this-function-doing">What is this function doing?</a></li>
-  <li><a href="#initial-estimate" id="toc-initial-estimate" class="nav-link" data-scroll-target="#initial-estimate">Initial estimate</a></li>
+  <li><a href="#what-is-this-function-doing" id="toc-what-is-this-function-doing" class="nav-link" data-scroll-target="#what-is-this-function-doing"> <span class="header-section-number">5.1</span> What is this function doing?</a></li>
+  <li><a href="#initial-estimate" id="toc-initial-estimate" class="nav-link" data-scroll-target="#initial-estimate"> <span class="header-section-number">5.2</span> Initial estimate</a></li>
   </ul></li>
-  <li><a href="#look-at-the-result" id="toc-look-at-the-result" class="nav-link" data-scroll-target="#look-at-the-result">Look at the result</a></li>
+  <li><a href="#look-at-the-result" id="toc-look-at-the-result" class="nav-link" data-scroll-target="#look-at-the-result"> <span class="header-section-number">6</span> Look at the result</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Generate MAP Bayes Parameter Estimates</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>This tutorial illustrates now to do MAP Bayes estimatation with mrgsolve.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <p>This tutorial illustrates how to do MAP Bayes estimation with <code>mrgsolve</code>.<br>
 The setup was adapted from an existing project, where only a single individual was considered. With some additional <code>R</code> coding, it could be expanded to consider multiple individuals in a single run.</p>
@@ -272,12 +281,12 @@ The setup was adapted from an existing project, where only a single individual w
 <span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(magrittr)</span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">"build"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="about" class="level1">
-<h1>About</h1>
+<section id="about" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> About</h1>
 <p>This document shows how to simulate some data and then re-estimate the MAP Bayes estimates. For clarity, just the optimization piece has been included in a separate doc <a href="map_bayes_example.html">map_bayes_example.html</a>.</p>
 </section>
-<section id="one-compartment-model-keep-it-simple-for-now" class="level1">
-<h1>One compartment model, keep it simple for now</h1>
+<section id="one-compartment-model-keep-it-simple-for-now" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> One compartment model, keep it simple for now</h1>
 <ul>
 <li><p>The model specification code below is for a one-compartment model, where <code>mrgsolve</code> will calculate the amount in <code>CENT</code> from closed-form equations</p></li>
 <li><p>For now, <code>$OMEGA</code> and <code>$SIGMA</code> are filled with zeros; we’ll update it later</p></li>
@@ -313,8 +322,8 @@ The setup was adapted from an existing project, where only a single individual w
 <span id="cb2-24"><a href="#cb2-24"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">"map"</span>, code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="first-simulate-some-data" class="level1">
-<h1>First, simulate some data</h1>
+<section id="first-simulate-some-data" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> First, simulate some data</h1>
 <p><code>$OMEGA</code> and <code>$SIGMA</code>;</p>
 <ul>
 <li>The result may look better or worse depending on what we choose here</li>
@@ -362,8 +371,8 @@ ID:     1
 </div>
 </div>
 </section>
-<section id="create-input-for-optimization" class="level1">
-<h1>Create input for optimization</h1>
+<section id="create-input-for-optimization" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Create input for optimization</h1>
 <ul>
 <li>Using the simulated data as the starting point here</li>
 <li>Set <code>DV</code> to <code>NA</code> for the dosing record</li>
@@ -390,8 +399,8 @@ ID:     1
 </div>
 </div>
 </section>
-<section id="optimize" class="level1">
-<h1>Optimize</h1>
+<section id="optimize" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Optimize</h1>
 <p>This function takes in a set of proposed <span class="math inline">\(\eta\)</span>s along with the observed data vector, the data set and a model object and returns the value of the EBE objective function</p>
 <ul>
 <li><p>When we do the estimation, the fixed effects and random effect variances are fixed.</p></li>
@@ -406,8 +415,8 @@ ID:     1
 <li><code>dvcol</code> the predicted data column name</li>
 <li><code>pred</code> if <code>TRUE</code>, just return predicted values</li>
 </ul>
-<section id="what-is-this-function-doing" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-this-function-doing">What is this function doing?</h2>
+<section id="what-is-this-function-doing" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="what-is-this-function-doing"><span class="header-section-number">5.1</span> What is this function doing?</h2>
 <ol type="1">
 <li>get the matrix for residual error</li>
 <li>Make sure <code>eta</code> is a list</li>
@@ -437,8 +446,8 @@ ID:     1
 <span id="cb11-15"><a href="#cb11-15"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="initial-estimate" class="level2">
-<h2 class="anchored" data-anchor-id="initial-estimate">Initial estimate</h2>
+<section id="initial-estimate" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="initial-estimate"><span class="header-section-number">5.2</span> Initial estimate</h2>
 <ul>
 <li>Note again that we are optimizing the etas here</li>
 </ul>
@@ -476,8 +485,8 @@ ID:     1
 <p>:::</p>
 </section>
 </section>
-<section id="look-at-the-result" class="level1">
-<h1>Look at the result</h1>
+<section id="look-at-the-result" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Look at the result</h1>
 <p>A data set and model to get predictions; this will give us a smooth prediction line</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>pdata <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(evid<span class="sc">==</span><span class="dv">1</span>)</span>

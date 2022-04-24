@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">New in 0.11.0 and 0.11.1</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Find out what’s new in mrgsolve version 0.11.0 and 0.11.1.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,72 +251,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#dynamic-capture" id="toc-dynamic-capture" class="nav-link" data-scroll-target="#dynamic-capture">Dynamic capture</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#dynamic-capture" id="toc-dynamic-capture" class="nav-link" data-scroll-target="#dynamic-capture"> <span class="header-section-number">2</span> Dynamic capture</a>
   <ul class="collapse">
-  <li><a href="#see-model-variables" id="toc-see-model-variables" class="nav-link" data-scroll-target="#see-model-variables">See model variables</a></li>
-  <li><a href="#why-would-i-use-this" id="toc-why-would-i-use-this" class="nav-link" data-scroll-target="#why-would-i-use-this">Why would I use this???</a></li>
+  <li><a href="#see-model-variables" id="toc-see-model-variables" class="nav-link" data-scroll-target="#see-model-variables"> <span class="header-section-number">2.1</span> See model variables</a></li>
+  <li><a href="#why-would-i-use-this" id="toc-why-would-i-use-this" class="nav-link" data-scroll-target="#why-would-i-use-this"> <span class="header-section-number">2.2</span> Why would I use this???</a></li>
   </ul></li>
-  <li><a href="#simulate-with-negative-times" id="toc-simulate-with-negative-times" class="nav-link" data-scroll-target="#simulate-with-negative-times">Simulate with negative times</a></li>
-  <li><a href="#path-to-nm-results-using-nmext-and-nmxml" id="toc-path-to-nm-results-using-nmext-and-nmxml" class="nav-link" data-scroll-target="#path-to-nm-results-using-nmext-and-nmxml">Path to NM results using NMEXT and NMXML</a>
+  <li><a href="#simulate-with-negative-times" id="toc-simulate-with-negative-times" class="nav-link" data-scroll-target="#simulate-with-negative-times"> <span class="header-section-number">3</span> Simulate with negative times</a></li>
+  <li><a href="#path-to-nm-results-using-nmext-and-nmxml" id="toc-path-to-nm-results-using-nmext-and-nmxml" class="nav-link" data-scroll-target="#path-to-nm-results-using-nmext-and-nmxml"> <span class="header-section-number">4</span> Path to NM results using NMEXT and NMXML</a>
   <ul class="collapse">
-  <li><a href="#root-path" id="toc-root-path" class="nav-link" data-scroll-target="#root-path">Root path</a></li>
-  <li><a href="#select-table-number-in-nmext" id="toc-select-table-number-in-nmext" class="nav-link" data-scroll-target="#select-table-number-in-nmext">Select table number in NMEXT</a></li>
-  <li><a href="#reveal-results-file" id="toc-reveal-results-file" class="nav-link" data-scroll-target="#reveal-results-file">Reveal results file</a></li>
+  <li><a href="#root-path" id="toc-root-path" class="nav-link" data-scroll-target="#root-path"> <span class="header-section-number">4.1</span> Root path</a></li>
+  <li><a href="#select-table-number-in-nmext" id="toc-select-table-number-in-nmext" class="nav-link" data-scroll-target="#select-table-number-in-nmext"> <span class="header-section-number">4.2</span> Select table number in NMEXT</a></li>
+  <li><a href="#reveal-results-file" id="toc-reveal-results-file" class="nav-link" data-scroll-target="#reveal-results-file"> <span class="header-section-number">4.3</span> Reveal results file</a></li>
   </ul></li>
-  <li><a href="#programmatic-block-initialization" id="toc-programmatic-block-initialization" class="nav-link" data-scroll-target="#programmatic-block-initialization">Programmatic block initialization</a></li>
-  <li><a href="#check-user-interrupt" id="toc-check-user-interrupt" class="nav-link" data-scroll-target="#check-user-interrupt">Check User Interrupt</a></li>
+  <li><a href="#programmatic-block-initialization" id="toc-programmatic-block-initialization" class="nav-link" data-scroll-target="#programmatic-block-initialization"> <span class="header-section-number">5</span> Programmatic block initialization</a></li>
+  <li><a href="#check-user-interrupt" id="toc-check-user-interrupt" class="nav-link" data-scroll-target="#check-user-interrupt"> <span class="header-section-number">6</span> Check User Interrupt</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">New in 0.11.0 and 0.11.1</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>Find out what’s new in mrgsolve version 0.11.0 and 0.11.1.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(mrgsolve)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>This blog post introduces some new features / new behavior with mrgsolve versions <code>0.11.0</code> and <code>0.11.1</code>.</p>
 </section>
-<section id="dynamic-capture" class="level1">
-<h1>Dynamic capture</h1>
+<section id="dynamic-capture" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Dynamic capture</h1>
 <p>This is one of my favorite new features. I’ve written about it before, but as a review: we added a <code>capture</code> argument to <code>mread()</code> so you can opt in to capture additional model variables in the simulated output.</p>
 <p>For example, let’s look at this model:</p>
 <div class="cell">
@@ -293,8 +302,8 @@ $capture
 </div>
 </div>
 <p>You can see the compartments (<code>cmt</code>) and other model variables that are getting captured (<code>capture</code>).</p>
-<section id="see-model-variables" class="level2">
-<h2 class="anchored" data-anchor-id="see-model-variables">See model variables</h2>
+<section id="see-model-variables" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="see-model-variables"><span class="header-section-number">2.1</span> See model variables</h2>
 <p>We can now look into the model and see which variables are available to capture. First, coerce <code>mod</code> to a <code>list()</code> and then look at the <code>cpp_variables</code> item:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>cpp_variables <span class="ot">&lt;-</span> <span class="fu">as.list</span>(mod)<span class="sc">$</span>cpp_variables</span>
@@ -362,8 +371,8 @@ ID:     1
 </div>
 </div>
 </section>
-<section id="why-would-i-use-this" class="level2">
-<h2 class="anchored" data-anchor-id="why-would-i-use-this">Why would I use this???</h2>
+<section id="why-would-i-use-this" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="why-would-i-use-this"><span class="header-section-number">2.2</span> Why would I use this???</h2>
 <p>Here’s an example: I have a covariate model going and I want to get parameter values given some covariates. I can write:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"popex"</span>, <span class="at">capture =</span> <span class="st">"CL,V,KA"</span>) <span class="sc">%&gt;%</span> <span class="fu">zero_re</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -392,8 +401,8 @@ ID:     21
 <p>Now, I have <code>CL</code>, <code>V</code> and <code>KA</code> all calculated as a function of <code>WT</code>.</p>
 </section>
 </section>
-<section id="simulate-with-negative-times" class="level1">
-<h1>Simulate with negative times</h1>
+<section id="simulate-with-negative-times" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Simulate with negative times</h1>
 <p>Until <code>0.11.0</code>, it was an error whenever negative times were requested in the simulation. Now, negative times are accepted without error.Keep in mind that the data set still needs to be sorted by time when passing <code>data</code>.</p>
 <p>As an example:</p>
 <div class="cell">
@@ -428,14 +437,14 @@ ID:     1
 </div>
 </div>
 </section>
-<section id="path-to-nm-results-using-nmext-and-nmxml" class="level1">
-<h1>Path to NM results using NMEXT and NMXML</h1>
+<section id="path-to-nm-results-using-nmext-and-nmxml" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Path to NM results using NMEXT and NMXML</h1>
 <p>This is pretty subtle issue but I’ve grown very sensitive to it recently and decided we needed to change this.</p>
 <p>When you use the <code>$NMEXT</code> or <code>$NMXML</code> blocks, you are asking <code>mrgsolve</code> to import <code>THETA</code>, <code>OMEGA</code> and / or <code>SIGMA</code> from a completed NONMEM run. And we need to specify the path to those results.</p>
 <p>So far, we have had you typically specify the path relative to the <strong>current working directory</strong>. This was ok, but problems happened if you wanted to use the model from a different working directory (you’d get an error).</p>
 <p>So we added an argument called <code>root</code> to <code>$NMEXT</code> and <code>$NMXML</code> that lets you change how that path is interpreted.</p>
-<section id="root-path" class="level2">
-<h2 class="anchored" data-anchor-id="root-path">Root path</h2>
+<section id="root-path" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="root-path"><span class="header-section-number">4.1</span> Root path</h2>
 <p>The current default behavior is to interpret the path relative to the current working directory:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
@@ -467,8 +476,8 @@ ID:     1
 </div>
 <p>Note here that the argument / options here are evaluated by the R interpreter so that the <code>here()</code> call resolves to the correct project directory.</p>
 </section>
-<section id="select-table-number-in-nmext" class="level2">
-<h2 class="anchored" data-anchor-id="select-table-number-in-nmext">Select table number in NMEXT</h2>
+<section id="select-table-number-in-nmext" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="select-table-number-in-nmext"><span class="header-section-number">4.2</span> Select table number in NMEXT</h2>
 <p>The <code>[ nmext ]</code> block gains an index argument that will let you select which table in the <code>.ext</code> file to import from when there are multiple.</p>
 <ul>
 <li>the default is <code>last</code></li>
@@ -492,8 +501,8 @@ ID:     1
 <span id="cb32-5"><a href="#cb32-5"></a>index <span class="op">=</span> <span class="st">"last"</span> <span class="co">// "first"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="reveal-results-file" class="level2">
-<h2 class="anchored" data-anchor-id="reveal-results-file">Reveal results file</h2>
+<section id="reveal-results-file" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="reveal-results-file"><span class="header-section-number">4.3</span> Reveal results file</h2>
 <p>When you import nonmem results from an <code>.ext</code> file (via <code>[nmext]</code>) or an <code>.xml</code> file (via <code>[nmxml]</code>), the source file is now saved in the model object so that it can be checked later.</p>
 <p>The internal model library contains an embedded nonmem run numbered <code>1005</code>; this run imports <code>THETA</code>, <code>OMEGA</code> and <code>SIGMA</code> from a finished nonmem run. You can load this model with the <code>modlib()</code> function.</p>
 <div class="cell">
@@ -514,8 +523,8 @@ ID:     1
 </div>
 </section>
 </section>
-<section id="programmatic-block-initialization" class="level1">
-<h1>Programmatic block initialization</h1>
+<section id="programmatic-block-initialization" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Programmatic block initialization</h1>
 <p>I don’t expect you’ll be using this much but when you need it it will come in handy.</p>
 <p>For example, let’s say you wanted to write a model with a 30 x 30 omega matrix. This would be a pain to code given the current syntax for <code>$OMEGA</code>. I recently refactored and standardized the way you can initialize this block programmatically.</p>
 <div class="cell">
@@ -575,8 +584,8 @@ ID:     1
 </div>
 </div>
 </section>
-<section id="check-user-interrupt" class="level1">
-<h1>Check User Interrupt</h1>
+<section id="check-user-interrupt" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Check User Interrupt</h1>
 <p>Starting with version <code>0.11.1</code>, we will start periodically checking for the user interrupt signal (<code>Esc</code> or <code>Control-C</code>) as the simulation proceeds. This will let you kill a long-running simulation mid-stream. You can change the check interval by the <code>interrupt</code> argument to <code>mrgsim()</code>. Reduce the number to check more frequently and pass <code>-1</code> to not check at all.</p>
 
 

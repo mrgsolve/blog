@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Models without compartments</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Introducing a new model block (<code>$PRED</code>) that lets you write models with analytical solutions.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,56 +251,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#example-model" id="toc-example-model" class="nav-link" data-scroll-target="#example-model">Example model</a></li>
-  <li><a href="#pkpd-model" id="toc-pkpd-model" class="nav-link" data-scroll-target="#pkpd-model">PK/PD Model</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#example-model" id="toc-example-model" class="nav-link" data-scroll-target="#example-model"> <span class="header-section-number">2</span> Example model</a></li>
+  <li><a href="#pkpd-model" id="toc-pkpd-model" class="nav-link" data-scroll-target="#pkpd-model"> <span class="header-section-number">3</span> PK/PD Model</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Models without compartments</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>Introducing a new model block (<code>$PRED</code>) that lets you write models with analytical solutions.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
-
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>This post introduces a new formal code block for writing models where there are no compartments. The block is named after the analogous NONMEM block called <code>$PRED</code>. This functionality has always been possible with mrgsolve, but only now is there a code block dedicated to these models. Also, a relaxed set of data set constraints have been put in place when these types of models are invoked.</p>
 </section>
-<section id="example-model" class="level1">
-<h1>Example model</h1>
+<section id="example-model" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Example model</h1>
 <p>As a most-basic model, we look at the <code>pred1</code> model in <code>modlib()</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mrgsolve)</span>
@@ -331,8 +340,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="pkpd-model" class="level1">
-<h1>PK/PD Model</h1>
+<section id="pkpd-model" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> PK/PD Model</h1>
 <p>Here is an implementation of a PK/PD model using <code>$PRED</code></p>
 <p>In this model</p>
 <ul>

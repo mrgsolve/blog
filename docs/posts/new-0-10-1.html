@@ -118,6 +118,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -203,7 +209,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">New in 0.10.0 and 0.10.1</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Find out what’s new in mrgsolve version 0.10.0 and 0.10.1.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">02/01/2020</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -211,72 +252,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#steady-state" id="toc-steady-state" class="nav-link" data-scroll-target="#steady-state">Steady-state</a></li>
-  <li><a href="#house-is-now-exported" id="toc-house-is-now-exported" class="nav-link" data-scroll-target="#house-is-now-exported">house is now exported</a></li>
-  <li><a href="#select_sims" id="toc-select_sims" class="nav-link" data-scroll-target="#select_sims">select_sims</a></li>
-  <li><a href="#plot-from-character-vector-of-column-names" id="toc-plot-from-character-vector-of-column-names" class="nav-link" data-scroll-target="#plot-from-character-vector-of-column-names">Plot from character vector of column names</a></li>
-  <li><a href="#outvars" id="toc-outvars" class="nav-link" data-scroll-target="#outvars">outvars</a></li>
-  <li><a href="#improvements-to-event-objects" id="toc-improvements-to-event-objects" class="nav-link" data-scroll-target="#improvements-to-event-objects">Improvements to event objects</a></li>
-  <li><a href="#new-error-message" id="toc-new-error-message" class="nav-link" data-scroll-target="#new-error-message">New error message</a></li>
-  <li><a href="#steady-state-infusion" id="toc-steady-state-infusion" class="nav-link" data-scroll-target="#steady-state-infusion">Steady state infusion</a></li>
-  <li><a href="#access-model-information" id="toc-access-model-information" class="nav-link" data-scroll-target="#access-model-information">Access model information</a></li>
-  <li><a href="#access-compartment-numbers" id="toc-access-compartment-numbers" class="nav-link" data-scroll-target="#access-compartment-numbers">Access compartment numbers</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#steady-state" id="toc-steady-state" class="nav-link" data-scroll-target="#steady-state"> <span class="header-section-number">2</span> Steady-state</a></li>
+  <li><a href="#house-is-now-exported" id="toc-house-is-now-exported" class="nav-link" data-scroll-target="#house-is-now-exported"> <span class="header-section-number">3</span> house is now exported</a></li>
+  <li><a href="#select_sims" id="toc-select_sims" class="nav-link" data-scroll-target="#select_sims"> <span class="header-section-number">4</span> select_sims</a></li>
+  <li><a href="#plot-from-character-vector-of-column-names" id="toc-plot-from-character-vector-of-column-names" class="nav-link" data-scroll-target="#plot-from-character-vector-of-column-names"> <span class="header-section-number">5</span> Plot from character vector of column names</a></li>
+  <li><a href="#outvars" id="toc-outvars" class="nav-link" data-scroll-target="#outvars"> <span class="header-section-number">6</span> outvars</a></li>
+  <li><a href="#improvements-to-event-objects" id="toc-improvements-to-event-objects" class="nav-link" data-scroll-target="#improvements-to-event-objects"> <span class="header-section-number">7</span> Improvements to event objects</a></li>
+  <li><a href="#new-error-message" id="toc-new-error-message" class="nav-link" data-scroll-target="#new-error-message"> <span class="header-section-number">8</span> New error message</a></li>
+  <li><a href="#steady-state-infusion" id="toc-steady-state-infusion" class="nav-link" data-scroll-target="#steady-state-infusion"> <span class="header-section-number">9</span> Steady state infusion</a></li>
+  <li><a href="#access-model-information" id="toc-access-model-information" class="nav-link" data-scroll-target="#access-model-information"> <span class="header-section-number">10</span> Access model information</a></li>
+  <li><a href="#access-compartment-numbers" id="toc-access-compartment-numbers" class="nav-link" data-scroll-target="#access-compartment-numbers"> <span class="header-section-number">11</span> Access compartment numbers</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">New in 0.10.0 and 0.10.1</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>Find out what’s new in mrgsolve version 0.10.0 and 0.10.1.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">02/01/2020</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(mrgsolve)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>This blog post shows some of the new features that came into mrgsolve starting with version <code>0.10.0</code> (October 2019) and <code>0.10.1</code> (February 2020). The purpose is to illustrate what is possible rather than detailed documentation.</p>
 </section>
-<section id="steady-state" class="level1">
-<h1>Steady-state</h1>
+<section id="steady-state" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Steady-state</h1>
 <p>This is a big topic, so I put together a <a href="steady-state.html">separate blog entry</a> to look at new features around steady state.</p>
 </section>
-<section id="house-is-now-exported" class="level1">
-<h1>house is now exported</h1>
+<section id="house-is-now-exported" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> house is now exported</h1>
 <p>Since the beginning, we have maintained a model <strong>inside mrgsolve itself</strong> that we call <code>house</code>. It’s a basic PKPD model that we use to test and demo. The interesting thing about this model is that it is compiled when mrgsolve is installed. So the model is always ready to go.</p>
 <p>It use to be unexported so you would have to access the model like this:</p>
 <div class="cell">
@@ -288,8 +297,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">house</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="select_sims" class="level1">
-<h1>select_sims</h1>
+<section id="select_sims" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> select_sims</h1>
 <p>There is a series of dplyr-like functions that allow you to work on the simulation output object (<code>mrgsims</code>) while keeping it a simulation output object. Starting in version <code>0.10.1</code>, we have a <code>select_sims</code> function which allows you to select certain columns in the simulation object</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(<span class="fu">house</span>(), <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>))</span>
@@ -394,8 +403,8 @@ ID:     1
 </div>
 </div>
 </section>
-<section id="plot-from-character-vector-of-column-names" class="level1">
-<h1>Plot from character vector of column names</h1>
+<section id="plot-from-character-vector-of-column-names" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Plot from character vector of column names</h1>
 <p>The plot method has so far required you to enter a formula to select columns to plot ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(<span class="fu">house</span>(), <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>))</span>
 <span id="cb15-2"><a href="#cb15-2"></a></span>
@@ -445,8 +454,8 @@ ID:     1
 </div>
 </div>
 </section>
-<section id="outvars" class="level1">
-<h1>outvars</h1>
+<section id="outvars" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> outvars</h1>
 <p>Query the model object for the names of variables that you could ask for in a simulation</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">outvars</span>(<span class="fu">house</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -460,8 +469,8 @@ $capture
 </div>
 <p>Some names are compartments, some are captured.</p>
 </section>
-<section id="improvements-to-event-objects" class="level1">
-<h1>Improvements to event objects</h1>
+<section id="improvements-to-event-objects" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Improvements to event objects</h1>
 <p>To make an event object ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -507,8 +516,8 @@ $capture
 </div>
 </div>
 </section>
-<section id="new-error-message" class="level1">
-<h1>New error message</h1>
+<section id="new-error-message" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> New error message</h1>
 <p>You might see this</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>dose <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>)</span>
@@ -520,8 +529,8 @@ $capture
 </div>
 <p>Which just means you passed things in in the wrong order.</p>
 </section>
-<section id="steady-state-infusion" class="level1">
-<h1>Steady state infusion</h1>
+<section id="steady-state-infusion" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Steady state infusion</h1>
 <p>mrgsolve can now run a zero-order infusion to steady state. Set <code>amt</code> to 0, <code>rate</code> to something positive and <code>ss</code> to 1. We change <code>recsort</code> just to show that things start at steady state.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>ssinf <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">0</span>, <span class="at">rate =</span> <span class="dv">5</span>, <span class="at">ss =</span> <span class="dv">1</span>)</span>
@@ -533,8 +542,8 @@ $capture
 </div>
 <p>You can also set <code>rate</code> to -1 if you are modeling the rate. But it can’t be set to <code>-2</code>.</p>
 </section>
-<section id="access-model-information" class="level1">
-<h1>Access model information</h1>
+<section id="access-model-information" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Access model information</h1>
 <p>For a while, you could access model parameters with <code>$</code> operator</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">house</span>()</span>
@@ -559,8 +568,8 @@ $capture
 </div>
 </div>
 </section>
-<section id="access-compartment-numbers" class="level1">
-<h1>Access compartment numbers</h1>
+<section id="access-compartment-numbers" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Access compartment numbers</h1>
 <p>Sometimes when writing a model, we would like to know the number of a compartment when we only know the name. There is a plugin to make that doable now</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb44-1"><a href="#cb44-1"></a>$CMT CENTRAL</span>

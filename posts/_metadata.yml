@@ -5,6 +5,9 @@
 freeze: auto
 
 # Enable banner style title blocks
-title-block-banner: false
+#title-block-banner: false
+title-block-banner: "#097f5f"
+title-block-banner-color: "white"
+number-sections: true
 toc: true
 

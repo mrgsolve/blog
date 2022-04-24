@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Work with event objects</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>event objects are data.frame-like data structures that allow you to quickly and flexibly include dosing interventions into your simulations.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,71 +251,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#events" id="toc-events" class="nav-link" data-scroll-target="#events">Events</a></li>
-  <li><a href="#event-expectations" id="toc-event-expectations" class="nav-link" data-scroll-target="#event-expectations">Event expectations</a></li>
-  <li><a href="#combine-events" id="toc-combine-events" class="nav-link" data-scroll-target="#combine-events">Combine events</a></li>
-  <li><a href="#combine-event-objects-to-create-a-data-set" id="toc-combine-event-objects-to-create-a-data-set" class="nav-link" data-scroll-target="#combine-event-objects-to-create-a-data-set">Combine event objects to create a data set</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"> <span class="header-section-number">2</span> Setup</a></li>
+  <li><a href="#events" id="toc-events" class="nav-link" data-scroll-target="#events"> <span class="header-section-number">3</span> Events</a></li>
+  <li><a href="#event-expectations" id="toc-event-expectations" class="nav-link" data-scroll-target="#event-expectations"> <span class="header-section-number">4</span> Event expectations</a></li>
+  <li><a href="#combine-events" id="toc-combine-events" class="nav-link" data-scroll-target="#combine-events"> <span class="header-section-number">5</span> Combine events</a></li>
+  <li><a href="#combine-event-objects-to-create-a-data-set" id="toc-combine-event-objects-to-create-a-data-set" class="nav-link" data-scroll-target="#combine-event-objects-to-create-a-data-set"> <span class="header-section-number">6</span> Combine event objects to create a data set</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Work with event objects</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>event objects are data.frame-like data structures that allow you to quickly and flexibly include dosing interventions into your simulations.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">"build"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>Event objects are simple ways to implement PK dosing events into your model simulation.</p>
 </section>
-<section id="setup" class="level1">
-<h1>Setup</h1>
+<section id="setup" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Setup</h1>
 <p>Let’s illustrate event objects with a one-compartment, PK model. We read this model from the <code>mrgsolve</code> internal model library.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"pk1cmt"</span>, <span class="fu">modlib</span>(), <span class="at">end=</span><span class="dv">216</span>, <span class="at">delta=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="events" class="level1">
-<h1>Events</h1>
+<section id="events" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Events</h1>
 <p>Events are constructed with the <code>ev</code> function</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>e <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>, <span class="at">ii=</span><span class="dv">24</span>, <span class="at">addl=</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -314,8 +323,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="event-expectations" class="level1">
-<h1>Event expectations</h1>
+<section id="event-expectations" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Event expectations</h1>
 <ol type="1">
 <li><code>amt</code> is required</li>
 <li><code>evid=0</code> is forbidden</li>
@@ -325,8 +334,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Also by default, <code>rate</code>, <code>ss</code> and <code>ii</code> are 0.</p>
 </section>
-<section id="combine-events" class="level1">
-<h1>Combine events</h1>
+<section id="combine-events" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Combine events</h1>
 <p><code>mrgsolve</code> has operators defined that allow you to combine events. Let’s first define some event objects.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">500</span>)</span>
@@ -356,8 +365,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Notice that <code>e3</code> has both <code>ii</code> and <code>addl</code> defined. This is required for <code>mrgsolve</code> to know when to start <code>e2</code>.</p>
 </section>
-<section id="combine-event-objects-to-create-a-data-set" class="level1">
-<h1>Combine event objects to create a data set</h1>
+<section id="combine-event-objects-to-create-a-data-set" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Combine event objects to create a data set</h1>
 <p>We can take several event objects and combine them into a single simulation data frame with the <code>as_data_set</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>, <span class="at">ii=</span><span class="dv">24</span>, <span class="at">addl=</span><span class="dv">6</span>, <span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>

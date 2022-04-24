@@ -118,6 +118,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -203,7 +209,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">New in 0.10.7</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Find out what’s new in mrgsolve version 0.10.7.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">12/01/2020</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -211,64 +252,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#specify-capture-at-compile-time" id="toc-specify-capture-at-compile-time" class="nav-link" data-scroll-target="#specify-capture-at-compile-time">Specify capture at compile time</a></li>
-  <li><a href="#smarter-warnings-when-non-numeric-columns-are-dropped" id="toc-smarter-warnings-when-non-numeric-columns-are-dropped" class="nav-link" data-scroll-target="#smarter-warnings-when-non-numeric-columns-are-dropped">Smarter warnings when non-numeric columns are dropped</a></li>
-  <li><a href="#error" id="toc-error" class="nav-link" data-scroll-target="#error"><code>$ERROR</code></a></li>
-  <li><a href="#try-loading-the-model-at-runtime-if-it-isnt-loaded" id="toc-try-loading-the-model-at-runtime-if-it-isnt-loaded" class="nav-link" data-scroll-target="#try-loading-the-model-at-runtime-if-it-isnt-loaded">Try loading the model at runtime if it isn’t loaded</a></li>
-  <li><a href="#time-after-dose-in-specific-compartment" id="toc-time-after-dose-in-specific-compartment" class="nav-link" data-scroll-target="#time-after-dose-in-specific-compartment">Time after dose in specific compartment</a></li>
-  <li><a href="#improved-handling-of-time-varying-covariates" id="toc-improved-handling-of-time-varying-covariates" class="nav-link" data-scroll-target="#improved-handling-of-time-varying-covariates">Improved handling of time-varying covariates</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#specify-capture-at-compile-time" id="toc-specify-capture-at-compile-time" class="nav-link" data-scroll-target="#specify-capture-at-compile-time"> <span class="header-section-number">2</span> Specify capture at compile time</a></li>
+  <li><a href="#smarter-warnings-when-non-numeric-columns-are-dropped" id="toc-smarter-warnings-when-non-numeric-columns-are-dropped" class="nav-link" data-scroll-target="#smarter-warnings-when-non-numeric-columns-are-dropped"> <span class="header-section-number">3</span> Smarter warnings when non-numeric columns are dropped</a></li>
+  <li><a href="#error" id="toc-error" class="nav-link" data-scroll-target="#error"> <span class="header-section-number">4</span> <code>$ERROR</code></a></li>
+  <li><a href="#try-loading-the-model-at-runtime-if-it-isnt-loaded" id="toc-try-loading-the-model-at-runtime-if-it-isnt-loaded" class="nav-link" data-scroll-target="#try-loading-the-model-at-runtime-if-it-isnt-loaded"> <span class="header-section-number">5</span> Try loading the model at runtime if it isn’t loaded</a></li>
+  <li><a href="#time-after-dose-in-specific-compartment" id="toc-time-after-dose-in-specific-compartment" class="nav-link" data-scroll-target="#time-after-dose-in-specific-compartment"> <span class="header-section-number">6</span> Time after dose in specific compartment</a></li>
+  <li><a href="#improved-handling-of-time-varying-covariates" id="toc-improved-handling-of-time-varying-covariates" class="nav-link" data-scroll-target="#improved-handling-of-time-varying-covariates"> <span class="header-section-number">7</span> Improved handling of time-varying covariates</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">New in 0.10.7</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>Find out what’s new in mrgsolve version 0.10.7.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">12/01/2020</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(mrgsolve)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>This blog post shows some of the new features that came into mrgsolve starting with version <code>0.10.7</code> (December 2020). The purpose is to illustrate what is possible rather than detailed documentation. There were other small bugs and gremlins fixed as well, but we are focused on bigger, user-facing changes here.</p>
 </section>
-<section id="specify-capture-at-compile-time" class="level1">
-<h1>Specify capture at compile time</h1>
+<section id="specify-capture-at-compile-time" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Specify capture at compile time</h1>
 <p><strong>Big Idea</strong>: The feature helps give you more flexibility for getting data out of your model and into your simulated output. You have the ability to select output items when you run <code>mread()</code> in addition to specifying them in the model code.</p>
 <p>In your mrgsolve model, you can request that the values of different variables are written into the simulated output. This is done through the capture block or by declaring variables as type <code>capture</code>:</p>
 <div class="cell">
@@ -357,8 +366,8 @@ $capture
 </div>
 <p>:::</p>
 </section>
-<section id="smarter-warnings-when-non-numeric-columns-are-dropped" class="level1">
-<h1>Smarter warnings when non-numeric columns are dropped</h1>
+<section id="smarter-warnings-when-non-numeric-columns-are-dropped" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Smarter warnings when non-numeric columns are dropped</h1>
 <p>mrgsolve warns you when non-numeric columns are dropped from the data set when you run the model. For example:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">library</span>(mrgsolve)</span>
@@ -448,8 +457,8 @@ ID:     1
 </div>
 </div>
 </section>
-<section id="error" class="level1">
-<h1><code>$ERROR</code></h1>
+<section id="error" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> <code>$ERROR</code></h1>
 <p>There is a new block alias called <code>$ERROR</code> that is just an alias for <code>$TABLE</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
@@ -482,8 +491,8 @@ ID:     1
 </div>
 </div>
 </section>
-<section id="try-loading-the-model-at-runtime-if-it-isnt-loaded" class="level1">
-<h1>Try loading the model at runtime if it isn’t loaded</h1>
+<section id="try-loading-the-model-at-runtime-if-it-isnt-loaded" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Try loading the model at runtime if it isn’t loaded</h1>
 <p>Sometimes, you find yourself with a model object but the shared object hasn’t been loaded into the session. This could happen when you are running simulations in parallel and the model doesn’t get loaded in the worker R process. For the post, I’ll just phony up a model that happens to not be loaded:</p>
 <p>This code loads and then unloads the model, and then shows that it is not loaded:</p>
 <div class="cell">
@@ -529,8 +538,8 @@ ID:     1
 <p>:::</p>
 <p>It’s possible that the model can’t be loaded (e.g.&nbsp;due to missing <code>.so</code> file). In that case, mrgsolve will give you the usual error message that the model needs to be compiled.</p>
 </section>
-<section id="time-after-dose-in-specific-compartment" class="level1">
-<h1>Time after dose in specific compartment</h1>
+<section id="time-after-dose-in-specific-compartment" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Time after dose in specific compartment</h1>
 <p>Version 0.10.7 also adds a new plugin with the ability to calculate time after dose in any compartment.</p>
 <p>We write a model using the <code>tad</code> plugin to track time after dose in compartments <code>one</code> and <code>two</code>. We create <code>tadose</code> objects to track this and we can call the <code>tad()</code> method on these objects, passing in the <code>self</code> data item.</p>
 <div class="cell">
@@ -601,8 +610,8 @@ ID:     1
 </div>
 <p>This is a little nicer because it will fill in negative <code>tad</code> values for you.</p>
 </section>
-<section id="improved-handling-of-time-varying-covariates" class="level1">
-<h1>Improved handling of time-varying covariates</h1>
+<section id="improved-handling-of-time-varying-covariates" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Improved handling of time-varying covariates</h1>
 <p>This one is a little harder to demonstrate. mrgsolve has always been able to simulate time-varying covariates, but it hasn’t always inserted a hard discontinuity when parameter values change in the data set over time. Starting in 0.10.7, when parameters are read from the <code>data-set</code> and they change from record to record, we now re-initialize the ode solver so a hard discontinuity is created in the simulation. This will create more accurate simulations around the time that the covariate value changes. This results in no change when running 1- and 2-compartment models which are handled with the closed form equations.</p>
 
 

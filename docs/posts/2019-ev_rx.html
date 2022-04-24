@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Alternate dosing event syntax</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>A fun syntax for creating event objects for different dosing regimens.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,54 +251,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#review" id="toc-review" class="nav-link active" data-scroll-target="#review">Review</a></li>
-  <li><a href="#new-in-0.9.0" id="toc-new-in-0.9.0" class="nav-link" data-scroll-target="#new-in-0.9.0">New in 0.9.0</a>
+  <li><a href="#review" id="toc-review" class="nav-link active" data-scroll-target="#review"> <span class="header-section-number">1</span> Review</a></li>
+  <li><a href="#new-in-0.9.0" id="toc-new-in-0.9.0" class="nav-link" data-scroll-target="#new-in-0.9.0"> <span class="header-section-number">2</span> New in 0.9.0</a>
   <ul class="collapse">
-  <li><a href="#bolus-doses" id="toc-bolus-doses" class="nav-link" data-scroll-target="#bolus-doses">Bolus doses</a></li>
-  <li><a href="#infusion" id="toc-infusion" class="nav-link" data-scroll-target="#infusion">Infusion</a></li>
-  <li><a href="#another-sequence" id="toc-another-sequence" class="nav-link" data-scroll-target="#another-sequence">Another sequence</a></li>
+  <li><a href="#bolus-doses" id="toc-bolus-doses" class="nav-link" data-scroll-target="#bolus-doses"> <span class="header-section-number">2.1</span> Bolus doses</a></li>
+  <li><a href="#infusion" id="toc-infusion" class="nav-link" data-scroll-target="#infusion"> <span class="header-section-number">2.2</span> Infusion</a></li>
+  <li><a href="#another-sequence" id="toc-another-sequence" class="nav-link" data-scroll-target="#another-sequence"> <span class="header-section-number">2.3</span> Another sequence</a></li>
   </ul></li>
-  <li><a href="#important-note" id="toc-important-note" class="nav-link" data-scroll-target="#important-note">Important note</a></li>
+  <li><a href="#important-note" id="toc-important-note" class="nav-link" data-scroll-target="#important-note"> <span class="header-section-number">3</span> Important note</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Alternate dosing event syntax</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>A fun syntax for creating event objects for different dosing regimens.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mrgsolve)</span>
@@ -267,8 +276,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>I got into pharmacometrics after studying and working as a pharmacist, both in a community pharmacy (interning while I was a pharmacy student) and in an inpatient (hospital) pharmacy (practicing as a pharmacist while studying pharmacometrics and clinical pharmacology). So I always thought it would be cool to have mrgsolve take in dosing information like you would see on a Rx or written in a chart</p>
 <pre><code>sig: 100 mg po daily x 7</code></pre>
 <p>This post introduces something new in mrgsolve 0.9.0 that works along those lines.</p>
-<section id="review" class="level1">
-<h1>Review</h1>
+<section id="review" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Review</h1>
 <p>First, a review: we have these things called <red>event objects</red> in mrgsolve: they are simple ways to specify a part of a dosing regimen. They are meant to be quick and easy to create and you are able to combine different “elementary” objects together according to certain rules to make more complex dosing regimens.</p>
 <p>For example, say we want a dose every day for one week. Assuming that our model is in hours, we could write</p>
 <div class="cell">
@@ -327,11 +336,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="new-in-0.9.0" class="level1">
-<h1>New in 0.9.0</h1>
+<section id="new-in-0.9.0" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> New in 0.9.0</h1>
 <p>New in 0.9.0 is a grammar of specifying some of this dose event information. I’ve been wanting to do something like this for a while, but never quite had the right implementation. The current try isn’t perfect, but I thought it was worth it to give a try and see if we can improve.</p>
-<section id="bolus-doses" class="level2">
-<h2 class="anchored" data-anchor-id="bolus-doses">Bolus doses</h2>
+<section id="bolus-doses" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="bolus-doses"><span class="header-section-number">2.1</span> Bolus doses</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>e5 <span class="ot">&lt;-</span> <span class="fu">ev_rx</span>(<span class="st">"100 q 24 x7 then 100 q48 x 4"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2"></a></span>
@@ -357,8 +366,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>A second part of the sequence follows <code>then</code></li>
 </ul>
 </section>
-<section id="infusion" class="level2">
-<h2 class="anchored" data-anchor-id="infusion">Infusion</h2>
+<section id="infusion" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="infusion"><span class="header-section-number">2.2</span> Infusion</h2>
 <p>To do an infusion, the duration of the infusion comes after <code>over</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>e6 <span class="ot">&lt;-</span> <span class="fu">ev_rx</span>(<span class="st">"100 over 10 q 48 x 3"</span>)</span>
@@ -390,8 +399,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="another-sequence" class="level2">
-<h2 class="anchored" data-anchor-id="another-sequence">Another sequence</h2>
+<section id="another-sequence" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="another-sequence"><span class="header-section-number">2.3</span> Another sequence</h2>
 <p>Rather than <code>then</code> you can separate by <code>comma</code>. Also, see if you can tell what <code>after</code> does here:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>e <span class="ot">&lt;-</span> <span class="fu">ev_rx</span>(<span class="st">"100 q 24 x 7, 50 q 12 x 14, 200 q48 x 3 after 72"</span>)</span>
@@ -414,8 +423,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section>
 </section>
-<section id="important-note" class="level1">
-<h1>Important note</h1>
+<section id="important-note" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Important note</h1>
 <p>I don’t see this ever replacing the regular event object construction. Maybe it is force of habit for me, but I still regularly just use the constructor. That might be easier in the end. For now, this alternate syntax is sort of proof of concept to see how it might work. Definitely you can’t do everything you might want to do with this syntax. In that case, just revert to the usual constructors.</p>
 
 

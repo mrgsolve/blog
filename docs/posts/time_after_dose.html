@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Time after dose (TAD)</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>In this post, we’ll look at different ways you can bring time after dose into your simulated outputs.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,51 +251,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#tad-calculated-as-runtime-argument" id="toc-tad-calculated-as-runtime-argument" class="nav-link active" data-scroll-target="#tad-calculated-as-runtime-argument">TAD calculated as runtime argument</a></li>
-  <li><a href="#tad-calculated-in-the-model" id="toc-tad-calculated-in-the-model" class="nav-link" data-scroll-target="#tad-calculated-in-the-model">TAD calculated in the model</a></li>
+  <li><a href="#tad-calculated-as-runtime-argument" id="toc-tad-calculated-as-runtime-argument" class="nav-link active" data-scroll-target="#tad-calculated-as-runtime-argument"> <span class="header-section-number">1</span> TAD calculated as runtime argument</a></li>
+  <li><a href="#tad-calculated-in-the-model" id="toc-tad-calculated-in-the-model" class="nav-link" data-scroll-target="#tad-calculated-in-the-model"> <span class="header-section-number">2</span> TAD calculated in the model</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Time after dose (TAD)</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>In this post, we’ll look at different ways you can bring time after dose into your simulated outputs.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
-
-<section id="tad-calculated-as-runtime-argument" class="level1">
-<h1>TAD calculated as runtime argument</h1>
+<section id="tad-calculated-as-runtime-argument" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> TAD calculated as runtime argument</h1>
 <p>For a while, you’ve been able to get time after dose in your simulated output</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mrgsolve)</span>
@@ -285,8 +294,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>This is convenient because you can choose the output at run time, we give you the negative numbers prior to the first dose etc. This sort of calculation is possible because we let mrgsolve know ahead of time that we want this calculation done and mrgsolve makes an extra pass through the records to find when is the first dose for each individual.</p>
 </section>
-<section id="tad-calculated-in-the-model" class="level1">
-<h1>TAD calculated in the model</h1>
+<section id="tad-calculated-in-the-model" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> TAD calculated in the model</h1>
 <p>Sometimes you would like to work with time after dose in your model. This isn’t super-complicated to do but does require some programming and setup and all of that. As of mrgsolve 0.9.1, there is a special function to do these calculations for you.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"time_after_dose.txt"</span>,<span class="at">req =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

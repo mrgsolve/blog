@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Validating Simulation Results with pmxTools</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>In this blog post, we run some simulations with mrgsolve and the excellent pmxTools package and compare results.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,61 +251,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#two-compartment-infusion" id="toc-two-compartment-infusion" class="nav-link" data-scroll-target="#two-compartment-infusion">Two-compartment infusion</a>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"> <span class="header-section-number">1</span> Setup</a></li>
+  <li><a href="#two-compartment-infusion" id="toc-two-compartment-infusion" class="nav-link" data-scroll-target="#two-compartment-infusion"> <span class="header-section-number">2</span> Two-compartment infusion</a>
   <ul class="collapse">
-  <li><a href="#simulate-with-pmxtoolspk_curve" id="toc-simulate-with-pmxtoolspk_curve" class="nav-link" data-scroll-target="#simulate-with-pmxtoolspk_curve">Simulate with <code>pmxTools::pk_curve</code></a></li>
-  <li><a href="#simulate-with-mrgsolve" id="toc-simulate-with-mrgsolve" class="nav-link" data-scroll-target="#simulate-with-mrgsolve">Simulate with mrgsolve</a></li>
-  <li><a href="#are-they-the-same" id="toc-are-they-the-same" class="nav-link" data-scroll-target="#are-they-the-same">Are they the same?</a></li>
+  <li><a href="#simulate-with-pmxtoolspk_curve" id="toc-simulate-with-pmxtoolspk_curve" class="nav-link" data-scroll-target="#simulate-with-pmxtoolspk_curve"> <span class="header-section-number">2.1</span> Simulate with <code>pmxTools::pk_curve</code></a></li>
+  <li><a href="#simulate-with-mrgsolve" id="toc-simulate-with-mrgsolve" class="nav-link" data-scroll-target="#simulate-with-mrgsolve"> <span class="header-section-number">2.2</span> Simulate with mrgsolve</a></li>
+  <li><a href="#are-they-the-same" id="toc-are-they-the-same" class="nav-link" data-scroll-target="#are-they-the-same"> <span class="header-section-number">2.3</span> Are they the same?</a></li>
   </ul></li>
-  <li><a href="#oral-dosing-example" id="toc-oral-dosing-example" class="nav-link" data-scroll-target="#oral-dosing-example">Oral dosing example</a></li>
-  <li><a href="#caution" id="toc-caution" class="nav-link" data-scroll-target="#caution">Caution</a></li>
-  <li><a href="#building-our-community" id="toc-building-our-community" class="nav-link" data-scroll-target="#building-our-community">Building our community</a></li>
+  <li><a href="#oral-dosing-example" id="toc-oral-dosing-example" class="nav-link" data-scroll-target="#oral-dosing-example"> <span class="header-section-number">3</span> Oral dosing example</a></li>
+  <li><a href="#caution" id="toc-caution" class="nav-link" data-scroll-target="#caution"> <span class="header-section-number">4</span> Caution</a></li>
+  <li><a href="#building-our-community" id="toc-building-our-community" class="nav-link" data-scroll-target="#building-our-community"> <span class="header-section-number">5</span> Building our community</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Validating Simulation Results with pmxTools</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>In this blog post, we run some simulations with mrgsolve and the excellent pmxTools package and compare results.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <p>I just discovered this nifty tool published by the folks over at <red>Occams</red> (with other contributors as well) called <a href="https://CRAN.R-project.org/package=pmxTools"><red>pmxTools</red></a>. There are a lot of really useful R functions for your pharmacometrics workflow in this package and worth checking it out in depth!</p>
 <p>What I want to focus on for this post is how we can use this package to cross validate mrgsolve output: we’ll simulate with pmxTools and mrgsolve just to see the different workflows and check the output values. If users are interested in other validation tests for mrgsolve, please see the document <a href="https://github.com/mrgsolve/nmtests"><red>here</red></a>. <em>This is not a “lets-go-head-to-head with another project” type post</em>. I just found this tool very useful as a complement to my workflow. I hope you find it useful too.</p>
-<section id="setup" class="level1">
-<h1>Setup</h1>
+<section id="setup" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Setup</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
@@ -309,10 +318,10 @@ Attaching package: 'pmxTools'</code></pre>
 </div>
 </div>
 </section>
-<section id="two-compartment-infusion" class="level1">
-<h1>Two-compartment infusion</h1>
-<section id="simulate-with-pmxtoolspk_curve" class="level2">
-<h2 class="anchored" data-anchor-id="simulate-with-pmxtoolspk_curve">Simulate with <code>pmxTools::pk_curve</code></h2>
+<section id="two-compartment-infusion" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Two-compartment infusion</h1>
+<section id="simulate-with-pmxtoolspk_curve" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="simulate-with-pmxtoolspk_curve"><span class="header-section-number">2.1</span> Simulate with <code>pmxTools::pk_curve</code></h2>
 <p>You can use this function to generate a PK profile based on super-positioning.</p>
 <p>To simulate a 2-compartment model after IV infusion of 100 mg over 10 hours, first define a list of pk parameters, including <code>tinf</code>, the infusion duration</p>
 <div class="cell">
@@ -349,8 +358,8 @@ Attaching package: 'pmxTools'</code></pre>
 </div>
 <p><strong>Pretty easy!</strong></p>
 </section>
-<section id="simulate-with-mrgsolve" class="level2">
-<h2 class="anchored" data-anchor-id="simulate-with-mrgsolve">Simulate with mrgsolve</h2>
+<section id="simulate-with-mrgsolve" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="simulate-with-mrgsolve"><span class="header-section-number">2.2</span> Simulate with mrgsolve</h2>
 <p>We can load the 2-compartment model from our model library, and update the parameter set. We make an event object with the dosing information and simulate:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>mod <span class="ot">&lt;-</span> </span>
@@ -380,8 +389,8 @@ Attaching package: 'pmxTools'</code></pre>
 </div>
 </div>
 </section>
-<section id="are-they-the-same" class="level2">
-<h2 class="anchored" data-anchor-id="are-they-the-same">Are they the same?</h2>
+<section id="are-they-the-same" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="are-they-the-same"><span class="header-section-number">2.3</span> Are they the same?</h2>
 <p>We can check the difference between the values:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">summary</span>(out<span class="sc">$</span>CP<span class="sc">-</span>calc[[<span class="st">"cp"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -392,8 +401,8 @@ Attaching package: 'pmxTools'</code></pre>
 </div>
 </section>
 </section>
-<section id="oral-dosing-example" class="level1">
-<h1>Oral dosing example</h1>
+<section id="oral-dosing-example" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Oral dosing example</h1>
 <p>To do a model for first-order absorption</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">CL =</span> <span class="dv">1</span>, <span class="at">V =</span> <span class="dv">20</span>, <span class="at">ka =</span> <span class="fl">1.2</span>)</span>
@@ -438,12 +447,12 @@ Attaching package: 'pmxTools'</code></pre>
 </div>
 </div>
 </section>
-<section id="caution" class="level1">
-<h1>Caution</h1>
+<section id="caution" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Caution</h1>
 <p>Please note that we used some specific options to get the results exactly comparable. It really does take a lot of care to ensure that the setup is exactly the same for both tools when doing comparisons like this. If you start benchmarking and the results don’t come out the same, please go back and double check your setup to make sure you haven’t made any assumptions about how each tool works.</p>
 </section>
-<section id="building-our-community" class="level1">
-<h1>Building our community</h1>
+<section id="building-our-community" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Building our community</h1>
 <p>As I noted earlier, the goal of this post wasn’t to go head-to-head with pmxTools. Rather, I wanted to show how the mrgsolve project can take advantage of this great tool to help our development and validate what we’re doing. I can only hope that others also find mrgsolve as useful for their project, validation or other type of simulation work that needs to get done. This sort of synergy between development projects is only possible with an open-source community dedicated to open and public development projects and sharing of knowledge and tools. The more we do this in our pharmacometrics community, the more progress we’ll all make and our science will advance. And we will have done it together.</p>
 
 

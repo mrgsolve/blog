@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Rmarkdown model specification</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>I came up with this fun model specification format that looks just like Rmarkdown code chunks.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,61 +251,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#the-problem" id="toc-the-problem" class="nav-link" data-scroll-target="#the-problem">The problem</a></li>
-  <li><a href="#some-solutions" id="toc-some-solutions" class="nav-link" data-scroll-target="#some-solutions">Some solutions</a></li>
-  <li><a href="#rmarkdown-model-specification" id="toc-rmarkdown-model-specification" class="nav-link" data-scroll-target="#rmarkdown-model-specification">Rmarkdown model specification</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link" data-scroll-target="#the-problem"> <span class="header-section-number">2</span> The problem</a></li>
+  <li><a href="#some-solutions" id="toc-some-solutions" class="nav-link" data-scroll-target="#some-solutions"> <span class="header-section-number">3</span> Some solutions</a></li>
+  <li><a href="#rmarkdown-model-specification" id="toc-rmarkdown-model-specification" class="nav-link" data-scroll-target="#rmarkdown-model-specification"> <span class="header-section-number">4</span> Rmarkdown model specification</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Rmarkdown model specification</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>I came up with this fun model specification format that looks just like Rmarkdown code chunks.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
-
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>I was an Emacs user for a long time and thought I’d never give it up. But like a lot of other people, Rstudio grew on me and I use it for all my R, C++ and Rcpp work. It just works well.</p>
 </section>
-<section id="the-problem" class="level1">
-<h1>The problem</h1>
+<section id="the-problem" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> The problem</h1>
 <p>When I write mrgsolve models, I typically save the code to a file with <code>.cpp</code> extension (e.g.&nbsp;<code>pkmodel.cpp</code>) so that I get nice syntax highlighting that Rstudio provides. One thing that bugs me about this setup is that Rstudio naturally thinks <strong>all</strong> the code in <code>pkmodel.cpp</code> is C++ code. But for mrgsolve models, only part of the code is C++. Other parts are R or just other syntax that we made up. This means the auto-formatting that Rstudio does doesn’t always work that great.</p>
 </section>
-<section id="some-solutions" class="level1">
-<h1>Some solutions</h1>
+<section id="some-solutions" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Some solutions</h1>
 <p>There are a couple of ways to make this less-irritating. First, you can use brackets for code blocks like this</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>[ PARAM] CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -275,8 +284,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>I think this helps a bit. You could also save your model to <code>pkmodel.txt</code> rather than <code>pkmodel.cpp</code>. You will lose all of the C++ conveniences but Rstudio won’t try to auto-format your code. This might not be a great solution either.</p>
 </section>
-<section id="rmarkdown-model-specification" class="level1">
-<h1>Rmarkdown model specification</h1>
+<section id="rmarkdown-model-specification" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Rmarkdown model specification</h1>
 <p>Another way to deal with this is to write your model in Rmarkdown format. This is new in version <code>0.9.1</code> and will probably need some tweaking. But I’m generally happy with the way it’s working so far.</p>
 <p>The models run the same regardless of how you code them. But in the Rmarkdown input format, writing the code might be a little more natural. Also, consistent the the Rmarkdown / literate programming philosophy, you can document your model right as you code the model, but with structured markdown input.</p>
 <p>For example you can now load this model</p>

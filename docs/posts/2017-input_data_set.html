@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Generating input data sets for mrgsolve</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>An important mechanism for creating robust, complex simulations is the input data set. In this blog post, we’ll look at some ways you can quickly create input data sets for your simulation.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,72 +251,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#input-data-sets" id="toc-input-data-sets" class="nav-link active" data-scroll-target="#input-data-sets">Input data sets</a></li>
-  <li><a href="#functions-to-generate-input-data-sets" id="toc-functions-to-generate-input-data-sets" class="nav-link" data-scroll-target="#functions-to-generate-input-data-sets">Functions to generate input data sets</a>
+  <li><a href="#input-data-sets" id="toc-input-data-sets" class="nav-link active" data-scroll-target="#input-data-sets"> <span class="header-section-number">1</span> Input data sets</a></li>
+  <li><a href="#functions-to-generate-input-data-sets" id="toc-functions-to-generate-input-data-sets" class="nav-link" data-scroll-target="#functions-to-generate-input-data-sets"> <span class="header-section-number">2</span> Functions to generate input data sets</a>
   <ul class="collapse">
-  <li><a href="#expand.ev" id="toc-expand.ev" class="nav-link" data-scroll-target="#expand.ev"><code>expand.ev</code></a></li>
-  <li><a href="#as_data_set" id="toc-as_data_set" class="nav-link" data-scroll-target="#as_data_set"><code>as_data_set</code></a></li>
-  <li><a href="#as.data.frame.ev" id="toc-as.data.frame.ev" class="nav-link" data-scroll-target="#as.data.frame.ev"><code>as.data.frame.ev</code></a></li>
-  <li><a href="#assign_ev" id="toc-assign_ev" class="nav-link" data-scroll-target="#assign_ev"><code>assign_ev</code></a></li>
-  <li><a href="#ev_days" id="toc-ev_days" class="nav-link" data-scroll-target="#ev_days"><code>ev_days</code></a></li>
+  <li><a href="#expand.ev" id="toc-expand.ev" class="nav-link" data-scroll-target="#expand.ev"> <span class="header-section-number">2.1</span> <code>expand.ev</code></a></li>
+  <li><a href="#as_data_set" id="toc-as_data_set" class="nav-link" data-scroll-target="#as_data_set"> <span class="header-section-number">2.2</span> <code>as_data_set</code></a></li>
+  <li><a href="#as.data.frame.ev" id="toc-as.data.frame.ev" class="nav-link" data-scroll-target="#as.data.frame.ev"> <span class="header-section-number">2.3</span> <code>as.data.frame.ev</code></a></li>
+  <li><a href="#assign_ev" id="toc-assign_ev" class="nav-link" data-scroll-target="#assign_ev"> <span class="header-section-number">2.4</span> <code>assign_ev</code></a></li>
+  <li><a href="#ev_days" id="toc-ev_days" class="nav-link" data-scroll-target="#ev_days"> <span class="header-section-number">2.5</span> <code>ev_days</code></a></li>
   </ul></li>
-  <li><a href="#filter-input-data-set-inline" id="toc-filter-input-data-set-inline" class="nav-link" data-scroll-target="#filter-input-data-set-inline">Filter input data set inline</a></li>
+  <li><a href="#filter-input-data-set-inline" id="toc-filter-input-data-set-inline" class="nav-link" data-scroll-target="#filter-input-data-set-inline"> <span class="header-section-number">3</span> Filter input data set inline</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Generating input data sets for mrgsolve</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>An important mechanism for creating robust, complex simulations is the input data set. In this blog post, we’ll look at some ways you can quickly create input data sets for your simulation.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="input-data-sets" class="level1">
-<h1>Input data sets</h1>
+<section id="input-data-sets" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Input data sets</h1>
 <p>An important mechanism for creating robust, complex simulations is the input data set. Input data sets specify the population of individuals to simulate, including the number of individuals, each individual’s dosing interventions, each individual’s covariate values etc. The input data set is just a plain old <code>R</code> <code>data.frame</code>, but with some expectations about which columns are present and expectations for how to handle columns for certain names. For example, every input data set has to have an <code>ID</code>, <code>time</code>, and <code>cmt</code> column. Note that either lower case names (like <code>time</code> and <code>cmt</code>) are acceptable as are upper case names (like <code>TIME</code> and <code>CMT</code>). But users are not to mix upper and lower case names (like <code>time</code> and <code>CMT</code>) for certain column names related to dosing events. The help topic <code>?data_set</code> discusses more about what the expectations are for input data sets.</p>
 <hr>
 </section>
-<section id="functions-to-generate-input-data-sets" class="level1">
-<h1>Functions to generate input data sets</h1>
+<section id="functions-to-generate-input-data-sets" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Functions to generate input data sets</h1>
 <code>mrgsolve</code> provides several functions and workflows to help you put together the right input data set for your simulation. The main point of this blog post is to review some of these functions to help you better organize your <code>mrgsolve</code> simulations. Some functions are very simple and you might not find a function to do <strong>exactly</strong> what you want to do. But we’ve found these functions to be helpful to accomplish tasks that we found ourselves repeating over and over … and thus these tasks were formalized in a function. Just keep in mind that input data sets are just <code>data.frames</code> … you can use any code or any function (even your own!) to do tasks similar to what these functions are doing.
 <hr>
-<section id="expand.ev" class="level2">
-<h2 class="anchored" data-anchor-id="expand.ev"><code>expand.ev</code></h2>
+<section id="expand.ev" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="expand.ev"><span class="header-section-number">2.1</span> <code>expand.ev</code></h2>
 <p><code>expand.ev</code> is like <code>expand.grid</code>: it creates a single <code>data.frame</code> with all combinations of it’s vector arguments. It’s pretty simple but convenient to have. For example,</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>), <span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
@@ -306,8 +315,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>:::</p>
 <hr>
 </section>
-<section id="as_data_set" class="level2">
-<h2 class="anchored" data-anchor-id="as_data_set"><code>as_data_set</code></h2>
+<section id="as_data_set" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="as_data_set"><span class="header-section-number">2.2</span> <code>as_data_set</code></h2>
 <p>This function allows you to combine several event objects into a single data sets. An example works best to illustrate.</p>
 <p>First, create three event objects. Let’s try one <code>ID</code> at 100 mg, two <code>IDs</code> at 200 mg, and 3 <code>IDs</code> at 300 mg. ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>, <span class="at">ID=</span><span class="dv">1</span>)</span>
@@ -411,8 +420,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 :::
 <hr>
 </section>
-<section id="as.data.frame.ev" class="level2">
-<h2 class="anchored" data-anchor-id="as.data.frame.ev"><code>as.data.frame.ev</code></h2>
+<section id="as.data.frame.ev" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="as.data.frame.ev"><span class="header-section-number">2.3</span> <code>as.data.frame.ev</code></h2>
 <p>Just a quick reminder here that you can easily convert between a single event object and a <code>data.frame</code> ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">as.data.frame</span>(e3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -439,8 +448,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>So if you were building up an event object and just wanted to use it as a <code>data_set</code> or as a building block for a <code>data_set</code>, just coerce with <code>as.data.frame</code>.</p>
 <hr>
 </section>
-<section id="assign_ev" class="level2">
-<h2 class="anchored" data-anchor-id="assign_ev"><code>assign_ev</code></h2>
+<section id="assign_ev" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="assign_ev"><span class="header-section-number">2.4</span> <code>assign_ev</code></h2>
 <p>This function assigns an intervention in the form of an event object to individuals in an <code>idata_set</code> according to a grouping column.</p>
 <p>To illustrate, make a simple <code>idata_set</code> ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
@@ -489,8 +498,8 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 <p>Please look carefully at the input (<code>idata</code> and <code>list(e3,e2,e1)</code>); I have mixed it up a bit here to try to illustrate how things are assigned.</p>
 <hr>
 </section>
-<section id="ev_days" class="level2">
-<h2 class="anchored" data-anchor-id="ev_days"><code>ev_days</code></h2>
+<section id="ev_days" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="ev_days"><span class="header-section-number">2.5</span> <code>ev_days</code></h2>
 <p>This is a recently-added function (hint: you might need to install the latest version from GitHub to use this) that lets you schedule certain events on certain days of the week, repeating in a weekly cycle.</p>
 <p>For example, to schedule 250 mg doses every Monday, Wednesday, and Friday for a month, you can do ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ev_days</span>(<span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">250</span>, <span class="at">ID=</span><span class="dv">1</span>), <span class="at">days=</span><span class="st">"m,w,f"</span>, <span class="at">addl=</span><span class="dv">3</span>)</span>
@@ -544,8 +553,8 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 <hr>
 </section>
 </section>
-<section id="filter-input-data-set-inline" class="level1">
-<h1>Filter input data set inline</h1>
+<section id="filter-input-data-set-inline" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Filter input data set inline</h1>
 <p>Remember, when you pass in your input data set via <code>data_set</code>, you can filter in line:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>))</span>

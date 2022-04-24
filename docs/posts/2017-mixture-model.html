@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Mixture model example</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>In this post, we’ll look at how you can code up a mixture model in mrgsolve.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,55 +251,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#two-populations" id="toc-two-populations" class="nav-link active" data-scroll-target="#two-populations">Two Populations</a>
+  <li><a href="#two-populations" id="toc-two-populations" class="nav-link active" data-scroll-target="#two-populations"> <span class="header-section-number">1</span> Two Populations</a>
   <ul class="collapse">
-  <li><a href="#modify-the-model-to-simulate-a-population-mixture" id="toc-modify-the-model-to-simulate-a-population-mixture" class="nav-link" data-scroll-target="#modify-the-model-to-simulate-a-population-mixture">Modify the model to simulate a population mixture</a></li>
+  <li><a href="#modify-the-model-to-simulate-a-population-mixture" id="toc-modify-the-model-to-simulate-a-population-mixture" class="nav-link" data-scroll-target="#modify-the-model-to-simulate-a-population-mixture"> <span class="header-section-number">1.1</span> Modify the model to simulate a population mixture</a></li>
   </ul></li>
-  <li><a href="#three-or-more-populations" id="toc-three-or-more-populations" class="nav-link" data-scroll-target="#three-or-more-populations">Three (or more) Populations</a></li>
+  <li><a href="#three-or-more-populations" id="toc-three-or-more-populations" class="nav-link" data-scroll-target="#three-or-more-populations"> <span class="header-section-number">2</span> Three (or more) Populations</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Mixture model example</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>In this post, we’ll look at how you can code up a mixture model in mrgsolve.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <p>In NONMEM, <code>$MIXTURE</code> will allow you to estimate mixture models, where individuals are classified in to two or more populations with a certain probability. It is straightforward to simulate from models like these in your <code>mrgsolve</code> model code.</p>
-<section id="two-populations" class="level1">
-<h1>Two Populations</h1>
+<section id="two-populations" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Two Populations</h1>
 <p>Let’s imagine there were two populations in the mixture model, with the second having smaller clearance than the first. In this example, we will develop some code for a simple model and then extend it to implement the mixture model component.</p>
 <p>A simple model might be:</p>
 <div class="cell">
@@ -297,8 +306,8 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 </div>
 <p>:::</p>
 <p>The profile in pink was for <code>POP==2</code> or the lower clearance profile and blue was for <code>POP==1</code>.</p>
-<section id="modify-the-model-to-simulate-a-population-mixture" class="level2">
-<h2 class="anchored" data-anchor-id="modify-the-model-to-simulate-a-population-mixture">Modify the model to simulate a population mixture</h2>
+<section id="modify-the-model-to-simulate-a-population-mixture" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="modify-the-model-to-simulate-a-population-mixture"><span class="header-section-number">1.1</span> Modify the model to simulate a population mixture</h2>
 <p>In the get-started example model, we hard-coded <code>POP</code> as a parameter and we had to supply the value of <code>POP</code> in the input data set (in this case, it was via <code>idata</code>).</p>
 <p>For the mixture model, we want <code>POP</code> to be simulated and we want the simulated value to be 1 with a probability of, say, 0.8 and 2 with a probability of 0.2.</p>
 <p>To make this happen, we need to simulate a binary variate for each individual. Random numbers are easy to simulate with <code>mrgsolve</code> when you use <code>$PLUGIN</code>.</p>
@@ -406,8 +415,8 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 </div>
 </section>
 </section>
-<section id="three-or-more-populations" class="level1">
-<h1>Three (or more) Populations</h1>
+<section id="three-or-more-populations" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Three (or more) Populations</h1>
 <p>There are probably several ways to simulate three populations. Here is one way. We’ll drop the PK model for now and focus on generating <code>POP</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>

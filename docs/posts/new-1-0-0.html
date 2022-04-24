@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">New in version 1.0.0</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>mrgsolve celebrates her version 1.0.0 release. Find out about some very cool and powerful features that we included in this release.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,63 +251,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#use-thetan-to-refer-to-thetan" id="toc-use-thetan-to-refer-to-thetan" class="nav-link active" data-scroll-target="#use-thetan-to-refer-to-thetan">Use THETA(n) to refer to THETAn</a></li>
-  <li><a href="#new-plugin-called-autodec" id="toc-new-plugin-called-autodec" class="nav-link" data-scroll-target="#new-plugin-called-autodec">New plugin called <code>autodec</code></a></li>
-  <li><a href="#new-plugin-called-nm-vars" id="toc-new-plugin-called-nm-vars" class="nav-link" data-scroll-target="#new-plugin-called-nm-vars">New plugin called <code>nm-vars</code></a></li>
-  <li><a href="#compartment" id="toc-compartment" class="nav-link" data-scroll-target="#compartment">Compartment</a></li>
-  <li><a href="#new-model-in-modlib-nm-like" id="toc-new-model-in-modlib-nm-like" class="nav-link" data-scroll-target="#new-model-in-modlib-nm-like">New model in <code>modlib</code>: <code>nm-like</code></a></li>
-  <li><a href="#audit" id="toc-audit" class="nav-link" data-scroll-target="#audit">Audit</a></li>
-  <li><a href="#new-time-spacer-for-event-sequences" id="toc-new-time-spacer-for-event-sequences" class="nav-link" data-scroll-target="#new-time-spacer-for-event-sequences">New time spacer for event sequences</a></li>
-  <li><a href="#collapse-matrices" id="toc-collapse-matrices" class="nav-link" data-scroll-target="#collapse-matrices">Collapse matrices</a></li>
-  <li><a href="#deprecated-simetan-and-simepsn" id="toc-deprecated-simetan-and-simepsn" class="nav-link" data-scroll-target="#deprecated-simetan-and-simepsn">Deprecated simeta(n) and simeps(n)</a></li>
+  <li><a href="#use-thetan-to-refer-to-thetan" id="toc-use-thetan-to-refer-to-thetan" class="nav-link active" data-scroll-target="#use-thetan-to-refer-to-thetan"> <span class="header-section-number">1</span> Use THETA(n) to refer to THETAn</a></li>
+  <li><a href="#new-plugin-called-autodec" id="toc-new-plugin-called-autodec" class="nav-link" data-scroll-target="#new-plugin-called-autodec"> <span class="header-section-number">2</span> New plugin called <code>autodec</code></a></li>
+  <li><a href="#new-plugin-called-nm-vars" id="toc-new-plugin-called-nm-vars" class="nav-link" data-scroll-target="#new-plugin-called-nm-vars"> <span class="header-section-number">3</span> New plugin called <code>nm-vars</code></a></li>
+  <li><a href="#compartment" id="toc-compartment" class="nav-link" data-scroll-target="#compartment"> <span class="header-section-number">4</span> Compartment</a></li>
+  <li><a href="#new-model-in-modlib-nm-like" id="toc-new-model-in-modlib-nm-like" class="nav-link" data-scroll-target="#new-model-in-modlib-nm-like"> <span class="header-section-number">5</span> New model in <code>modlib</code>: <code>nm-like</code></a></li>
+  <li><a href="#audit" id="toc-audit" class="nav-link" data-scroll-target="#audit"> <span class="header-section-number">6</span> Audit</a></li>
+  <li><a href="#new-time-spacer-for-event-sequences" id="toc-new-time-spacer-for-event-sequences" class="nav-link" data-scroll-target="#new-time-spacer-for-event-sequences"> <span class="header-section-number">7</span> New time spacer for event sequences</a></li>
+  <li><a href="#collapse-matrices" id="toc-collapse-matrices" class="nav-link" data-scroll-target="#collapse-matrices"> <span class="header-section-number">8</span> Collapse matrices</a></li>
+  <li><a href="#deprecated-simetan-and-simepsn" id="toc-deprecated-simetan-and-simepsn" class="nav-link" data-scroll-target="#deprecated-simetan-and-simepsn"> <span class="header-section-number">9</span> Deprecated simeta(n) and simeps(n)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">New in version 1.0.0</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>mrgsolve celebrates her version 1.0.0 release. Find out about some very cool and powerful features that we included in this release.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <p>There are a bunch of new features out now in the mrgsolve 1.0.0 release. Most of these are related to model syntax (what / how you write your model in the <code>.mod</code> or <code>.cpp</code> file) rather than model functionality.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="use-thetan-to-refer-to-thetan" class="level1">
-<h1>Use THETA(n) to refer to THETAn</h1>
+<section id="use-thetan-to-refer-to-thetan" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Use THETA(n) to refer to THETAn</h1>
 <p>All models will be able to use <code>THETA(n)</code> to refer to <code>THETAn</code>. For example:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">[</span> nmxml <span class="op">]</span> </span>
@@ -278,8 +287,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>You’ll notice that we referred to a nonmem run with <code>[ nmxml ]</code> so this syntax is meant be one small step toward making it easier to translate your model from the nonmem control stream to mrgsolve format. This is pretty simple, but will mean less time removing parentheses when copying over model code.</p>
 </section>
-<section id="new-plugin-called-autodec" class="level1">
-<h1>New plugin called <code>autodec</code></h1>
+<section id="new-plugin-called-autodec" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> New plugin called <code>autodec</code></h1>
 <p>Plugins are extra functionality that you can invoke when coding your model. For example, plugins exist for calculating time after dose, adding Rcpp functionality to your model etc and <a href="https://mrgsolve.org/user_guide/model-specification.html#block-plugin">more</a>.</p>
 <p>One new plugin is called <code>autodec</code>. This plugin will automatically declare C++ variables for you. For example, I can code the snipped from the previous block using <code>autodec</code> plugin and mrgsolve will discover that <code>CL</code> needs to be declared:</p>
 <div class="cell">
@@ -294,8 +303,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>The motivation behind this feature is to make it easier to code models with lots of variables when all your variables are simple double precision floating point numbers.</p>
 </section>
-<section id="new-plugin-called-nm-vars" class="level1">
-<h1>New plugin called <code>nm-vars</code></h1>
+<section id="new-plugin-called-nm-vars" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> New plugin called <code>nm-vars</code></h1>
 <p>This plugin provided a nonmem-like syntax for <em>certain model elements</em>, including</p>
 <ul>
 <li><code>Fn</code>, <code>Dn</code>, <code>Rn</code>, and <code>ALAGn</code></li>
@@ -342,16 +351,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Notice that <strong>not all nonmem syntax is supported</strong>; just select data structures that use <code>A</code> and <code>DADT</code> to refer to compartments and differential equations. Also notice that we still require <code>;</code> at the end of each line and we still need to use <code>pow(base, exponent)</code> to calculate exponent of some number.</p>
 </section>
-<section id="compartment" class="level1">
-<h1>Compartment</h1>
+<section id="compartment" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Compartment</h1>
 <p>The <code>$CMT</code> block has two new options: <code>@number</code> and <code>@prefix</code> that let you quickly specify a numbered series of compartments in the model similar to nonmem. The default <code>@prefix</code> is <code>A</code> so that this code</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1"></a>$CMT @number <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>will put compartments <code>A1</code>, <code>A2</code>, <code>A3</code> into your model.</p>
 </section>
-<section id="new-model-in-modlib-nm-like" class="level1">
-<h1>New model in <code>modlib</code>: <code>nm-like</code></h1>
+<section id="new-model-in-modlib-nm-like" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> New model in <code>modlib</code>: <code>nm-like</code></h1>
 <p>You can see a model coded with these new syntax features in the internal model library; the model is called <code>nm-like</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"nm-like"</span>)</span>
@@ -392,8 +401,8 @@ CP = A(2)/V;</code></pre>
 </div>
 <p>Here, I’ve coded the <code>THETA</code>s in a parameter block; these would ordinarily come into the model via <code>$NMXML</code> or <code>$NMEXT</code>, which automatically import these parameters and estimates. But note that we can still refer to <code>THETA(1)</code> and others … this resolves to <code>THETA1</code> regardless.</p>
 </section>
-<section id="audit" class="level1">
-<h1>Audit</h1>
+<section id="audit" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Audit</h1>
 <p>When mrgsolve loads your model, it checks the <code>$ODE</code> block to make sure you have differential equations for every compartment in your model. A long time ago, I started calling this check <code>audit</code> and it was something that was on by default but could be turned off via the call to <code>mread()</code>.</p>
 <p>Starting with version 1.0.0, <code>audit</code> can be controlled at the <code>$ODE</code> block level like this</p>
 <div class="cell">
@@ -411,8 +420,8 @@ CP = A(2)/V;</code></pre>
 </div>
 <p>to disable the audit. The audit is on by default and should only be turned off when you have written some special construct in <code>[ ode ]</code> to code the differential equations (e.g.&nbsp;odes are written programmatically).</p>
 </section>
-<section id="new-time-spacer-for-event-sequences" class="level1">
-<h1>New time spacer for event sequences</h1>
+<section id="new-time-spacer-for-event-sequences" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> New time spacer for event sequences</h1>
 <p>The new feature is an <code>ii</code> spacer for sequences of event objects.</p>
 <p>Using <a href="https://mrgsolve.org/user_guide/event-chapter.html">event objects</a>, we can create complicated dosing regimens from simpler ones. For example, we might have a week of 50 mg dosing followed by a week of 100 mg dosing and then up to 200 mg dosing. We can accomplish that with an event sequence</p>
 <p>First create the individual pieces</p>
@@ -457,8 +466,8 @@ CP = A(2)/V;</code></pre>
 </div>
 <p>Notice that this same behavior can be achieved with <code>wait</code> but using <code>ii</code> might be easier to interpret in some cases.</p>
 </section>
-<section id="collapse-matrices" class="level1">
-<h1>Collapse matrices</h1>
+<section id="collapse-matrices" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Collapse matrices</h1>
 <p>Sometimes in your model, you have multiple OMEGA or SIGMA blocks like this</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
@@ -572,8 +581,8 @@ $remainder
 </div>
 </div>
 </section>
-<section id="deprecated-simetan-and-simepsn" class="level1">
-<h1>Deprecated simeta(n) and simeps(n)</h1>
+<section id="deprecated-simetan-and-simepsn" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Deprecated simeta(n) and simeps(n)</h1>
 <p>We recently rolled out a feature where the user could call <code>simeta()</code> and pass an integer that would indicate a single <code>ETA()</code> to update, leaving the others alone. This proved to be more than a little dangerous when <code>$OMEGA</code> had off-diagonal elements. We will be deprecating this feature starting with version 1.0.0. When you load a model that contains <code>simeta(n)</code> or <code>simeps(n)</code>, there will be a warning about the syntax. The warning includes some code you can write to silence the warning, but this will be temporary. In a future release, we will always warn when this syntax us used and eventually generate an error. It is recommended to always use <code>simeta()</code> or <code>simeps()</code> when re-simulating random effects.</p>
 
 

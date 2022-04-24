@@ -117,6 +117,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -202,7 +208,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Stopping long-running simulations</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Sometimes, you want to stop a simulation that is running (or might run) longer than you want. Find out how.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">4/23/2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -210,49 +251,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#user-interrupt" id="toc-user-interrupt" class="nav-link active" data-scroll-target="#user-interrupt">User interrupt</a></li>
-  <li><a href="#stopping-a-model-early" id="toc-stopping-a-model-early" class="nav-link" data-scroll-target="#stopping-a-model-early">Stopping a model early</a></li>
-  <li><a href="#setting-a-maximum-run-time" id="toc-setting-a-maximum-run-time" class="nav-link" data-scroll-target="#setting-a-maximum-run-time">Setting a maximum run time</a></li>
+  <li><a href="#user-interrupt" id="toc-user-interrupt" class="nav-link active" data-scroll-target="#user-interrupt"> <span class="header-section-number">1</span> User interrupt</a></li>
+  <li><a href="#stopping-a-model-early" id="toc-stopping-a-model-early" class="nav-link" data-scroll-target="#stopping-a-model-early"> <span class="header-section-number">2</span> Stopping a model early</a></li>
+  <li><a href="#setting-a-maximum-run-time" id="toc-setting-a-maximum-run-time" class="nav-link" data-scroll-target="#setting-a-maximum-run-time"> <span class="header-section-number">3</span> Setting a maximum run time</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Stopping long-running simulations</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>Sometimes, you want to stop a simulation that is running (or might run) longer than you want. Find out how.</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">4/23/2022</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <p>Sometimes you have a simulation that is running longer than it needs to run or longer than you want it to run.</p>
 <div class="cell">
@@ -267,13 +276,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>you want to let a simulation run for 3 minutes maximum; if it is not done by then, just give up and move on</li>
 </ul>
 <p>This blog post is about stopping those runs and most of the time, this requires writing a bit of code into the model.</p>
-<section id="user-interrupt" class="level1">
-<h1>User interrupt</h1>
+<section id="user-interrupt" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> User interrupt</h1>
 <p>When mrgsolve is simulating a data set, it stops every so often to check for the user interrupt signal (Control-C or Esc). So if you have some regrets after starting a simulation, hit Control-C or Esc a bunch of times and that will eventually stop the simulation.</p>
 <p>mrgsolve has to stop to check for user interrupt; we don’t want to stop to frequently so as to hurt performance, but we don’t want to stop too infrequently either - that would make you have to wait too long to stop the simulation. By default, mrgsolve counts the records that is processes and stops every<code>256</code> records to look for the interrupt. This default value can be checked or modified as the <code>interrupt</code> argument to <code>mrgsim()</code> and friends. If you have both observations and records in your data set, this check interval will roughly correspond to every <code>256</code> output records. I say <code>roughly</code> because mrgsolve also counts some records that aren’t in your data set but still get implemented (like turning off an infusion). You might want it to look more frequently if you have a model that is very difficult to solve or if you have long spans of time between records. You might want to check less often if the model is very easy to solve. You can set <code>interrupt</code> to a negative number to have is avoid checking at all. Most of the time, it is not necessary to change the check interval.</p>
 </section>
-<section id="stopping-a-model-early" class="level1">
-<h1>Stopping a model early</h1>
+<section id="stopping-a-model-early" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Stopping a model early</h1>
 <p>mrgsolve has some <code>C++</code> functions that you can write into your model that will stop the simulation once some condition is met. The functions are</p>
 <ul>
 <li><code>self.stop()</code></li>
@@ -311,8 +320,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>self.stop_id_cf()</code> fills in the remaining rows with the last simulated value; this approach might be useful in more limited circumstances, but available if needed</li>
 </ul>
 </section>
-<section id="setting-a-maximum-run-time" class="level1">
-<h1>Setting a maximum run time</h1>
+<section id="setting-a-maximum-run-time" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Setting a maximum run time</h1>
 <p>It is possible to limit the simulation time for an individual or for the entire problem. This isn’t handled automatically by mrgsolve, but we’ll show you how to write a small bit of code to do this in a very flexible way.</p>
 <p>Recall that the <code>$PREAMBLE</code> block gets called <em>once</em> at the start of the problem.</p>
 <div class="cell">

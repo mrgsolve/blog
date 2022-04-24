@@ -118,6 +118,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+    .quarto-title-banner {
+      color: white;
+background: #097f5f;
+    }
+    </style>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -203,7 +209,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">mtime</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>This is just a post on a simplified implementation of modeled events in mrgsolve. There is also another, more complete blog post on this topic published previously</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kyle Baron </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">01/01/2018</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -211,53 +252,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#example-with-single-mtime" id="toc-example-with-single-mtime" class="nav-link active" data-scroll-target="#example-with-single-mtime">Example with single mtime</a></li>
-  <li><a href="#example-with-several-mtimes" id="toc-example-with-several-mtimes" class="nav-link" data-scroll-target="#example-with-several-mtimes">Example with several mtimes</a></li>
+  <li><a href="#example-with-single-mtime" id="toc-example-with-single-mtime" class="nav-link active" data-scroll-target="#example-with-single-mtime"> <span class="header-section-number">1</span> Example with single mtime</a></li>
+  <li><a href="#example-with-several-mtimes" id="toc-example-with-several-mtimes" class="nav-link" data-scroll-target="#example-with-several-mtimes"> <span class="header-section-number">2</span> Example with several mtimes</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">mtime</h1>
-</div>
-
-<div>
-  <div class="description">
-    <p>This is just a post on a simplified implementation of modeled events in mrgsolve. There is also another, more complete blog post on this topic published previously</p>
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kyle Baron </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">01/01/2018</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
 
 <p>This is just a short post on a simplified implementation of modeled events in mrgsolve.</p>
 <p>I previously posted <a href="2018-modeled-interventions.html">here</a> about modeling interventions in mrgsolve. All that still works fine. But I found myself wanting a more straightforward implementation of the mtime functionality you get in NONMEM.</p>
-<section id="example-with-single-mtime" class="level1">
-<h1>Example with single mtime</h1>
+<section id="example-with-single-mtime" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Example with single mtime</h1>
 <p>For example, we might wish a rate constant to change at some time that is not found in a record in the input data set. We can make this happen from the model code itself. In addition to using <code>mevent</code> you can now use <code>mtime</code> to make this happen. <code>mtime</code> is just a simpler subset of the <code>mevent</code> functionality.</p>
 <p>Let’s make KA change at 2.1 hours (<code>change_t</code> parameter in the example below). ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>[ param ]</span>
@@ -292,8 +301,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>You won’t see the message that we actually stumbled on <code>2.1</code> hours in the simulation even though it was not in the lineup when the simulation started.</p>
 </section>
-<section id="example-with-several-mtimes" class="level1">
-<h1>Example with several mtimes</h1>
+<section id="example-with-several-mtimes" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Example with several mtimes</h1>
 <p>We could keep track of several mtimes like this</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>[ set ] end<span class="ot">=</span><span class="dv">8</span>, delta<span class="ot">=</span><span class="fl">0.1</span></span>
