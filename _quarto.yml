@@ -7,7 +7,6 @@ website:
   search:
     location: navbar
     type: overlay
-  primary: #097f5f
   navbar:
     background: "white"
     foreground: "#797979"
@@ -37,7 +36,7 @@ website:
           - text: Report an issue
             href: https://github.com/metrumresearchgroup/mrgsolve/issues
     right:
-      - text: Home
+      - text: mrgsolve.org
         href: https://mrgsolve.org
       - icon: github
         href: https://github.com/metrumresearchgroup/mrgsolve
@@ -49,3 +48,4 @@ format:
     theme: default
     css: styles.css
     code-line-numbers: true
+    linkcolor: "#097f5f"
