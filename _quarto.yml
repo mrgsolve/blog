@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "mrgsolve.org/blog"
+  title: "mrgsolve/blog"
   search:
     location: navbar
     type: overlay
