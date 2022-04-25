@@ -78,7 +78,7 @@ with an error message. You can catch this condition by wrapping the simulation
 call in `try()`
 
 ```{r, eval = FALSE}
-output <- try(mrsim(model, data))
+output <- try(mrgsim(model, data))
 ```
 
 and then check to see if the simulation failed

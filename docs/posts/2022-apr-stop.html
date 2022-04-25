@@ -299,7 +299,7 @@ background: #097f5f;
 </div>
 <p>This can be called in <code>$MAIN</code> or <code>$TABLE</code> and it will just stop the simulation with an error message. You can catch this condition by wrapping the simulation call in <code>try()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>output <span class="ot">&lt;-</span> <span class="fu">try</span>(<span class="fu">mrsim</span>(model, data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>output <span class="ot">&lt;-</span> <span class="fu">try</span>(<span class="fu">mrgsim</span>(model, data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and then check to see if the simulation failed</p>
 <div class="cell">
