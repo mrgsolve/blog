@@ -1,9 +1,11 @@
 ---
 title: Mixture model example
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2017
 description: > 
   In this post, we'll look at how you can code up a mixture model in mrgsolve.
+categories:
+- mixture model
 ---
 
 

@@ -1,11 +1,13 @@
 ---
 title: A Complete Example
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2017
 description: > 
   We had a user who was learning `mrgsolve` ask for a "complete example".  
   I wasn't sure what   exactly that meant, but I created  this example and I'm 
   sharing it today on the blog.
+categories: 
+- example
 ---
 
 We had a user who was learning `mrgsolve` ask for a "complete example".  I wasn't sure what exactly that meant, but I created 

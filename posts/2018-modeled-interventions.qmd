@@ -1,11 +1,14 @@
 ---
 title: Modeled interventions in mrgsolve
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2018
 description: > 
   This post is to introduce modeled interventions in mrgsolve. The main use
   case is to force mrgsolve to advance the system to a specific time so that 
   some aspect of the system can change at that time. 
+categories:
+- modeled events
+- mtime
 ---
 
 

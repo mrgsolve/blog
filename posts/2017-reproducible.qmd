@@ -1,7 +1,7 @@
 ---
 title: Reproducible results with set.seed
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2017
 description: > 
   This post demonstrates that random simulation outputs can be made reproducible
   by using `set.seed()`.

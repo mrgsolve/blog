@@ -1,9 +1,11 @@
 ---
 title: "Alternate dosing event syntax"
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2019
 description: > 
   A fun syntax for creating event objects for different dosing regimens.
+categories:
+- events
 ---
 
 ```{r}

@@ -1,11 +1,13 @@
 ---
 title: "Generating input data sets for mrgsolve"
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2017
 description: > 
   An important mechanism for creating robust, complex simulations is
   the input data set. In this blog post, we'll look at some ways you can quickly
   create input data sets for your simulation.
+categories: 
+- data set
 ---
 
 ```{r,message=FALSE}

@@ -1,7 +1,10 @@
 ---
 title: "MAP Bayes example"
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2016
+categories: 
+- MAP Bayes
+- optimization
 ---
 
 This is a shortened version of [map_bayes.html](map_bayes.html), showing only 

@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kyle Baron">
+<meta name="dcterms.date" content="2019-01-01">
 <meta name="description" content="A fun syntax for creating event objects for different dosing regimens.">
 
 <title>mrgsolve/blog - Alternate dosing event syntax</title>
@@ -212,7 +213,10 @@ background: #097f5f;
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Alternate dosing event syntax</h1>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">events</div>
+              </div>
+                  </div>
   </div>
     
   <div>
@@ -236,7 +240,7 @@ background: #097f5f;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">4/23/2022</p>
+        <p class="date">01/01/2019</p>
       </div>
     </div>
       
@@ -293,7 +297,7 @@ background: #097f5f;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">"pk1"</span>, <span class="at">delta=</span><span class="fl">0.1</span>) <span class="sc">%&gt;%</span> <span class="fu">Req</span>(CP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Loading model from cache.</code></pre>
+<pre><code>Building pk1 ... done.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">mrgsim_e</span>(mod, e1, <span class="at">end =</span> <span class="dv">24</span><span class="sc">*</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">

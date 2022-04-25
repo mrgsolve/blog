@@ -5,7 +5,10 @@ date: 01/01/2018
 description: > 
   This is just a post on a simplified implementation of modeled events
   in mrgsolve. There is also another, more complete blog post on this topic
-  published previously 
+  published previously . 
+categories:
+- modeled events
+- mtime
 ---
 
 This is just a short post on a simplified implementation of modeled events

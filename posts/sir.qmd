@@ -1,7 +1,10 @@
 ---
 title: "Tidy workflow for simulating dynamics in R"
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2019
+categories:
+- sir
+- ecology
 ---
 
 I worked an example for a SIR model to show people in the ecology field how

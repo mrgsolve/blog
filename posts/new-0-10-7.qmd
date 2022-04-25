@@ -4,6 +4,8 @@ author: Kyle Baron
 date: 12/01/2020
 description: > 
   Find out what's new in mrgsolve version 0.10.7.
+categories:
+- new release
 ---
 
 

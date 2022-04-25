@@ -1,10 +1,12 @@
 ---
 title: "Work with event objects"
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2016
 description: > 
   event objects are data.frame-like data structures that allow you to quickly 
   and flexibly include dosing interventions into your simulations.
+categories:
+- events
 ---
 
 

@@ -1,10 +1,12 @@
 ---
 title: Models without compartments
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2018
 description: > 
   Introducing a new model block (`$PRED`) that lets you write models with 
   analytical solutions.
+categories:
+- pred
 ---
 
 

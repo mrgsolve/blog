@@ -1,11 +1,14 @@
 ---
 title: "Zero-order steady state infusion"
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2020
 description: >
   Starting with version 0.10.0, mrgsolve can implement dosing records
   calling for a zero-order infusion at steady state. Find out more in this 
   blog post. 
+categories: 
+- events
+- infusion
 ---
 
 # Introduction

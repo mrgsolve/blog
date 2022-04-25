@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kyle Baron">
+<meta name="dcterms.date" content="2018-01-01">
 <meta name="description" content="Introducing a new model block ($PRED) that lets you write models with analytical solutions.">
 
 <title>mrgsolve/blog - Models without compartments</title>
@@ -212,7 +213,10 @@ background: #097f5f;
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Models without compartments</h1>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">pred</div>
+              </div>
+                  </div>
   </div>
     
   <div>
@@ -236,7 +240,7 @@ background: #097f5f;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">4/23/2022</p>
+        <p class="date">01/01/2018</p>
       </div>
     </div>
       
@@ -295,14 +299,14 @@ background: #097f5f;
 <span id="cb3-4"><a href="#cb3-4"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
-     ID      B
-  &lt;dbl&gt;  &lt;dbl&gt;
-1     1 1.13  
-2     1 2.46  
-3     1 0.625 
-4     1 0.287 
-5     1 4.44  
-6     1 0.0491</code></pre>
+     ID        B
+  &lt;dbl&gt;    &lt;dbl&gt;
+1     1  0.00789
+2     1  0.0705 
+3     1  0.00778
+4     1 62.8    
+5     1  2.94   
+6     1  0.424  </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -366,7 +370,7 @@ background: #097f5f;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">"pkpd"</span>, code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Loading model from cache.</code></pre>
+<pre><code>Building pkpd ... done.</code></pre>
 </div>
 </div>
 <p>To simulate, look at 50 subjects at each of 5 doses ::: {.cell}</p>

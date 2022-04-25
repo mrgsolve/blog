@@ -1,10 +1,12 @@
 ---
 title: "Rmarkdown model specification"
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2019
 description: > 
   I came up with this fun model specification format that looks just like 
   Rmarkdown code chunks. 
+categories: 
+- model specification
 ---
 # Introduction
 

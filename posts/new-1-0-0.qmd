@@ -1,10 +1,12 @@
 ---
 title: "New in version 1.0.0"
 author: Kyle Baron
-date: 4/23/2022
+date: 01/01/2022
 description: > 
   mrgsolve celebrates her version 1.0.0 release. Find out about some very cool
   and powerful features that we included in this release. 
+categories: 
+- new release
 ---
 
 There are a bunch of new features out now in the mrgsolve 1.0.0 release. Most 

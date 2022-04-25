@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kyle Baron">
+<meta name="dcterms.date" content="2019-01-01">
 <meta name="description" content="In this blog post, we run some simulations with mrgsolve and the excellent pmxTools package and compare results.">
 
 <title>mrgsolve/blog - Validating Simulation Results with pmxTools</title>
@@ -212,7 +213,11 @@ background: #097f5f;
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Validating Simulation Results with pmxTools</h1>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">validation</div>
+                <div class="quarto-category">pmxTools</div>
+              </div>
+                  </div>
   </div>
     
   <div>
@@ -236,7 +241,7 @@ background: #097f5f;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">4/23/2022</p>
+        <p class="date">01/01/2019</p>
       </div>
     </div>
       
@@ -366,7 +371,7 @@ Attaching package: 'pmxTools'</code></pre>
 <span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">modlib</span>(<span class="st">"pk2"</span>, <span class="at">delta =</span> <span class="fl">0.1</span>, <span class="at">end =</span> <span class="dv">400</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb17-3"><a href="#cb17-3"></a>  <span class="fu">param</span>(<span class="at">CL =</span> <span class="dv">1</span>, <span class="at">V2 =</span> <span class="dv">4</span>, <span class="at">V3 =</span> <span class="dv">50</span>, <span class="at">Q =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Loading model from cache.</code></pre>
+<pre><code>Building pk2 ... done.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>e <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">rate =</span> <span class="dv">10</span>, <span class="at">ii =</span> <span class="dv">24</span>, <span class="at">addl =</span> <span class="dv">9</span>, <span class="at">cmt =</span> <span class="dv">2</span>)</span>
 <span id="cb19-2"><a href="#cb19-2"></a></span>

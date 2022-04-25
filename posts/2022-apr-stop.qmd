@@ -5,6 +5,8 @@ date: 4/23/2022
 description: > 
   Sometimes, you want to stop a simulation that is running (or might run) 
   longer than you want. Find out how.
+categories:
+- stop
 ---
 
 Sometimes you have a simulation that is running longer than it needs to run 
