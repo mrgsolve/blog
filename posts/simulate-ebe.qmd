@@ -8,7 +8,7 @@ description: >
   The basic implementation for this approach was pioneered by Tim Waterhouse
   at MetrumRG.
 categories: 
-- ebe
+- EBE
 ---
 
 # Introduction

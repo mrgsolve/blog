@@ -5,6 +5,8 @@ date: 01/01/2017
 description: > 
   This post demonstrates that random simulation outputs can be made reproducible
   by using `set.seed()`.
+categories: 
+- example
 ---
 
 

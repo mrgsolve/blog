@@ -4,6 +4,8 @@ author: Kyle Baron
 date: 01/02/2016
 description: > 
   This tutorial illustrates now to do MAP Bayes estimatation with mrgsolve.
+categories: 
+- MAP Bayes
 ---
 
 

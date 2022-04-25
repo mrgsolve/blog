@@ -7,6 +7,7 @@ description: >
   analytical solutions.
 categories:
 - pred
+- model specification
 ---
 
 
