@@ -2,16 +2,14 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/steady-state.html",
-      "/posts/new-0-11-0.html",
-      "/posts/new-0.11.0.html",
       "/posts/2022-apr-stop.html",
-      "/posts/map_bayes.html",
       "/posts/new-1-0-0.html",
       "/posts/simulate-ebe.html",
+      "/posts/new-0-11-0.html",
       "/posts/new-0-10-7.html",
       "/posts/new-0-10-1.html",
       "/posts/zero-ss.html",
+      "/posts/steady-state.html",
       "/posts/time_after_dose.html",
       "/posts/2019-ev_rx.html",
       "/posts/validation_pmxtools.html",
@@ -24,6 +22,7 @@
       "/posts/2017-mixture-model.html",
       "/posts/2017-complete-example.html",
       "/posts/2017-reproducible.html",
+      "/posts/map_bayes.html",
       "/posts/map_bayes_example.html",
       "/posts/events.html",
       "/posts/init.html"

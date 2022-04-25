@@ -1,7 +1,9 @@
 ---
 title: "Steady State in mrgsolve"
 author: Kyle Baron
-date: 4/23/2022
+date: 12/01/2019
+categories:
+- steady state
 ---
 
 This blog post describes the mechanism by which mrgsolve finds steady state

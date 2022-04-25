@@ -1,7 +1,7 @@
 ---
 title: "Generate MAP Bayes Parameter Estimates"
 author: Kyle Baron
-date: 4/23/2022
+date: 01/02/2016
 description: > 
   This tutorial illustrates now to do MAP Bayes estimatation with mrgsolve.
 ---
