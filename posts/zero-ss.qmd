@@ -45,6 +45,7 @@ dose
 
 
 With `CL` set to 2, we expect the system to start out at 50
+
 ```{r}
 mrgsim(mod,dose,recsort = 3) %>% plot()
 ```
@@ -58,5 +59,4 @@ mrgsim(mod,dose,recsort = 3) %>% plot()
 - It is an error to try to model the duration
   - Set `rate` to -2 in the input data
   - Set `D_CMT` in `[main]`
-  
 

@@ -34,7 +34,7 @@ in the model code.
 
 In your mrgsolve model, you can request that the values of different variables
 are written into the simulated output.  This is done through the capture block
-or by declaring variables as type `capture`:
+or by declaring variables as type `capture`
 
 ```{r}
 mod <- mread("popexample.mod")
@@ -43,65 +43,63 @@ blocks(mod, MAIN, TABLE, CAPTURE)
 Here we have derived several variables (`CL`, `V`, `KA`, `IPRED`, `DV`) and 
 some of them have been marked for "capture" (`DV` and `CL`).  
 
-We can check what will be captured:
+We can check what will be captured
 
 ```{r}
 outvars(mod)
 ```
 
 Starting with mrgsolve 0.10.7, you can specify additional variables for 
-capture when you read in the model with `mread()`:
+capture when you read in the model with `mread()`
 
 ```{r}
 mod <- mread("popexample.mod", capture = "ETA(1), WT, IPRED, V")
 ```
 Here, I've asked for the value of one of the ETAs, a parameter (`WT`) and 
-a couple of derived quantities (`IPRED` and `V`):
+a couple of derived quantities (`IPRED` and `V`)
 
 ```{r}
 outvars(mod)
 ```
 
 And now when I simulate from the model, I'll get all of these quantities
-back:
+back
+
 ```{r}
 mrgsim(mod, ev(amt = 100))
 ```
 
 This is temporary until the model is re-compiled again
+
 ```{r}
 mread("popexample.mod") %>% outvars
 ```
 
 
-
-
-
-
 # Smarter warnings when non-numeric columns are dropped
 
 mrgsolve warns you when non-numeric columns are dropped from the data 
-set when you run the model.  For example:
-
+set when you run the model.  For example
 
 ```{r, message = FALSE, warning = FALSE}
-library(mrgsolve)
-
 mod <- modlib("popex") %>% update(outvars = "IPRED")
 ```
 
-In this model, we have the following parameters:
+In this model, we have the following parameters
+
 ```{r}
 param(mod)
 ```
 
 Let's create an input data set with some character values: two 
-parameter columns and one non-parameter column:
+parameter columns and one non-parameter column
+
 ```{r}
 data <- expand.ev(amt = 100, WT = "500", TVV = "ABC", name = "KYLE")
 ```
 
-When we simulation, we get some messages for dropped columns:
+When we simulation, we get some messages for dropped columns
+
 ```{r}
 mrgsim(mod, data)
 ```
@@ -126,7 +124,7 @@ mrgsim(mod, data)
 ```
 
 Remember, we can still ask for non-numeric items to be brought into the 
-data set with the `recover` argument:
+data set with the `recover` argument
 
 ```{r}
 mrgsim(mod, data, recover = "name,state")
@@ -166,8 +164,10 @@ mod <- modlib("pk1")
 mrgsolve:::unloadso.mrgmod(mod)
 mrgsolve:::funset(mod)
 ```
+
 We can still simulate from this model; mrgsolve will determine that the 
 model isn't loaded and it will try to load it for you.
+
 ```{r}
 mrgsim(mod)
 ```
@@ -175,7 +175,6 @@ mrgsim(mod)
 It's possible that the model can't be loaded (e.g. due to missing `.so` file). 
 In that case, mrgsolve will give you the usual error message that the model
 needs to be compiled.
-
 
 # Time after dose in specific compartment
 
@@ -243,15 +242,4 @@ in the simulation.  This will create more accurate simulations
 around the time that the covariate value changes.  This results in 
 no change when running 1- and 2-compartment models which are handled with 
 the closed form equations. 
-
-
-
-
-
-
-
-
-
-
-
 

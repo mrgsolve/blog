@@ -64,6 +64,7 @@ dose <- ev(amt = 100, ii = 24)
 ```
 
 And give that dose a large number of times
+
 ```{r}
 dose <- mutate(dose, total = 1000)
 ```
@@ -76,6 +77,7 @@ mod <- update(mod, delta = 24, end = 24*20, outvars = "CENT,PERIPH")
 ```
 
 And simulate that out
+
 ```{r}
 out <- mrgsim_e(mod,dose,recsort=3)
 ```
