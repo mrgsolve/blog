@@ -214,7 +214,7 @@ background: #097f5f;
     <div class="quarto-title column-body">
       <h1 class="title">Validate model translation from NONMEM</h1>
                           <div class="quarto-categories">
-                <div class="quarto-category">vpc</div>
+                <div class="quarto-category">model specification</div>
                 <div class="quarto-category">validation</div>
               </div>
                   </div>
@@ -257,11 +257,15 @@ background: #097f5f;
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"> <span class="header-section-number">2</span> Data</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"> <span class="header-section-number">2</span> Data</a>
+  <ul class="collapse">
+  <li><a href="#bbrnm_join" id="toc-bbrnm_join" class="nav-link" data-scroll-target="#bbrnm_join"> <span class="header-section-number">2.1</span> bbr::nm_join</a></li>
+  </ul></li>
   <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"> <span class="header-section-number">3</span> Model</a></li>
   <li><a href="#simulate" id="toc-simulate" class="nav-link" data-scroll-target="#simulate"> <span class="header-section-number">4</span> Simulate</a></li>
   <li><a href="#compare" id="toc-compare" class="nav-link" data-scroll-target="#compare"> <span class="header-section-number">5</span> Compare</a></li>
-  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"> <span class="header-section-number">6</span> Discussion</a></li>
+  <li><a href="#complete-workflow" id="toc-complete-workflow" class="nav-link" data-scroll-target="#complete-workflow"> <span class="header-section-number">6</span> Complete workflow</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"> <span class="header-section-number">7</span> Discussion</a></li>
   </ul>
 </nav>
     </div>
@@ -288,12 +292,12 @@ Expand view packages and options
 <div id="callout-1" class="callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">options</span>(<span class="at">bbr.verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(mrgsolve)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">options</span>(<span class="at">bbr.verbose =</span> <span class="cn">FALSE</span>, <span class="at">mrgsolve.project =</span> <span class="fu">here</span>(<span class="st">"model/pk"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -324,6 +328,7 @@ Expand view packages and options
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tab, nmdata, <span class="at">by =</span> <span class="st">"NUM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Note that in the join, <code>tab</code> is on the left so that the resulting <code>data</code> drops the records from <code>nmdata</code> that didn’t make it into the analysis.</p>
 <p>Now, we have the analysis data set with <code>PRED</code> (from NONMEM) as a column</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">select</span>(data, ID, NUM, TIME, EVID, AMT, CMT, DV, PRED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -342,6 +347,8 @@ Expand view packages and options
 4292: 160 4360 120.09    0  NA   2  36.249 16.63423</code></pre>
 </div>
 </div>
+<section id="bbrnm_join" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="bbrnm_join"><span class="header-section-number">2.1</span> bbr::nm_join</h2>
 <div class="callout-note callout callout-style-simple">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -356,11 +363,12 @@ Expand view packages and options
 </div>
 </div>
 </section>
+</section>
 <section id="model" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Model</h1>
 <p>The model is a standard two-compartment PK model from run <code>106</code>; we’ve already coded the model here</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="fu">here</span>(<span class="st">"model/pk/106.txt"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"106.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <details>
@@ -446,23 +454,42 @@ Expand view packages and options
 </div>
 </div>
 <p>Here we’ve looked at absolute differences between mrgsolve and NONMEM; if you do find a discrepancy, you might evaluate that as a percentage of the value of <code>PRED</code> (percent difference).</p>
-<div class="callout-important callout callout-style-simple">
-<div class="callout-body d-flex">
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-body-container">
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>We frequently see exact matches when models are coded with analytical solutions. This is <em>never</em> the case when coding models from ODEs. But even with ODE models you should expect to see only a small discrepancy … only a small fraction of one percent or less.</p>
 </div>
 </div>
-</div>
 </section>
-<section id="discussion" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Discussion</h1>
+<section id="complete-workflow" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Complete workflow</h1>
+<p>We’ve illustrated this step by step, explaining how it works. But wanted also to show you how little code is required once you have the NONMEM and mrgsolve models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"106.txt"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>data <span class="ot">&lt;-</span> bbr<span class="sc">::</span><span class="fu">nm_join</span>(<span class="fu">here</span>(<span class="st">"model/pk/106"</span>))</span>
+<span id="cb16-3"><a href="#cb16-3"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(<span class="fu">zero_re</span>(mod), data, <span class="at">carry_out =</span> <span class="st">"PRED,EVID"</span>, <span class="at">digits =</span> <span class="dv">7</span>)</span>
+<span id="cb16-4"><a href="#cb16-4"></a>obs <span class="ot">&lt;-</span> <span class="fu">filter</span>(out,  EVID<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="fu">summary</span>(obs<span class="sc">$</span>Y <span class="sc">-</span> obs<span class="sc">$</span>PRED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+      0       0       0       0       0       0 </code></pre>
+</div>
+</div>
+<p>We have this done in 5 lines and objects generated from 2 of those lines will be used to run the production simulation.</p>
+</section>
+<section id="discussion" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Discussion</h1>
 <p>It is important to note that this validation procedure only considers model <code>PRED</code> given a clinical data set. This setup evaluates dosing events, covariate effects, structural model setup and the like.</p>
 <p>Note that this setup <em>does not</em> look at whether or not the random effects are coded correctly. Certainly there can be mistakes in coding the random effects, but in my experience, most errors in translation are related to input data sets, covariate models or errors with the structural model (e.g.&nbsp;coding the ODE correctly).</p>
 <p>We also note how critical it is to consider the number of digits and tolerances of ODE solvers when comparing model outputs; when digits and tolerances are ignored, any discrepancy can seem bigger than it should be.</p>
-<p>Finally, we include a reminder that mrgsolve is not an exact clone of NONMEM: we don’t and can’t match every behavior. So if you do find a discrepancy in your validation, it <em>could</em> be that you’ve tapped some functionality that is not consistent between NONMEM and mrgsolve. That said … I’ve been using mrgsolve with NONMEM across many years of project work and the vast majority of models we’ve worked with have matched.</p>
+<p>Finally, we include a reminder that mrgsolve is not an exact clone of NONMEM: we don’t and can’t match every behavior. So if you do find a discrepancy in your validation, it <em>could</em> be that you’ve tapped some functionality that is not consistent between NONMEM and mrgsolve. That said … I’ve been using mrgsolve with NONMEM across many years of project work and the vast majority of models we’ve worked with have matched when we are very careful in the translation and in carrying out the validation.</p>
 <p>If you are unable to validate your model, please check the code. Then check it again. If you’re <em>sure</em> the model coding is equivalent and you are still seeing discrepancy, we encourage you to open ticket on our GitHub issue tracker <a href="https://github.com/metrumresearchgroup/mrgsolve/issues">here</a> so we can learn more about the discrepancy.</p>
 <p>And as always, be sure to visit <a href="https://mrgsolve.or">mrgsolve.org</a> for more resources.</p>
 

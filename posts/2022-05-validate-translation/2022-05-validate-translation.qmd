@@ -6,7 +6,7 @@ description: >
   If your mrgsolve model is a translation of a completed model run, you can 
   validate it every time; find out how.
 categories: 
-- vpc
+- model specification
 - validation
 ---
 
@@ -27,12 +27,12 @@ once the NONMEM model is in hand. This blog post will show you how to do that.
 ```{r}
 #| message: false
 #| warning: false
-options(bbr.verbose = FALSE)
 library(mrgsolve)
 library(dplyr)
 library(tidyr)
 library(data.table)
 library(here)
+options(bbr.verbose = FALSE, mrgsolve.project = here("model/pk"))
 ```
 
 :::
@@ -67,11 +67,17 @@ output rows to input rows
 data <- left_join(tab, nmdata, by = "NUM")
 ```
 
+Note that in the join, `tab` is on the left so that the resulting `data` drops
+the records from `nmdata` that didn't make it into the analysis.
+
+
 Now, we have the analysis data set with `PRED` (from NONMEM) as a column
 
 ```{r}
 select(data, ID, NUM, TIME, EVID, AMT, CMT, DV, PRED)
 ```
+
+## bbr::nm_join
 
 ::: {.callout-note appearance="simple"}
 
@@ -96,7 +102,7 @@ coded the model here
 ```{r}
 #| message: false
 #| warning: false
-mod <- mread(here("model/pk/106.txt"))
+mod <- mread_cache("106.txt")
 ```
 
 ```{c, code = mod@code}
@@ -152,7 +158,9 @@ Here we've looked at absolute differences between mrgsolve and
 NONMEM; if you do find a discrepancy, you might evaluate that as a percentage
 of the value of `PRED` (percent difference).
 
-::: {.callout-important appearance="simple"}
+::: {.callout-important}
+
+## Important
 
 We frequently see exact matches when models are coded with analytical solutions.
 This is _never_ the case when coding models from ODEs. But even with ODE models
@@ -160,6 +168,26 @@ you should expect to see only a small discrepancy ... only a small fraction of
 one percent or less. 
 
 :::
+
+
+# Complete workflow
+
+We've illustrated this step by step, explaining how it works. But wanted also 
+to show you how little code is required once you have the NONMEM and mrgsolve
+models.
+
+```{r}
+#| message: false
+mod <- mread_cache("106.txt")
+data <- bbr::nm_join(here("model/pk/106"))
+out <- mrgsim(zero_re(mod), data, carry_out = "PRED,EVID", digits = 7)
+obs <- filter(out,  EVID==0)
+summary(obs$Y - obs$PRED)
+```
+
+We have this done in 5 lines and objects generated from 2 of those lines will be
+used to run the production simulation.
+
 
 # Discussion 
 
@@ -182,7 +210,8 @@ we don't and can't match every behavior. So if you do find a discrepancy in your
 validation, it _could_ be that you've tapped some functionality that is not 
 consistent between NONMEM and mrgsolve. That said ... I've been using mrgsolve 
 with NONMEM across many years of project work and the vast majority of models
-we've worked with have matched. 
+we've worked with have matched when we are very careful in the translation and 
+in carrying out the validation. 
 
 If you are unable to validate your model, please check the code. Then check it 
 again. If you're _sure_ the model coding is equivalent and you are still seeing
