@@ -105,12 +105,15 @@ coded the model here
 mod <- mread_cache("106.txt")
 ```
 
+:::{.callout-note collapse=true appearance="simple"}
+
+## Expand to see the model code
+
 ```{c, code = mod@code}
-#| code-fold: true
-#| code-summary: "See the model code"
 #| eval: false
 ```
 
+:::
 
 # Simulate
 
