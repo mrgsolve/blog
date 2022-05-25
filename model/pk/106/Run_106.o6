@@ -1,0 +1,9 @@
+time="2022-05-25T14:08:35-04:00" level=info msg="Successfully loaded default configuration from /data/home/kyleb/ghe/example-projects/foce/model/pk/106/bbi.yaml"
+time="2022-05-25T14:08:35-04:00" level=info msg="Beginning Local Path"
+time="2022-05-25T14:08:35-04:00" level=info msg="A total of 1 models have completed the initial preparation phase"
+time="2022-05-25T14:08:35-04:00" level=info msg="[106] Beginning local work phase"
+time="2022-05-25T14:09:37-04:00" level=info msg="[106] Beginning cleanup phase"
+time="2022-05-25T14:09:40-04:00" level=info msg="[106] Cleanup completed"
+time="2022-05-25T14:09:40-04:00" level=info msg="Waiting for any post execution hooks to finish"
+time="2022-05-25T14:09:40-04:00" level=info msg="\r1 models completed in 1m4.184392755s"
+
