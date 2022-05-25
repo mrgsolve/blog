@@ -266,6 +266,7 @@ background: #097f5f;
   <li><a href="#compare" id="toc-compare" class="nav-link" data-scroll-target="#compare"> <span class="header-section-number">5</span> Compare</a></li>
   <li><a href="#complete-workflow" id="toc-complete-workflow" class="nav-link" data-scroll-target="#complete-workflow"> <span class="header-section-number">6</span> Complete workflow</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"> <span class="header-section-number">7</span> Discussion</a></li>
+  <li><a href="#sec-appendix" id="toc-sec-appendix" class="nav-link" data-scroll-target="#sec-appendix"> <span class="header-section-number">8</span> Appendix</a></li>
   </ul>
 </nav>
     </div>
@@ -445,7 +446,7 @@ Expand view packages and options
       0       0       0       0       0       0 </code></pre>
 </div>
 </div>
-<p>We see there is exact match up to the level of precision that we’ve requested.</p>
+<p>We see there is exact match up to the level of precision that we’ve requested (See <a href="2022-05-validate-translation.html#sec-appendix">Appendix</a>).</p>
 <p>This can be presented graphically as well</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">plot</span>(obs<span class="sc">$</span>Y, obs<span class="sc">$</span>PRED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -492,11 +493,35 @@ Important
 <p>Finally, we include a reminder that mrgsolve is not an exact clone of NONMEM: we don’t and can’t match every behavior. So if you do find a discrepancy in your validation, it <em>could</em> be that you’ve tapped some functionality that is not consistent between NONMEM and mrgsolve. That said … I’ve been using mrgsolve with NONMEM across many years of project work and the vast majority of models we’ve worked with have matched when we are very careful in the translation and in carrying out the validation.</p>
 <p>If you are unable to validate your model, please check the code. Then check it again. If you’re <em>sure</em> the model coding is equivalent and you are still seeing discrepancy, we encourage you to open ticket on our GitHub issue tracker <a href="https://github.com/metrumresearchgroup/mrgsolve/issues">here</a> so we can learn more about the discrepancy.</p>
 <p>And as always, be sure to visit <a href="https://mrgsolve.or">mrgsolve.org</a> for more resources.</p>
-
-
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="sec-appendix" class="level1 appendix" data-number="8"><h2 class="quarto-appendix-heading"><span class="header-section-number">8</span> Appendix</h2><div class="quarto-appendix-contents">
+
+<p>See what happens when we don’t control digits on the simulation</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"106.txt"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2"></a>data <span class="ot">&lt;-</span> bbr<span class="sc">::</span><span class="fu">nm_join</span>(<span class="fu">here</span>(<span class="st">"model/pk/106"</span>))</span>
+<span id="cb18-3"><a href="#cb18-3"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(<span class="fu">zero_re</span>(mod), data, <span class="at">carry_out =</span> <span class="st">"PRED,EVID"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4"></a>obs <span class="ot">&lt;-</span> <span class="fu">filter</span>(out,  EVID<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="fu">summary</span>(obs<span class="sc">$</span>Y <span class="sc">-</span> obs<span class="sc">$</span>PRED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
+-4.952e-04 -2.714e-05 -3.701e-07 -2.581e-06  2.477e-05  4.991e-04 </code></pre>
+</div>
+</div>
+<p>Here, we’ve used analytical solutions from both mrgsolve and NONMEM. This sort of error is what you might see when comparing two models which require ODEs to generate the solution.</p>
+<p>This error is still very small relative to <code>PRED</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">summary</span>(<span class="dv">100</span><span class="sc">*</span>(obs<span class="sc">$</span>Y <span class="sc">-</span> obs<span class="sc">$</span>PRED)<span class="sc">/</span>obs<span class="sc">$</span>PRED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
+-4.602e-05 -6.848e-06 -2.349e-07 -3.855e-07  6.197e-06  4.560e-05 </code></pre>
+</div>
+</div>
+
+
+</div></section></div></main> <!-- /main -->
 <script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";
