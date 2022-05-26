@@ -9,7 +9,7 @@ categories:
 - model specification
 - validation
 twitter-card: 
-  image: "images/hex.png"
+  image: "https://mrgsolve.org/blog/images/hex.png"
 ---
 
 # Introduction
