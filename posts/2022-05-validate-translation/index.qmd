@@ -8,6 +8,8 @@ description: >
 categories: 
 - model specification
 - validation
+twitter-card: 
+  image: "images/hex.png"
 ---
 
 # Introduction
