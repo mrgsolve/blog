@@ -495,12 +495,5 @@
     "title": "About",
     "section": "",
     "text": "A non-blog blog about mrgsolve. Find more mrgsolve-related resources at mrgsolve.org."
-  },
-  {
-    "objectID": "posts/2022-05-validate-translation/2022-05-validate-translation.html#expand-to-see-the-model-code",
-    "href": "posts/2022-05-validate-translation/2022-05-validate-translation.html#expand-to-see-the-model-code",
-    "title": "Validate model translation from NONMEM",
-    "section": "3.1 Expand to see the model code",
-    "text": "3.1 Expand to see the model code\n\n[ prob ]\n106-104 + COV-effects(CRCL, AGE) on CL\n\n[ pkmodel ] cmt = \"GUT,CENT,PERIPH\", depot = TRUE\n\n[ param ]\nWT   = 70\nEGFR = 90\nALB  = 4.5\nAGE  = 35\n\n[ nmxml ]\npath = \"106/106.xml\"\nroot = \"cppfile\"\n\n[ main ]\ndouble V2WT   = log(WT/70.0);\ndouble CLWT   = log(WT/70.0)*0.75;\ndouble CLEGFR = log(EGFR/90.0)*THETA6;\ndouble CLAGE  = log(AGE/35.0)*THETA7;\ndouble V3WT   = log(WT/70.0);\ndouble QWT    = log(WT/70.0)*0.75;\ndouble CLALB  = log(ALB/4.5)*THETA8;\n\ndouble KA  = exp(THETA1+ETA(1));\ndouble V2  = exp(THETA2+V2WT+ETA(2));\ndouble CL  = exp(THETA3+CLWT+CLEGFR+CLAGE+CLALB+ETA(3));\ndouble V3  = exp(THETA4+V3WT);\ndouble Q   = exp(THETA5+QWT);\n\ndouble S2 = V2/1000.0; //; dose in mcg, conc in mcg/mL\n\n[ table ]\ndouble IPRED = CENT/S2;\ncapture Y = IPRED * (1+EPS(1));"
   }
 ]

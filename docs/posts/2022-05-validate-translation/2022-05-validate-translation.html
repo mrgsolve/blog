@@ -510,7 +510,7 @@ Important
 
 <div id="quarto-appendix" class="default"><section id="sec-appendix" class="level1 appendix" data-number="8"><h2 class="quarto-appendix-heading"><span class="header-section-number">8</span> Appendix</h2><div class="quarto-appendix-contents">
 
-<p>See what happens when we don’t control digits on the simulation</p>
+<p>See what happens when we don’t <strong>control digits</strong> on the simulation</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"106.txt"</span>)</span>
 <span id="cb18-2"><a href="#cb18-2"></a>data <span class="ot">&lt;-</span> bbr<span class="sc">::</span><span class="fu">nm_join</span>(<span class="fu">here</span>(<span class="st">"model/pk/106"</span>))</span>
@@ -529,6 +529,54 @@ Important
 <div class="cell-output cell-output-stdout">
 <pre><code>      Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
 -4.602e-05 -6.848e-06 -2.349e-07 -3.855e-07  6.197e-06  4.560e-05 </code></pre>
+</div>
+</div>
+<p>Next, let’s try to <strong>validate a model that was coded incorrectly</strong>. For the <code>AGE</code> effect on <code>CL</code>, we have the reference to be 45 years old but it should be 35.</p>
+<div class="callout-note callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target="#callout-4" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Expand to see the model code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"bad"</span>, <span class="fu">paste0</span>(code, <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1"></a></span>
+<span id="cb23-2"><a href="#cb23-2"></a>Model file<span class="op">:</span> bad<span class="op">.</span>cpp </span>
+<span id="cb23-3"><a href="#cb23-3"></a></span>
+<span id="cb23-4"><a href="#cb23-4"></a>$main</span>
+<span id="cb23-5"><a href="#cb23-5"></a><span class="dt">double</span> V2WT   <span class="op">=</span> log<span class="op">(</span>WT<span class="op">/</span><span class="fl">70.0</span><span class="op">);</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="dt">double</span> CLWT   <span class="op">=</span> log<span class="op">(</span>WT<span class="op">/</span><span class="fl">70.0</span><span class="op">)*</span><span class="fl">0.75</span><span class="op">;</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a><span class="dt">double</span> CLEGFR <span class="op">=</span> log<span class="op">(</span>EGFR<span class="op">/</span><span class="fl">90.0</span><span class="op">)*</span>THETA6<span class="op">;</span></span>
+<span id="cb23-8"><a href="#cb23-8"></a><span class="dt">double</span> CLAGE  <span class="op">=</span> log<span class="op">(</span>AGE<span class="op">/</span><span class="fl">45.0</span><span class="op">)*</span>THETA7<span class="op">;</span></span>
+<span id="cb23-9"><a href="#cb23-9"></a><span class="dt">double</span> V3WT   <span class="op">=</span> log<span class="op">(</span>WT<span class="op">/</span><span class="fl">70.0</span><span class="op">);</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a><span class="dt">double</span> QWT    <span class="op">=</span> log<span class="op">(</span>WT<span class="op">/</span><span class="fl">70.0</span><span class="op">)*</span><span class="fl">0.75</span><span class="op">;</span></span>
+<span id="cb23-11"><a href="#cb23-11"></a><span class="dt">double</span> CLALB  <span class="op">=</span> log<span class="op">(</span>ALB<span class="op">/</span><span class="fl">4.5</span><span class="op">)*</span>THETA8<span class="op">;</span></span>
+<span id="cb23-12"><a href="#cb23-12"></a><span class="dt">double</span> KA  <span class="op">=</span> exp<span class="op">(</span>THETA1<span class="op">+</span>ETA<span class="op">(</span><span class="dv">1</span><span class="op">));</span></span>
+<span id="cb23-13"><a href="#cb23-13"></a><span class="dt">double</span> V2  <span class="op">=</span> exp<span class="op">(</span>THETA2<span class="op">+</span>V2WT<span class="op">+</span>ETA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span>
+<span id="cb23-14"><a href="#cb23-14"></a><span class="dt">double</span> CL  <span class="op">=</span> exp<span class="op">(</span>THETA3<span class="op">+</span>CLWT<span class="op">+</span>CLEGFR<span class="op">+</span>CLAGE<span class="op">+</span>CLALB<span class="op">+</span>ETA<span class="op">(</span><span class="dv">3</span><span class="op">));</span></span>
+<span id="cb23-15"><a href="#cb23-15"></a><span class="dt">double</span> V3  <span class="op">=</span> exp<span class="op">(</span>THETA4<span class="op">+</span>V3WT<span class="op">);</span></span>
+<span id="cb23-16"><a href="#cb23-16"></a><span class="dt">double</span> Q   <span class="op">=</span> exp<span class="op">(</span>THETA5<span class="op">+</span>QWT<span class="op">);</span></span>
+<span id="cb23-17"><a href="#cb23-17"></a><span class="dt">double</span> S2 <span class="op">=</span> V2<span class="op">/</span><span class="fl">1000.0</span><span class="op">;</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>When we try to validate this model against the NONMEM run with different reference <code>AGE</code>, we can clearly see there’s an issue</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(<span class="fu">zero_re</span>(mod2), data, <span class="at">carry_out =</span> <span class="st">"PRED,EVID"</span>, <span class="at">digits =</span> <span class="dv">7</span>)</span>
+<span id="cb24-2"><a href="#cb24-2"></a>obs <span class="ot">&lt;-</span> <span class="fu">filter</span>(out,  EVID<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="fu">summary</span>(obs<span class="sc">$</span>Y <span class="sc">-</span> obs<span class="sc">$</span>PRED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+-25.27000  -5.49420  -1.83945  -3.74970  -0.47830  -0.00678 </code></pre>
 </div>
 </div>
 

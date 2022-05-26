@@ -228,7 +228,7 @@ resources.
 
 # Appendix {#sec-appendix .appendix}
 
-See what happens when we don't control digits on the simulation 
+See what happens when we don't **control digits** on the simulation 
 
 ```{r}
 #| message: false
@@ -249,4 +249,44 @@ This error is still very small relative to `PRED`
 summary(100*(obs$Y - obs$PRED)/obs$PRED)
 ```
 
+
+Next, let's try to **validate a model that was coded incorrectly**. For the 
+`AGE` effect on `CL`, we have the reference to be 45 years old but it should 
+be 35. 
+
+```{r}
+#| include: false
+code <- mod@code
+code <- sub("AGE/35", "AGE/45", code, fixed = TRUE)
+```
+
+
+:::{.callout-note collapse=true appearance="simple"}
+
+## Expand to see the model code
+
+
+
+```{r}
+#| message: false
+mod2 <- mcode("bad", paste0(code, collapse = "\n"))
+```
+
+```{c, code = capture.output(blocks(mod2, main))}
+#| eval: false
+
+```
+
+:::
+
+
+When we try to validate this model against the NONMEM run with different 
+reference `AGE`, we can clearly see there's an issue
+
+```{r}
+#| message: false
+out <- mrgsim(zero_re(mod2), data, carry_out = "PRED,EVID", digits = 7)
+obs <- filter(out,  EVID==0)
+summary(obs$Y - obs$PRED)
+```
 
