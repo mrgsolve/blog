@@ -308,14 +308,14 @@ background: #097f5f;
 <span id="cb3-4"><a href="#cb3-4"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
-     ID        B
-  &lt;dbl&gt;    &lt;dbl&gt;
-1     1  0.00626
-2     1 25.3    
-3     1  0.272  
-4     1  1.09   
-5     1  0.352  
-6     1  7.88   </code></pre>
+     ID      B
+  &lt;dbl&gt;  &lt;dbl&gt;
+1     1 0.0398
+2     1 0.335 
+3     1 0.0310
+4     1 0.182 
+5     1 1.42  
+6     1 0.530 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -323,7 +323,7 @@ background: #097f5f;
 <span id="cb5-2"><a href="#cb5-2"></a></span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="fu">plot</span>(out, Y<span class="sc">~</span>B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2018-pred_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="2018-pred_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Like other models, we can simulate from a population</p>
@@ -349,7 +349,7 @@ background: #097f5f;
 <span id="cb8-3"><a href="#cb8-3"></a>  <span class="fu">mrgsim</span>(<span class="at">carry.out=</span><span class="st">"B"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">plot</span>(Y <span class="sc">~</span> B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2018-pred_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="2018-pred_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -379,7 +379,7 @@ background: #097f5f;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">"pkpd"</span>, code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Loading model from cache.</code></pre>
+<pre><code>Building pkpd ... done.</code></pre>
 </div>
 </div>
 <p>To simulate, look at 50 subjects at each of 5 doses ::: {.cell}</p>
@@ -425,7 +425,7 @@ background: #097f5f;
 <pre><code>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="2018-pred_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<p><img src="2018-pred_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 <p>:::</p>
 

@@ -321,7 +321,7 @@ background: #097f5f;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(<span class="at">events=</span>e) <span class="sc">%&gt;%</span> <span class="fu">plot</span>(EV1<span class="sc">+</span>CP<span class="sc">~</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="events_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<p><img src="events_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The events can also be implemented with the <code>ev</code> constructor along the simulation pipeline</p>
@@ -331,7 +331,7 @@ background: #097f5f;
 <span id="cb9-3"><a href="#cb9-3"></a>  mrgsim <span class="sc">%&gt;%</span> </span>
 <span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">plot</span>(CP<span class="sc">~</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="events_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="events_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -390,17 +390,17 @@ background: #097f5f;
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>data <span class="ot">&lt;-</span> <span class="fu">as_data_set</span>(e1,e2,e3)</span>
 <span id="cb16-2"><a href="#cb16-2"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   ID time cmt evid amt ii addl
-1   1    0   1    1 100 24    6
-2   2    0   1    1 100 24    6
-3   3    0   1    1 100 24    6
-4   4    0   1    1 100 24    6
-5   5    0   1    1 100 24    6
-6   6    0   1    1  50 12   13
-7   7    0   1    1  50 12   13
-8   8    0   1    1  50 12   13
-9   9    0   1    1 200 24    2
-10 10    0   1    1 200 24    2</code></pre>
+<pre><code>         ID time cmt evid amt ii addl
+1...1     1    0   1    1 100 24    6
+1.1...2   2    0   1    1 100 24    6
+1.2...3   3    0   1    1 100 24    6
+1.3       4    0   1    1 100 24    6
+1.4       5    0   1    1 100 24    6
+1...6     6    0   1    1  50 12   13
+1.1...7   7    0   1    1  50 12   13
+1.2...8   8    0   1    1  50 12   13
+1...9     9    0   1    1 200 24    2
+1.1...10 10    0   1    1 200 24    2</code></pre>
 </div>
 </div>
 <p>To simulate from this data set, we use the <code>data_set</code> function. First, let’s load a population PK model</p>
@@ -410,7 +410,7 @@ background: #097f5f;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">data_set</span>(data) <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(<span class="at">end=</span><span class="dv">336</span>) <span class="sc">%&gt;%</span> <span class="fu">plot</span>(GUT<span class="sc">+</span>DV <span class="sc">~</span>  .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="events_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+<p><img src="events_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
