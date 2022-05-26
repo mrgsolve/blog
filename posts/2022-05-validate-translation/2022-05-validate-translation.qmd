@@ -3,8 +3,8 @@ title: "Validate model translation from NONMEM"
 author: Kyle Baron
 date: 05/25/2022
 description: > 
-  If your mrgsolve model is a translation of a completed model run, you can 
-  validate it every time; find out how.
+  If your mrgsolve model is a translation of a completed NONMEM model run, you 
+  can validate it every time; find out how.
 categories: 
 - model specification
 - validation

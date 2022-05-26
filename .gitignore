@@ -2,3 +2,4 @@ _freeze
 .DS_Store
 .Rproj.user
 /.quarto/
+mrgsolve-so-*
