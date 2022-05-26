@@ -4,8 +4,10 @@ project:
 
 website:
   title: "mrgsolve/blog"
-  open-graph: true
-  twitter-card: true
+  open-graph:
+    image: "https://mrgsolve.org/blog/images/mrgsolve-std.png"
+  twitter-card:
+    image: "https://mrgsolve.org/blog/images/mrgsolve-std.png"
   search:
     location: navbar
     type: overlay
