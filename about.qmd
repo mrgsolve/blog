@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: images/MRG-Solve-Hex.png
+image: images/mrgsolve-std.png
 about:
   template: jolla
   links:
