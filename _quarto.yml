@@ -4,6 +4,8 @@ project:
 
 website:
   title: "mrgsolve/blog"
+  open-graph: true
+  twitter-card: true
   search:
     location: navbar
     type: overlay
