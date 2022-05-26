@@ -4,7 +4,7 @@ subtitle: "<font color=white>Vignettes, development ideas and announcements abou
 listing:
   contents: posts
   sort: "date desc"
-  type: grid
+  type: default
   categories: true
 page-layout: full
 title-block-banner: "#097f5f"
