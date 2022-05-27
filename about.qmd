@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: images/mrgsolve-std.png
+image: images/preview.png
 about:
   template: jolla
   links:

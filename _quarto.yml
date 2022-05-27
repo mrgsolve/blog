@@ -5,9 +5,9 @@ project:
 website:
   title: "mrgsolve/blog"
   open-graph:
-    image: "https://mrgsolve.org/blog/images/mrgsolve-std.png"
+    image: "https://mrgsolve.org/blog/images/preview.png"
   twitter-card:
-    image: "https://mrgsolve.org/blog/images/mrgsolve-std.png"
+    image: "https://mrgsolve.org/blog/images/preview.png"
   search:
     location: navbar
     type: overlay
@@ -53,3 +53,4 @@ format:
     css: styles.css
     code-line-numbers: true
     linkcolor: "#097f5f"
+    title-block-banner: "#097f5f"
