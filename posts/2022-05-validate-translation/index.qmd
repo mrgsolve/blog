@@ -79,6 +79,13 @@ Now, we have the analysis data set with `PRED` (from NONMEM) as a column
 select(data, ID, NUM, TIME, EVID, AMT, CMT, DV, PRED)
 ```
 
+This data set contains 3100+ concentrations
+
+```{r}
+count(data, EVID)
+```
+
+
 ## bbr::nm_join
 
 ::: {.callout-note appearance="simple"}
@@ -151,7 +158,7 @@ summary(obs$Y - obs$PRED)
 ```
 
 We see there is exact match up to the level of precision that we've
-requested (See [Appendix](2022-05-validate-translation.html#sec-appendix)). 
+requested (See [Appendix](#sec-appendix)). 
 
 This can be presented graphically as well
 
@@ -169,8 +176,8 @@ of the value of `PRED` (percent difference).
 
 We frequently see exact matches when models are coded with analytical solutions.
 This is _never_ the case when coding models from ODEs. But even with ODE models
-you should expect to see only a small discrepancy ... only a small fraction of 
-one percent or less. 
+you should expect to see only an extremely small discrepancy ... out to a very 
+distant digit. 
 
 :::
 
