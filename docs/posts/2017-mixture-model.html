@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.508">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -56,7 +61,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -69,7 +74,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -99,7 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -129,13 +134,11 @@ background: #097f5f;
 
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="mrgsolve/blog - Mixture model example">
-<meta property="og:description" content="In this post, we'll look at how you can code up a mixture model in mrgsolve.
-">
+<meta property="og:description" content="In this post, we’ll look at how you can code up a mixture model in mrgsolve.">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta property="og:site-name" content="mrgsolve/blog">
 <meta name="twitter:title" content="mrgsolve/blog - Mixture model example">
-<meta name="twitter:description" content="In this post, we'll look at how you can code up a mixture model in mrgsolve.
-">
+<meta name="twitter:description" content="In this post, we’ll look at how you can code up a mixture model in mrgsolve.">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -146,9 +149,11 @@ background: #097f5f;
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">mrgsolve/blog</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -259,15 +264,15 @@ background: #097f5f;
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#two-populations" id="toc-two-populations" class="nav-link active" data-scroll-target="#two-populations"> <span class="header-section-number">1</span> Two Populations</a>
+  <li><a href="#two-populations" id="toc-two-populations" class="nav-link active" data-scroll-target="#two-populations"><span class="toc-section-number">1</span>  Two Populations</a>
   <ul class="collapse">
-  <li><a href="#modify-the-model-to-simulate-a-population-mixture" id="toc-modify-the-model-to-simulate-a-population-mixture" class="nav-link" data-scroll-target="#modify-the-model-to-simulate-a-population-mixture"> <span class="header-section-number">1.1</span> Modify the model to simulate a population mixture</a></li>
+  <li><a href="#modify-the-model-to-simulate-a-population-mixture" id="toc-modify-the-model-to-simulate-a-population-mixture" class="nav-link" data-scroll-target="#modify-the-model-to-simulate-a-population-mixture"><span class="toc-section-number">1.1</span>  Modify the model to simulate a population mixture</a></li>
   </ul></li>
-  <li><a href="#three-or-more-populations" id="toc-three-or-more-populations" class="nav-link" data-scroll-target="#three-or-more-populations"> <span class="header-section-number">2</span> Three (or more) Populations</a></li>
+  <li><a href="#three-or-more-populations" id="toc-three-or-more-populations" class="nav-link" data-scroll-target="#three-or-more-populations"><span class="toc-section-number">2</span>  Three (or more) Populations</a></li>
   </ul>
 </nav>
     </div>
@@ -298,7 +303,8 @@ background: #097f5f;
 <span id="cb1-13"><a href="#cb1-13"></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this model, we created a parameter for the population indicator (<code>POP</code>) and if <code>POP</code> is 2 then clearance is lower than it would be otherwise.</p>
-<p>Compile this model and run ::: {.cell}</p>
+<p>Compile this model and run</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">"A"</span>, code) <span class="sc">%&gt;%</span> <span class="fu">update</span>(<span class="at">end=</span><span class="dv">72</span>, <span class="at">delta=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building A ... done.</code></pre>
@@ -316,7 +322,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 <div class="cell-output-display">
 <p><img src="2017-mixture-model_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>:::</p>
+</div>
 <p>The profile in pink was for <code>POP==2</code> or the lower clearance profile and blue was for <code>POP==1</code>.</p>
 <section id="modify-the-model-to-simulate-a-population-mixture" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="modify-the-model-to-simulate-a-population-mixture"><span class="header-section-number">1.1</span> Modify the model to simulate a population mixture</h2>
@@ -357,12 +363,13 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 6  6    0   2</code></pre>
 </div>
 </div>
-<p>Here, we’ve got 20% of the people in the population with <code>POP</code> of 2: ::: {.cell}</p>
+<p>Here, we’ve got 20% of the people in the population with <code>POP</code> of 2:</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">mean</span>(out<span class="sc">$</span>POP<span class="sc">==</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1973</code></pre>
 </div>
-<p>:::</p>
+</div>
 <p>Now, let’s modify the model again to incorporate our random <code>POP</code> calculation with the PK model. I have also included a home-brewed <code>ETA</code> using <code>R::rnorm</code> as another example and to make the summary a little more interesting.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
@@ -392,10 +399,11 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 <pre><code>Building C ... done.</code></pre>
 </div>
 </div>
-<p>And simulate again ::: {.cell}</p>
+<p>And simulate again</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">set.seed</span>(<span class="dv">444</span>)</span>
 <span id="cb15-2"><a href="#cb15-2"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod,<span class="at">nid=</span><span class="dv">10000</span>, <span class="at">end=</span><span class="dv">72</span>, <span class="at">events=</span>e,<span class="at">obsonly=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">head</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -454,14 +462,15 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 <li>Determine <code>POP</code> based on the probabilities and <code>mixv</code></li>
 <li>Remember: you must use <code>$PLUGIN</code> for this to work</li>
 </ul>
-<p>Now, let’s compile and test it out ::: {.cell}</p>
+<p>Now, let’s compile and test it out</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">"D"</span>, code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building D ... done.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">set.seed</span>(<span class="dv">333</span>)</span>
 <span id="cb25-2"><a href="#cb25-2"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">nid=</span><span class="dv">10000</span>, <span class="at">end=</span><span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">head</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -495,6 +504,24 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -544,7 +571,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);

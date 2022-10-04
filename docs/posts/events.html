@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.508">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -56,7 +61,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -69,7 +74,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -99,7 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -129,13 +134,11 @@ background: #097f5f;
 
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="mrgsolve/blog - Work with event objects">
-<meta property="og:description" content="event objects are data.frame-like data structures that allow you to quickly and flexibly include dosing interventions into your simulations.
-">
+<meta property="og:description" content="event objects are data.frame-like data structures that allow you to quickly and flexibly include dosing interventions into your simulations.">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta property="og:site-name" content="mrgsolve/blog">
 <meta name="twitter:title" content="mrgsolve/blog - Work with event objects">
-<meta name="twitter:description" content="event objects are data.frame-like data structures that allow you to quickly and flexibly include dosing interventions into your simulations.
-">
+<meta name="twitter:description" content="event objects are data.frame-like data structures that allow you to quickly and flexibly include dosing interventions into your simulations.">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -146,9 +149,11 @@ background: #097f5f;
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">mrgsolve/blog</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -259,16 +264,16 @@ background: #097f5f;
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"> <span class="header-section-number">2</span> Setup</a></li>
-  <li><a href="#events" id="toc-events" class="nav-link" data-scroll-target="#events"> <span class="header-section-number">3</span> Events</a></li>
-  <li><a href="#event-expectations" id="toc-event-expectations" class="nav-link" data-scroll-target="#event-expectations"> <span class="header-section-number">4</span> Event expectations</a></li>
-  <li><a href="#combine-events" id="toc-combine-events" class="nav-link" data-scroll-target="#combine-events"> <span class="header-section-number">5</span> Combine events</a></li>
-  <li><a href="#combine-event-objects-to-create-a-data-set" id="toc-combine-event-objects-to-create-a-data-set" class="nav-link" data-scroll-target="#combine-event-objects-to-create-a-data-set"> <span class="header-section-number">6</span> Combine event objects to create a data set</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">1</span>  Introduction</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"><span class="toc-section-number">2</span>  Setup</a></li>
+  <li><a href="#events" id="toc-events" class="nav-link" data-scroll-target="#events"><span class="toc-section-number">3</span>  Events</a></li>
+  <li><a href="#event-expectations" id="toc-event-expectations" class="nav-link" data-scroll-target="#event-expectations"><span class="toc-section-number">4</span>  Event expectations</a></li>
+  <li><a href="#combine-events" id="toc-combine-events" class="nav-link" data-scroll-target="#combine-events"><span class="toc-section-number">5</span>  Combine events</a></li>
+  <li><a href="#combine-event-objects-to-create-a-data-set" id="toc-combine-event-objects-to-create-a-data-set" class="nav-link" data-scroll-target="#combine-event-objects-to-create-a-data-set"><span class="toc-section-number">6</span>  Combine event objects to create a data set</a></li>
   </ul>
 </nav>
     </div>
@@ -390,17 +395,17 @@ background: #097f5f;
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>data <span class="ot">&lt;-</span> <span class="fu">as_data_set</span>(e1,e2,e3)</span>
 <span id="cb16-2"><a href="#cb16-2"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         ID time cmt evid amt ii addl
-1...1     1    0   1    1 100 24    6
-1.1...2   2    0   1    1 100 24    6
-1.2...3   3    0   1    1 100 24    6
-1.3       4    0   1    1 100 24    6
-1.4       5    0   1    1 100 24    6
-1...6     6    0   1    1  50 12   13
-1.1...7   7    0   1    1  50 12   13
-1.2...8   8    0   1    1  50 12   13
-1...9     9    0   1    1 200 24    2
-1.1...10 10    0   1    1 200 24    2</code></pre>
+<pre><code>   ID time cmt evid amt ii addl
+1   1    0   1    1 100 24    6
+2   2    0   1    1 100 24    6
+3   3    0   1    1 100 24    6
+4   4    0   1    1 100 24    6
+5   5    0   1    1 100 24    6
+6   6    0   1    1  50 12   13
+7   7    0   1    1  50 12   13
+8   8    0   1    1  50 12   13
+9   9    0   1    1 200 24    2
+10 10    0   1    1 200 24    2</code></pre>
 </div>
 </div>
 <p>To simulate from this data set, we use the <code>data_set</code> function. First, let’s load a population PK model</p>
@@ -420,6 +425,24 @@ background: #097f5f;
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -469,7 +492,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);

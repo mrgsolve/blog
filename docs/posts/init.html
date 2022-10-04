@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.508">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -56,7 +61,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -69,7 +74,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -99,7 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -129,13 +134,11 @@ background: #097f5f;
 
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="mrgsolve/blog - Set initial conditions">
-<meta property="og:description" content="There are several ways to set initial conditions in mrgsolve. Find out how this can work to your advantage when planning your simulations.
-">
+<meta property="og:description" content="There are several ways to set initial conditions in mrgsolve. Find out how this can work to your advantage when planning your simulations.">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta property="og:site-name" content="mrgsolve/blog">
 <meta name="twitter:title" content="mrgsolve/blog - Set initial conditions">
-<meta name="twitter:description" content="There are several ways to set initial conditions in mrgsolve. Find out how this can work to your advantage when planning your simulations.
-">
+<meta name="twitter:description" content="There are several ways to set initial conditions in mrgsolve. Find out how this can work to your advantage when planning your simulations.">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -146,9 +149,11 @@ background: #097f5f;
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">mrgsolve/blog</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -259,23 +264,23 @@ background: #097f5f;
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#short-answer" id="toc-short-answer" class="nav-link active" data-scroll-target="#short-answer"> <span class="header-section-number">1</span> Short answer</a>
+  <li><a href="#short-answer" id="toc-short-answer" class="nav-link active" data-scroll-target="#short-answer"><span class="toc-section-number">1</span>  Short answer</a>
   <ul class="collapse">
-  <li><a href="#set-initials-in-main" id="toc-set-initials-in-main" class="nav-link" data-scroll-target="#set-initials-in-main"> <span class="header-section-number">1.1</span> Set initials in <code>$MAIN</code></a></li>
-  <li><a href="#set-initials-in-the-init-list" id="toc-set-initials-in-the-init-list" class="nav-link" data-scroll-target="#set-initials-in-the-init-list"> <span class="header-section-number">1.2</span> Set initials in the <code>init</code> list</a></li>
-  <li><a href="#dont-use-initial-conditions-as-a-dosing-mechanism" id="toc-dont-use-initial-conditions-as-a-dosing-mechanism" class="nav-link" data-scroll-target="#dont-use-initial-conditions-as-a-dosing-mechanism"> <span class="header-section-number">1.3</span> Don’t use initial conditions as a dosing mechanism</a></li>
+  <li><a href="#set-initials-in-main" id="toc-set-initials-in-main" class="nav-link" data-scroll-target="#set-initials-in-main"><span class="toc-section-number">1.1</span>  Set initials in <code>$MAIN</code></a></li>
+  <li><a href="#set-initials-in-the-init-list" id="toc-set-initials-in-the-init-list" class="nav-link" data-scroll-target="#set-initials-in-the-init-list"><span class="toc-section-number">1.2</span>  Set initials in the <code>init</code> list</a></li>
+  <li><a href="#dont-use-initial-conditions-as-a-dosing-mechanism" id="toc-dont-use-initial-conditions-as-a-dosing-mechanism" class="nav-link" data-scroll-target="#dont-use-initial-conditions-as-a-dosing-mechanism"><span class="toc-section-number">1.3</span>  Don’t use initial conditions as a dosing mechanism</a></li>
   </ul></li>
-  <li><a href="#long-answer" id="toc-long-answer" class="nav-link" data-scroll-target="#long-answer"> <span class="header-section-number">2</span> Long answer</a>
+  <li><a href="#long-answer" id="toc-long-answer" class="nav-link" data-scroll-target="#long-answer"><span class="toc-section-number">2</span>  Long answer</a>
   <ul class="collapse">
-  <li><a href="#make-a-model-only-to-examine-init-behavior" id="toc-make-a-model-only-to-examine-init-behavior" class="nav-link" data-scroll-target="#make-a-model-only-to-examine-init-behavior"> <span class="header-section-number">2.1</span> Make a model only to examine <code>init</code> behavior</a></li>
-  <li><a href="#example-pkpd-model-with-initial-condition" id="toc-example-pkpd-model-with-initial-condition" class="nav-link" data-scroll-target="#example-pkpd-model-with-initial-condition"> <span class="header-section-number">2.2</span> Example PK/PD model with initial condition</a></li>
-  <li><a href="#calling-init-will-let-you-check-to-see-what-is-going-on" id="toc-calling-init-will-let-you-check-to-see-what-is-going-on" class="nav-link" data-scroll-target="#calling-init-will-let-you-check-to-see-what-is-going-on"> <span class="header-section-number">2.3</span> Calling <code>init</code> will let you check to see what is going on</a></li>
+  <li><a href="#make-a-model-only-to-examine-init-behavior" id="toc-make-a-model-only-to-examine-init-behavior" class="nav-link" data-scroll-target="#make-a-model-only-to-examine-init-behavior"><span class="toc-section-number">2.1</span>  Make a model only to examine <code>init</code> behavior</a></li>
+  <li><a href="#example-pkpd-model-with-initial-condition" id="toc-example-pkpd-model-with-initial-condition" class="nav-link" data-scroll-target="#example-pkpd-model-with-initial-condition"><span class="toc-section-number">2.2</span>  Example PK/PD model with initial condition</a></li>
+  <li><a href="#calling-init-will-let-you-check-to-see-what-is-going-on" id="toc-calling-init-will-let-you-check-to-see-what-is-going-on" class="nav-link" data-scroll-target="#calling-init-will-let-you-check-to-see-what-is-going-on"><span class="toc-section-number">2.3</span>  Calling <code>init</code> will let you check to see what is going on</a></li>
   </ul></li>
-  <li><a href="#set-initial-conditions-via-idata" id="toc-set-initial-conditions-via-idata" class="nav-link" data-scroll-target="#set-initial-conditions-via-idata"> <span class="header-section-number">3</span> Set initial conditions via <code>idata</code></a></li>
+  <li><a href="#set-initial-conditions-via-idata" id="toc-set-initial-conditions-via-idata" class="nav-link" data-scroll-target="#set-initial-conditions-via-idata"><span class="toc-section-number">3</span>  Set initial conditions via <code>idata</code></a></li>
   </ul>
 </nav>
     </div>
@@ -317,10 +322,11 @@ background: #097f5f;
 <span id="cb3-3"><a href="#cb3-3"></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This method gets us the same result as the previous example, however the initial condition now is not a derived value, but it is coded as a number. Alternatively, you could declare a compartment via <code>$CMT</code> and update later (see next).</p>
-<p>We can update this value later like this ::: {.cell}</p>
+<p>We can update this value later like this</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">"init_up"</span>, code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Building init_up ... done.</code></pre>
+<pre><code>Loading model from cache.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">init</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -336,7 +342,7 @@ background: #097f5f;
  name       value . name    value
  RESP (1)   8     | . ...   .    </code></pre>
 </div>
-<p>:::</p>
+</div>
 <p>This method is commonly used to set initial conditions in large QSP models where the compartment starts out as some known or assumed steady state value.</p>
 </section>
 <section id="dont-use-initial-conditions-as-a-dosing-mechanism" class="level2" data-number="1.3">
@@ -390,11 +396,12 @@ background: #097f5f;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">"init_long"</span>,code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Building init_long ... done.</code></pre>
+<pre><code>Loading model from cache.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>dplot <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">plot</span>(x,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">400</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Check the initial condition</strong> ::: {.cell}</p>
+<p><strong>Check the initial condition</strong></p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">init</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -402,7 +409,7 @@ background: #097f5f;
  name    value . name    value
  A (1)   0     | . ...   .    </code></pre>
 </div>
-<p>:::</p>
+</div>
 <p>Note:</p>
 <ul>
 <li>We used <code>$CMT</code> in the model spec; that implies that the base initial condition for <code>A</code> is set to 0</li>
@@ -462,7 +469,7 @@ background: #097f5f;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">"init_long2"</span>, code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Building init_long2 ... done.</code></pre>
+<pre><code>Loading model from cache.</code></pre>
 </div>
 </div>
 <p>The initial condition is set to 40 per the values of <code>KIN</code> and <code>KOUT</code></p>
@@ -568,6 +575,24 @@ ID:     1
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -617,7 +642,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);

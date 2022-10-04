@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.508">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -56,7 +61,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -69,7 +74,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -99,7 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -129,13 +134,11 @@ background: #097f5f;
 
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="mrgsolve/blog - A Complete Example">
-<meta property="og:description" content="We had a user who was learning `mrgsolve` ask for a &quot;complete example&quot;. I wasn't sure what   exactly that meant, but I created  this example and I'm sharing it today on the blog.
-">
+<meta property="og:description" content="We had a user who was learning mrgsolve ask for a “complete example”. I wasn’t sure what exactly that meant, but I created this example and I’m sharing it today on the blog.">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta property="og:site-name" content="mrgsolve/blog">
 <meta name="twitter:title" content="mrgsolve/blog - A Complete Example">
-<meta name="twitter:description" content="We had a user who was learning `mrgsolve` ask for a &quot;complete example&quot;. I wasn't sure what   exactly that meant, but I created  this example and I'm sharing it today on the blog.
-">
+<meta name="twitter:description" content="We had a user who was learning mrgsolve ask for a “complete example”. I wasn’t sure what exactly that meant, but I created this example and I’m sharing it today on the blog.">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -146,9 +149,11 @@ background: #097f5f;
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">mrgsolve/blog</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -259,15 +264,15 @@ background: #097f5f;
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#population-pk-model" id="toc-population-pk-model" class="nav-link active" data-scroll-target="#population-pk-model"> <span class="header-section-number">1</span> Population PK model</a></li>
-  <li><a href="#input-data-set" id="toc-input-data-set" class="nav-link" data-scroll-target="#input-data-set"> <span class="header-section-number">2</span> Input data set</a></li>
-  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation"> <span class="header-section-number">3</span> Simulation</a></li>
-  <li><a href="#output-presentation" id="toc-output-presentation" class="nav-link" data-scroll-target="#output-presentation"> <span class="header-section-number">4</span> Output presentation</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"> <span class="header-section-number">5</span> Summary</a></li>
+  <li><a href="#population-pk-model" id="toc-population-pk-model" class="nav-link active" data-scroll-target="#population-pk-model"><span class="toc-section-number">1</span>  Population PK model</a></li>
+  <li><a href="#input-data-set" id="toc-input-data-set" class="nav-link" data-scroll-target="#input-data-set"><span class="toc-section-number">2</span>  Input data set</a></li>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation"><span class="toc-section-number">3</span>  Simulation</a></li>
+  <li><a href="#output-presentation" id="toc-output-presentation" class="nav-link" data-scroll-target="#output-presentation"><span class="toc-section-number">4</span>  Output presentation</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="toc-section-number">5</span>  Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -301,7 +306,8 @@ background: #097f5f;
 <li>Note: we resimulate residual error variates using <code>simeps</code> until the simulated concentration is positive</li>
 </ul></li>
 </ul>
-<p><strong>Here’s the model specification</strong> ::: {.cell}</p>
+<p><strong>Here’s the model specification</strong></p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>code <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="st">$PARAM TVCL = 1.23, TVV = 35.7, TVKA = 1.3</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="st">F1 = 0.82, ALAG = 1.21</span></span>
@@ -336,14 +342,15 @@ background: #097f5f;
 <span id="cb2-32"><a href="#cb2-32"></a></span>
 <span id="cb2-33"><a href="#cb2-33"></a><span class="st">$CAPTURE WT CL </span></span>
 <span id="cb2-34"><a href="#cb2-34"></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+</div>
 <p><strong>Compile and load the model</strong></p>
-<p>We use <code>mcode_cache</code> here, which caches the model when you compile. If the cache is not invalidated, <code>mrgsolve</code> loads from the cache next time rather than re-compiling. ::: {.cell}</p>
+<p>We use <code>mcode_cache</code> here, which caches the model when you compile. If the cache is not invalidated, <code>mrgsolve</code> loads from the cache next time rather than re-compiling.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">"demo"</span>, code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building demo ... done.</code></pre>
 </div>
-<p>:::</p>
+</div>
 </section>
 <section id="input-data-set" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Input data set</h1>
@@ -385,10 +392,11 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 # … with 1,990 more rows</code></pre>
 </div>
 </div>
-<p>The dosing elements are implemented through <code>event</code> objects. ::: {.cell}</p>
+<p>The dosing elements are implemented through <code>event</code> objects.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>ev1 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>, <span class="at">ii=</span><span class="dv">24</span>, <span class="at">addl=</span><span class="dv">9</span>)</span>
 <span id="cb9-2"><a href="#cb9-2"></a>ev2 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">150</span>, <span class="at">ii=</span><span class="dv">24</span>, <span class="at">addl=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+</div>
 <p>The <code>assign_ev</code> function looks at the <code>dosegr</code> column in <code>idata</code> and assigns a dosing event sequence (<code>e1</code> or <code>e2</code>) based on the value of <code>dosegr</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>data <span class="ot">&lt;-</span> <span class="fu">assign_ev</span>(<span class="fu">list</span>(ev1,ev2),idata,<span class="st">"dosegr"</span>)</span>
@@ -449,16 +457,19 @@ ID:     2000
 <li>Other than the quickie <code>lattice</code>-based plot method that I only use for quick looks at the output, <code>mrgsolve</code> (by design) lets you use packages like <code>dplyr</code> or <code>data.table</code> or <code>ggplot</code> or other great <code>R</code> packages that are already out there for summarizing and plotting data</li>
 <li>But notice that <code>mrgsolve</code> provides methods for sending the <code>mrgsims</code> object directly into a <code>dplyr</code> data summary pipeline</li>
 </ul>
-<p>This shows the plot method for <code>mrgsims</code> objects ::: {.cell}</p>
+<p>This shows the plot method for <code>mrgsims</code> objects</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">plot</span>(out, IPRED<span class="sc">+</span>DV<span class="sc">~</span>., <span class="at">subset=</span>ID<span class="sc">==</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="2017-complete-example_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>:::</p>
-<p>The <code>mrgsims</code> object can be passed right into <code>dplyr::filter</code> ::: {.cell}</p>
+</div>
+<p>The <code>mrgsims</code> object can be passed right into <code>dplyr::filter</code></p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">filter</span>(out, time<span class="sc">==</span><span class="dv">240</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
-<p>Simulated day 10 concentration versus patient weight by dose/weight group ::: {.cell}</p>
+</div>
+<p>Simulated day 10 concentration versus patient weight by dose/weight group</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">ggplot</span>(tr, <span class="fu">aes</span>(<span class="at">x=</span>WT,<span class="at">y=</span>DV)) <span class="sc">+</span> </span>
 <span id="cb16-2"><a href="#cb16-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>dosegr) <span class="sc">+</span></span>
 <span id="cb16-3"><a href="#cb16-3"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"loess"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -468,15 +479,16 @@ ID:     2000
 <div class="cell-output-display">
 <p><img src="2017-complete-example_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>:::</p>
-<p>Density plots of day 10 concentrations in the two dose/weight groups ::: {.cell}</p>
+</div>
+<p>Density plots of day 10 concentrations in the two dose/weight groups</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">ggplot</span>(tr,<span class="fu">aes</span>(<span class="at">x=</span>DV,<span class="at">fill=</span><span class="fu">factor</span>(dosegr))) <span class="sc">+</span> </span>
 <span id="cb18-2"><a href="#cb18-2"></a>  <span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb18-3"><a href="#cb18-3"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette=</span><span class="st">"Set1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="2017-complete-example_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>:::</p>
+</div>
 </section>
 <section id="summary" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Summary</h1>
@@ -489,6 +501,24 @@ ID:     2000
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -538,7 +568,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);

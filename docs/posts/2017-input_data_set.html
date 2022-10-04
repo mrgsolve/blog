@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.508">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -56,7 +61,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -69,7 +74,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -99,7 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -129,13 +134,11 @@ background: #097f5f;
 
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="mrgsolve/blog - Generating input data sets for mrgsolve">
-<meta property="og:description" content="An important mechanism for creating robust, complex simulations is the input data set. In this blog post, we'll look at some ways you can quickly create input data sets for your simulation.
-">
+<meta property="og:description" content="An important mechanism for creating robust, complex simulations is the input data set. In this blog post, we’ll look at some ways you can quickly create input data sets for your simulation.">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta property="og:site-name" content="mrgsolve/blog">
 <meta name="twitter:title" content="mrgsolve/blog - Generating input data sets for mrgsolve">
-<meta name="twitter:description" content="An important mechanism for creating robust, complex simulations is the input data set. In this blog post, we'll look at some ways you can quickly create input data sets for your simulation.
-">
+<meta name="twitter:description" content="An important mechanism for creating robust, complex simulations is the input data set. In this blog post, we’ll look at some ways you can quickly create input data sets for your simulation.">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -146,9 +149,11 @@ background: #097f5f;
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">mrgsolve/blog</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -259,20 +264,20 @@ background: #097f5f;
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#input-data-sets" id="toc-input-data-sets" class="nav-link active" data-scroll-target="#input-data-sets"> <span class="header-section-number">1</span> Input data sets</a></li>
-  <li><a href="#functions-to-generate-input-data-sets" id="toc-functions-to-generate-input-data-sets" class="nav-link" data-scroll-target="#functions-to-generate-input-data-sets"> <span class="header-section-number">2</span> Functions to generate input data sets</a>
+  <li><a href="#input-data-sets" id="toc-input-data-sets" class="nav-link active" data-scroll-target="#input-data-sets"><span class="toc-section-number">1</span>  Input data sets</a></li>
+  <li><a href="#functions-to-generate-input-data-sets" id="toc-functions-to-generate-input-data-sets" class="nav-link" data-scroll-target="#functions-to-generate-input-data-sets"><span class="toc-section-number">2</span>  Functions to generate input data sets</a>
   <ul class="collapse">
-  <li><a href="#expand.ev" id="toc-expand.ev" class="nav-link" data-scroll-target="#expand.ev"> <span class="header-section-number">2.1</span> <code>expand.ev</code></a></li>
-  <li><a href="#as_data_set" id="toc-as_data_set" class="nav-link" data-scroll-target="#as_data_set"> <span class="header-section-number">2.2</span> <code>as_data_set</code></a></li>
-  <li><a href="#as.data.frame.ev" id="toc-as.data.frame.ev" class="nav-link" data-scroll-target="#as.data.frame.ev"> <span class="header-section-number">2.3</span> <code>as.data.frame.ev</code></a></li>
-  <li><a href="#assign_ev" id="toc-assign_ev" class="nav-link" data-scroll-target="#assign_ev"> <span class="header-section-number">2.4</span> <code>assign_ev</code></a></li>
-  <li><a href="#ev_days" id="toc-ev_days" class="nav-link" data-scroll-target="#ev_days"> <span class="header-section-number">2.5</span> <code>ev_days</code></a></li>
+  <li><a href="#expand.ev" id="toc-expand.ev" class="nav-link" data-scroll-target="#expand.ev"><span class="toc-section-number">2.1</span>  <code>expand.ev</code></a></li>
+  <li><a href="#as_data_set" id="toc-as_data_set" class="nav-link" data-scroll-target="#as_data_set"><span class="toc-section-number">2.2</span>  <code>as_data_set</code></a></li>
+  <li><a href="#as.data.frame.ev" id="toc-as.data.frame.ev" class="nav-link" data-scroll-target="#as.data.frame.ev"><span class="toc-section-number">2.3</span>  <code>as.data.frame.ev</code></a></li>
+  <li><a href="#assign_ev" id="toc-assign_ev" class="nav-link" data-scroll-target="#assign_ev"><span class="toc-section-number">2.4</span>  <code>assign_ev</code></a></li>
+  <li><a href="#ev_days" id="toc-ev_days" class="nav-link" data-scroll-target="#ev_days"><span class="toc-section-number">2.5</span>  <code>ev_days</code></a></li>
   </ul></li>
-  <li><a href="#filter-input-data-set-inline" id="toc-filter-input-data-set-inline" class="nav-link" data-scroll-target="#filter-input-data-set-inline"> <span class="header-section-number">3</span> Filter input data set inline</a></li>
+  <li><a href="#filter-input-data-set-inline" id="toc-filter-input-data-set-inline" class="nav-link" data-scroll-target="#filter-input-data-set-inline"><span class="toc-section-number">3</span>  Filter input data set inline</a></li>
   </ul>
 </nav>
     </div>
@@ -316,7 +321,8 @@ background: #097f5f;
 </div>
 <p>This function call gives us 3 individuals at each of 3 doses. The <code>expand.grid</code> nature of <code>expand.ev</code> is what gives us <code>3x3=9</code> rows in the data set. Notice that the <code>IDs</code> are now 1 through 9 … <code>expand.ev</code> renumbers <code>IDs</code> so that there is only one dosing event per row and there is on row per <code>ID</code>.</p>
 <p>Also notice that <code>time</code> defaults to 0, <code>evid</code> defaults to 1, and <code>cmt</code> defaults to 1. So, <code>expand.ev</code> fills in some of the required columns for you.</p>
-<p>Let’s simulate with this data set: ::: {.cell}</p>
+<p>Let’s simulate with this data set:</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>mod <span class="ot">&lt;-</span> mrgsolve<span class="sc">:::</span><span class="fu">house</span>() <span class="sc">%&gt;%</span> <span class="fu">Req</span>(CP) </span>
 <span id="cb4-2"><a href="#cb4-2"></a>mod <span class="sc">%&gt;%</span> </span>
 <span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">mrgsim</span>(<span class="at">data=</span>data) <span class="sc">%&gt;%</span> </span>
@@ -324,55 +330,62 @@ background: #097f5f;
 <div class="cell-output-display">
 <p><img src="2017-input_data_set_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>:::</p>
+</div>
 <hr>
 </section>
 <section id="as_data_set" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="as_data_set"><span class="header-section-number">2.2</span> <code>as_data_set</code></h2>
 <p>This function allows you to combine several event objects into a single data sets. An example works best to illustrate.</p>
-<p>First, create three event objects. Let’s try one <code>ID</code> at 100 mg, two <code>IDs</code> at 200 mg, and 3 <code>IDs</code> at 300 mg. ::: {.cell}</p>
+<p>First, create three event objects. Let’s try one <code>ID</code> at 100 mg, two <code>IDs</code> at 200 mg, and 3 <code>IDs</code> at 300 mg.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>, <span class="at">ID=</span><span class="dv">1</span>)</span>
 <span id="cb5-2"><a href="#cb5-2"></a>e2 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">200</span>, <span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
 <span id="cb5-3"><a href="#cb5-3"></a>e3 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">300</span>, <span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
-<p>The events are ::: {.cell}</p>
+</div>
+<p>The events are</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>e1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Events:
   ID time amt cmt evid
 1  1    0 100   1    1</code></pre>
 </div>
-<p>::: and ::: {.cell}</p>
+</div>
+<p>and</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>e2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Events:
-    ID time amt cmt evid
-1    1    0 200   1    1
-1.1  2    0 200   1    1</code></pre>
+  ID time amt cmt evid
+1  1    0 200   1    1
+2  2    0 200   1    1</code></pre>
 </div>
-<p>::: and ::: {.cell}</p>
+</div>
+<p>and</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>e3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Events:
-    ID time amt cmt evid
-1    1    0 300   1    1
-1.1  2    0 300   1    1
-1.2  3    0 300   1    1</code></pre>
+  ID time amt cmt evid
+1  1    0 300   1    1
+2  2    0 300   1    1
+3  3    0 300   1    1</code></pre>
 </div>
-<p>:::</p>
-<p>When we combine these events with <code>as_data_set</code> we get ::: {.cell}</p>
+</div>
+<p>When we combine these events with <code>as_data_set</code> we get</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>data <span class="ot">&lt;-</span> <span class="fu">as_data_set</span>(e1,e2,e3)</span>
 <span id="cb12-2"><a href="#cb12-2"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>        ID time cmt evid amt
-...1     1    0   1    1 100
-1...2    2    0   1    1 200
-1.1...3  3    0   1    1 200
-1...4    4    0   1    1 300
-1.1...5  5    0   1    1 300
-1.2      6    0   1    1 300</code></pre>
+<pre><code>  ID time cmt evid amt
+1  1    0   1    1 100
+2  2    0   1    1 200
+3  3    0   1    1 200
+4  4    0   1    1 300
+5  5    0   1    1 300
+6  6    0   1    1 300</code></pre>
 </div>
-<p>:::</p>
+</div>
 <p>A nice feature of <code>as_data_set</code> is, unlike <code>expand.ev</code> and the previous example, we can use complicated event sequences that are expressed with more than one line in the data set. For example, consider the case where every <code>ID</code> gets a 250 mg loading dose, and then either get 250 mg q24h, or 120 mg q12h or 500 mg q48h.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>load <span class="ot">&lt;-</span> <span class="cf">function</span>(n) <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">250</span>, <span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span>n)</span>
@@ -380,7 +393,8 @@ background: #097f5f;
 <span id="cb14-3"><a href="#cb14-3"></a>e2 <span class="ot">&lt;-</span> <span class="fu">load</span>(<span class="dv">2</span>) <span class="sc">+</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">125</span>, <span class="at">time=</span><span class="dv">24</span>, <span class="at">ii=</span><span class="dv">12</span>, <span class="at">addl=</span><span class="dv">7</span>, <span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
 <span id="cb14-4"><a href="#cb14-4"></a>e3 <span class="ot">&lt;-</span> <span class="fu">load</span>(<span class="dv">3</span>) <span class="sc">+</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">500</span>, <span class="at">time=</span><span class="dv">24</span>, <span class="at">ii=</span><span class="dv">48</span>, <span class="at">addl=</span><span class="dv">1</span>, <span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now, <code>e1</code>, <code>e2</code>, and <code>e3</code> are more complex ::: {.cell}</p>
+<p>Now, <code>e1</code>, <code>e2</code>, and <code>e3</code> are more complex</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>e1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Events:
@@ -391,35 +405,37 @@ background: #097f5f;
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>e3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Events:
-        ID time amt cmt evid ii addl
-1...1    1    0 250   1    1  0    0
-1...4    1   24 500   1    1 48    1
-1.1...2  2    0 250   1    1  0    0
-1.1...5  2   24 500   1    1 48    1
-1.2...3  3    0 250   1    1  0    0
-1.2...6  3   24 500   1    1 48    1</code></pre>
+  ID time amt cmt evid ii addl
+1  1    0 250   1    1  0    0
+4  1   24 500   1    1 48    1
+2  2    0 250   1    1  0    0
+5  2   24 500   1    1 48    1
+3  3    0 250   1    1  0    0
+6  3   24 500   1    1 48    1</code></pre>
 </div>
-<p>:::</p>
-<p>But, we can still pull them together in one single data set ::: {.cell}</p>
+</div>
+<p>But, we can still pull them together in one single data set</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>data <span class="ot">&lt;-</span> <span class="fu">as_data_set</span>(e1,e2,e3)</span>
 <span id="cb19-2"><a href="#cb19-2"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         ID time cmt evid amt ii addl
-...1      1    0   1    1 250  0    0
-...2      1   24   1    1 250 24    3
-1...3     2    0   1    1 250  0    0
-1...4     2   24   1    1 125 12    7
-1.1...5   3    0   1    1 250  0    0
-1.1...6   3   24   1    1 125 12    7
-1...7     4    0   1    1 250  0    0
-1...8     4   24   1    1 500 48    1
-1.1...9   5    0   1    1 250  0    0
-1.1...10  5   24   1    1 500 48    1
-1.2...11  6    0   1    1 250  0    0
-1.2...12  6   24   1    1 500 48    1</code></pre>
+<pre><code>   ID time cmt evid amt ii addl
+1   1    0   1    1 250  0    0
+2   1   24   1    1 250 24    3
+3   2    0   1    1 250  0    0
+4   2   24   1    1 125 12    7
+5   3    0   1    1 250  0    0
+6   3   24   1    1 125 12    7
+7   4    0   1    1 250  0    0
+8   4   24   1    1 500 48    1
+9   5    0   1    1 250  0    0
+10  5   24   1    1 500 48    1
+11  6    0   1    1 250  0    0
+12  6   24   1    1 500 48    1</code></pre>
 </div>
-<p>:::</p>
-<p>An example simulation ::: {.cell}</p>
+</div>
+<p>An example simulation</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">set.seed</span>(<span class="dv">1112</span>)</span>
 <span id="cb21-2"><a href="#cb21-2"></a>mod <span class="sc">%&gt;%</span> </span>
 <span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">omat</span>(<span class="fu">dmat</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">/</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
@@ -429,41 +445,43 @@ background: #097f5f;
 <div class="cell-output-display">
 <p><img src="2017-input_data_set_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
-:::
+</div>
 <hr>
 </section>
 <section id="as.data.frame.ev" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="as.data.frame.ev"><span class="header-section-number">2.3</span> <code>as.data.frame.ev</code></h2>
-<p>Just a quick reminder here that you can easily convert between a single event object and a <code>data.frame</code> ::: {.cell}</p>
+<p>Just a quick reminder here that you can easily convert between a single event object and a <code>data.frame</code></p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">as.data.frame</span>(e3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>        ID time amt cmt evid ii addl
-1...1    1    0 250   1    1  0    0
-1...4    1   24 500   1    1 48    1
-1.1...2  2    0 250   1    1  0    0
-1.1...5  2   24 500   1    1 48    1
-1.2...3  3    0 250   1    1  0    0
-1.2...6  3   24 500   1    1 48    1</code></pre>
+<pre><code>  ID time amt cmt evid ii addl
+1  1    0 250   1    1  0    0
+4  1   24 500   1    1 48    1
+2  2    0 250   1    1  0    0
+5  2   24 500   1    1 48    1
+3  3    0 250   1    1  0    0
+6  3   24 500   1    1 48    1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">as.ev</span>(<span class="fu">as.data.frame</span>(e3))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Events:
-        ID time amt ii addl cmt evid
-1...1    1    0 250  0    0   1    1
-1...4    1   24 500 48    1   1    1
-1.1...2  2    0 250  0    0   1    1
-1.1...5  2   24 500 48    1   1    1
-1.2...3  3    0 250  0    0   1    1
-1.2...6  3   24 500 48    1   1    1</code></pre>
+  ID time amt ii addl cmt evid
+1  1    0 250  0    0   1    1
+4  1   24 500 48    1   1    1
+2  2    0 250  0    0   1    1
+5  2   24 500 48    1   1    1
+3  3    0 250  0    0   1    1
+6  3   24 500 48    1   1    1</code></pre>
 </div>
-<p>:::</p>
+</div>
 <p>So if you were building up an event object and just wanted to use it as a <code>data_set</code> or as a building block for a <code>data_set</code>, just coerce with <code>as.data.frame</code>.</p>
 <hr>
 </section>
 <section id="assign_ev" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="assign_ev"><span class="header-section-number">2.4</span> <code>assign_ev</code></h2>
 <p>This function assigns an intervention in the form of an event object to individuals in an <code>idata_set</code> according to a grouping column.</p>
-<p>To illustrate, make a simple <code>idata_set</code> ::: {.cell}</p>
+<p>To illustrate, make a simple <code>idata_set</code></p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
 <span id="cb26-2"><a href="#cb26-2"></a>idata <span class="ot">&lt;-</span> <span class="fu">data_frame</span>(<span class="at">ID=</span><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>), <span class="at">arm=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -484,7 +502,7 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 5     5     3
 6     1     3</code></pre>
 </div>
-<p>:::</p>
+</div>
 <p>Here, we have 6 <code>IDs</code>, one in arm 1, two in arm 2, three in arm 3. Let’s take the events from the previous example and assign them to the different arms.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">250</span>) <span class="sc">+</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">250</span>, <span class="at">time=</span><span class="dv">24</span>, <span class="at">ii=</span><span class="dv">24</span>, <span class="at">addl=</span><span class="dv">3</span>)</span>
@@ -513,7 +531,8 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 <section id="ev_days" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="ev_days"><span class="header-section-number">2.5</span> <code>ev_days</code></h2>
 <p>This is a recently-added function (hint: you might need to install the latest version from GitHub to use this) that lets you schedule certain events on certain days of the week, repeating in a weekly cycle.</p>
-<p>For example, to schedule 250 mg doses every Monday, Wednesday, and Friday for a month, you can do ::: {.cell}</p>
+<p>For example, to schedule 250 mg doses every Monday, Wednesday, and Friday for a month, you can do</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ev_days</span>(<span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">250</span>, <span class="at">ID=</span><span class="dv">1</span>), <span class="at">days=</span><span class="st">"m,w,f"</span>, <span class="at">addl=</span><span class="dv">3</span>)</span>
 <span id="cb32-2"><a href="#cb32-2"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -526,8 +545,9 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 <div class="cell-output-display">
 <p><img src="2017-input_data_set_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>:::</p>
-<p>Or, you can do 100 mg doses on Monday, Wednesday, Friday, and 50 mg doses on Tuesday, Thursday, with drug holiday on weekends ::: {.cell}</p>
+</div>
+<p>Or, you can do 100 mg doses on Monday, Wednesday, Friday, and 50 mg doses on Tuesday, Thursday, with drug holiday on weekends</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>,<span class="at">ID=</span><span class="dv">1</span>)</span>
 <span id="cb35-2"><a href="#cb35-2"></a>e2 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">50</span>,<span class="at">ID=</span><span class="dv">1</span>)</span>
 <span id="cb35-3"><a href="#cb35-3"></a>data <span class="ot">&lt;-</span> <span class="fu">ev_days</span>(<span class="at">m=</span>e1,<span class="at">w=</span>e1,<span class="at">f=</span>e1,<span class="at">t=</span>e2,<span class="at">th=</span>e2,<span class="at">addl=</span><span class="dv">3</span>)</span>
@@ -540,14 +560,16 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 4  1   72  50   1    1 168    3
 5  1   96 100   1    1 168    3</code></pre>
 </div>
-<p>:::</p>
-<p>And simulate ::: {.cell}</p>
+</div>
+<p>And simulate</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(<span class="at">data=</span>data,<span class="at">end=</span><span class="dv">168</span><span class="sc">*</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="2017-input_data_set_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>:::</p>
-<p>The same thing can be accomplished like this ::: {.cell}</p>
+</div>
+<p>The same thing can be accomplished like this</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>a <span class="ot">&lt;-</span> <span class="fu">ev_days</span>(e1,<span class="at">days=</span><span class="st">"m,w,f"</span>,<span class="at">addl=</span><span class="dv">3</span>)</span>
 <span id="cb38-2"><a href="#cb38-2"></a>b <span class="ot">&lt;-</span> <span class="fu">ev_days</span>(e2,<span class="at">days=</span><span class="st">"t,th"</span>,<span class="at">addl=</span><span class="dv">3</span>)</span>
 <span id="cb38-3"><a href="#cb38-3"></a></span>
@@ -561,7 +583,8 @@ Call `lifecycle::last_lifecycle_warnings()` to see where this warning was genera
 5  1   72  50 168    3   1    1
 3  1   96 100 168    3   1    1</code></pre>
 </div>
-::: You can use this as an event object or just coerce to <code>data.frame</code> to use as a <code>data_set</code>.
+</div>
+You can use this as an event object or just coerce to <code>data.frame</code> to use as a <code>data_set</code>.
 <hr>
 </section>
 </section>
@@ -594,6 +617,24 @@ ID:     1
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -643,7 +684,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);

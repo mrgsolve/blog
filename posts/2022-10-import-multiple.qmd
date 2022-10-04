@@ -1,18 +1,16 @@
 ---
-title: Import estimates from multiple NONMEM runs
+title: "Import estimates from multiple NONMEM runs"
 author: Kyle Baron
-date: 10/02/2022
+date: "10/02/2022"
 description: > 
-  You can use $NMEXT and $NMXML to import estimates from multiple NONMEM runs
-  into a single mrgsolve model.
-categories: 
-- pkpd
+  You can use `$NMEXT` and `$NMXML` to import estimates from multiple NONMEM 
+  runs into a single mrgsolve model.
 ---
 
-The `$NMEXT` and `$NMXML` blocks allow you to import estimates (THETA, SIGMA, and OMEGA)
-from a NONMEM run. So if you are running a population PK model in NONMEM and translating 
-to mrgsolve, you should never need to copy the final estimate but rather read them in 
-using these blocks. 
+The `$NMEXT` and `$NMXML` blocks allow you to import estimates (THETA, SIGMA, 
+and OMEGA) from a NONMEM run. So if you are running a population PK model in 
+NONMEM and translating to mrgsolve, you should never need to copy the final 
+estimate but rather read them in using these blocks. 
 
 If you are running sequential PK/PD or parent/metabolite models, you might need
 to pull estimates from _multiple_ NONMEM runs. This is easy to do with multiple

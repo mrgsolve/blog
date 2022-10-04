@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.508">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -56,7 +61,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -69,7 +74,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -99,7 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -129,13 +134,11 @@ background: #097f5f;
 
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="mrgsolve/blog - New in 0.10.7">
-<meta property="og:description" content="Find out what's new in mrgsolve version 0.10.7.
-">
+<meta property="og:description" content="Find out what’s new in mrgsolve version 0.10.7.">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta property="og:site-name" content="mrgsolve/blog">
 <meta name="twitter:title" content="mrgsolve/blog - New in 0.10.7">
-<meta name="twitter:description" content="Find out what's new in mrgsolve version 0.10.7.
-">
+<meta name="twitter:description" content="Find out what’s new in mrgsolve version 0.10.7.">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -146,9 +149,11 @@ background: #097f5f;
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">mrgsolve/blog</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -259,17 +264,17 @@ background: #097f5f;
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#specify-capture-at-compile-time" id="toc-specify-capture-at-compile-time" class="nav-link" data-scroll-target="#specify-capture-at-compile-time"> <span class="header-section-number">2</span> Specify capture at compile time</a></li>
-  <li><a href="#smarter-warnings-when-non-numeric-columns-are-dropped" id="toc-smarter-warnings-when-non-numeric-columns-are-dropped" class="nav-link" data-scroll-target="#smarter-warnings-when-non-numeric-columns-are-dropped"> <span class="header-section-number">3</span> Smarter warnings when non-numeric columns are dropped</a></li>
-  <li><a href="#error" id="toc-error" class="nav-link" data-scroll-target="#error"> <span class="header-section-number">4</span> <code>$ERROR</code></a></li>
-  <li><a href="#try-loading-the-model-at-runtime-if-it-isnt-loaded" id="toc-try-loading-the-model-at-runtime-if-it-isnt-loaded" class="nav-link" data-scroll-target="#try-loading-the-model-at-runtime-if-it-isnt-loaded"> <span class="header-section-number">5</span> Try loading the model at runtime if it isn’t loaded</a></li>
-  <li><a href="#time-after-dose-in-specific-compartment" id="toc-time-after-dose-in-specific-compartment" class="nav-link" data-scroll-target="#time-after-dose-in-specific-compartment"> <span class="header-section-number">6</span> Time after dose in specific compartment</a></li>
-  <li><a href="#improved-handling-of-time-varying-covariates" id="toc-improved-handling-of-time-varying-covariates" class="nav-link" data-scroll-target="#improved-handling-of-time-varying-covariates"> <span class="header-section-number">7</span> Improved handling of time-varying covariates</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">1</span>  Introduction</a></li>
+  <li><a href="#specify-capture-at-compile-time" id="toc-specify-capture-at-compile-time" class="nav-link" data-scroll-target="#specify-capture-at-compile-time"><span class="toc-section-number">2</span>  Specify capture at compile time</a></li>
+  <li><a href="#smarter-warnings-when-non-numeric-columns-are-dropped" id="toc-smarter-warnings-when-non-numeric-columns-are-dropped" class="nav-link" data-scroll-target="#smarter-warnings-when-non-numeric-columns-are-dropped"><span class="toc-section-number">3</span>  Smarter warnings when non-numeric columns are dropped</a></li>
+  <li><a href="#error" id="toc-error" class="nav-link" data-scroll-target="#error"><span class="toc-section-number">4</span>  <code>$ERROR</code></a></li>
+  <li><a href="#try-loading-the-model-at-runtime-if-it-isnt-loaded" id="toc-try-loading-the-model-at-runtime-if-it-isnt-loaded" class="nav-link" data-scroll-target="#try-loading-the-model-at-runtime-if-it-isnt-loaded"><span class="toc-section-number">5</span>  Try loading the model at runtime if it isn’t loaded</a></li>
+  <li><a href="#time-after-dose-in-specific-compartment" id="toc-time-after-dose-in-specific-compartment" class="nav-link" data-scroll-target="#time-after-dose-in-specific-compartment"><span class="toc-section-number">6</span>  Time after dose in specific compartment</a></li>
+  <li><a href="#improved-handling-of-time-varying-covariates" id="toc-improved-handling-of-time-varying-covariates" class="nav-link" data-scroll-target="#improved-handling-of-time-varying-covariates"><span class="toc-section-number">7</span>  Improved handling of time-varying covariates</a></li>
   </ul>
 </nav>
     </div>
@@ -353,15 +358,15 @@ $capture
 Dim:    482 x 10 
 Time:   0 to 240 
 ID:     1 
-    ID time    GUT   CENT    CL      DV ETA_1 WT   IPRED     V
-1:   1  0.0   0.00  0.000 1.887 0.00000 0.635 70 0.00000 39.32
-2:   1  0.0 100.00  0.000 1.887 0.00000 0.635 70 0.00000 39.32
-3:   1  0.5  97.40  2.564 1.887 0.06522 0.635 70 0.06522 39.32
-4:   1  1.0  94.88  5.002 1.887 0.12720 0.635 70 0.12720 39.32
-5:   1  1.5  92.41  7.316 1.887 0.18606 0.635 70 0.18606 39.32
-6:   1  2.0  90.02  9.512 1.887 0.24192 0.635 70 0.24192 39.32
-7:   1  2.5  87.68 11.595 1.887 0.29489 0.635 70 0.29489 39.32
-8:   1  3.0  85.40 13.569 1.887 0.34509 0.635 70 0.34509 39.32</code></pre>
+    ID time    GUT   CENT     CL     DV   ETA_1 WT  IPRED     V
+1:   1  0.0   0.00  0.000 0.6741 0.0000 -0.3943 70 0.0000 25.19
+2:   1  0.0 100.00  0.000 0.6741 0.0000 -0.3943 70 0.0000 25.19
+3:   1  0.5  90.10  9.834 0.6741 0.3903 -0.3943 70 0.3903 25.19
+4:   1  1.0  81.18 18.563 0.6741 0.7368 -0.3943 70 0.7368 25.19
+5:   1  1.5  73.14 26.300 0.6741 1.0439 -0.3943 70 1.0439 25.19
+6:   1  2.0  65.90 33.143 0.6741 1.3155 -0.3943 70 1.3155 25.19
+7:   1  2.5  59.37 39.183 0.6741 1.5553 -0.3943 70 1.5553 25.19
+8:   1  3.0  53.50 44.501 0.6741 1.7664 -0.3943 70 1.7664 25.19</code></pre>
 </div>
 </div>
 <p>This is temporary until the model is re-compiled again</p>
@@ -405,10 +410,10 @@ $capture
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">mrgsim</span>(mod, data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>[data-set] dropped non-numeric: WT</code></pre>
+<pre><code>[data-set] dropped column: WT (character)</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>[data-set] dropped non-numeric: TVV</code></pre>
+<pre><code>[data-set] dropped column: TVV (character)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model:  popex 
@@ -418,12 +423,12 @@ ID:     1
     ID time IPRED
 1:   1  0.0 0.000
 2:   1  0.0 0.000
-3:   1  0.5 1.450
-4:   1  1.0 2.427
-5:   1  1.5 3.073
-6:   1  2.0 3.490
-7:   1  2.5 3.746
-8:   1  3.0 3.891</code></pre>
+3:   1  0.5 1.441
+4:   1  1.0 2.416
+5:   1  1.5 3.066
+6:   1  2.0 3.491
+7:   1  2.5 3.759
+8:   1  3.0 3.919</code></pre>
 </div>
 </div>
 <p>Previously, mrgsolve would have warned you about all 3 columns; now it only warns you about columns that are dropped and would have been relevant to the simulation.</p>
@@ -441,15 +446,15 @@ ID:     1
 Dim:    482 x 3 
 Time:   0 to 240 
 ID:     1 
-    ID time IPRED
-1:   1  0.0 0.000
-2:   1  0.0 0.000
-3:   1  0.5 1.277
-4:   1  1.0 2.121
-5:   1  1.5 2.672
-6:   1  2.0 3.024
-7:   1  2.5 3.242
-8:   1  3.0 3.368</code></pre>
+    ID time  IPRED
+1:   1  0.0 0.0000
+2:   1  0.0 0.0000
+3:   1  0.5 0.5629
+4:   1  1.0 1.0146
+5:   1  1.5 1.3741
+6:   1  2.0 1.6570
+7:   1  2.5 1.8766
+8:   1  3.0 2.0437</code></pre>
 </div>
 </div>
 <p>Remember, we can still ask for non-numeric items to be brought into the data set with the <code>recover</code> argument</p>
@@ -463,12 +468,12 @@ ID:     1
     ID time IPRED name     state
 1:   1  0.0 0.000 KYLE minnesota
 2:   1  0.0 0.000 KYLE minnesota
-3:   1  0.5 1.157 KYLE minnesota
-4:   1  1.0 1.970 KYLE minnesota
-5:   1  1.5 2.534 KYLE minnesota
-6:   1  2.0 2.920 KYLE minnesota
-7:   1  2.5 3.177 KYLE minnesota
-8:   1  3.0 3.341 KYLE minnesota</code></pre>
+3:   1  0.5 2.103 KYLE minnesota
+4:   1  1.0 3.446 KYLE minnesota
+5:   1  1.5 4.285 KYLE minnesota
+6:   1  2.0 4.792 KYLE minnesota
+7:   1  2.5 5.080 KYLE minnesota
+8:   1  3.0 5.223 KYLE minnesota</code></pre>
 </div>
 </div>
 </section>
@@ -517,7 +522,7 @@ ID:     1
 </div>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>mrgsolve<span class="sc">:::</span><span class="fu">unloadso.mrgmod</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>unloaded pk1-so-2e2e1aacd21d.so</code></pre>
+<pre><code>unloaded pk1-so-3931512cdeaf.so</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>mrgsolve<span class="sc">:::</span><span class="fu">funset</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -530,7 +535,7 @@ ID:     1
 
 $shlib
               package version compiled
-1 pk1-so-2e2e1aacd21d   1.0.4     TRUE</code></pre>
+1 pk1-so-3931512cdeaf   1.0.6     TRUE</code></pre>
 </div>
 </div>
 <p>We can still simulate from this model; mrgsolve will determine that the model isn’t loaded and it will try to load it for you.</p>
@@ -636,6 +641,24 @@ ID:     1
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -685,7 +708,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
