@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.299">
+<meta name="generator" content="quarto-0.9.508">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,13 +17,14 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-listing/list.min.js"></script>
 <script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -31,7 +32,7 @@ ul.task-list{list-style: none;}
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -65,7 +66,8 @@ ul.task-list{list-style: none;}
 
     const options = {
       valueNames: ['listing-date','listing-title','listing-author','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 25,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-date","listing-title","listing-author","listing-description","listing-categories"],
     };
 
@@ -78,11 +80,12 @@ ul.task-list{list-style: none;}
   });
   </script>
 <style>
-    .quarto-title-banner {
+    .quarto-title-block .quarto-title-banner {
       background: #097f5f;
     }
     </style>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="mrgsolve/blog - mrgsolve blog">
@@ -178,13 +181,10 @@ ul.task-list{list-style: none;}
     <div class="quarto-title column-body">
       <h1 class="title"><font color="white">mrgsolve blog</font></h1>
             <p class="subtitle lead"><font color="white">Vignettes, development ideas and announcements about mrgsolve.</font></p>
-                </div>
+                      </div>
   </div>
     
   
-
-
-
   <div class="quarto-title-meta">
 
       
@@ -197,7 +197,7 @@ ul.task-list{list-style: none;}
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(25)</span></div><div class="category" data-category="EBE">EBE <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MAP Bayes">MAP Bayes <span class="quarto-category-count">(2)</span></div><div class="category" data-category="data set">data set <span class="quarto-category-count">(1)</span></div><div class="category" data-category="events">events <span class="quarto-category-count">(3)</span></div><div class="category" data-category="example">example <span class="quarto-category-count">(3)</span></div><div class="category" data-category="infusion">infusion <span class="quarto-category-count">(1)</span></div><div class="category" data-category="initial conditions">initial conditions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mixture model">mixture model <span class="quarto-category-count">(1)</span></div><div class="category" data-category="model specification">model specification <span class="quarto-category-count">(3)</span></div><div class="category" data-category="modeled events">modeled events <span class="quarto-category-count">(2)</span></div><div class="category" data-category="mtime">mtime <span class="quarto-category-count">(2)</span></div><div class="category" data-category="new release">new release <span class="quarto-category-count">(4)</span></div><div class="category" data-category="optimization">optimization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pred">pred <span class="quarto-category-count">(1)</span></div><div class="category" data-category="steady state">steady state <span class="quarto-category-count">(2)</span></div><div class="category" data-category="stop">stop <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tad">tad <span class="quarto-category-count">(1)</span></div><div class="category" data-category="time after dose">time after dose <span class="quarto-category-count">(1)</span></div><div class="category" data-category="validation">validation <span class="quarto-category-count">(2)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(26)</span></div><div class="category" data-category="EBE">EBE <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MAP Bayes">MAP Bayes <span class="quarto-category-count">(2)</span></div><div class="category" data-category="data set">data set <span class="quarto-category-count">(1)</span></div><div class="category" data-category="events">events <span class="quarto-category-count">(3)</span></div><div class="category" data-category="example">example <span class="quarto-category-count">(3)</span></div><div class="category" data-category="infusion">infusion <span class="quarto-category-count">(1)</span></div><div class="category" data-category="initial conditions">initial conditions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mixture model">mixture model <span class="quarto-category-count">(1)</span></div><div class="category" data-category="model specification">model specification <span class="quarto-category-count">(3)</span></div><div class="category" data-category="modeled events">modeled events <span class="quarto-category-count">(2)</span></div><div class="category" data-category="mtime">mtime <span class="quarto-category-count">(2)</span></div><div class="category" data-category="new release">new release <span class="quarto-category-count">(4)</span></div><div class="category" data-category="optimization">optimization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pkpd">pkpd <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pred">pred <span class="quarto-category-count">(1)</span></div><div class="category" data-category="steady state">steady state <span class="quarto-category-count">(2)</span></div><div class="category" data-category="stop">stop <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tad">tad <span class="quarto-category-count">(1)</span></div><div class="category" data-category="time after dose">time after dose <span class="quarto-category-count">(1)</span></div><div class="category" data-category="validation">validation <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -209,711 +209,25 @@ ul.task-list{list-style: none;}
 
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-       <option value="" disabled="" selected="" hidden="">Order By</option>
-       <option value="index" data-direction="asc">Default</option>
-         <option value="listing-title" data-direction="asc">
-          Title
-        </option>
-         <option value="listing-date-sort" data-direction="asc">
-          Date - Oldest
-        </option>
-         <option value="listing-date-sort" data-direction="desc">
-          Date - Newest
-        </option>
-         <option value="listing-author" data-direction="asc">
-          Author
-        </option>
-     </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
-</div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="model specification,validation" data-listing-date-sort="1653454800000" data-listing-file-modified-sort="1653632658198" data-listing-reading-time-sort="5.235">
+<div class="quarto-post image-right" data-index="0" data-categories="pkpd" data-listing-date-sort="1664686800000" data-listing-file-modified-sort="1664849522885" data-listing-reading-time-sort="1.565">
 <div class="body">
-<a href="./posts/2022-05-validate-translation/index.html">
+<a href="./posts/2022-10-import-multiple.qmd.html">
 <h3 class="no-anchor listing-title">
-Validate model translation from NONMEM
+Import estimates from multiple NONMEM runs
 </h3>
 <div class="listing-subtitle">
 
 </div>
 </a>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('model specification'); return false;">
-model specification
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('validation'); return false;">
-validation
+<div class="listing-category" onclick="window.quartoListingCategory('pkpd'); return false;">
+pkpd
 </div>
 </div>
-<a href="./posts/2022-05-validate-translation/index.html">
+<a href="./posts/2022-10-import-multiple.qmd.html">
 <div class="listing-description">
-<p>If your mrgsolve model is a translation of a completed NONMEM model run, you can validate it every time; find out how.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/2022-05-validate-translation/index.html">
-<div class="listing-date">
-May 25, 2022
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="stop" data-listing-date-sort="1650690000000" data-listing-file-modified-sort="1650896248539" data-listing-reading-time-sort="4.22">
-<div class="body">
-<a href="./posts/2022-apr-stop.html">
-<h3 class="no-anchor listing-title">
-Stopping long-running simulations
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('stop'); return false;">
-stop
-</div>
-</div>
-<a href="./posts/2022-apr-stop.html">
-<div class="listing-description">
-<p>Sometimes, you want to stop a simulation that is running (or might run) longer than you want. Find out how.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/2022-apr-stop.html">
-<div class="listing-date">
-Apr 23, 2022
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="new release" data-listing-date-sort="1641016800000" data-listing-file-modified-sort="1650894187071" data-listing-reading-time-sort="5.47">
-<div class="body">
-<a href="./posts/new-1-0-0.html">
-<h3 class="no-anchor listing-title">
-New in version 1.0.0
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;">
-new release
-</div>
-</div>
-<a href="./posts/new-1-0-0.html">
-<div class="listing-description">
-<p>mrgsolve celebrates her version 1.0.0 release. Find out about some very cool and powerful features that we included in this release.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/new-1-0-0.html">
-<div class="listing-date">
-Jan 1, 2022
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="EBE" data-listing-date-sort="1630472400000" data-listing-file-modified-sort="1650895550150" data-listing-reading-time-sort="3.295">
-<div class="body">
-<a href="./posts/simulate-ebe.html">
-<h3 class="no-anchor listing-title">
-Simulate From EBE
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('EBE'); return false;">
-EBE
-</div>
-</div>
-<a href="./posts/simulate-ebe.html">
-<div class="listing-description">
-<p>This blog post will show you how to use a single model to do both population simulation and simulation from a specific set of empirical Bayes estimates. The basic implementation for this approach was pioneered by Tim Waterhouse at MetrumRG.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/simulate-ebe.html">
-<div class="listing-date">
-Sep 1, 2021
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="new release" data-listing-date-sort="1629090000000" data-listing-file-modified-sort="1650895423372" data-listing-reading-time-sort="6.13">
-<div class="body">
-<a href="./posts/new-0-11-0.html">
-<h3 class="no-anchor listing-title">
-New in 0.11.0 and 0.11.1
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;">
-new release
-</div>
-</div>
-<a href="./posts/new-0-11-0.html">
-<div class="listing-description">
-<p>Find out what’s new in mrgsolve version 0.11.0 and 0.11.1.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/new-0-11-0.html">
-<div class="listing-date">
-Aug 16, 2021
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="new release" data-listing-date-sort="1606802400000" data-listing-file-modified-sort="1651031956550" data-listing-reading-time-sort="4.55">
-<div class="body">
-<a href="./posts/new-0-10-7.html">
-<h3 class="no-anchor listing-title">
-New in 0.10.7
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;">
-new release
-</div>
-</div>
-<a href="./posts/new-0-10-7.html">
-<div class="listing-description">
-<p>Find out what’s new in mrgsolve version 0.10.7.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/new-0-10-7.html">
-<div class="listing-date">
-Dec 1, 2020
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="new release" data-listing-date-sort="1580536800000" data-listing-file-modified-sort="1650893842750" data-listing-reading-time-sort="3.69">
-<div class="body">
-<a href="./posts/new-0-10-1.html">
-<h3 class="no-anchor listing-title">
-New in 0.10.0 and 0.10.1
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;">
-new release
-</div>
-</div>
-<a href="./posts/new-0-10-1.html">
-<div class="listing-description">
-<p>Find out what’s new in mrgsolve version 0.10.0 and 0.10.1.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/new-0-10-1.html">
-<div class="listing-date">
-Feb 1, 2020
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="7" data-categories="events,infusion,steady state" data-listing-date-sort="1577858400000" data-listing-file-modified-sort="1651032029109" data-listing-reading-time-sort="0.77">
-<div class="body">
-<a href="./posts/zero-ss.html">
-<h3 class="no-anchor listing-title">
-Zero-order steady state infusion
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('events'); return false;">
-events
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('infusion'); return false;">
-infusion
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('steady state'); return false;">
-steady state
-</div>
-</div>
-<a href="./posts/zero-ss.html">
-<div class="listing-description">
-<p>Starting with version 0.10.0, mrgsolve can implement dosing records calling for a zero-order infusion at steady state. Find out more in this blog post.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/zero-ss.html">
-<div class="listing-date">
-Jan 1, 2020
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="8" data-categories="steady state" data-listing-date-sort="1575180000000" data-listing-file-modified-sort="1651031768096" data-listing-reading-time-sort="7.11">
-<div class="body">
-<a href="./posts/steady-state.html">
-<h3 class="no-anchor listing-title">
-Steady State in mrgsolve
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('steady state'); return false;">
-steady state
-</div>
-</div>
-<a href="./posts/steady-state.html">
-<div class="listing-description">
-<p>This blog post describes the mechanism by which mrgsolve finds steady state under this new change set (starting late 2019 to early 2020) and describes some of the settings that users can control to their advantage.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/steady-state.html">
-<div class="listing-date">
-Dec 1, 2019
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="9" data-categories="time after dose,tad" data-listing-date-sort="1559365200000" data-listing-file-modified-sort="1650894039929" data-listing-reading-time-sort="1.925">
-<div class="body">
-<a href="./posts/time_after_dose.html">
-<h3 class="no-anchor listing-title">
-Time after dose (TAD)
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('time after dose'); return false;">
-time after dose
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('tad'); return false;">
-tad
-</div>
-</div>
-<a href="./posts/time_after_dose.html">
-<div class="listing-description">
-<p>In this post, we’ll look at different ways you can bring time after dose into your simulated outputs.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/time_after_dose.html">
-<div class="listing-date">
-Jun 1, 2019
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="10" data-categories="events" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1650893623437" data-listing-reading-time-sort="2.78">
-<div class="body">
-<a href="./posts/2019-ev_rx.html">
-<h3 class="no-anchor listing-title">
-Alternate dosing event syntax
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('events'); return false;">
-events
-</div>
-</div>
-<a href="./posts/2019-ev_rx.html">
-<div class="listing-description">
-<p>A fun syntax for creating event objects for different dosing regimens.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/2019-ev_rx.html">
-<div class="listing-date">
-Jan 1, 2019
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="11" data-categories="validation" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1650895527336" data-listing-reading-time-sort="3.11">
-<div class="body">
-<a href="./posts/validation_pmxtools.html">
-<h3 class="no-anchor listing-title">
-Validating Simulation Results with pmxTools
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('validation'); return false;">
-validation
-</div>
-</div>
-<a href="./posts/validation_pmxtools.html">
-<div class="listing-description">
-<p>In this blog post, we run some simulations with mrgsolve and the excellent pmxTools package and compare results.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/validation_pmxtools.html">
-<div class="listing-date">
-Jan 1, 2019
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="12" data-categories="model specification" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1650894160446" data-listing-reading-time-sort="2.98">
-<div class="body">
-<a href="./posts/rmd_model.html">
-<h3 class="no-anchor listing-title">
-Rmarkdown model specification
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('model specification'); return false;">
-model specification
-</div>
-</div>
-<a href="./posts/rmd_model.html">
-<div class="listing-description">
-<p>I came up with this fun model specification format that looks just like Rmarkdown code chunks.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/rmd_model.html">
-<div class="listing-date">
-Jan 1, 2019
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="13" data-categories="example" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1650895519341" data-listing-reading-time-sort="0.835">
-<div class="body">
-<a href="./posts/sir.html">
-<h3 class="no-anchor listing-title">
-Tidy workflow for simulating dynamics in R
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('example'); return false;">
-example
-</div>
-</div>
-<a href="./posts/sir.html">
-<div class="listing-description">
-<p>I worked an example for a SIR model to show people in the ecology field how they can use mrgsolve for their ODE-based models.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/sir.html">
-<div class="listing-date">
-Jan 1, 2019
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="14" data-categories="modeled events,mtime" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1650894001614" data-listing-reading-time-sort="4.61">
-<div class="body">
-<a href="./posts/2018-modeled-interventions.html">
-<h3 class="no-anchor listing-title">
-Modeled interventions in mrgsolve
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('modeled events'); return false;">
-modeled events
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('mtime'); return false;">
-mtime
-</div>
-</div>
-<a href="./posts/2018-modeled-interventions.html">
-<div class="listing-description">
-<p>This post is to introduce modeled interventions in mrgsolve. The main use case is to force mrgsolve to advance the system to a specific time so that some aspect of the system can change at that time.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/2018-modeled-interventions.html">
-<div class="listing-date">
-Jan 1, 2018
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="15" data-categories="modeled events,mtime" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1650894058004" data-listing-reading-time-sort="1.205">
-<div class="body">
-<a href="./posts/mtime.html">
-<h3 class="no-anchor listing-title">
-mtime
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('modeled events'); return false;">
-modeled events
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('mtime'); return false;">
-mtime
-</div>
-</div>
-<a href="./posts/mtime.html">
-<div class="listing-description">
-<p>This is just a post on a simplified implementation of modeled events in mrgsolve. There is also another, more complete blog post on this topic published previously .</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/mtime.html">
-<div class="listing-date">
-Jan 1, 2018
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="16" data-categories="pred,model specification" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1650895463181" data-listing-reading-time-sort="1.93">
-<div class="body">
-<a href="./posts/2018-pred.html">
-<h3 class="no-anchor listing-title">
-Models without compartments
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('pred'); return false;">
-pred
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('model specification'); return false;">
-model specification
-</div>
-</div>
-<a href="./posts/2018-pred.html">
-<div class="listing-description">
-<p>Introducing a new model block (<code>$PRED</code>) that lets you write models with analytical solutions.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/2018-pred.html">
-<div class="listing-date">
-Jan 1, 2018
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="17" data-categories="data set" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1650893587917" data-listing-reading-time-sort="4.495">
-<div class="body">
-<a href="./posts/2017-input_data_set.html">
-<h3 class="no-anchor listing-title">
-Generating input data sets for mrgsolve
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('data set'); return false;">
-data set
-</div>
-</div>
-<a href="./posts/2017-input_data_set.html">
-<div class="listing-description">
-<p>An important mechanism for creating robust, complex simulations is the input data set. In this blog post, we’ll look at some ways you can quickly create input data sets for your simulation.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/2017-input_data_set.html">
-<div class="listing-date">
-Jan 1, 2017
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="18" data-categories="mixture model" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1650893584287" data-listing-reading-time-sort="3.02">
-<div class="body">
-<a href="./posts/2017-mixture-model.html">
-<h3 class="no-anchor listing-title">
-Mixture model example
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('mixture model'); return false;">
-mixture model
-</div>
-</div>
-<a href="./posts/2017-mixture-model.html">
-<div class="listing-description">
-<p>In this post, we’ll look at how you can code up a mixture model in mrgsolve.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/2017-mixture-model.html">
-<div class="listing-date">
-Jan 1, 2017
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="19" data-categories="example" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1650894439111" data-listing-reading-time-sort="4.245">
-<div class="body">
-<a href="./posts/2017-complete-example.html">
-<h3 class="no-anchor listing-title">
-A Complete Example
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('example'); return false;">
-example
-</div>
-</div>
-<a href="./posts/2017-complete-example.html">
-<div class="listing-description">
-<p>We had a user who was learning <code>mrgsolve</code> ask for a “complete example”. I wasn’t sure what exactly that meant, but I created this example and I’m sharing it today on the blog.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/2017-complete-example.html">
-<div class="listing-date">
-Jan 1, 2017
-</div>
-<div class="listing-author">
-Kyle Baron
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="20" data-categories="example" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1650895473262" data-listing-reading-time-sort="0.37">
-<div class="body">
-<a href="./posts/2017-reproducible.html">
-<h3 class="no-anchor listing-title">
-Reproducible results with set.seed
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('example'); return false;">
-example
-</div>
-</div>
-<a href="./posts/2017-reproducible.html">
-<div class="listing-description">
-<p>This post demonstrates that random simulation outputs can be made reproducible by using <code>set.seed()</code>.</p>
+<p>You can use $NMEXT and <span class="math inline">\(NMXML to import estimates from multiple NONMEM runs into a single mrgsolve model. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/2022-10-import-multiple.qmd.Rmd"&gt; &lt;div class="listing-date"&gt;Oct 2, 2022&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='1' data-categories='model specification,validation' data-listing-date-sort='1653454800000' data-listing-file-modified-sort='1653632658198' data-listing-reading-time-sort='5.235'&gt; &lt;div class="body"&gt;&lt;a href="/posts/2022-05-validate-translation/index.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Validate model translation from NONMEM&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('model specification'); return false;"&gt;model specification&lt;/div&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('validation'); return false;"&gt;validation&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/2022-05-validate-translation/index.qmd"&gt; &lt;div class="delink listing-description"&gt; If your mrgsolve model is a translation of a completed NONMEM model run, you can validate it every time; find out how. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/2022-05-validate-translation/index.qmd"&gt; &lt;div class="listing-date"&gt;May 25, 2022&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='2' data-categories='stop' data-listing-date-sort='1650690000000' data-listing-file-modified-sort='1650896248539' data-listing-reading-time-sort='4.22'&gt; &lt;div class="body"&gt;&lt;a href="/posts/2022-apr-stop.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Stopping long-running simulations&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('stop'); return false;"&gt;stop&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/2022-apr-stop.qmd"&gt; &lt;div class="delink listing-description"&gt; Sometimes, you want to stop a simulation that is running (or might run) longer than you want. Find out how. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/2022-apr-stop.qmd"&gt; &lt;div class="listing-date"&gt;Apr 23, 2022&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='3' data-categories='new release' data-listing-date-sort='1641016800000' data-listing-file-modified-sort='1650894187071' data-listing-reading-time-sort='5.47'&gt; &lt;div class="body"&gt;&lt;a href="/posts/new-1-0-0.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;New in version 1.0.0&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;"&gt;new release&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/new-1-0-0.qmd"&gt; &lt;div class="delink listing-description"&gt; mrgsolve celebrates her version 1.0.0 release. Find out about some very cool and powerful features that we included in this release. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/new-1-0-0.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2022&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='4' data-categories='EBE' data-listing-date-sort='1630472400000' data-listing-file-modified-sort='1650895550150' data-listing-reading-time-sort='3.295'&gt; &lt;div class="body"&gt;&lt;a href="/posts/simulate-ebe.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Simulate From EBE&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('EBE'); return false;"&gt;EBE&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/simulate-ebe.qmd"&gt; &lt;div class="delink listing-description"&gt; This blog post will show you how to use a single model to do both population simulation and simulation from a specific set of empirical Bayes estimates. The basic implementation for this approach was pioneered by Tim Waterhouse at MetrumRG. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/simulate-ebe.qmd"&gt; &lt;div class="listing-date"&gt;Sep 1, 2021&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='5' data-categories='new release' data-listing-date-sort='1629090000000' data-listing-file-modified-sort='1650895423372' data-listing-reading-time-sort='6.13'&gt; &lt;div class="body"&gt;&lt;a href="/posts/new-0-11-0.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;New in 0.11.0 and 0.11.1&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;"&gt;new release&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/new-0-11-0.qmd"&gt; &lt;div class="delink listing-description"&gt; Find out what's new in mrgsolve version 0.11.0 and 0.11.1. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/new-0-11-0.qmd"&gt; &lt;div class="listing-date"&gt;Aug 16, 2021&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='6' data-categories='new release' data-listing-date-sort='1606802400000' data-listing-file-modified-sort='1651031956550' data-listing-reading-time-sort='4.55'&gt; &lt;div class="body"&gt;&lt;a href="/posts/new-0-10-7.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;New in 0.10.7&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;"&gt;new release&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/new-0-10-7.qmd"&gt; &lt;div class="delink listing-description"&gt; Find out what's new in mrgsolve version 0.10.7. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/new-0-10-7.qmd"&gt; &lt;div class="listing-date"&gt;Dec 1, 2020&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='7' data-categories='new release' data-listing-date-sort='1580536800000' data-listing-file-modified-sort='1650893842750' data-listing-reading-time-sort='3.69'&gt; &lt;div class="body"&gt;&lt;a href="/posts/new-0-10-1.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;New in 0.10.0 and 0.10.1&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;"&gt;new release&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/new-0-10-1.qmd"&gt; &lt;div class="delink listing-description"&gt; Find out what's new in mrgsolve version 0.10.0 and 0.10.1. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/new-0-10-1.qmd"&gt; &lt;div class="listing-date"&gt;Feb 1, 2020&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='8' data-categories='events,infusion,steady state' data-listing-date-sort='1577858400000' data-listing-file-modified-sort='1651032029109' data-listing-reading-time-sort='0.77'&gt; &lt;div class="body"&gt;&lt;a href="/posts/zero-ss.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Zero-order steady state infusion&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('events'); return false;"&gt;events&lt;/div&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('infusion'); return false;"&gt;infusion&lt;/div&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('steady state'); return false;"&gt;steady state&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/zero-ss.qmd"&gt; &lt;div class="delink listing-description"&gt; Starting with version 0.10.0, mrgsolve can implement dosing records calling for a zero-order infusion at steady state. Find out more in this blog post. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/zero-ss.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2020&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='9' data-categories='steady state' data-listing-date-sort='1575180000000' data-listing-file-modified-sort='1651031768096' data-listing-reading-time-sort='7.11'&gt; &lt;div class="body"&gt;&lt;a href="/posts/steady-state.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Steady State in mrgsolve&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('steady state'); return false;"&gt;steady state&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/steady-state.qmd"&gt; &lt;div class="delink listing-description"&gt; &lt;!-- desc(5A0113B34292):posts/steady-state.html --&gt; &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/steady-state.qmd"&gt; &lt;div class="listing-date"&gt;Dec 1, 2019&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='10' data-categories='time after dose,tad' data-listing-date-sort='1559365200000' data-listing-file-modified-sort='1650894039929' data-listing-reading-time-sort='1.925'&gt; &lt;div class="body"&gt;&lt;a href="/posts/time_after_dose.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Time after dose (TAD)&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('time after dose'); return false;"&gt;time after dose&lt;/div&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('tad'); return false;"&gt;tad&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/time_after_dose.qmd"&gt; &lt;div class="delink listing-description"&gt; In this post, we'll look at different ways you can bring time after dose into your simulated outputs. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/time_after_dose.qmd"&gt; &lt;div class="listing-date"&gt;Jun 1, 2019&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='11' data-categories='events' data-listing-date-sort='1546322400000' data-listing-file-modified-sort='1650893623437' data-listing-reading-time-sort='2.78'&gt; &lt;div class="body"&gt;&lt;a href="/posts/2019-ev_rx.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Alternate dosing event syntax&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('events'); return false;"&gt;events&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/2019-ev_rx.qmd"&gt; &lt;div class="delink listing-description"&gt; A fun syntax for creating event objects for different dosing regimens. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/2019-ev_rx.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2019&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='12' data-categories='validation' data-listing-date-sort='1546322400000' data-listing-file-modified-sort='1650895527336' data-listing-reading-time-sort='3.11'&gt; &lt;div class="body"&gt;&lt;a href="/posts/validation_pmxtools.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Validating Simulation Results with pmxTools&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('validation'); return false;"&gt;validation&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/validation_pmxtools.qmd"&gt; &lt;div class="delink listing-description"&gt; In this blog post, we run some simulations with mrgsolve and the excellent pmxTools package and compare results. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/validation_pmxtools.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2019&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='13' data-categories='model specification' data-listing-date-sort='1546322400000' data-listing-file-modified-sort='1650894160446' data-listing-reading-time-sort='2.98'&gt; &lt;div class="body"&gt;&lt;a href="/posts/rmd_model.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Rmarkdown model specification&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('model specification'); return false;"&gt;model specification&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/rmd_model.qmd"&gt; &lt;div class="delink listing-description"&gt; I came up with this fun model specification format that looks just like Rmarkdown code chunks. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/rmd_model.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2019&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='14' data-categories='example' data-listing-date-sort='1546322400000' data-listing-file-modified-sort='1650895519341' data-listing-reading-time-sort='0.835'&gt; &lt;div class="body"&gt;&lt;a href="/posts/sir.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Tidy workflow for simulating dynamics in R&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('example'); return false;"&gt;example&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/sir.qmd"&gt; &lt;div class="delink listing-description"&gt; &lt;!-- desc(5A0113B34292):posts/sir.html --&gt; &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/sir.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2019&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='15' data-categories='modeled events,mtime' data-listing-date-sort='1514786400000' data-listing-file-modified-sort='1650894001614' data-listing-reading-time-sort='4.61'&gt; &lt;div class="body"&gt;&lt;a href="/posts/2018-modeled-interventions.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Modeled interventions in mrgsolve&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('modeled events'); return false;"&gt;modeled events&lt;/div&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('mtime'); return false;"&gt;mtime&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/2018-modeled-interventions.qmd"&gt; &lt;div class="delink listing-description"&gt; This post is to introduce modeled interventions in mrgsolve. The main use case is to force mrgsolve to advance the system to a specific time so that some aspect of the system can change at that time. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/2018-modeled-interventions.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2018&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='16' data-categories='modeled events,mtime' data-listing-date-sort='1514786400000' data-listing-file-modified-sort='1650894058004' data-listing-reading-time-sort='1.205'&gt; &lt;div class="body"&gt;&lt;a href="/posts/mtime.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;mtime&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('modeled events'); return false;"&gt;modeled events&lt;/div&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('mtime'); return false;"&gt;mtime&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/mtime.qmd"&gt; &lt;div class="delink listing-description"&gt; This is just a post on a simplified implementation of modeled events in mrgsolve. There is also another, more complete blog post on this topic published previously . &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/mtime.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2018&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='17' data-categories='pred,model specification' data-listing-date-sort='1514786400000' data-listing-file-modified-sort='1650895463181' data-listing-reading-time-sort='1.93'&gt; &lt;div class="body"&gt;&lt;a href="/posts/2018-pred.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Models without compartments&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('pred'); return false;"&gt;pred&lt;/div&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('model specification'); return false;"&gt;model specification&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/2018-pred.qmd"&gt; &lt;div class="delink listing-description"&gt; Introducing a new model block (`\)</span>PRED<code>) that lets you write models with analytical solutions. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/2018-pred.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2018&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='18' data-categories='data set' data-listing-date-sort='1483250400000' data-listing-file-modified-sort='1650893587917' data-listing-reading-time-sort='4.495'&gt; &lt;div class="body"&gt;&lt;a href="/posts/2017-input_data_set.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Generating input data sets for mrgsolve&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('data set'); return false;"&gt;data set&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/2017-input_data_set.qmd"&gt; &lt;div class="delink listing-description"&gt; An important mechanism for creating robust, complex simulations is the input data set. In this blog post, we'll look at some ways you can quickly create input data sets for your simulation. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/2017-input_data_set.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2017&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='19' data-categories='mixture model' data-listing-date-sort='1483250400000' data-listing-file-modified-sort='1650893584287' data-listing-reading-time-sort='3.02'&gt; &lt;div class="body"&gt;&lt;a href="/posts/2017-mixture-model.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Mixture model example&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('mixture model'); return false;"&gt;mixture model&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/2017-mixture-model.qmd"&gt; &lt;div class="delink listing-description"&gt; In this post, we'll look at how you can code up a mixture model in mrgsolve. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/2017-mixture-model.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2017&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='20' data-categories='example' data-listing-date-sort='1483250400000' data-listing-file-modified-sort='1650894439111' data-listing-reading-time-sort='4.245'&gt; &lt;div class="body"&gt;&lt;a href="/posts/2017-complete-example.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;A Complete Example&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('example'); return false;"&gt;example&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/2017-complete-example.qmd"&gt; &lt;div class="delink listing-description"&gt; We had a user who was learning</code>mrgsolve<code>ask for a "complete example". I wasn't sure what   exactly that meant, but I created  this example and I'm sharing it today on the blog. &lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;div class="metadata"&gt;&lt;a href="/posts/2017-complete-example.qmd"&gt; &lt;div class="listing-date"&gt;Jan 1, 2017&lt;/div&gt; &lt;div class="listing-author"&gt;Kyle Baron&lt;/div&gt; &lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="quarto-post image-right" data-index='21' data-categories='example' data-listing-date-sort='1483250400000' data-listing-file-modified-sort='1650895473262' data-listing-reading-time-sort='0.37'&gt; &lt;div class="body"&gt;&lt;a href="/posts/2017-reproducible.qmd"&gt; &lt;h3 class="no-anchor listing-title"&gt;Reproducible results with set.seed&lt;/h3&gt; &lt;div class="listing-subtitle"&gt;&lt;/div&gt; &lt;/a&gt; &lt;div class="listing-categories"&gt; &lt;div class="listing-category" onclick="window.quartoListingCategory('example'); return false;"&gt;example&lt;/div&gt; &lt;/div&gt; &lt;a href="/posts/2017-reproducible.qmd"&gt; &lt;div class="delink listing-description"&gt; This post demonstrates that random simulation outputs can be made reproducible by using</code>set.seed()`.</p>
 </div>
 </a>
 </div>
@@ -928,7 +242,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="21" data-categories="MAP Bayes" data-listing-date-sort="1451714400000" data-listing-file-modified-sort="1650896296567" data-listing-reading-time-sort="4.54">
+<div class="quarto-post image-right" data-index="22" data-categories="MAP Bayes" data-listing-date-sort="1451714400000" data-listing-file-modified-sort="1650896296567" data-listing-reading-time-sort="4.54">
 <div class="body">
 <a href="./posts/map_bayes.html">
 <h3 class="no-anchor listing-title">
@@ -960,7 +274,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="22" data-categories="MAP Bayes,optimization" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1650893755721" data-listing-reading-time-sort="2.7">
+<div class="quarto-post image-right" data-index="23" data-categories="MAP Bayes,optimization" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1650893755721" data-listing-reading-time-sort="2.7">
 <div class="body">
 <a href="./posts/map_bayes_example.html">
 <h3 class="no-anchor listing-title">
@@ -980,7 +294,7 @@ optimization
 </div>
 <a href="./posts/map_bayes_example.html">
 <div class="listing-description">
-<p>This is a shortened version of <span>map_bayes.html</span>, showing only the estimation step.</p>
+This is a shortened version of map_bayes.html, showing only the estimation step.
 </div>
 </a>
 </div>
@@ -995,7 +309,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="23" data-categories="events" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1650893743074" data-listing-reading-time-sort="1.71">
+<div class="quarto-post image-right" data-index="24" data-categories="events" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1650893743074" data-listing-reading-time-sort="1.71">
 <div class="body">
 <a href="./posts/events.html">
 <h3 class="no-anchor listing-title">
@@ -1027,7 +341,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="24" data-categories="initial conditions" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1650893780681" data-listing-reading-time-sort="5.005">
+<div class="quarto-post image-right" data-index="25" data-categories="initial conditions" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1650893780681" data-listing-reading-time-sort="5.005">
 <div class="body">
 <a href="./posts/init.html">
 <h3 class="no-anchor listing-title">
@@ -1063,8 +377,11 @@ Kyle Baron
 <div class="listing-no-matching d-none">
 No matching items
 </div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div></main> <!-- /main -->
-<script type="application/javascript">
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";
   const anchorJS = new window.AnchorJS();

@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kyle Baron">
-<meta name="dcterms.date" content="2020-01-01">
-<meta name="description" content="Starting with version 0.10.0, mrgsolve can implement dosing records calling for a zero-order infusion at steady state. Find out more in this blog post.">
+<meta name="dcterms.date" content="2022-10-02">
+<meta name="description" content="You can use $NMEXT and $NMXML to import estimates from multiple NONMEM runs into a single mrgsolve model.">
 
-<title>mrgsolve/blog - Zero-order steady state infusion</title>
+<title>mrgsolve/blog - Import estimates from multiple NONMEM runs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -128,13 +128,13 @@ background: #097f5f;
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="mrgsolve/blog - Zero-order steady state infusion">
-<meta property="og:description" content="Starting with version 0.10.0, mrgsolve can implement dosing records calling for a zero-order infusion at steady state. Find out more in this blog post.
+<meta property="og:title" content="mrgsolve/blog - Import estimates from multiple NONMEM runs">
+<meta property="og:description" content="You can use $NMEXT and $NMXML to import estimates from multiple NONMEM runs into a single mrgsolve model.
 ">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta property="og:site-name" content="mrgsolve/blog">
-<meta name="twitter:title" content="mrgsolve/blog - Zero-order steady state infusion">
-<meta name="twitter:description" content="Starting with version 0.10.0, mrgsolve can implement dosing records calling for a zero-order infusion at steady state. Find out more in this blog post.
+<meta name="twitter:title" content="mrgsolve/blog - Import estimates from multiple NONMEM runs">
+<meta name="twitter:description" content="You can use $NMEXT and $NMXML to import estimates from multiple NONMEM runs into a single mrgsolve model.
 ">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -223,16 +223,14 @@ background: #097f5f;
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Zero-order steady state infusion</h1>
+      <h1 class="title">Import estimates from multiple NONMEM runs</h1>
                   <div>
         <div class="description">
-          <p>Starting with version 0.10.0, mrgsolve can implement dosing records calling for a zero-order infusion at steady state. Find out more in this blog post.</p>
+          <p>You can use $NMEXT and $NMXML to import estimates from multiple NONMEM runs into a single mrgsolve model.</p>
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">events</div>
-                <div class="quarto-category">infusion</div>
-                <div class="quarto-category">steady state</div>
+                <div class="quarto-category">pkpd</div>
               </div>
                   </div>
   </div>
@@ -250,7 +248,7 @@ background: #097f5f;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 1, 2020</p>
+        <p class="date">October 2, 2022</p>
       </div>
     </div>
       
@@ -265,9 +263,8 @@ background: #097f5f;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"> <span class="header-section-number">2</span> Example</a></li>
-  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes"> <span class="header-section-number">3</span> Notes</a></li>
+  <li><a href="#import-the-first-pk-model" id="toc-import-the-first-pk-model" class="nav-link active" data-scroll-target="#import-the-first-pk-model"> <span class="header-section-number">1</span> Import the first (PK) model</a></li>
+  <li><a href="#import-the-second-pd-model" id="toc-import-the-second-pd-model" class="nav-link" data-scroll-target="#import-the-second-pd-model"> <span class="header-section-number">2</span> Import the second (PD) model</a></li>
   </ul>
 </nav>
     </div>
@@ -277,55 +274,36 @@ background: #097f5f;
 
 
 
-<section id="introduction" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>Starting with version 0.10.0 (released October, 2019), mrgsolve can implement dosing records calling for a zero-order infusion at steady state. To do this, set <code>rate</code> to a non-zero value, <code>amt</code> to zero, and <code>ss</code> to 1.</p>
+<p>The <code>$NMEXT</code> and <code>$NMXML</code> blocks allow you to import estimates (THETA, SIGMA, and OMEGA) from a NONMEM run. So if you are running a population PK model in NONMEM and translating to mrgsolve, you should never need to copy the final estimate but rather read them in using these blocks.</p>
+<p>If you are running sequential PK/PD or parent/metabolite models, you might need to pull estimates from <em>multiple</em> NONMEM runs. This is easy to do with multiple <code>$NMEXT</code> (or <code>$NMXML</code>) blocks.</p>
+<section id="import-the-first-pk-model" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="import-the-first-pk-model"><span class="header-section-number">1</span> Import the first (PK) model</h2>
+<p>First, grab the estimates from the PK model; let’s call it run 101. The <code>$NMEXT</code> block could look like this</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="sc">$</span>NMEXT</span>
+<span id="cb1-2"><a href="#cb1-2"></a>run <span class="ot">=</span> <span class="dv">101</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>project <span class="ot">=</span> <span class="st">"../model/nonmem"</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>root <span class="ot">=</span> <span class="st">"cppfile"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This will find the file <code>201.ext</code> in the <code>../model</code> directory which is taken to be relative to the location of the mrgsolve model file (using the <code>root</code> argument). If the paths are a little confusing, you can try installing the <a href="https://CRAN.R-project.org/package=here">here</a> package and using</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="sc">$</span>NMEXT</span>
+<span id="cb2-2"><a href="#cb2-2"></a>run <span class="ot">=</span> <span class="dv">101</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>project <span class="ot">=</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"model/nonmem"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This would require an Rstudio project file in the (project) root directory and then we would locate the NONMEM run relative to that project root (e.g.&nbsp;in <code>&lt;project-root&gt;/model/nonmem</code>).</p>
+<p>Once the first model is imported, we now have access to <code>THETA1</code>, <code>THETA2</code> etc from the PK model.</p>
 </section>
-<section id="example" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Example</h1>
-<p>For a 10 mg/hr infusion at steady state</p>
+<section id="import-the-second-pd-model" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="import-the-second-pd-model"><span class="header-section-number">2</span> Import the second (PD) model</h2>
+<p>Now, we import estimates from the PD model run (let’s call it 201) using another call to <code>$NMEXT</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mrgsolve)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>mod <span class="ot">&lt;-</span> <span class="fu">house</span>(<span class="at">end =</span> <span class="dv">72</span>, <span class="at">delta =</span> <span class="fl">0.1</span>) <span class="sc">%&gt;%</span> <span class="fu">update</span>(<span class="at">outvars =</span> <span class="st">"CP"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a>mod <span class="ot">&lt;-</span> <span class="fu">param</span>(mod, <span class="at">CL =</span> <span class="dv">2</span>)</span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a>dose <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">0</span>, <span class="at">rate =</span> <span class="dv">100</span>, <span class="at">ss =</span> <span class="dv">1</span>, <span class="at">cmt =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="sc">$</span>NMEXT</span>
+<span id="cb3-2"><a href="#cb3-2"></a>run <span class="ot">=</span> <span class="dv">201</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>project <span class="ot">=</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"model/nonmem"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a>tname <span class="ot">=</span> <span class="st">"theta"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The dosing event looks like</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>dose</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Events:
-  time amt rate cmt evid ss
-1    0   0  100   2    1  1</code></pre>
-</div>
-</div>
-<p>With <code>CL</code> set to 2, we expect the system to start out at 50</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">mrgsim</span>(mod,dose,<span class="at">recsort =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="zero-ss_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="notes" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Notes</h1>
-<ul>
-<li>It is an error to include addl</li>
-<li>You can model the rate
-<ul>
-<li>Set <code>rate</code> to -1 in the input data</li>
-<li>Set <code>R_CMT</code> in <code>[main]</code></li>
-</ul></li>
-<li>It is an error to try to model the duration
-<ul>
-<li>Set <code>rate</code> to -2 in the input data</li>
-<li>Set <code>D_CMT</code> in <code>[main]</code></li>
-</ul></li>
-</ul>
+<p>This is the second import in the same mrgsolve model file, so we change the handle for referencing the <code>THETA</code> estimates: now the PD model uses <code>theta1</code>, <code>theta2</code> etc so that we can retain the THETA numbering for both the PK and PD models, remembering that the PD model uses <code>theta1</code> (lower case) while the PK model uses <code>THETA1</code> (upper case). Note that we <em>have</em> to change the handle (to something like <code>theta</code>) otherwise mrgsolve will throw an error because there would be two <code>THETA1</code> in the parameter list.</p>
 
 
 </section>

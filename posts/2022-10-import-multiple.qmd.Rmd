@@ -1,0 +1,74 @@
+---
+title: Import estimates from multiple NONMEM runs
+author: Kyle Baron
+date: 10/02/2022
+description: > 
+  You can use $NMEXT and $NMXML to import estimates from multiple NONMEM runs
+  into a single mrgsolve model.
+categories: 
+- pkpd
+---
+
+The `$NMEXT` and `$NMXML` blocks allow you to import estimates (THETA, SIGMA, and OMEGA)
+from a NONMEM run. So if you are running a population PK model in NONMEM and translating 
+to mrgsolve, you should never need to copy the final estimate but rather read them in 
+using these blocks. 
+
+If you are running sequential PK/PD or parent/metabolite models, you might need
+to pull estimates from _multiple_ NONMEM runs. This is easy to do with multiple
+`$NMEXT` (or `$NMXML`) blocks. 
+
+## Import the first (PK) model
+
+First, grab the estimates from the PK model; let's call it run 101. The `$NMEXT`
+block could look like this
+
+
+```{r, eval = FALSE}
+$NMEXT
+run = 101
+project = "../model/nonmem"
+root = "cppfile"
+```
+
+This will find the file `201.ext` in the `../model` directory which is
+taken to be relative to the location of the mrgsolve model file (using the
+`root` argument). If the paths are a little confusing, you can try installing
+the [here](https://CRAN.R-project.org/package=here) package and using
+
+```{r, eval = FALSE}
+$NMEXT
+run = 101
+project = here::here("model/nonmem")
+```
+
+This would require an Rstudio project file in the (project) root directory 
+and then we would locate the NONMEM run relative to that project root
+(e.g. in `<project-root>/model/nonmem`). 
+
+Once the first model is imported, we now have access to `THETA1`, `THETA2`
+etc from the PK model. 
+
+## Import the second (PD) model
+
+
+Now, we import estimates from the PD model run (let's call it 201) using another 
+call to `$NMEXT`
+
+
+```{r, eval = FALSE}
+$NMEXT
+run = 201
+project = here::here("model/nonmem")
+tname = "theta"
+```
+
+This is the second import in the same mrgsolve model file, so we change the 
+handle for referencing the `THETA` estimates: now the PD model uses `theta1`, 
+`theta2` etc so that we can retain the THETA numbering for both the PK and PD 
+models, remembering that the PD model uses `theta1` (lower case) while the 
+PK model uses `THETA1` (upper case). Note that we _have_ to change the handle
+(to something like `theta`) otherwise mrgsolve will throw an error because
+there would be two `THETA1` in the parameter list.
+
+

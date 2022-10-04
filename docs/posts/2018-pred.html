@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.299">
+<meta name="generator" content="quarto-0.9.508">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -83,19 +83,20 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -119,7 +120,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 <style>
-    .quarto-title-banner {
+    .quarto-title-block .quarto-title-banner {
       color: white;
 background: #097f5f;
     }
@@ -128,12 +129,12 @@ background: #097f5f;
 
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="mrgsolve/blog - Models without compartments">
-<meta property="og:description" content="Introducing a new model block (`$PRED`) that lets you write models with  analytical solutions.
+<meta property="og:description" content="Introducing a new model block (`$PRED`) that lets you write models with analytical solutions.
 ">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta property="og:site-name" content="mrgsolve/blog">
 <meta name="twitter:title" content="mrgsolve/blog - Models without compartments">
-<meta name="twitter:description" content="Introducing a new model block (`$PRED`) that lets you write models with  analytical solutions.
+<meta name="twitter:description" content="Introducing a new model block (`$PRED`) that lets you write models with analytical solutions.
 ">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -223,6 +224,11 @@ background: #097f5f;
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Models without compartments</h1>
+                  <div>
+        <div class="description">
+          <p>Introducing a new model block (<code>$PRED</code>) that lets you write models with analytical solutions.</p>
+        </div>
+      </div>
                           <div class="quarto-categories">
                 <div class="quarto-category">pred</div>
                 <div class="quarto-category">model specification</div>
@@ -230,15 +236,7 @@ background: #097f5f;
                   </div>
   </div>
     
-  <div>
-    <div class="description">
-      <p>Introducing a new model block (<code>$PRED</code>) that lets you write models with analytical solutions.</p>
-    </div>
-  </div>
-
-
-
-
+  
   <div class="quarto-title-meta">
 
       <div>
@@ -251,7 +249,7 @@ background: #097f5f;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">01/01/2018</p>
+        <p class="date">January 1, 2018</p>
       </div>
     </div>
       
@@ -290,7 +288,8 @@ background: #097f5f;
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">"build"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"pred1"</span>, <span class="fu">modlib</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The model code is ::: {.cell}</p>
+<p>The model code is</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1"></a>$PROB</span>
 <span id="cb2-2"><a href="#cb2-2"></a>An example model expressed in closed form</span>
 <span id="cb2-3"><a href="#cb2-3"></a>$PARAM B <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> beta0 <span class="op">=</span> <span class="dv">100</span><span class="op">,</span> beta1 <span class="op">=</span> <span class="fl">0.1</span></span>
@@ -299,7 +298,7 @@ background: #097f5f;
 <span id="cb2-6"><a href="#cb2-6"></a><span class="dt">double</span> beta0i <span class="op">=</span> beta0 <span class="op">+</span> ETA<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
 <span id="cb2-7"><a href="#cb2-7"></a><span class="dt">double</span> beta1i <span class="op">=</span> beta1<span class="op">*</span>exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span>
 <span id="cb2-8"><a href="#cb2-8"></a>capture Y <span class="op">=</span> beta0i <span class="op">+</span> beta1i<span class="op">*</span>B<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+</div>
 <p>This is a random-intercept, random slope linear model. Like other models in mrgsolve, you can write parameters (<code>$PARAM</code>), and random effects (<code>$OMEGA</code>). But the model is actually written in <code>$PRED</code>.</p>
 <p>When mrgsolve finds <code>$PRED</code>, it will generate an error if it also finds <code>$MAIN</code>, <code>$TABLE</code>, or <code>$ODE</code>. However, the code that gets entered into <code>$PRED</code> would function exactly as if you put it in <code>$TABLE</code>.</p>
 <p>In the example model, the response is a function of the parameter <code>B</code>, so we’ll generate an input data set with some values of <code>B</code></p>
@@ -312,12 +311,12 @@ background: #097f5f;
 <pre><code># A tibble: 6 × 2
      ID      B
   &lt;dbl&gt;  &lt;dbl&gt;
-1     1 0.0398
-2     1 0.335 
-3     1 0.0310
-4     1 0.182 
-5     1 1.42  
-6     1 0.530 </code></pre>
+1     1 0.0470
+2     1 0.0547
+3     1 4.68  
+4     1 5.07  
+5     1 0.498 
+6     1 1.79  </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -384,7 +383,8 @@ background: #097f5f;
 <pre><code>Building pkpd ... done.</code></pre>
 </div>
 </div>
-<p>To simulate, look at 50 subjects at each of 5 doses ::: {.cell}</p>
+<p>To simulate, look at 50 subjects at each of 5 doses</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>data <span class="ot">&lt;-</span> </span>
 <span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">expand.idata</span>(<span class="at">DOSE =</span> <span class="fu">c</span>(<span class="dv">30</span>,<span class="dv">50</span>,<span class="dv">80</span>,<span class="dv">110</span>,<span class="dv">200</span>),<span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">mutate</span>(<span class="at">WT =</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(<span class="fu">n</span>(),<span class="fu">log</span>(<span class="dv">80</span>),<span class="dv">1</span>)))</span>
@@ -399,7 +399,7 @@ background: #097f5f;
 5  5  200 248.18054
 6  6   30  51.22012</code></pre>
 </div>
-<p>:::</p>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim_d</span>(mod,data,<span class="at">carry.out=</span><span class="st">"WT,DOSE"</span>) <span class="sc">%&gt;%</span> as.data.frame</span>
 <span id="cb14-2"><a href="#cb14-2"></a></span>
@@ -414,7 +414,8 @@ background: #097f5f;
 6  6    0  51.22012   30 251.58373 116.09649</code></pre>
 </div>
 </div>
-<p>Plot the response (<code>Y</code>) versus <code>AUC</code>, colored by dose ::: {.cell}</p>
+<p>Plot the response (<code>Y</code>) versus <code>AUC</code>, colored by dose</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb16-2"><a href="#cb16-2"></a></span>
 <span id="cb16-3"><a href="#cb16-3"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(AUC,Y,<span class="at">col =</span><span class="fu">factor</span>(DOSE))) <span class="sc">+</span> </span>
@@ -429,13 +430,13 @@ background: #097f5f;
 <div class="cell-output-display">
 <p><img src="2018-pred_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>:::</p>
+</div>
 
 
 </section>
 
 </main> <!-- /main -->
-<script type="application/javascript">
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";
   const anchorJS = new window.AnchorJS();
