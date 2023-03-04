@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Kyle Baron">
-<meta name="description" content="Find out what’s new in mrgsolve version 1.0.8">
 
-<title>mrgsolve/blog - New in 1.0.8</title>
+<title>mrgsolve/blog – foo</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -131,14 +129,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="mrgsolve/blog - New in 1.0.8">
-<meta property="og:description" content="Find out what's new in mrgsolve version 1.0.8">
-<meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
-<meta property="og:site-name" content="mrgsolve/blog">
-<meta name="twitter:title" content="mrgsolve/blog - New in 1.0.8">
-<meta name="twitter:description" content="Find out what's new in mrgsolve version 1.0.8">
-<meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
-<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed fullcontent">
@@ -234,43 +224,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">New in 1.0.8</h1>
-                  <div>
-        <div class="description">
-          <p>Find out what’s new in mrgsolve version 1.0.8</p>
-        </div>
-      </div>
-                          <div class="quarto-categories">
-                <div class="quarto-category">new release</div>
-              </div>
-                  </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Kyle Baron </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">Invalid Date</p>
-      </div>
-    </div>
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
@@ -279,21 +233,106 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+<section id="foo.r" class="level1">
+<h1>foo.R</h1>
+<p>kyleb 2023-03-04</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(bbr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## 
+## Attaching package: 'dplyr'
 
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mrgsolve)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'mrgsolve'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:stats':
+## The following objects are masked from 'package:data.table':
+## 
+##     between, first, last
 
-    filter</code></pre>
-</div>
-</div>
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>NUM</code> comes back as <code>numeric</code> from the <code>.tab</code> file</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"model/pk/106/106.tab"</span>, <span class="at">skip =</span> <span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>tab <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">str</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## Classes 'data.table' and 'data.frame':   4292 obs. of  3 variables:
+##  $ NUM  : num  1 2 3 4 5 6 7 8 9 10 ...
+##  $ IPRED: num  0 68.5 90.8 97.3 96.7 ...
+##  $ NPDE : num  0 -0.534 0.279 1.555 1.881 ...
+##  - attr(*, ".internal.selfref")=&lt;externalptr&gt;</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">anyNA</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p><code>NUM</code> comes back as <code>int</code> from the <code>.csv</code> file</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>data <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/derived/analysis3.csv"</span>, <span class="at">na.strings =</span> <span class="st">'.'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>data <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">str</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## Classes 'data.table' and 'data.frame':   4360 obs. of  3 variables:
+##  $ C  : logi  NA NA NA NA NA NA ...
+##  $ NUM: int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ ID : int  1 1 1 1 1 1 1 1 1 1 ...
+##  - attr(*, ".internal.selfref")=&lt;externalptr&gt;</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">anyNA</span>(data<span class="sc">$</span>CMT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>Now we’re trying to join an <code>int</code> with <code>double</code> and it doesn’t work</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>j <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tab, data, <span class="at">by =</span> <span class="st">"NUM"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">summary</span>(j<span class="sc">$</span>CMT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    1.00    1.00    2.00    1.73    2.00    2.00      39</code></pre>
+<p>Fine if we join <code>int</code> with <code>int</code></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>jj <span class="ot">&lt;-</span> <span class="fu">left_join</span>(<span class="fu">mutate</span>(tab, <span class="at">NUM =</span> <span class="fu">as.integer</span>(NUM)), data, <span class="at">by =</span> <span class="st">"NUM"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">summary</span>(jj<span class="sc">$</span>CMT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.000   1.000   2.000   1.732   2.000   2.000</code></pre>
+<p>This is join issue is happening in <code>nm_join()</code> too</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">options</span>(<span class="at">bbr.verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>dat <span class="ot">&lt;-</span> <span class="fu">nm_join</span>(<span class="st">"model/pk/106"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="fu">summary</span>(dat<span class="sc">$</span>CMT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    1.00    1.00    2.00    1.73    2.00    2.00      39</code></pre>
+<p><code>NUM</code> comes back as <code>numeric</code> from the <code>.tab</code> file</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">read_table</span>(<span class="st">"model/pk/106/106.tab"</span>, <span class="at">skip =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   NUM = col_double(),
+##   IPRED = col_double(),
+##   NPDE = col_double(),
+##   CWRES = col_double(),
+##   DV = col_double(),
+##   PRED = col_double(),
+##   RES = col_double(),
+##   WRES = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>tab <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">str</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## tibble [4,292 × 3] (S3: tbl_df/tbl/data.frame)
+##  $ NUM  : num [1:4292] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ IPRED: num [1:4292] 0 68.5 90.8 97.3 96.7 ...
+##  $ NPDE : num [1:4292] 0 -0.534 0.279 1.555 1.881 ...</code></pre>
+<p><code>NUM</code> comes back as <code>numeric</code> from the <code>.csv</code> file</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/derived/analysis3.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## Rows: 4360 Columns: 34
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr  (6): C, AMT, USUBJID, STUDY, ACTARM, RF
+## dbl (28): NUM, ID, TIME, SEQ, CMT, EVID, DV, AGE, WT, HT, EGFR, ALB, BMI, SE...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">str</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## tibble [4,360 × 3] (S3: tbl_df/tbl/data.frame)
+##  $ C  : chr [1:4360] "." "." "." "." ...
+##  $ NUM: num [1:4360] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ ID : num [1:4360] 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<p>Now we’re trying to join an <code>double</code> with <code>double</code></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>jjj <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tab, data, <span class="at">by =</span> <span class="st">"NUM"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2"></a></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="fu">summary</span>(jjj<span class="sc">$</span>CMT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.000   1.000   2.000   1.732   2.000   2.000</code></pre>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

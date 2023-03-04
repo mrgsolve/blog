@@ -1,0 +1,214 @@
+---
+title: "New in 1.0.8"
+author: Kyle Baron
+date: 3/4/2023
+description: > 
+  Find out what's new in mrgsolve version 1.0.8
+categories:
+- new release
+---
+
+# Introduction
+
+mrgsolve version 1.0.8 was released to CRAN on March 4th, 2023. 
+This blog post introduces some of the new features in 1.0.8 
+as well as 1.0.7, which was not released to CRAN.
+
+
+```{r, message = FALSE, warning = FALSE}
+library(mrgsolve)
+library(readr)
+library(dplyr)
+```
+
+# Missing values and input data sets
+
+Missing values (`NA`) are now allowed in the following 
+columns of input data sets: 
+
+- `CMT`
+- `AMT`
+- `RATE`
+- `EVID`
+- `II`
+- `ADDL`
+- `SS`
+
+The lower case versions of these names may also include `NA`. 
+
+In previous versions of mrgsolve, it was an error to 
+include `NA` in these data set columns. Starting with 
+version 1.0.7, mrgsolve will convert `NA` to `0` for these 
+columns only. mrgsolve will continue to warn the user when 
+missing values are in parameter columns.
+
+
+# Convenient ETA capture
+
+The `$CAPTURE` block gains a new option for capturing 
+any or all `ETA`s into the simulated output. The user
+writes an expression which evaluates to the integer numbers
+of `ETA`s to capture into the `@etas` option. For examples
+
+```{c, eval = FALSE}
+$OMEGA 0.1 0.2 0.3
+
+$CAPTURE @etas 1:last
+CL Y
+```
+
+will capture ETAs 1, 2, and 3 into `ETA1`, `ETA2`, and 
+`ETA3` in the simulated output. **Note** that the syntax 
+_resembles_ what you might right in NONMEM where `last`
+is the total number of `ETA`s in the problem. 
+
+Also note that `ETA` naming resembles what you would get from 
+NONMEM. This is contrasted with the naming that you continue
+to get when you simply capture `ETA(1)`
+
+```{c, eval = FALSE}
+$CAPTURE 
+CL Y ETA(1)
+```
+
+In this case, the name would be `ETA_1`, with `()` getting removed
+and replaced with `_`. This sanitization of names happens
+any time a captured item has parens or brackets in the name.
+
+# New model macro: `SIGMA()`
+
+The user can now access on-diagonal elements of `$SIGMA` 
+through the `SIGMA()` macro. For example
+
+```{c, eval = FALSE}
+$SIGMA 0.1 12
+
+$TABLE
+double STD=sqrt(SIGMA(1)+pow(F,2)*SIGMA(2));
+```
+
+This macro provides read-only access to the `$SIGMA` elements.
+
+
+# Matching mrgsolve and NONMEM run numbers
+
+When a mrgsolve model is translated from a NONMEM run, it is 
+common to give them matching file names. For example, if 
+`101.ctl` is the NONMEM control stream name, we might create
+a mrgsolve version of that run as `101.cpp` or `101.mod`.
+
+In this case, we will likely use `$NMEXT` or `$NMXML` blocks
+to import the estimates from the completed NONMEM run with 
+code like this
+
+```{c, eval = FALSE}
+$NMEXT
+run = 101
+project = "model/nonmem"
+```
+
+if the run completed in the `model/nonmem` directory. 
+
+Starting with mrgsolve version 1.0.7, users can assume this 
+connection in run numbers by setting the `run` to `@cppstem` 
+
+```{c, eval = FALSE}
+$NMEXT
+run = "@cppstem"
+project = "model/nonmem"
+```
+
+This tells `$NMEXT` (and `$NMXML`) to look for `101.ext`
+(or `101.xml`) in the `model/nonmem/101` directory. Using 
+this syntax will relieve the user from having to update 
+the run number in these blocks when forking one model file 
+to match a new NONMEM run.
+
+
+# Scrape ETAs from the input data set
+
+`mrgsim()` gains a new argument called `etasrc` which allows 
+you to look to the data set for `ETA`s rather than simulating 
+them from `$OMEGA`. This feature has several applications, 
+including validation of your model translation from NONMEM
+and simulating from empirical Bayes estimates. These topics
+will be covered more in depth in separate blog posts.
+
+For now, let's look at an example. This model has three `ETAs`
+
+```{r}
+mod <- mcode("etas", 
+  '
+  $OMEGA 1 2 3
+  $CAPTURE @etas 1:last
+  '
+)
+```
+
+By default, the `ETA`s are random draws from `$OMEGA`
+
+```{r}
+mrgsim(mod) %>% head()
+```
+
+When you have `ETA`s coded into your data set 
+
+```{r}
+data <- expand.ev(cmt = 0, ETA1 = 0.1, ETA2 = 0.2, ETA3 = 0.3)
+data
+```
+
+you can ask mrgsolve to use the data set `ETA`s rather than 
+simulating new ones
+
+```{r}
+mrgsim(mod, data, etasrc = "data")
+```
+
+If the data set is missing one of the `ETA`s, it will be filled
+with `0`
+
+```{r}
+miss2 <- select(data, -ETA2)
+
+mrgsim(mod, miss2, etasrc = "data")
+```
+
+You can ask for an error to be generated if not _all_ `ETA`s are
+found on the data set by using `etasrc = "data.all"`
+
+```{r}
+try(mrgsim(mod, miss2, etasrc = "data.all"))
+```
+
+Also, there will be an error if you ask for `ETA`s from the 
+data set, but there are _none_
+
+```{r}
+missall <- select(data, -contains("ETA"))
+
+try(mrgsim(mod, missall, etasrc = "data"))
+```
+
+You can get more information about the `etasrc` argument 
+in the 'Details' section of the `mrgsim()` help page
+
+```{r, eval = FALSE}
+?mrgsim
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+---
+title: "Untitled"
+editor: visual
+---
+
+
+
+```{r, message = FALSE}
+nmdata <- read_csv("data/derived/analysis3.csv", na = '.')
+```
+
+```{r}
+tab1 <- read_table("model/pk/106/106.tab", skip = 1)
+tab2 <- read_table("model/pk/106/106par.tab", skip = 1)
+tabs <- left_join(tab1, tab2, by = "NUM")
+```
+
+```{r}
+data <- left_join(tabs, nmdata, by = "NUM")
+```
+
+```{r}
+mod <- mread("../model/pk/106.txt")
+
+out <- mrgsim(
+  mod, 
+  data, 
+  etasrc = "data.all", 
+  carry_out = "NM  = IPRED", 
+  outvars   = "MRG = IPRED", 
+  obsonly = TRUE
+)
+
+summary(out$NM - out$MRG)
+plot(out$NM, out$MRG)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

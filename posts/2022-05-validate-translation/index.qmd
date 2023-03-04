@@ -50,7 +50,7 @@ we will evaluate the mrgsolve model.
 ```{r}
 #| message: false
 #| warning: false
-tab <- fread(here("model/pk/106/106.tab"))
+tab <- fread(here("model/pk/106/106.tab"), skip = 1, na.strings = '.')
 head(tab)
 ```
 
@@ -65,8 +65,7 @@ nmdata <- select(nmdata, -DV)
 ```
 
 ```{r, include = FALSE}
-nmdata <- mutate(nmdata, NUM = as.character(NUM))
-tab <- mutate(tab, NUM = as.character(NUM))
+tab <- mutate(tab, NUM = as.integer(NUM))
 ```
 
 

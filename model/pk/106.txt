@@ -31,5 +31,5 @@ double Q   = exp(THETA5+QWT);
 double S2 = V2/1000.0; //; dose in mcg, conc in mcg/mL
 
 [ table ]
-double IPRED = CENT/S2;
+capture IPRED = CENT/S2;
 capture Y = IPRED * (1+EPS(1));
