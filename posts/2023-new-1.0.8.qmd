@@ -36,6 +36,15 @@ columns of input data sets:
 
 The lower case versions of these names may also include `NA`. 
 
+- `cmt`
+- `amt`
+- `rate``
+- `evid`
+- `ii`
+- `addl`
+- `ss`
+
+
 In previous versions of mrgsolve, it was an error to 
 include `NA` in these data set columns. Starting with 
 version 1.0.7, mrgsolve will convert `NA` to `0` for these 
@@ -48,7 +57,7 @@ missing values are in parameter columns.
 The `$CAPTURE` block gains a new option for capturing 
 any or all `ETA`s into the simulated output. The user
 writes an expression which evaluates to the integer numbers
-of `ETA`s to capture into the `@etas` option. For examples
+of `ETA`s to capture into the `@etas` option. For example
 
 ```{c, eval = FALSE}
 $OMEGA 0.1 0.2 0.3

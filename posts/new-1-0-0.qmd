@@ -1,5 +1,5 @@
 ---
-title: "New in version 1.0.0"
+title: "New in 1.0.0"
 author: Kyle Baron
 date: 01/01/2022
 description: > 
