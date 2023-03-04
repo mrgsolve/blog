@@ -71,7 +71,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-date','listing-title','listing-author','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 25,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-date","listing-title","listing-author","listing-description","listing-categories"],
     };
 
@@ -223,7 +224,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(25)</span></div><div class="category" data-category="EBE">EBE <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MAP Bayes">MAP Bayes <span class="quarto-category-count">(2)</span></div><div class="category" data-category="data set">data set <span class="quarto-category-count">(1)</span></div><div class="category" data-category="events">events <span class="quarto-category-count">(3)</span></div><div class="category" data-category="example">example <span class="quarto-category-count">(3)</span></div><div class="category" data-category="infusion">infusion <span class="quarto-category-count">(1)</span></div><div class="category" data-category="initial conditions">initial conditions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mixture model">mixture model <span class="quarto-category-count">(1)</span></div><div class="category" data-category="model specification">model specification <span class="quarto-category-count">(2)</span></div><div class="category" data-category="modeled events">modeled events <span class="quarto-category-count">(2)</span></div><div class="category" data-category="mtime">mtime <span class="quarto-category-count">(2)</span></div><div class="category" data-category="new release">new release <span class="quarto-category-count">(4)</span></div><div class="category" data-category="optimization">optimization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pred">pred <span class="quarto-category-count">(1)</span></div><div class="category" data-category="steady state">steady state <span class="quarto-category-count">(2)</span></div><div class="category" data-category="stop">stop <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tad">tad <span class="quarto-category-count">(1)</span></div><div class="category" data-category="time after dose">time after dose <span class="quarto-category-count">(1)</span></div><div class="category" data-category="validation">validation <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(26)</span></div><div class="category" data-category="EBE">EBE <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MAP Bayes">MAP Bayes <span class="quarto-category-count">(2)</span></div><div class="category" data-category="data set">data set <span class="quarto-category-count">(1)</span></div><div class="category" data-category="events">events <span class="quarto-category-count">(3)</span></div><div class="category" data-category="example">example <span class="quarto-category-count">(3)</span></div><div class="category" data-category="infusion">infusion <span class="quarto-category-count">(1)</span></div><div class="category" data-category="initial conditions">initial conditions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mixture model">mixture model <span class="quarto-category-count">(1)</span></div><div class="category" data-category="model specification">model specification <span class="quarto-category-count">(3)</span></div><div class="category" data-category="modeled events">modeled events <span class="quarto-category-count">(2)</span></div><div class="category" data-category="mtime">mtime <span class="quarto-category-count">(2)</span></div><div class="category" data-category="new release">new release <span class="quarto-category-count">(4)</span></div><div class="category" data-category="optimization">optimization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pred">pred <span class="quarto-category-count">(1)</span></div><div class="category" data-category="steady state">steady state <span class="quarto-category-count">(2)</span></div><div class="category" data-category="stop">stop <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tad">tad <span class="quarto-category-count">(1)</span></div><div class="category" data-category="time after dose">time after dose <span class="quarto-category-count">(1)</span></div><div class="category" data-category="validation">validation <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -261,7 +262,42 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="stop" data-listing-date-sort="1650690000000" data-listing-file-modified-sort="1677293434142" data-listing-reading-time-sort="4.22">
+<div class="quarto-post image-right" data-index="1" data-categories="model specification,validation" data-listing-date-sort="1653454800000" data-listing-file-modified-sort="1677908702202" data-listing-reading-time-sort="5.28">
+<div class="body">
+<a href="./posts/2022-05-validate-translation/index.html">
+<h3 class="no-anchor listing-title">
+Validate model translation from NONMEM
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('model specification'); return false;">
+model specification
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('validation'); return false;">
+validation
+</div>
+</div>
+<a href="./posts/2022-05-validate-translation/index.html">
+<div class="listing-description">
+<p>If your mrgsolve model is a translation of a completed NONMEM model run, you can validate it every time; find out how.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-05-validate-translation/index.html">
+<div class="listing-date">
+May 25, 2022
+</div>
+<div class="listing-author">
+Kyle Baron
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="stop" data-listing-date-sort="1650690000000" data-listing-file-modified-sort="1677293434142" data-listing-reading-time-sort="4.22">
 <div class="body">
 <a href="./posts/2022-apr-stop.html">
 <h3 class="no-anchor listing-title">
@@ -293,7 +329,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="new release" data-listing-date-sort="1641016800000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="5.47">
+<div class="quarto-post image-right" data-index="3" data-categories="new release" data-listing-date-sort="1641016800000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="5.47">
 <div class="body">
 <a href="./posts/new-1-0-0.html">
 <h3 class="no-anchor listing-title">
@@ -325,7 +361,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="EBE" data-listing-date-sort="1630472400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="3.295">
+<div class="quarto-post image-right" data-index="4" data-categories="EBE" data-listing-date-sort="1630472400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="3.295">
 <div class="body">
 <a href="./posts/simulate-ebe.html">
 <h3 class="no-anchor listing-title">
@@ -357,7 +393,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="new release" data-listing-date-sort="1629090000000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="6.13">
+<div class="quarto-post image-right" data-index="5" data-categories="new release" data-listing-date-sort="1629090000000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="6.13">
 <div class="body">
 <a href="./posts/new-0-11-0.html">
 <h3 class="no-anchor listing-title">
@@ -389,7 +425,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="new release" data-listing-date-sort="1606802400000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="4.55">
+<div class="quarto-post image-right" data-index="6" data-categories="new release" data-listing-date-sort="1606802400000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="4.55">
 <div class="body">
 <a href="./posts/new-0-10-7.html">
 <h3 class="no-anchor listing-title">
@@ -421,7 +457,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="new release" data-listing-date-sort="1580536800000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="3.69">
+<div class="quarto-post image-right" data-index="7" data-categories="new release" data-listing-date-sort="1580536800000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="3.69">
 <div class="body">
 <a href="./posts/new-0-10-1.html">
 <h3 class="no-anchor listing-title">
@@ -453,7 +489,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="events,infusion,steady state" data-listing-date-sort="1577858400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="0.77">
+<div class="quarto-post image-right" data-index="8" data-categories="events,infusion,steady state" data-listing-date-sort="1577858400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="0.77">
 <div class="body">
 <a href="./posts/zero-ss.html">
 <h3 class="no-anchor listing-title">
@@ -491,7 +527,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="steady state" data-listing-date-sort="1575180000000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="7.11">
+<div class="quarto-post image-right" data-index="9" data-categories="steady state" data-listing-date-sort="1575180000000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="7.11">
 <div class="body">
 <a href="./posts/steady-state.html">
 <h3 class="no-anchor listing-title">
@@ -523,7 +559,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="time after dose,tad" data-listing-date-sort="1559365200000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="1.925">
+<div class="quarto-post image-right" data-index="10" data-categories="time after dose,tad" data-listing-date-sort="1559365200000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="1.925">
 <div class="body">
 <a href="./posts/time_after_dose.html">
 <h3 class="no-anchor listing-title">
@@ -558,7 +594,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="events" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="2.78">
+<div class="quarto-post image-right" data-index="11" data-categories="events" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="2.78">
 <div class="body">
 <a href="./posts/2019-ev_rx.html">
 <h3 class="no-anchor listing-title">
@@ -590,7 +626,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="validation" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="3.11">
+<div class="quarto-post image-right" data-index="12" data-categories="validation" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="3.11">
 <div class="body">
 <a href="./posts/validation_pmxtools.html">
 <h3 class="no-anchor listing-title">
@@ -622,7 +658,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-categories="model specification" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="2.98">
+<div class="quarto-post image-right" data-index="13" data-categories="model specification" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="2.98">
 <div class="body">
 <a href="./posts/rmd_model.html">
 <h3 class="no-anchor listing-title">
@@ -654,7 +690,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="13" data-categories="example" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="0.835">
+<div class="quarto-post image-right" data-index="14" data-categories="example" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="0.835">
 <div class="body">
 <a href="./posts/sir.html">
 <h3 class="no-anchor listing-title">
@@ -686,7 +722,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="14" data-categories="modeled events,mtime" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="4.61">
+<div class="quarto-post image-right" data-index="15" data-categories="modeled events,mtime" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="4.61">
 <div class="body">
 <a href="./posts/2018-modeled-interventions.html">
 <h3 class="no-anchor listing-title">
@@ -721,7 +757,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="15" data-categories="modeled events,mtime" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="1.205">
+<div class="quarto-post image-right" data-index="16" data-categories="modeled events,mtime" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="1.205">
 <div class="body">
 <a href="./posts/mtime.html">
 <h3 class="no-anchor listing-title">
@@ -756,7 +792,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="16" data-categories="pred,model specification" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="1.93">
+<div class="quarto-post image-right" data-index="17" data-categories="pred,model specification" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="1.93">
 <div class="body">
 <a href="./posts/2018-pred.html">
 <h3 class="no-anchor listing-title">
@@ -791,7 +827,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="17" data-categories="data set" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="4.495">
+<div class="quarto-post image-right" data-index="18" data-categories="data set" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="4.495">
 <div class="body">
 <a href="./posts/2017-input_data_set.html">
 <h3 class="no-anchor listing-title">
@@ -823,7 +859,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="18" data-categories="mixture model" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="3.02">
+<div class="quarto-post image-right" data-index="19" data-categories="mixture model" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="3.02">
 <div class="body">
 <a href="./posts/2017-mixture-model.html">
 <h3 class="no-anchor listing-title">
@@ -855,7 +891,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="19" data-categories="example" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="4.245">
+<div class="quarto-post image-right" data-index="20" data-categories="example" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="4.245">
 <div class="body">
 <a href="./posts/2017-complete-example.html">
 <h3 class="no-anchor listing-title">
@@ -887,7 +923,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="20" data-categories="example" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="0.37">
+<div class="quarto-post image-right" data-index="21" data-categories="example" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="0.37">
 <div class="body">
 <a href="./posts/2017-reproducible.html">
 <h3 class="no-anchor listing-title">
@@ -919,7 +955,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="21" data-categories="MAP Bayes" data-listing-date-sort="1451714400000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="4.54">
+<div class="quarto-post image-right" data-index="22" data-categories="MAP Bayes" data-listing-date-sort="1451714400000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="4.54">
 <div class="body">
 <a href="./posts/map_bayes.html">
 <h3 class="no-anchor listing-title">
@@ -951,7 +987,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="22" data-categories="MAP Bayes,optimization" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="2.7">
+<div class="quarto-post image-right" data-index="23" data-categories="MAP Bayes,optimization" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="2.7">
 <div class="body">
 <a href="./posts/map_bayes_example.html">
 <h3 class="no-anchor listing-title">
@@ -986,7 +1022,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="23" data-categories="events" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434143" data-listing-reading-time-sort="1.71">
+<div class="quarto-post image-right" data-index="24" data-categories="events" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434143" data-listing-reading-time-sort="1.71">
 <div class="body">
 <a href="./posts/events.html">
 <h3 class="no-anchor listing-title">
@@ -1018,7 +1054,7 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="24" data-categories="initial conditions" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="5.005">
+<div class="quarto-post image-right" data-index="25" data-categories="initial conditions" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="5.005">
 <div class="body">
 <a href="./posts/init.html">
 <h3 class="no-anchor listing-title">
@@ -1054,6 +1090,9 @@ Kyle Baron
 <div class="listing-no-matching d-none">
 No matching items
 </div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
