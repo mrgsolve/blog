@@ -38,7 +38,7 @@ The lower case versions of these names may also include `NA`.
 
 - `cmt`
 - `amt`
-- `rate``
+- `rate`
 - `evid`
 - `ii`
 - `addl`
