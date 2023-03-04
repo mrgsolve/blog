@@ -45,11 +45,10 @@ The lower case versions of these names may also include `NA`.
 - `ss`
 
 
-In previous versions of mrgsolve, it was an error to 
-include `NA` in these data set columns. Starting with 
-version 1.0.7, mrgsolve will convert `NA` to `0` for these 
-columns only. mrgsolve will continue to warn the user when 
-missing values are in parameter columns.
+In previous versions of mrgsolve, it was an error to include `NA` in these data
+set columns. Starting with version 1.0.7, mrgsolve will convert `NA` to `0` for
+these columns only. mrgsolve will continue to warn the user when missing values
+are in parameter columns.
 
 
 # Convenient ETA capture
