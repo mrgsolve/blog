@@ -62,16 +62,18 @@ of `ETA`s to capture into the `@etas` option. For example
 ```{c, eval = FALSE}
 $OMEGA 0.1 0.2 0.3
 
-$CAPTURE @etas 1:last
+$CAPTURE @etas 1:LAST
 CL Y
 ```
 
 will capture ETAs 1, 2, and 3 into `ETA1`, `ETA2`, and 
-`ETA3` in the simulated output. **Note** that the syntax 
-_resembles_ what you might right in NONMEM where `last`
+`ETA3` in the simulated output. 
+
+**Note** that the syntax 
+_resembles_ what you might write in NONMEM where `last`
 is the total number of `ETA`s in the problem. 
 
-Also note that `ETA` naming resembles what you would get from 
+**Note** also that `ETA` naming resembles what you would get from 
 NONMEM. This is contrasted with the naming that you continue
 to get when you simply capture `ETA(1)`
 
@@ -104,7 +106,7 @@ This macro provides read-only access to the `$SIGMA` elements.
 When a mrgsolve model is translated from a NONMEM run, it is 
 common to give them matching file names. For example, if 
 `101.ctl` is the NONMEM control stream name, we might create
-a mrgsolve version of that run as `101.cpp` or `101.mod`.
+an mrgsolve version of that run as `101.cpp` or `101.mod`.
 
 In this case, we will likely use `$NMEXT` or `$NMXML` blocks
 to import the estimates from the completed NONMEM run with 
@@ -145,19 +147,20 @@ will be covered more in depth in separate blog posts.
 
 For now, let's look at an example. This model has three `ETAs`
 
-```{r}
+```{r, message = FALSE}
 mod <- mcode("etas", 
   '
   $OMEGA 1 2 3
   $CAPTURE @etas 1:last
-  '
+  ', 
+  end = 3
 )
 ```
 
 By default, the `ETA`s are random draws from `$OMEGA`
 
 ```{r}
-mrgsim(mod) %>% head()
+mrgsim(mod, end = -1, nid = 4) 
 ```
 
 When you have `ETA`s coded into your data set 
@@ -190,7 +193,7 @@ found on the data set by using `etasrc = "data.all"`
 try(mrgsim(mod, miss2, etasrc = "data.all"))
 ```
 
-Also, there will be an error if you ask for `ETA`s from the 
+Also, an error will be generated if you ask for `ETA`s from the 
 data set, but there are _none_
 
 ```{r}
