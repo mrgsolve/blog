@@ -32,10 +32,10 @@ You can get more information on how this all works in the `mrgsim()`
 help topic
 
 ```{r, eval = FALSE}
-?mrgim
+?mrgsim
 ```
 
-with mrgsolve 1.0.8 installed.
+with mrgsolve 1.0.8 installed or check   [here](https://mrgsolve.org/docs/reference/mrgsim.html).
 
 # Setup
 
