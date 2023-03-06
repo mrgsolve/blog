@@ -28,6 +28,14 @@ To help with the big picture, the steps are
 I'll detail these steps in the following sections or you can jump to 
 the complete workflow in @sec-complete-workflow.
 
+You can get more information on how this all works in the `mrgsim()`
+help topic
+
+```{r, eval = FALSE}
+?mrgim
+```
+
+with mrgsolve 1.0.8 installed.
 
 # Setup
 
@@ -60,12 +68,12 @@ head(tab1)
 This comes automatically when you create `$TABLE` outputs unless you 
 suppress it with the `NOAPPEND` option. 
 
-`PRED` is the population-predicted value or the prediction with all $\eta$ and
-$\epsilon$ set to `0`. When we validate a model based on `PRED`, we can verify
-several different aspects of the model, including handling of the data set (e.g.
-observations and dosing interventions), the covariate model, and the coding of
-the differential equations to name a few. What this approach doesn't check is
-the placement of the $\eta$s in the model.
+`PRED` is the population-predicted value or the prediction with all `ETA`
+($\eta$) and `EPS` ($\epsilon$) set to `0`. When we validate a model based on
+`PRED`, we can verify several different aspects of the model, including handling
+of the data set (e.g. observations and dosing interventions), the covariate
+model, and the coding of the differential equations to name a few. What this
+approach doesn't check is the placement of the $\eta$s in the model.
 
 ## Individual-level predictions
 
