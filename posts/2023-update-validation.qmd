@@ -11,7 +11,7 @@ categories:
 
 # Introduction
 
-I wrote a post in May 2022 about using NONMEM-generated `PRED` from a completed
+I wrote a [post](https://mrgsolve.org/blog/posts/2022-05-validate-translation/) in May 2022 about using NONMEM-generated `PRED` from a completed
 estimation run to validate the coding of the equivalent model in mrgsolve. This
 post will show you how to do a similar validation, but this time using `IPRED`
 to validate the translation. 
