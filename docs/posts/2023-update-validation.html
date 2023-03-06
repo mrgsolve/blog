@@ -309,10 +309,10 @@ background: #097f5f;
 <li>Read in the model estimation data set</li>
 <li>Read in NONMEM <code>$TABLE</code> outputs which include <code>IPRED</code> and all the model <code>ETA</code> values</li>
 <li>Join the table outputs to the model estimation data set</li>
-<li>Simulate from the candidate mrgsolve model, using the new <code>etasrc = "data.all'</code> argument to <a href="https://mrgsolve.org/docs/reference/mrgsim.html"><code>mrgsim()</code></a></li>
+<li>Simulate from the candidate mrgsolve model, using the new <code>etasrc = "data.all'</code> argument to <a href="https://mrgsolve.org/docs/reference/mrgsim.html"><code>mrgsim()</code></a>, new in version 1.0.8</li>
 <li>Compare NONMEM-generated <code>IPRED</code> against mrgsolve-generated <code>IPRED</code></li>
 </ol>
-<p>We’ll detail these steps in the following sections.</p>
+<p>I’ll detail these steps in the following sections.</p>
 </section>
 <section id="setup" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Setup</h1>
