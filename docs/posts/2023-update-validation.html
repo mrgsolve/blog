@@ -289,7 +289,7 @@ background: #097f5f;
   <li><a href="#individual-level-predictions" id="toc-individual-level-predictions" class="nav-link" data-scroll-target="#individual-level-predictions"><span class="toc-section-number">3.2</span>  Individual-level predictions</a></li>
   </ul></li>
   <li><a href="#join-nonmem-outputs-with-the-model-estimation-data" id="toc-join-nonmem-outputs-with-the-model-estimation-data" class="nav-link" data-scroll-target="#join-nonmem-outputs-with-the-model-estimation-data"><span class="toc-section-number">4</span>  Join NONMEM outputs with the model estimation data</a></li>
-  <li><a href="#simulate-with-etasrc-data" id="toc-simulate-with-etasrc-data" class="nav-link" data-scroll-target="#simulate-with-etasrc-data"><span class="toc-section-number">5</span>  Simulate with <code>etasrc = "data"</code></a></li>
+  <li><a href="#simulate-with-etasrc-data.all" id="toc-simulate-with-etasrc-data.all" class="nav-link" data-scroll-target="#simulate-with-etasrc-data.all"><span class="toc-section-number">5</span>  Simulate with <code>etasrc = "data.all"</code></a></li>
   <li><a href="#check-the-result" id="toc-check-the-result" class="nav-link" data-scroll-target="#check-the-result"><span class="toc-section-number">6</span>  Check the result</a></li>
   <li><a href="#sec-complete-workflow" id="toc-sec-complete-workflow" class="nav-link" data-scroll-target="#sec-complete-workflow"><span class="toc-section-number">7</span>  Complete workflow</a></li>
   </ul>
@@ -437,8 +437,8 @@ background: #097f5f;
 <li>The individual predicted model outputs (<code>IPRED</code>)</li>
 </ol>
 </section>
-<section id="simulate-with-etasrc-data" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Simulate with <code>etasrc = "data"</code></h1>
+<section id="simulate-with-etasrc-data.all" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Simulate with <code>etasrc = "data.all"</code></h1>
 <p>Now we want to use mrgsolve to simulate it’s version of <code>IPRED</code> and we’ll compare that result to the NONMEM-generated <code>IPRED</code> as our validation of the mrgsolve setup.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"106.txt"</span>, <span class="at">project =</span> <span class="fu">here</span>(<span class="st">"model/pk"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
