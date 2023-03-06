@@ -21,7 +21,7 @@ To help with the big picture, the steps are
 1. Read in the model estimation data set
 1. Read in NONMEM  `$TABLE` outputs which include `IPRED` and all the model `ETA` values
 1. Join the table outputs to the model estimation data set
-1. Simulate from the candidate mrgsolve model, using the new `etasrc = "data.all'` argument to [`mrgsim()`](https://mrgsolve.org/docs/reference/mrgsim.html), new in 
+1. Simulate from the candidate mrgsolve model, using the new `etasrc = "data.all"` argument to [`mrgsim()`](https://mrgsolve.org/docs/reference/mrgsim.html), new in 
   version 1.0.8
 1. Compare NONMEM-generated `IPRED` against mrgsolve-generated `IPRED`
 
