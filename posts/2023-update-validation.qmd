@@ -83,6 +83,7 @@ do this.
 
 
 ```{r, eval = FALSE, filename = "106.ctl"}
+#| code-line-numbers: false
 $ERROR
 IPRED = A(2)/V2
 
@@ -100,6 +101,7 @@ $\eta$.
 To get $\eta$ into the output, I wrote
 
 ```{r, eval = FALSE, filename = "106.ctl"}
+#| code-line-numbers: false
 $TABLE ETAS(1:LAST) FILE = 106par.tab
 ```
 
