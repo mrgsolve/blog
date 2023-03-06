@@ -147,7 +147,7 @@ This `data` object includes the following:
 
 # Simulate with `etasrc = "data.all"`
 
-Now we want to use mrgsolve to simulate it's version of `IPRED` and 
+Now we want to use mrgsolve to simulate its version of `IPRED` and 
 we'll compare that result to the NONMEM-generated `IPRED` as our validation 
 of the mrgsolve setup.
 
