@@ -443,9 +443,61 @@ background: #097f5f;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">"106.txt"</span>, <span class="at">project =</span> <span class="fu">here</span>(<span class="st">"model/pk"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+See the model code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">[</span> prob <span class="op">]</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="dv">106</span><span class="op">-</span><span class="dv">104</span> <span class="op">+</span> COV<span class="op">-</span>effects<span class="op">(</span>CRCL<span class="op">,</span> AGE<span class="op">)</span> on CL</span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="op">[</span> pkmodel <span class="op">]</span> cmt <span class="op">=</span> <span class="st">"GUT,CENT,PERIPH"</span><span class="op">,</span> depot <span class="op">=</span> TRUE</span>
+<span id="cb13-5"><a href="#cb13-5"></a></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="op">[</span> param <span class="op">]</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>WT   <span class="op">=</span> <span class="dv">70</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>EGFR <span class="op">=</span> <span class="dv">90</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a>ALB  <span class="op">=</span> <span class="fl">4.5</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a>AGE  <span class="op">=</span> <span class="dv">35</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a></span>
+<span id="cb13-12"><a href="#cb13-12"></a><span class="op">[</span> nmxml <span class="op">]</span></span>
+<span id="cb13-13"><a href="#cb13-13"></a>path <span class="op">=</span> <span class="st">"106/106.xml"</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a>root <span class="op">=</span> <span class="st">"cppfile"</span></span>
+<span id="cb13-15"><a href="#cb13-15"></a></span>
+<span id="cb13-16"><a href="#cb13-16"></a><span class="op">[</span> main <span class="op">]</span></span>
+<span id="cb13-17"><a href="#cb13-17"></a><span class="dt">double</span> V2WT   <span class="op">=</span> log<span class="op">(</span>WT<span class="op">/</span><span class="fl">70.0</span><span class="op">);</span></span>
+<span id="cb13-18"><a href="#cb13-18"></a><span class="dt">double</span> CLWT   <span class="op">=</span> log<span class="op">(</span>WT<span class="op">/</span><span class="fl">70.0</span><span class="op">)*</span><span class="fl">0.75</span><span class="op">;</span></span>
+<span id="cb13-19"><a href="#cb13-19"></a><span class="dt">double</span> CLEGFR <span class="op">=</span> log<span class="op">(</span>EGFR<span class="op">/</span><span class="fl">90.0</span><span class="op">)*</span>THETA6<span class="op">;</span></span>
+<span id="cb13-20"><a href="#cb13-20"></a><span class="dt">double</span> CLAGE  <span class="op">=</span> log<span class="op">(</span>AGE<span class="op">/</span><span class="fl">35.0</span><span class="op">)*</span>THETA7<span class="op">;</span></span>
+<span id="cb13-21"><a href="#cb13-21"></a><span class="dt">double</span> V3WT   <span class="op">=</span> log<span class="op">(</span>WT<span class="op">/</span><span class="fl">70.0</span><span class="op">);</span></span>
+<span id="cb13-22"><a href="#cb13-22"></a><span class="dt">double</span> QWT    <span class="op">=</span> log<span class="op">(</span>WT<span class="op">/</span><span class="fl">70.0</span><span class="op">)*</span><span class="fl">0.75</span><span class="op">;</span></span>
+<span id="cb13-23"><a href="#cb13-23"></a><span class="dt">double</span> CLALB  <span class="op">=</span> log<span class="op">(</span>ALB<span class="op">/</span><span class="fl">4.5</span><span class="op">)*</span>THETA8<span class="op">;</span></span>
+<span id="cb13-24"><a href="#cb13-24"></a></span>
+<span id="cb13-25"><a href="#cb13-25"></a><span class="dt">double</span> KA  <span class="op">=</span> exp<span class="op">(</span>THETA1<span class="op">+</span>ETA<span class="op">(</span><span class="dv">1</span><span class="op">));</span></span>
+<span id="cb13-26"><a href="#cb13-26"></a><span class="dt">double</span> V2  <span class="op">=</span> exp<span class="op">(</span>THETA2<span class="op">+</span>V2WT<span class="op">+</span>ETA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span>
+<span id="cb13-27"><a href="#cb13-27"></a><span class="dt">double</span> CL  <span class="op">=</span> exp<span class="op">(</span>THETA3<span class="op">+</span>CLWT<span class="op">+</span>CLEGFR<span class="op">+</span>CLAGE<span class="op">+</span>CLALB<span class="op">+</span>ETA<span class="op">(</span><span class="dv">3</span><span class="op">));</span></span>
+<span id="cb13-28"><a href="#cb13-28"></a><span class="dt">double</span> V3  <span class="op">=</span> exp<span class="op">(</span>THETA4<span class="op">+</span>V3WT<span class="op">);</span></span>
+<span id="cb13-29"><a href="#cb13-29"></a><span class="dt">double</span> Q   <span class="op">=</span> exp<span class="op">(</span>THETA5<span class="op">+</span>QWT<span class="op">);</span></span>
+<span id="cb13-30"><a href="#cb13-30"></a></span>
+<span id="cb13-31"><a href="#cb13-31"></a><span class="dt">double</span> S2 <span class="op">=</span> V2<span class="op">/</span><span class="fl">1000.0</span><span class="op">;</span> <span class="co">//; dose in mcg, conc in mcg/mL</span></span>
+<span id="cb13-32"><a href="#cb13-32"></a></span>
+<span id="cb13-33"><a href="#cb13-33"></a><span class="op">[</span> table <span class="op">]</span></span>
+<span id="cb13-34"><a href="#cb13-34"></a>capture IPRED <span class="op">=</span> CENT<span class="op">/</span>S2<span class="op">;</span></span>
+<span id="cb13-35"><a href="#cb13-35"></a>capture Y <span class="op">=</span> IPRED <span class="op">*</span> <span class="op">(</span><span class="dv">1</span><span class="op">+</span>EPS<span class="op">(</span><span class="dv">1</span><span class="op">));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
 <p>This model is already capturing <code>IPRED</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">outvars</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">outvars</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$cmt
 [1] "GUT"    "CENT"   "PERIPH"
@@ -457,18 +509,18 @@ $capture
 <p>We will do this with the <code>etasrc</code> argument to <code>mrgsim()</code> which is <a href="https://mrgsolve.org/blog/posts/2023-new-1.0.8.html">new with version 1.0.8</a>. <code>etasrc</code> lets you instruct mrgsolve to look at the data set for columns named <code>ETA1</code>, <code>ETA2</code>, etc and use those values for <span class="math inline">\(\eta\)</span> rather than generating new, random <span class="math inline">\(\eta\)</span> from <span class="math inline">\(\Omega\)</span>.</p>
 <p>The simulation looks like this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(</span>
-<span id="cb15-2"><a href="#cb15-2"></a>  mod, </span>
-<span id="cb15-3"><a href="#cb15-3"></a>  <span class="at">data      =</span> data, </span>
-<span id="cb15-4"><a href="#cb15-4"></a>  <span class="at">etasrc    =</span> <span class="st">"data.all"</span>, </span>
-<span id="cb15-5"><a href="#cb15-5"></a>  <span class="at">obsonly   =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb15-6"><a href="#cb15-6"></a>  <span class="at">Req       =</span> <span class="st">"MRG = IPRED"</span>, </span>
-<span id="cb15-7"><a href="#cb15-7"></a>  <span class="at">carry_out =</span> <span class="st">"NM = IPRED, PRED"</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(</span>
+<span id="cb16-2"><a href="#cb16-2"></a>  mod, </span>
+<span id="cb16-3"><a href="#cb16-3"></a>  <span class="at">data      =</span> data, </span>
+<span id="cb16-4"><a href="#cb16-4"></a>  <span class="at">etasrc    =</span> <span class="st">"data.all"</span>, </span>
+<span id="cb16-5"><a href="#cb16-5"></a>  <span class="at">obsonly   =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb16-6"><a href="#cb16-6"></a>  <span class="at">Req       =</span> <span class="st">"MRG = IPRED"</span>, </span>
+<span id="cb16-7"><a href="#cb16-7"></a>  <span class="at">carry_out =</span> <span class="st">"NM = IPRED, PRED"</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the above <code>mrgsim()</code> call, we use <code>Req</code> to request the <code>IPRED</code> output from the mrgsolve model and we use the <code>carry_out</code> argument to copy the <code>IPRED</code> value from the input data set, the NONMEM-generated value. I’ve also asked for <code>PRED</code> to get copied into the output so we can compare.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">head</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">head</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID TIME     NM   PRED      MRG
 1  1 0.61 68.532 60.583 68.53195
@@ -484,20 +536,49 @@ $capture
 <section id="check-the-result" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Check the result</h1>
 <p>You can check the result graphically</p>
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+See the plotting code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">plot</span>(out<span class="sc">$</span>MRG, out<span class="sc">$</span>NM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb19-2"><a href="#cb19-2"></a>pick <span class="ot">&lt;-</span> <span class="fu">filter</span>(out, ID <span class="sc">&lt;=</span> <span class="dv">9</span>)</span>
+<span id="cb19-3"><a href="#cb19-3"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> pick) <span class="sc">+</span> </span>
+<span id="cb19-4"><a href="#cb19-4"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(TIME, MRG)) <span class="sc">+</span> </span>
+<span id="cb19-5"><a href="#cb19-5"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(TIME, NM), <span class="at">color =</span> <span class="st">"blue3"</span>) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a>  <span class="fu">ylab</span>(<span class="st">"IPRED"</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ID, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span> </span>
+<span id="cb19-7"><a href="#cb19-7"></a>  <span class="fu">ggtitle</span>(<span class="st">"Points: mrgsolve, Lines: NONMEM"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
 <div class="cell-output-display">
-<p><img src="2023-update-validation_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="2023-update-validation_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">plot</span>(out<span class="sc">$</span>MRG, out<span class="sc">$</span>NM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="2023-update-validation_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Or by some summary of the discrepancy</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">summary</span>(out<span class="sc">$</span>MRG <span class="sc">-</span> out<span class="sc">$</span>NM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">summary</span>(out<span class="sc">$</span>MRG <span class="sc">-</span> out<span class="sc">$</span>NM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
 -6.018e-02 -2.568e-03 -1.118e-05 -2.444e-05  2.710e-03  5.683e-02 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">summary</span>(<span class="dv">100</span><span class="sc">*</span>(out<span class="sc">$</span>MRG <span class="sc">-</span> out<span class="sc">$</span>NM)<span class="sc">/</span>out<span class="sc">$</span>NM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">summary</span>(<span class="dv">100</span><span class="sc">*</span>(out<span class="sc">$</span>MRG <span class="sc">-</span> out<span class="sc">$</span>NM)<span class="sc">/</span>out<span class="sc">$</span>NM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
 -5.731e-03 -6.735e-04 -5.256e-06  8.200e-07  7.114e-04  4.720e-03 </code></pre>
@@ -512,34 +593,34 @@ $capture
 <div class="code-with-filename-file">
 <pre><strong>validate.R</strong></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>run <span class="ot">&lt;-</span> <span class="dv">106</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="co"># Read the analysis data set</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a>nmdata <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/derived/analysis3.csv"</span>, <span class="at">na =</span> <span class="st">'.'</span>)</span>
-<span id="cb23-5"><a href="#cb23-5"></a></span>
-<span id="cb23-6"><a href="#cb23-6"></a><span class="co"># Read NM table outputs</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a>tab1 <span class="ot">&lt;-</span> <span class="fu">read_table</span>(<span class="fu">glue</span>(<span class="st">"model/pk/{run}/{run}.tab"</span>), <span class="at">skip =</span> <span class="dv">1</span>)</span>
-<span id="cb23-8"><a href="#cb23-8"></a>tab2 <span class="ot">&lt;-</span> <span class="fu">read_table</span>(<span class="fu">glue</span>(<span class="st">"model/pk/{run}/{run}par.tab"</span>), <span class="at">skip =</span> <span class="dv">1</span>)</span>
-<span id="cb23-9"><a href="#cb23-9"></a>tab <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tab1, tab2, <span class="at">by =</span> <span class="st">"NUM"</span>)</span>
-<span id="cb23-10"><a href="#cb23-10"></a></span>
-<span id="cb23-11"><a href="#cb23-11"></a><span class="co"># Join</span></span>
-<span id="cb23-12"><a href="#cb23-12"></a>data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tab, nmdata, <span class="at">by =</span> <span class="st">"NUM"</span>)</span>
-<span id="cb23-13"><a href="#cb23-13"></a></span>
-<span id="cb23-14"><a href="#cb23-14"></a><span class="co"># The mrgsolve simulation model</span></span>
-<span id="cb23-15"><a href="#cb23-15"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="fu">glue</span>(<span class="st">"{run}.txt"</span>), <span class="at">project =</span> <span class="fu">here</span>(<span class="st">"model/pk"</span>))</span>
-<span id="cb23-16"><a href="#cb23-16"></a></span>
-<span id="cb23-17"><a href="#cb23-17"></a><span class="co"># Simulate</span></span>
-<span id="cb23-18"><a href="#cb23-18"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(</span>
-<span id="cb23-19"><a href="#cb23-19"></a>  mod, </span>
-<span id="cb23-20"><a href="#cb23-20"></a>  <span class="at">data      =</span> data, </span>
-<span id="cb23-21"><a href="#cb23-21"></a>  <span class="at">etasrc    =</span> <span class="st">"data.all"</span>, </span>
-<span id="cb23-22"><a href="#cb23-22"></a>  <span class="at">obsonly   =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb23-23"><a href="#cb23-23"></a>  <span class="at">Req       =</span> <span class="st">"MRG = IPRED"</span>, </span>
-<span id="cb23-24"><a href="#cb23-24"></a>  <span class="at">carry_out =</span> <span class="st">"NM = IPRED"</span></span>
-<span id="cb23-25"><a href="#cb23-25"></a>)</span>
-<span id="cb23-26"><a href="#cb23-26"></a></span>
-<span id="cb23-27"><a href="#cb23-27"></a><span class="co"># Compare</span></span>
-<span id="cb23-28"><a href="#cb23-28"></a><span class="fu">summary</span>(out<span class="sc">$</span>MRG <span class="sc">-</span> out<span class="sc">$</span>NM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>run <span class="ot">&lt;-</span> <span class="dv">106</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="co"># Read the analysis data set</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a>nmdata <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/derived/analysis3.csv"</span>, <span class="at">na =</span> <span class="st">'.'</span>)</span>
+<span id="cb25-5"><a href="#cb25-5"></a></span>
+<span id="cb25-6"><a href="#cb25-6"></a><span class="co"># Read NM table outputs</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a>tab1 <span class="ot">&lt;-</span> <span class="fu">read_table</span>(<span class="fu">glue</span>(<span class="st">"model/pk/{run}/{run}.tab"</span>), <span class="at">skip =</span> <span class="dv">1</span>)</span>
+<span id="cb25-8"><a href="#cb25-8"></a>tab2 <span class="ot">&lt;-</span> <span class="fu">read_table</span>(<span class="fu">glue</span>(<span class="st">"model/pk/{run}/{run}par.tab"</span>), <span class="at">skip =</span> <span class="dv">1</span>)</span>
+<span id="cb25-9"><a href="#cb25-9"></a>tab <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tab1, tab2, <span class="at">by =</span> <span class="st">"NUM"</span>)</span>
+<span id="cb25-10"><a href="#cb25-10"></a></span>
+<span id="cb25-11"><a href="#cb25-11"></a><span class="co"># Join</span></span>
+<span id="cb25-12"><a href="#cb25-12"></a>data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tab, nmdata, <span class="at">by =</span> <span class="st">"NUM"</span>)</span>
+<span id="cb25-13"><a href="#cb25-13"></a></span>
+<span id="cb25-14"><a href="#cb25-14"></a><span class="co"># The mrgsolve simulation model</span></span>
+<span id="cb25-15"><a href="#cb25-15"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="fu">glue</span>(<span class="st">"{run}.txt"</span>), <span class="at">project =</span> <span class="fu">here</span>(<span class="st">"model/pk"</span>))</span>
+<span id="cb25-16"><a href="#cb25-16"></a></span>
+<span id="cb25-17"><a href="#cb25-17"></a><span class="co"># Simulate</span></span>
+<span id="cb25-18"><a href="#cb25-18"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(</span>
+<span id="cb25-19"><a href="#cb25-19"></a>  mod, </span>
+<span id="cb25-20"><a href="#cb25-20"></a>  <span class="at">data      =</span> data, </span>
+<span id="cb25-21"><a href="#cb25-21"></a>  <span class="at">etasrc    =</span> <span class="st">"data.all"</span>, </span>
+<span id="cb25-22"><a href="#cb25-22"></a>  <span class="at">obsonly   =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb25-23"><a href="#cb25-23"></a>  <span class="at">Req       =</span> <span class="st">"MRG = IPRED"</span>, </span>
+<span id="cb25-24"><a href="#cb25-24"></a>  <span class="at">carry_out =</span> <span class="st">"NM = IPRED"</span></span>
+<span id="cb25-25"><a href="#cb25-25"></a>)</span>
+<span id="cb25-26"><a href="#cb25-26"></a></span>
+<span id="cb25-27"><a href="#cb25-27"></a><span class="co"># Compare</span></span>
+<span id="cb25-28"><a href="#cb25-28"></a><span class="fu">summary</span>(out<span class="sc">$</span>MRG <span class="sc">-</span> out<span class="sc">$</span>NM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
