@@ -291,7 +291,7 @@ background: #097f5f;
   <li><a href="#join-nonmem-outputs-with-the-model-estimation-data" id="toc-join-nonmem-outputs-with-the-model-estimation-data" class="nav-link" data-scroll-target="#join-nonmem-outputs-with-the-model-estimation-data"><span class="toc-section-number">4</span>  Join NONMEM outputs with the model estimation data</a></li>
   <li><a href="#simulate-with-etasrc-data" id="toc-simulate-with-etasrc-data" class="nav-link" data-scroll-target="#simulate-with-etasrc-data"><span class="toc-section-number">5</span>  Simulate with <code>etasrc = "data"</code></a></li>
   <li><a href="#check-the-result" id="toc-check-the-result" class="nav-link" data-scroll-target="#check-the-result"><span class="toc-section-number">6</span>  Check the result</a></li>
-  <li><a href="#complete-workflow" id="toc-complete-workflow" class="nav-link" data-scroll-target="#complete-workflow"><span class="toc-section-number">7</span>  Complete workflow</a></li>
+  <li><a href="#sec-complete-workflow" id="toc-sec-complete-workflow" class="nav-link" data-scroll-target="#sec-complete-workflow"><span class="toc-section-number">7</span>  Complete workflow</a></li>
   </ul>
 </nav>
     </div>
@@ -312,7 +312,7 @@ background: #097f5f;
 <li>Simulate from the candidate mrgsolve model, using the new <code>etasrc = "data.all'</code> argument to <a href="https://mrgsolve.org/docs/reference/mrgsim.html"><code>mrgsim()</code></a>, new in version 1.0.8</li>
 <li>Compare NONMEM-generated <code>IPRED</code> against mrgsolve-generated <code>IPRED</code></li>
 </ol>
-<p>I’ll detail these steps in the following sections.</p>
+<p>I’ll detail these steps in the following sections or you can jump to the complete workflow in <a href="#sec-complete-workflow">Section&nbsp;7</a>.</p>
 </section>
 <section id="setup" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Setup</h1>
@@ -487,7 +487,7 @@ $capture
 </div>
 </div>
 </section>
-<section id="complete-workflow" class="level1" data-number="7">
+<section id="sec-complete-workflow" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Complete workflow</h1>
 <p>Here’s the complete workflow. For projects, I put this into a standalone script called <code>validate.R</code> and just use it to check my simulation models as model development is going on.</p>
 <div class="cell">

@@ -25,7 +25,8 @@ To help with the big picture, the steps are
   version 1.0.8
 1. Compare NONMEM-generated `IPRED` against mrgsolve-generated `IPRED`
 
-I'll detail these steps in the following sections. 
+I'll detail these steps in the following sections or you can jump to 
+the complete workflow in @sec-complete-workflow.
 
 
 # Setup
@@ -193,7 +194,7 @@ summary(100*(out$MRG - out$NM)/out$NM)
 ```
 
 
-# Complete workflow
+# Complete workflow {#sec-complete-workflow}
 
 Here's the complete workflow. For projects, I put this into a standalone 
 script called `validate.R` and just use it to check my simulation models
