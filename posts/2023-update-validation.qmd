@@ -6,7 +6,7 @@ description: >
   With mrgsolve version 1.0.8, there is a more complete way to validate your 
   model against a completed NONMEM estimation run.
 categories:
-- new release
+- validation
 ---
 
 # Introduction
