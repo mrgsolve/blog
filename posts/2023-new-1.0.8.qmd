@@ -202,24 +202,8 @@ try(mrgsim(mod, missall, etasrc = "data"))
 ```
 
 You can get more information about the `etasrc` argument 
-in the 'Details' section of the `mrgsim()` help page
+in the 'Details' section of the `mrgsim()` help page.
 
 ```{r, eval = FALSE}
 ?mrgsim
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
