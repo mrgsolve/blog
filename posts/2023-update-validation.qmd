@@ -145,6 +145,12 @@ This `data` object includes the following:
 2. All of the post-hoc $\eta$ values
 3. The individual predicted model outputs (`IPRED`)
 
+
+```{r}
+head(data, n = 3)
+```
+
+
 # Simulate with `etasrc = "data.all"`
 
 Now we want to use mrgsolve to simulate its version of `IPRED` and 
