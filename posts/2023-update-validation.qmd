@@ -145,11 +145,12 @@ This `data` object includes the following:
 2. All of the post-hoc $\eta$ values
 3. The individual predicted model outputs (`IPRED`)
 
-
+::: {.callout-note collapse="true" appearance="simple" icon="false"}
+# Expand to see the data
 ```{r}
-head(data, n = 3)
+head(data)
 ```
-
+:::
 
 # Simulate with `etasrc = "data.all"`
 
@@ -281,4 +282,3 @@ out <- mrgsim(
 # Compare
 summary(out$MRG - out$NM)
 ```
-
