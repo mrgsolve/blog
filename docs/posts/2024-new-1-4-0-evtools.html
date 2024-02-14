@@ -296,6 +296,7 @@ background: #097f5f;
   <li><a href="#example-3" id="toc-example-3" class="nav-link" data-scroll-target="#example-3"><span class="header-section-number">7.7</span> Example</a></li>
   </ul></li>
   <li><a href="#dynamic-change-in-dosing-interval" id="toc-dynamic-change-in-dosing-interval" class="nav-link" data-scroll-target="#dynamic-change-in-dosing-interval"><span class="header-section-number">8</span> Dynamic change in dosing interval</a></li>
+  <li><a href="#remember-there-usually-is-no-data-set" id="toc-remember-there-usually-is-no-data-set" class="nav-link" data-scroll-target="#remember-there-usually-is-no-data-set"><span class="header-section-number">9</span> Remember: there (usually) is no data set</a></li>
   </ul>
 </nav>
     </div>
@@ -310,7 +311,7 @@ background: #097f5f;
 <h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
 <p>The <code>evtools</code> plugin is a set of functions and classes you can use to implement dosing regimens from <em>inside</em> your model. It first became available in mrgsolve 1.4.1.</p>
 <p>The most common use for this plugin is when you want to implement dynamic dosing simulations where the dose amount or the dosing interval is able to change based on how the system has advanced up to a certain point. For example, you might have a PKPD model for an oncology drug that includes a PK model for the drug as well as a dynamic model for platelets where a decline in platelets is driven by the drug concentration. In this case you might monitor platelets at different clinical visits and reduce the or hold dose or increase the dosing interval in response to Grade 3 or Grade 4 thrombocytopenia.</p>
-<p>In this blog post, I’ll introduce the new functionality provided by <code>evtools</code>.</p>
+<p>In this blog post, I’ll introduce the new functionality provided by <code>evtools</code>. This is a rather long and detailed post because I’m going to be using it to prototype demo / documentation fort this feature. But keep reading and see how these features might be helpful to you in your dynamic dosing simulation work.</p>
 </section>
 <section id="setup" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="setup"><span class="header-section-number">2</span> Setup</h2>
@@ -335,7 +336,7 @@ background: #097f5f;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>ev dose <span class="op">=</span> evt<span class="op">::</span>bolus<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>And then work with the <code>dose</code> object as you wish (keep reading for more discussion about how this works).</p>
+<p>And then work with the <code>dose</code> object as you wish (keep reading for more discussion about how this works). ’</p>
 </section>
 <section id="functions-to-administer-single-doses-now" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="functions-to-administer-single-doses-now"><span class="header-section-number">5</span> Functions to administer single doses now</h2>
@@ -889,6 +890,35 @@ See the full model 5 code
 </div>
 <p>This model uses the <code>object.flagnext()</code> setter. When we “flag” the next dose, we tell mrgsolve to <em>always</em> stop the simulation when we expect the next dose to be given. This is a hard stop with a reset / reinitialization of the ODE solver.</p>
 <p>This isn’t strictly necessary in this simulation because we already have observation records at all of the times when doses might be due (delta is set to 0.1 here). But you can use <code>object.flagnext()</code> in case you don’t want to sample that intensively or you can be <em>sure</em> the ODE solver will otherwise stop at the time when you might way to give a dose. To be clear: you must make sure the system “hits” all of the dose times. Usually this is done at observation times. If it can’t be guaranteed at observation times, then you need to tell the problem to flag the next dose times via <code>object.flagnext()</code>.</p>
+</section>
+<section id="remember-there-usually-is-no-data-set" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="remember-there-usually-is-no-data-set"><span class="header-section-number">9</span> Remember: there (usually) is no data set</h2>
+<p>As a general consideration for most or all of the functionality in <code>evtools</code>, it’s important to remember that you don’t need a data set for these simulations. Normally you do need one for doses, at least. This gives a signal to mrgsolve when to stop and actually give the doses and this is done <em>before</em> the simulation starts. With dynamic dosing within the model itself, it’s different: we are making dosing decisions from minute to minute, giving a dose when it is due.</p>
+<p>This means there is more pressure on <em>you</em> to make sure you are requestings observations at times when you might need to give a dose. If you don’t do that, there is no reason why mrgsolve will stop to give a dose when you think it should. There is some functionality baked into these tools to help that, but you need to be aware of the model time and when the model might be stopping to let you make an intervention. This isn’t always very difficult to do, but it could be a little surprising if you forget to consider this issue.</p>
+<p>Along the same lines, be very careful when requesting that model stops to give a dose based on <code>TIME</code> alone. For example I might want the model to stop at 24 hours to give a dose</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">24</span><span class="op">)</span> <span class="op">&lt;</span>give a dose<span class="op">&gt;;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This seems like a very reasonable thing to do. But do you know that the model will only stop once at <code>TIME==24</code>? could there be multiple stops at <code>TIME==24</code> that would give you multiple doses in this case?</p>
+<p>I’d recommend refactoring this check to include <code>EVID</code> as well</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">24</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;</span>give a dose<span class="op">&gt;;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here, assuming we have a single time vector for each individual, you can know that the model stops only once for an observation at 24 hours and you won’t get a second dose for another, non-EVID==0 record.</p>
+<p>Also, what if we wanted this to happen</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="fl">14.2</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;</span>give a dose<span class="op">&gt;;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>But passed in a time vector of</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">24</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24</code></pre>
+</div>
+</div>
+<p>In this case, the model <em>will not stop</em> at 14.2 hours because we only have whole number observation times.</p>
+<p>Again, most of the time it’s not difficult to easily get around these issues; but please do be cautious when planning your simulation inputs.</p>
+<p>If you do run into trouble here, it can be helpful to pass in a data set with more carefully thought out observations. Or, write some R code to create a data set with milestones coded with different non-zero event IDs that you can check in your model code to see if something needs to happen. This seems like a lot of work up front, but it can actually save you time fixing issues down the road.</p>
 
 
 </section>

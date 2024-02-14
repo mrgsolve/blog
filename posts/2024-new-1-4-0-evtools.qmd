@@ -26,6 +26,10 @@ clinical visits and reduce the or hold dose or increase the dosing interval in
 response to Grade 3 or Grade 4 thrombocytopenia.
 
 In this blog post, I'll introduce the new functionality provided by `evtools`. 
+This is a rather long and detailed post because I'm going to be using it 
+to prototype demo / documentation fort this feature. But keep reading and see 
+how these features might be helpful to you in your dynamic dosing simulation
+work.
 
 
 ## Setup
@@ -78,7 +82,8 @@ evt::ev dose = evt::bolus(100, 1);
 ```
 
 And then work with the `dose` object as you wish (keep reading for more
-discussion about how this works). 
+discussion about how this works). '
+
 
 ## Functions to administer single doses now
 
@@ -504,4 +509,71 @@ at the time when you might way to give a dose. To be clear: you must make sure
 the system "hits" all of the dose times. Usually this is done at observation
 times. If it can't be guaranteed at observation times, then you need to tell the 
 problem to flag the next dose times via `object.flagnext()`.
+
+## Remember: there (usually) is no data set
+
+As a general consideration for most or all of the functionality in `evtools`,
+it's important to remember that you don't need a data set for these simulations.
+Normally you do need one for doses, at least. This gives a signal to mrgsolve
+when to stop and actually give the doses and this is done _before_ the
+simulation starts. With dynamic dosing within the model itself, it's different:
+we are making dosing decisions from minute to minute, giving a dose when it is
+due.
+
+This means there is more pressure on _you_ to make sure you are requestings
+observations at times when you might need to give a dose. If you don't do that,
+there is no reason why mrgsolve will stop to give a dose when you think it
+should. There is some functionality baked into these tools to help that, but you
+need to be aware of the model time and when the model might be stopping to let
+you make an intervention. This isn't always very difficult to do, but it could
+be a little surprising if you forget to consider this issue.
+
+Along the same lines, be very careful when requesting that model stops to give 
+a dose based on `TIME` alone. For example I might want the model to stop 
+at 24 hours to give a dose
+
+```{c}
+#| eval: false
+if(TIME==24) <give a dose>;
+```
+
+This seems like a very reasonable thing to do. But do you know that the model
+will only stop once at `TIME==24`? could there be multiple stops at `TIME==24`
+that would give you multiple doses in this case?
+
+I'd recommend refactoring this check to include `EVID` as well
+
+```{c}
+#| eval: false
+if(TIME==24 && EVID==0) <give a dose>;
+```
+
+Here, assuming we have a single time vector for each individual, you can know
+that the model stops only once for an observation at 24 hours and you won't get
+a second dose for another, non-EVID==0 record.
+
+Also, what if we wanted this to happen
+
+```{c}
+#| eval: false
+if(TIME==14.2 && EVID==0) <give a dose>;
+```
+
+But passed in a time vector of 
+
+```{r}
+seq(0,24,1)
+```
+
+In this case, the model _will not stop_ at 14.2 hours because we only have whole
+number observation times.
+
+Again, most of the time it's not difficult to easily get around these issues;
+but please do be cautious when planning your simulation inputs.
+
+If you do run into trouble here, it can be helpful to pass in a data set with
+more carefully thought out observations. Or, write some R code to create a data
+set with milestones coded with different non-zero event IDs that you can check
+in your model code to see if something needs to happen. This seems like a lot of
+work up front, but it can actually save you time fixing issues down the road.
 
