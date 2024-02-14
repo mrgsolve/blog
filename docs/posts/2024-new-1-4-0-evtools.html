@@ -295,7 +295,10 @@ background: #097f5f;
   <li><a href="#update-the-dose-regimen" id="toc-update-the-dose-regimen" class="nav-link" data-scroll-target="#update-the-dose-regimen"><span class="header-section-number">7.6</span> Update the dose regimen</a></li>
   <li><a href="#example-3" id="toc-example-3" class="nav-link" data-scroll-target="#example-3"><span class="header-section-number">7.7</span> Example</a></li>
   </ul></li>
-  <li><a href="#dynamic-change-in-dosing-interval" id="toc-dynamic-change-in-dosing-interval" class="nav-link" data-scroll-target="#dynamic-change-in-dosing-interval"><span class="header-section-number">8</span> Dynamic change in dosing interval</a></li>
+  <li><a href="#dynamic-change-in-dosing-interval" id="toc-dynamic-change-in-dosing-interval" class="nav-link" data-scroll-target="#dynamic-change-in-dosing-interval"><span class="header-section-number">8</span> Dynamic change in dosing interval</a>
+  <ul class="collapse">
+  <li><a href="#force-the-model-to-stop-at-dose-times" id="toc-force-the-model-to-stop-at-dose-times" class="nav-link" data-scroll-target="#force-the-model-to-stop-at-dose-times"><span class="header-section-number">8.1</span> Force the model to stop at dose times</a></li>
+  </ul></li>
   <li><a href="#remember-there-usually-is-no-data-set" id="toc-remember-there-usually-is-no-data-set" class="nav-link" data-scroll-target="#remember-there-usually-is-no-data-set"><span class="header-section-number">9</span> Remember: there (usually) is no data set</a></li>
   </ul>
 </nav>
@@ -311,7 +314,7 @@ background: #097f5f;
 <h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
 <p>The <code>evtools</code> plugin is a set of functions and classes you can use to implement dosing regimens from <em>inside</em> your model. It first became available in mrgsolve 1.4.1.</p>
 <p>The most common use for this plugin is when you want to implement dynamic dosing simulations where the dose amount or the dosing interval is able to change based on how the system has advanced up to a certain point. For example, you might have a PKPD model for an oncology drug that includes a PK model for the drug as well as a dynamic model for platelets where a decline in platelets is driven by the drug concentration. In this case you might monitor platelets at different clinical visits and reduce the or hold dose or increase the dosing interval in response to Grade 3 or Grade 4 thrombocytopenia.</p>
-<p>In this blog post, I’ll introduce the new functionality provided by <code>evtools</code>. This is a rather long and detailed post because I’m going to be using it to prototype demo / documentation fort this feature. But keep reading and see how these features might be helpful to you in your dynamic dosing simulation work.</p>
+<p>In this blog post, I’ll introduce the new functionality provided by <code>evtools</code>. This is a rather long and detailed post because I’m going to be using it to prototype demo / documentation for these new features. I want to take the time to touch on different aspects of <code>evtools</code> in some detail for clarity, so it might take some time to work through the content. But each feature has a complete working example to show you a working model and the associated simulation output. So keep reading and see how these features might be helpful to you in your dynamic dosing simulation work.</p>
 </section>
 <section id="setup" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="setup"><span class="header-section-number">2</span> Setup</h2>
@@ -323,25 +326,25 @@ background: #097f5f;
 </section>
 <section id="invoking-evtools" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="invoking-evtools"><span class="header-section-number">3</span> Invoking <code>evtools</code></h2>
-<p>Like any plugin, you need to opt-in to using the functionality provided by <code>evtools</code>. Do this with the <code>$PLUGIN</code> block</p>
+<p>Like any plugin, you need to opt in to using the functionality provided by <code>evtools</code>. Do this with the <code>$PLUGIN</code> block</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$PLUGIN evtools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="everything-is-in-the-evt-namespace" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="everything-is-in-the-evt-namespace"><span class="header-section-number">4</span> Everything is in the <code>evt</code> namespace</h2>
-<p>All of the functionality provided by <code>evtools</code> is within a namespace called <code>evt</code>. To access functions or typedefs in <code>evt</code>, you just point to the namespace by prefixing with <code>evt::</code>.</p>
+<p>All of the functionality provided by <code>evtools</code> is within a namespace called <code>evt</code>. To access functions, typedefs or classes in <code>evt</code>, please point to the namespace by prefixing with <code>evt::</code>.</p>
 <p>For example, there a function called <code>bolus()</code> which is located in the <code>evt</code> namespace. So we have to call that function with <code>evt::bolus()</code> rather than plain old <code>bolus()</code>. This prefixing is roughly equivalent to calling <code>dplyr::mutate()</code> or <code>purrr::map()</code> which is currently a popular R coding style.</p>
-<p>Another example is a typedef for the C++ event objects we use in the model called <code>evt::ev</code>. So, that <code>evt::bolus()</code> function an be called in a way that returns an event object. You can use that typedef like this</p>
+<p>Another example is a typedef called <code>evt::ev</code> for the C++ event objects we use in the model. That <code>evt::bolus()</code> function an be called in a way that <em>returns</em> an event object. You can use the typedef in <code>evt</code> like this</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>ev dose <span class="op">=</span> evt<span class="op">::</span>bolus<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>And then work with the <code>dose</code> object as you wish (keep reading for more discussion about how this works). ’</p>
+<p>Then work with the <code>dose</code> object as you wish (keep reading for more discussion about how this works).</p>
 </section>
 <section id="functions-to-administer-single-doses-now" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="functions-to-administer-single-doses-now"><span class="header-section-number">5</span> Functions to administer single doses now</h2>
 <p>Users have been able to give doses from inside their mrgsolve model for a while now. With the <code>evtools</code> plugin, this should be much easier to do, with a simple, easy to remember syntax.</p>
-<p>To trigger a single bolus dose of 100 units into the first compartment, call</p>
+<p>To trigger a single <strong>bolus</strong> dose of 100 units into the first compartment, call</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>bolus<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -351,23 +354,22 @@ background: #097f5f;
 <li><code>amt</code> (<code>double</code>) - the dose amount</li>
 <li><code>cmt</code> (<code>int</code>) - the dose compartment number</li>
 </ul>
-<p>Notice there is no return value to this function; this one call specifies the dose and sends it back to mrgsolve to implement.</p>
-<p>To trigger a single infusion of 100 units into the first compartment with rate of 5 units / time, call</p>
+<p>Notice there is no return value to this function; this one call specifies the dose and sends it back to mrgsolve via <code>self</code> to implement.</p>
+<p>To trigger a single <strong>infusion</strong> of 100 units into the first compartment with rate of 5 units / time, call</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The signature for <code>evt::infuse()</code> is the same as <code>evt::bolus()</code>, but just add a <code>rate</code> argument at the end of the signature.</p>
+<p>The signature for <code>evt::infuse()</code> is similar to <code>evt::bolus()</code>, but just add a <code>rate</code> argument at the end of the signature.</p>
 <ul>
 <li><code>self</code> (<code>databox</code>) - an object used by mrgsolve to communicate with the model code</li>
 <li><code>amt</code> (<code>double</code>) - the dose amount</li>
 <li><code>cmt</code> (<code>int</code>) - the dose compartment number</li>
 <li><code>rate</code> (<code>double</code>) - the infusion rate</li>
 </ul>
-<p>You should call <code>evt::bolus()</code> and <code>evt::infuse()</code> from <code>$ERROR</code>. You will need to figure out <em>when</em> the dose should be triggered. Writing this will give you a dose <em>every time $ERROR is called</em></p>
+<p>You should call <code>evt::bolus()</code> and <code>evt::infuse()</code> from <code>$ERROR</code>. You will also need to figure out <em>when</em> the dose should be triggered. Writing the following code will give you a dose <em>every time $ERROR is called</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is probably not what you want. There are multiple ways you can handle this. The simplest way is to check <code>TIME</code> <em>and</em> <code>EVID</code></p>
 <div class="cell">
@@ -375,7 +377,7 @@ background: #097f5f;
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This will get you a dose at <code>TIME==0</code> and <code>EVID==0</code>. I highly recommend checking something other than just <code>TIME</code> when deciding to dose since there may be other “events” that are taking place at the time you want to check for giving a dose. You can easily fire off two doses at the dose time rather than just the intended one dose.</p>
+<p>This will get you a dose when <code>TIME==0</code> and <code>EVID==0</code>. I highly recommend checking something other than just <code>TIME</code> when deciding to dose since there may be other “events” that are taking place at the time you want to check for giving a dose. You can easily fire off two doses at the dose time rather than just the intended one dose.</p>
 <section id="example" class="level3" data-number="5.1">
 <h3 data-number="5.1" class="anchored" data-anchor-id="example"><span class="header-section-number">5.1</span> Example</h3>
 <p>Model <code>evtools-1.mod</code> will implement a dose via <code>evt::infuse()</code>.</p>
@@ -430,12 +432,12 @@ See the full model 1 code
 <section id="functions-to-administer-single-customized-doses" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="functions-to-administer-single-customized-doses"><span class="header-section-number">6</span> Functions to administer single, customized doses</h2>
 <p>A similar set of functions will implement bolus or infusion doses, but allowing you to interact with the event object prior to sending it back to mrgsolve.</p>
-<p>To create an object for a 100 unit dose into compartment 1, call</p>
+<p>To create an object for a 100 unit <strong>bolus</strong> dose into compartment 1, call</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>ev dose <span class="op">=</span> evt<span class="op">::</span>bolus<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The arguments here are dose <code>amt</code> and the dosing <code>compartment</code> number. Notice that we don’t pass in <code>self</code>, but rather we get the object back (as <code>dose</code>) for us to work with.</p>
-<p>To create an object for a 100 unit infusion into compartment 1 with rate of 5 units / time, call</p>
+<p>To create an object for a 100 unit <strong>infusion</strong> into compartment 1 with rate of 5 units / time, call</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>ev dose <span class="op">=</span> evt<span class="op">::</span>infuse<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -444,26 +446,27 @@ See the full model 1 code
 <h3 data-number="6.1" class="anchored" data-anchor-id="functions-to-work-on-event-objects"><span class="header-section-number">6.1</span> Functions to work on event objects</h3>
 <p>You can use the following functions to work on the event objects returned by <code>evt::bolus()</code> and <code>evt::infuse()</code></p>
 <ul>
-<li><code>evt::retime(&lt;event object&gt;, &lt;time&gt;)</code> - set the <code>time</code> attribute; this also sets the <code>now</code> attribute to <code>false</code> so the dose will get scheduled in the future<br>
+<li><code>evt::retime(&lt;event object&gt;, &lt;time&gt;)</code> - set the <code>time</code> attribute; this also sets the <code>now</code> attribute to <code>false</code> so the dose will get scheduled in the future if <code>&lt;time&gt;</code> is greater than the current <code>TIME</code><br>
 </li>
-<li><code>evt::now(&lt;event object&gt;)</code> - make the event happen <code>now</code></li>
+<li><code>evt::now(&lt;event object&gt;)</code> - make the event happen <code>now</code>; when mrgsolve processes this event object, the <code>time</code> attribute will be ignored</li>
 </ul>
 </section>
 <section id="be-sure-to-send-the-object-back-to-mrgsolve" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="be-sure-to-send-the-object-back-to-mrgsolve"><span class="header-section-number">6.2</span> Be sure to send the object back to mrgsolve</h3>
-<p>When you call</p>
+<p>When you create an event object through</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>ev dose <span class="op">=</span> evt<span class="op">::</span>infuse<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>you have to be sure to “send” the <code>dose</code> object created by the call back to mrgsolve for processing.</p>
+<p>you have to be sure to “send” the event object (<code>dose</code>) object created by the call back to mrgsolve for processing.</p>
 <p>New in mrgsolve 1.4.1 is a <code>push()</code> method in the <code>self</code> object that lets you “push” the event back for processing. For the dose object, it would look like</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>self<span class="op">.</span>push<span class="op">(</span>dose<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The previous syntax for pushing event objects back was pretty technical and difficult to remember. That old syntax is still valid, but we recommend calling <code>push()</code> as shown above.</p>
 </section>
 <section id="example-1" class="level3" data-number="6.3">
 <h3 data-number="6.3" class="anchored" data-anchor-id="example-1"><span class="header-section-number">6.3</span> Example</h3>
-<p>Model <code>evtools-2.mod</code> shows an example of creating an event object, retiming the dose and sending it back to mrgsolve</p>
+<p>Model <code>evtools-2.mod</code> shows an example of creating an event object, retiming the dose and sending it back to mrgsolve. We’ll start an infusion of 100 mg over 28 hours and have it start 12 hours into the simulation.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -518,55 +521,51 @@ See the full model 2 code
 </section>
 <section id="an-object-to-implement-a-full-dosing-regimen" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="an-object-to-implement-a-full-dosing-regimen"><span class="header-section-number">7</span> An object to implement a full dosing regimen</h2>
-<p>In the previous sections, we’ve looked at how you can trigger a single dose from within your model file. You could trigger a sequence of doses (e.g., once-daily dosing) by using these functions with a little bit of bookkeeping. But it would be convenient to just tell mrgsolve that you want</p>
+<p>In the previous sections, we’ve looked ways you can trigger a single dose from within your model file. You could trigger a sequence of doses (e.g., once-daily dosing) by using these functions with a little bit of bookkeeping. But it would be convenient to just tell mrgsolve that you want</p>
 <ul>
 <li>a certain dose</li>
 <li>given at a certain interval</li>
 <li>for a certain duration</li>
 </ul>
 <p>This is what the <code>evt::regimen</code> class will do for you via the <code>evtools</code> namespace. In addition to just starting the regimen, you can <em>change</em> the regimen (dose amount, dose interval, anything) at any point in the simulation.</p>
-<p>This requires a little more coding that the convenience functions we discussed earlier. In the following sections, we will talk you through the pieces and then show a complete example.</p>
+<p>This requires a little more coding that the convenience functions we discussed earlier. In the following sections, we will talk you through each part in order and then show a complete example.</p>
 <section id="setting-up-a-regimen-object" class="level3" data-number="7.1">
 <h3 data-number="7.1" class="anchored" data-anchor-id="setting-up-a-regimen-object"><span class="header-section-number">7.1</span> Setting up a <code>regimen</code> object</h3>
 <p>To create the regimen object, you have to declare this in the <code>$GLOBAL</code> block</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>$GLOBAL</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>regimen reg<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>regimen reg<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When you create the object in <code>$GLOBAL</code>, you are allowing any other block to interact with or modify that object.</p>
 </section>
 <section id="initializing-the-regimen-object" class="level3" data-number="7.2">
 <h3 data-number="7.2" class="anchored" data-anchor-id="initializing-the-regimen-object"><span class="header-section-number">7.2</span> Initializing the <code>regimen</code> object</h3>
-<p>We initialize by passing in the <code>self</code> object to make sure the <code>regimen</code> can communicate with mrgsolve (via <code>self</code>). You only need to do this once, so you can write this in either <code>$PREAMBLE</code></p>
+<p>We initialize by passing in the <code>self</code> object to the <code>init()</code> method. This makes sure the <code>regimen</code> can communicate with mrgsolve (via <code>self</code>). You only need to do this once, so you can write this in either <code>$PREAMBLE</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>$PREAMBLE</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>or in <code>$PK</code> (it’s ok to do this multiple times)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>$PK </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>NEWIND <span class="op">&lt;</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>NEWIND <span class="op">&lt;</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="setting-up-the-regimen-object" class="level3" data-number="7.3">
 <h3 data-number="7.3" class="anchored" data-anchor-id="setting-up-the-regimen-object"><span class="header-section-number">7.3</span> Setting up the <code>regimen</code> object</h3>
-<p>For every subject, we want to set (or reset) this object to the starting dose or interval. There are a series of setter functions that allow you to do this. For a 100 mg infusion over 1.5 hours every 24 hours for a week, it would look like</p>
+<p>For every subject, we want to set (or reset) this object to the starting dose, interval, etc. There are a series of “setter” functions that allow you to set each of these attributes For a 100 mg infusion into the first compartment over 1.5 hours every 24 hours for a week, it would look like</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>$PK</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>NEWIND <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span> </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span><span class="dv">100</span><span class="op">);</span> </span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>cmt<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>rate<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()</span> <span class="op">/</span> <span class="fl">1.5</span><span class="op">);</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span><span class="dv">24</span><span class="op">);</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>until<span class="op">(</span><span class="dv">168</span><span class="op">);</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>NEWIND <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span><span class="dv">100</span><span class="op">);</span> </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>cmt<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>rate<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()</span> <span class="op">/</span> <span class="fl">1.5</span><span class="op">);</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span><span class="dv">24</span><span class="op">);</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>until<span class="op">(</span><span class="dv">168</span><span class="op">);</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that you will probably want to avoid hard-coding these numbers in to your model. It will work better if you pass them as parameters, so they can be adjusted from simulation to simulation.</p>
 <p>Also note that I’ve put this in <code>$PK</code> because we are setting up the object at the start of each new individual in the problem.</p>
@@ -576,10 +575,9 @@ See the full model 2 code
 <p>Once you have everything set up, call <code>execute()</code> to actually start giving the doses; this should be done in <code>$ERROR</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>$ERROR </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>s</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>execute<span class="op">();</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>execute<span class="op">();</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>That’s it!</p>
+<p>That’s it! Your dosing regimen is now active.</p>
 </section>
 <section id="example-2" class="level3" data-number="7.5">
 <h3 data-number="7.5" class="anchored" data-anchor-id="example-2"><span class="header-section-number">7.5</span> Example</h3>
@@ -651,13 +649,14 @@ See the full model 3 code
 </section>
 <section id="update-the-dose-regimen" class="level3" data-number="7.6">
 <h3 data-number="7.6" class="anchored" data-anchor-id="update-the-dose-regimen"><span class="header-section-number">7.6</span> Update the dose regimen</h3>
-<p>What if we want to make changes to the regimen? Say we have a PKPD model and want to lower the doses in case the PD marker gets too low or too high?</p>
-<p>This is handled naturally within the <code>evt::regimen</code> framework by calling the same setter functions you used to set / reset the <code>regimen</code> object at the start of the problem.</p>
-<p>In this example, we have a indirect response PKPD model where concentration inhibits the production of the response. The EC50 is 7 ng / mL but with substantial between subject variability.</p>
-<p>Every subject starts on 200 mg once daily. Once a week, we’ll reduce the dose by 25% if the PD response is smaller than 3,000. This isn’t terribly sophisticated decision rule but we’ll stick with it for simplicity.</p>
+<p>What if we want to make changes to the regimen? Say we have a PKPD model and want to lower the dose whenever the PD marker gets too low or too high?</p>
+<p>This is handled naturally within the <code>evt::regimen</code> framework by calling the same setter functions you used to set / reset the <code>regimen</code> object at the start of the problem as shown in the next example.</p>
 </section>
 <section id="example-3" class="level3" data-number="7.7">
 <h3 data-number="7.7" class="anchored" data-anchor-id="example-3"><span class="header-section-number">7.7</span> Example</h3>
+<p>Model <code>evtools-4.mod</code> gives an example of dynamically changing the dose using <code>evt::regmen</code>.</p>
+<p>In this example, we have a indirect response PKPD model where concentration inhibits the production of the response. The EC50 is 7 ng / mL but with substantial between subject variability.</p>
+<p>Every subject starts on 200 mg once daily. Once a week, we’ll reduce the dose by 25% if the PD response is smaller than 3,000. This isn’t terribly sophisticated decision rule but we’ll stick with it for simplicity.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -746,7 +745,8 @@ See the full model 4 code
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">end =</span> <span class="dv">8</span><span class="sc">*</span><span class="dv">168</span></span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Look at PK, PD, and dose versus time</p>
+<p>Look at PK, PD, and dose versus time; I’ll facet the plots by the simulated EC50, from lowest to highest.</p>
+<p>First, concentration versus time</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, CP, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -758,6 +758,7 @@ See the full model 4 code
 </div>
 </div>
 </div>
+<p>Next, pharmacodynamics versus time</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, PD, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -769,6 +770,7 @@ See the full model 4 code
 </div>
 </div>
 </div>
+<p>Finally, the current dose versus time</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, dose, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -780,53 +782,52 @@ See the full model 4 code
 </div>
 </div>
 </div>
-<p>Finally, we can look at how doses, PK and PD fared at the end of the simulation. Only a handful of subjects stayed at the starting dose; most got dose reduced with some receiving substantial dose reductions.</p>
+<p>Finally, we can look at how doses, PK and PD fared at the end of the simulation. Only a handful of subjects stayed at the starting dose; most got dose reduced with some ending on doses far below the 200 mg starting dose.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>out <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>out <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(ec50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 7
       ID  time dose_start    PD ec50     CP  dose
    &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1     1  1344        200 3258. 9.13  1.53  150  
- 2     2  1344        200 3152. 11    2.05  200  
- 3     3  1344        200 3201. 8.64  1.53  150  
- 4     4  1344        200 3002. 9.55  2.05  200  
- 5     5  1344        200 3161. 6.24  1.15  112. 
- 6     6  1344        200 3261. 2.9   0.486  47.5
- 7     7  1344        200 3261. 1.65  0.273  26.7
+ 1     9  1344        200 3078. 1.38  0.273  26.7
+ 2     7  1344        200 3261. 1.65  0.273  26.7
+ 3    11  1344        200 3256. 2.16  0.364  35.6
+ 4    12  1344        200 3113. 2.51  0.486  47.5
+ 5     6  1344        200 3261. 2.9   0.486  47.5
+ 6    10  1344        200 3298. 4     0.647  63.3
+ 7     5  1344        200 3161. 6.24  1.15  112. 
  8     8  1344        200 3059. 7.55  1.53  150  
- 9     9  1344        200 3078. 1.38  0.273  26.7
-10    10  1344        200 3298. 4     0.647  63.3
-11    11  1344        200 3256. 2.16  0.364  35.6
-12    12  1344        200 3113. 2.51  0.486  47.5</code></pre>
+ 9     3  1344        200 3201. 8.64  1.53  150  
+10     1  1344        200 3258. 9.13  1.53  150  
+11     4  1344        200 3002. 9.55  2.05  200  
+12     2  1344        200 3152. 11    2.05  200  </code></pre>
 </div>
 </div>
 </section>
 </section>
 <section id="dynamic-change-in-dosing-interval" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="dynamic-change-in-dosing-interval"><span class="header-section-number">8</span> Dynamic change in dosing interval</h2>
-<p>In this example, we’ll start out the simulation dosing every 24 hours. Then, the dosing interval will be cut in half (every 12 hours) while doubling the dose; this will happen after the first week of dosing.</p>
+<p>Model <code>evtools-5.mod</code> gives an example of dynamically changing the dose interval using <code>evt::regmen</code>.</p>
+<p>In this last example, we’ll change the dosing interval over the course of the simulation. To start, dosing will be every 24 hours. Then, the dosing interval will be cut in half (every 12 hours) while doubling the dose amount; this will happen after the first week of dosing.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">168</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span><span class="dv">12</span><span class="op">);</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>DOSE<span class="op">/</span><span class="dv">2</span><span class="op">);</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">168</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span><span class="dv">12</span><span class="op">);</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>DOSE<span class="op">/</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>At 300 hours, we’ll bring the dose back to double the starting value and change the dosing interval to every 48 hours</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">168</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>reg<span class="op">.</span>ii<span class="op">()/</span><span class="fl">2.0</span><span class="op">);</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()/</span><span class="fl">2.0</span><span class="op">);</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">300</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>reg<span class="op">.</span>ii<span class="op">()*</span><span class="fl">4.0</span><span class="op">);</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()*</span><span class="fl">4.0</span><span class="op">);</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">168</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>reg<span class="op">.</span>ii<span class="op">()/</span><span class="fl">2.0</span><span class="op">);</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()/</span><span class="fl">2.0</span><span class="op">);</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">300</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>reg<span class="op">.</span>ii<span class="op">()*</span><span class="fl">4.0</span><span class="op">);</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()*</span><span class="fl">4.0</span><span class="op">);</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
@@ -898,13 +899,16 @@ See the full model 5 code
 </div>
 </div>
 </div>
+<section id="force-the-model-to-stop-at-dose-times" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="force-the-model-to-stop-at-dose-times"><span class="header-section-number">8.1</span> Force the model to stop at dose times</h3>
 <p>This model uses the <code>object.flagnext()</code> setter. When we “flag” the next dose, we tell mrgsolve to <em>always</em> stop the simulation when we expect the next dose to be given. This is a hard stop with a reset / reinitialization of the ODE solver.</p>
-<p>This isn’t strictly necessary in this simulation because we already have observation records at all of the times when doses might be due (delta is set to 0.1 here). But you can use <code>object.flagnext()</code> in case you don’t want to sample that intensively or you can be <em>sure</em> the ODE solver will otherwise stop at the time when you might way to give a dose. To be clear: you must make sure the system “hits” all of the dose times. Usually this is done at observation times. If it can’t be guaranteed at observation times, then you need to tell the problem to flag the next dose times via <code>object.flagnext()</code>.</p>
+<p>This isn’t strictly necessary in this simulation because we already have observation records at all of the times when doses might be due (delta is set to 0.1 here). But you can use <code>object.flagnext()</code> in case you don’t want to sample that intensively or in case you can’t be <em>sure</em> the ODE solver will otherwise stop at the time when you might way to give a dose. To be clear: you must make sure the system “hits” all of the dose times. Usually this is done at observation times. If it can’t be guaranteed at observation times, then you need to tell the problem to flag the next dose times via <code>object.flagnext()</code>.</p>
+</section>
 </section>
 <section id="remember-there-usually-is-no-data-set" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="remember-there-usually-is-no-data-set"><span class="header-section-number">9</span> Remember: there (usually) is no data set</h2>
 <p>As a general consideration for most or all of the functionality in <code>evtools</code>, it’s important to remember that you don’t need a data set for these simulations. Normally you do need one for doses, at least. This gives a signal to mrgsolve when to stop and actually give the doses and this is done <em>before</em> the simulation starts. With dynamic dosing within the model itself, it’s different: we are making dosing decisions from minute to minute, giving a dose when it is due.</p>
-<p>This means there is more pressure on <em>you</em> to make sure you are requestings observations at times when you might need to give a dose. If you don’t do that, there is no reason why mrgsolve will stop to give a dose when you think it should. There is some functionality baked into these tools to help that, but you need to be aware of the model time and when the model might be stopping to let you make an intervention. This isn’t always very difficult to do, but it could be a little surprising if you forget to consider this issue.</p>
+<p>This means there is more pressure on <em>you</em> to make sure you are requesting observations at times when you might need to give a dose. If you don’t do that, there is no reason why mrgsolve will stop to give a dose when you think it should. There is some functionality baked into these tools to help that, but you need to be aware of the model time and when the model might be stopping to let you make an intervention. This isn’t always very difficult to do, but it could be a little surprising if you forget to consider this issue.</p>
 <p>Along the same lines, be very careful when requesting that model stops to give a dose based on <code>TIME</code> alone. For example I might want the model to stop at 24 hours to give a dose</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">24</span><span class="op">)</span> <span class="op">&lt;</span>give a dose<span class="op">&gt;;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

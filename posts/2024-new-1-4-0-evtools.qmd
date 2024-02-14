@@ -25,11 +25,14 @@ the drug concentration. In this case you might monitor platelets at different
 clinical visits and reduce the or hold dose or increase the dosing interval in
 response to Grade 3 or Grade 4 thrombocytopenia.
 
-In this blog post, I'll introduce the new functionality provided by `evtools`. 
-This is a rather long and detailed post because I'm going to be using it 
-to prototype demo / documentation fort this feature. But keep reading and see 
-how these features might be helpful to you in your dynamic dosing simulation
-work.
+In this blog post, I'll introduce the new functionality provided by `evtools`.
+This is a rather long and detailed post because I'm going to be using it to
+prototype demo / documentation for these new features. I want to take the time
+to touch on different aspects of `evtools` in some detail for clarity, so it
+might take some time to work through the content. But each feature has a
+complete working example to show you a working model and the associated
+simulation output. So keep reading and see how these features might be helpful
+to you in your dynamic dosing simulation work.
 
 
 ## Setup
@@ -52,7 +55,7 @@ theme_set(theme_bw() + theme(legend.position = "top"))
 
 ## Invoking `evtools`
 
-Like any plugin, you need to opt-in to using the functionality provided 
+Like any plugin, you need to opt in to using the functionality provided 
 by `evtools`. Do this with the `$PLUGIN` block
 
 ```{c}
@@ -63,8 +66,8 @@ $PLUGIN evtools
 ## Everything is in the `evt` namespace
 
 All of the functionality provided by `evtools` is within a namespace called 
-`evt`. To access functions or typedefs in `evt`, you just point to the 
-namespace by prefixing with `evt::`. 
+`evt`. To access functions, typedefs or classes in `evt`, please point to 
+the namespace by prefixing with `evt::`. 
 
 For example, there a function called `bolus()` which is located in the `evt` 
 namespace. So we have to call that function with `evt::bolus()` rather than 
@@ -72,17 +75,17 @@ plain old `bolus()`. This prefixing is roughly equivalent to calling
 `dplyr::mutate()` or `purrr::map()` which is currently a popular R coding
 style. 
 
-Another example is a typedef for the C++ event objects we use in the model
-called `evt::ev`. So, that `evt::bolus()` function an be called in a way 
-that returns an event object. You can use that typedef like this
+Another example is a typedef called `evt::ev` for the C++ event objects we use
+in the model. That `evt::bolus()` function an be called in a way that
+_returns_ an event object. You can use the typedef in `evt` like this
 
 ```{c}
 #| eval: false
 evt::ev dose = evt::bolus(100, 1);
 ```
 
-And then work with the `dose` object as you wish (keep reading for more
-discussion about how this works). '
+Then work with the `dose` object as you wish (keep reading for more
+discussion about how this works). 
 
 
 ## Functions to administer single doses now
@@ -91,7 +94,7 @@ Users have been able to give doses from inside their mrgsolve model for a while
 now. With the `evtools` plugin, this should be much easier to do, with a simple, 
 easy to remember syntax. 
 
-To trigger a single bolus dose of 100 units into the first compartment, call 
+To trigger a single **bolus** dose of 100 units into the first compartment, call 
 
 ```{c}
 #| eval: false
@@ -105,9 +108,9 @@ The arguments here are
 - `cmt` (`int`) - the dose compartment number
 
 Notice there is no return value to this function; this one call specifies the 
-dose and sends it back to mrgsolve to implement.
+dose and sends it back to mrgsolve via `self` to implement.
 
-To trigger a single infusion of 100 units into the first compartment with 
+To trigger a single **infusion** of 100 units into the first compartment with 
 rate of 5 units / time, call
 
 ```{c}
@@ -115,7 +118,7 @@ rate of 5 units / time, call
 evt::infuse(self, 100, 1, 5);
 ```
 
-The signature for `evt::infuse()` is the same as `evt::bolus()`, but just 
+The signature for `evt::infuse()` is similar to `evt::bolus()`, but just 
 add a `rate` argument at the end of the signature. 
 
 - `self` (`databox`) - an object used by mrgsolve to communicate with the model code
@@ -124,13 +127,12 @@ add a `rate` argument at the end of the signature.
 - `rate` (`double`) - the infusion rate
 
 You should call `evt::bolus()` and `evt::infuse()` from `$ERROR`. 
-You will need to figure out _when_ the dose should be triggered. Writing 
-this will give you a dose _every time $ERROR is called_
+You will also need to figure out _when_ the dose should be triggered. Writing 
+the following code will give you a dose _every time $ERROR is called_
 
 ```{c}
 #| eval: false
 $ERROR
-
 evt::infuse(self, 100, 1, 5);
 ```
 
@@ -144,7 +146,7 @@ if(TIME==0 & EVID==0) {
 }
 ```
 
-This will get you a dose at `TIME==0` and `EVID==0`. I highly recommend
+This will get you a dose when `TIME==0` and `EVID==0`. I highly recommend
 checking something other than just `TIME` when deciding to dose since there
 may be other "events" that are taking place at the time you want to check for 
 giving a dose. You can easily fire off two doses at the dose time rather than 
@@ -175,7 +177,7 @@ plot(out)
 A similar set of functions will implement bolus or infusion doses, but allowing 
 you to interact with the event object prior to sending it back to mrgsolve. 
 
-To create an object for a 100 unit dose into compartment 1, call
+To create an object for a 100 unit **bolus** dose into compartment 1, call
 
 ```{c}
 #| eval: false
@@ -186,8 +188,8 @@ The arguments here are dose `amt` and the dosing `compartment` number. Notice
 that we don't pass in `self`, but rather we get the object back (as `dose`) 
 for us to work with. 
 
-To create an object for a 100 unit infusion into compartment 1 with rate of 5 
-units / time, call
+To create an object for a 100 unit **infusion** into compartment 1 with rate of 
+5 units / time, call
 
 ```{c}
 #| eval: false
@@ -204,21 +206,22 @@ You can use the following functions to work on the event objects returned by
 
 - `evt::retime(<event object>, <time>)` - set the `time` attribute; this also 
   sets the `now` attribute to `false` so the dose will get scheduled in the 
-  future   
-- `evt::now(<event object>)` - make the event happen `now`  
+  future if `<time>` is greater than the current `TIME`   
+- `evt::now(<event object>)` - make the event happen `now`; when mrgsolve 
+  processes this event object, the `time` attribute will be ignored
 
 
 ### Be sure to send the object back to mrgsolve
 
-When you call
+When you create an event object through
 
 ```{c}
 #| eval: false
 evt::ev dose = evt::infuse(100, 1, 5); 
 ```
 
-you have to be sure to "send" the `dose` object created by the call back to 
-mrgsolve for processing.
+you have to be sure to "send" the event object (`dose`) object created by the 
+call back to mrgsolve for processing.
 
 New in mrgsolve 1.4.1 is a `push()` method in the `self` object that lets you 
 "push" the event back for processing. For the dose object, it would look like
@@ -228,11 +231,16 @@ New in mrgsolve 1.4.1 is a `push()` method in the `self` object that lets you
 self.push(dose);
 ```
 
+The previous syntax for pushing event objects back was pretty technical and
+difficult to remember. That old syntax is still valid, but we recommend
+calling `push()` as shown above.
+
 
 ### Example 
 
 Model `evtools-2.mod` shows an example of creating an event object, retiming
-the dose and sending it back to mrgsolve
+the dose and sending it back to mrgsolve. We'll start an infusion of 100 mg 
+over 28 hours and have it start 12 hours into the simulation.
 
 ::: {.callout-note collapse="true" appearance="simple"}
 # See the full model 2 code
@@ -252,7 +260,7 @@ plot(out)
 
 ## An object to implement a full dosing regimen
 
-In the previous sections, we've looked at how you can trigger a single 
+In the previous sections, we've looked ways you can trigger a single 
 dose from within your model file. You could trigger a sequence of doses
 (e.g., once-daily dosing) by using these functions with a little bit 
 of bookkeeping. But it would be convenient to just tell mrgsolve that 
@@ -269,7 +277,7 @@ simulation.
 
 This requires a little more coding that the convenience functions we 
 discussed earlier. In the following sections, we will talk you through 
-the pieces and then show a complete example.
+each part in order and then show a complete example.
 
 ### Setting up a `regimen` object
 
@@ -279,7 +287,6 @@ To create the regimen object, you have to declare this in the
 ```{c}
 #| eval: false
 $GLOBAL
-
 evt::regimen reg;
 ```
 
@@ -288,14 +295,13 @@ block to interact with or modify that object.
 
 ### Initializing the `regimen` object
 
-We initialize by passing in the `self` object to make sure the 
-`regimen` can communicate with mrgsolve (via `self`). You only need to 
+We initialize by passing in the `self` object to the `init()` method. This makes
+sure the `regimen` can communicate with mrgsolve (via `self`). You only need to 
 do this once, so you can write this in either `$PREAMBLE` 
 
 ```{c}
 #| eval: false
 $PREAMBLE
-
 reg.init(self);
 ```
 
@@ -304,7 +310,6 @@ or in `$PK` (it's ok to do this multiple times)
 ```{c}
 #| eval: false
 $PK 
-
 if(NEWIND < 1) {
   reg.init(self);
 }
@@ -312,16 +317,15 @@ if(NEWIND < 1) {
 
 ### Setting up the `regimen` object
 
-For every subject, we want to set (or reset) this object to the starting 
-dose or interval. There are a series of setter functions that allow 
-you to do this. For a 100 mg infusion over 1.5 hours every 24 hours 
-for a week, it would look like
+For every subject, we want to set (or reset) this object to the starting dose,
+interval, etc. There are a series of "setter" functions that allow you to set
+each of these attributes For a 100 mg infusion into the first compartment over 
+1.5 hours every 24 hours for a week, it would look like
 
 
 ```{c}
 #| eval: false
 $PK
-
 if(NEWIND <= 1) {
   reg.init(self); 
   reg.amt(100); 
@@ -347,11 +351,10 @@ giving the doses; this should be done in `$ERROR`.
 ```{c}
 #| eval: false
 $ERROR 
-s
 reg.execute();
 ```
 
-That's it!
+That's it! Your dosing regimen is now active. 
 
 ### Example 
 
@@ -379,12 +382,19 @@ doses in the regimen come from the `reg` object we set up.
 ### Update the dose regimen
 
 What if we want to make changes to the regimen? Say we have a PKPD
-model and want to lower the doses in case the PD marker gets too 
+model and want to lower the dose whenever the PD marker gets too 
 low or too high? 
 
 This is handled naturally within the `evt::regimen` framework by 
 calling the same setter functions you used to set / reset the 
-`regimen` object at the start of the problem.
+`regimen` object at the start of the problem as shown in the next
+example.
+
+
+### Example
+
+Model `evtools-4.mod` gives an example of dynamically changing the dose
+using `evt::regmen`.
 
 In this example, we have a indirect response PKPD model where concentration
 inhibits the production of the response. The EC50 is 7 ng / mL but with
@@ -395,7 +405,6 @@ we'll reduce the dose by 25% if the PD response is smaller
 than 3,000. This isn't terribly sophisticated decision rule
 but we'll stick with it for simplicity. 
 
-### Example
 
 ::: {.callout-note collapse="true" appearance="simple"}
 # See the full model 4 code
@@ -432,42 +441,52 @@ out <- mutate(out, ec50 = factor(round(ec50, 2)))
 ```
 
 
-Look at PK, PD, and dose versus time
+Look at PK, PD, and dose versus time; I'll facet the plots by the simulated 
+EC50, from lowest to highest. 
+
+
+First, concentration versus time
 
 ```{r}
 ggplot(out, aes(time, CP, col = ec50)) + 
   geom_line() + facet_wrap(~ec50)
 ```
 
+Next, pharmacodynamics versus time
+
 ```{r}
 ggplot(out, aes(time, PD, col = ec50)) + 
   geom_line() + facet_wrap(~ec50)
 ```
+
+Finally, the current dose versus time
 
 ```{r}
 ggplot(out, aes(time, dose, col = ec50)) + 
   geom_line() + facet_wrap(~ec50) + ylim(0, NA)
 ```
 
-Finally, we can look at how doses, PK and PD fared at the end 
-of the simulation. Only a handful of subjects stayed at the 
-starting dose; most got dose reduced with some receiving 
-substantial dose reductions.
+Finally, we can look at how doses, PK and PD fared at the end of the simulation.
+Only a handful of subjects stayed at the starting dose; most got dose reduced
+with some ending on doses far below the 200 mg starting dose.
 
 ```{r}
-out %>% group_by(ID) %>% slice(n()) %>% ungroup()
+out %>% group_by(ID) %>% slice(n()) %>% ungroup() %>% arrange(ec50)
 ```
 
 ## Dynamic change in dosing interval
 
-In this example, we'll start out the simulation dosing every 24 hours. Then, 
-the dosing interval will be cut in half (every 12 hours) while doubling the 
-dose; this will happen after the first week of dosing.
+Model `evtools-5.mod` gives an example of dynamically changing the dose
+interval using `evt::regmen`.
+
+In this last example, we'll change the dosing interval over the course of the
+simulation. To start, dosing will be every 24 hours. Then, the dosing interval
+will be cut in half (every 12 hours) while doubling the dose amount; this will
+happen after the first week of dosing.
 
 ```{c}
 #| eval: false
 $ERROR
-
 if(TIME==168 && EVID > 0) {
   reg.ii(12);
   reg.amt(DOSE/2);
@@ -480,7 +499,6 @@ the dosing interval to every 48 hours
 ```{c}
 #| eval: false
 $ERROR
-
 if(evt::near(TIME, 168) && EVID > 0) {
   reg.ii(reg.ii()/2.0);
   reg.amt(reg.amt()/2.0);
@@ -491,6 +509,8 @@ if(evt::near(TIME, 300) && EVID > 0) {
   reg.amt(reg.amt()*4.0);
 }
 ```
+
+
 
 ::: {.callout-note collapse="true" appearance="simple"}
 # See the full model 5 code
@@ -506,19 +526,21 @@ mod <- mread("evtools-5.mod")
 mrgsim(mod, end = 600, delta = 0.1) %>% plot()
 ```
 
+### Force the model to stop at dose times
+
 This model uses the `object.flagnext()` setter. When we "flag" the next dose, 
 we tell mrgsolve to _always_ stop the simulation when we expect the next dose
 to be given. This is a hard stop with a reset / reinitialization of the ODE 
 solver. 
 
-This isn't strictly necessary in this simulation because we already have 
-observation records at all of the times when doses might be due (delta is set
-to 0.1 here). But you can use `object.flagnext()` in case you don't want to 
-sample that intensively or you can be _sure_ the ODE solver will otherwise stop
-at the time when you might way to give a dose. To be clear: you must make sure 
-the system "hits" all of the dose times. Usually this is done at observation
-times. If it can't be guaranteed at observation times, then you need to tell the 
-problem to flag the next dose times via `object.flagnext()`.
+This isn't strictly necessary in this simulation because we already have
+observation records at all of the times when doses might be due (delta is set to
+0.1 here). But you can use `object.flagnext()` in case you don't want to sample
+that intensively or in case you can't be _sure_ the ODE solver will otherwise
+stop at the time when you might way to give a dose. To be clear: you must make
+sure the system "hits" all of the dose times. Usually this is done at
+observation times. If it can't be guaranteed at observation times, then you need
+to tell the problem to flag the next dose times via `object.flagnext()`.
 
 ## Remember: there (usually) is no data set
 
@@ -530,7 +552,7 @@ simulation starts. With dynamic dosing within the model itself, it's different:
 we are making dosing decisions from minute to minute, giving a dose when it is
 due.
 
-This means there is more pressure on _you_ to make sure you are requestings
+This means there is more pressure on _you_ to make sure you are requesting
 observations at times when you might need to give a dose. If you don't do that,
 there is no reason why mrgsolve will stop to give a dose when you think it
 should. There is some functionality baked into these tools to help that, but you
