@@ -130,6 +130,7 @@ this will give you a dose _every time $ERROR is called_
 ```{c}
 #| eval: false
 $ERROR
+
 evt::infuse(self, 100, 1, 5);
 ```
 
@@ -277,6 +278,8 @@ To create the regimen object, you have to declare this in the
 
 ```{c}
 #| eval: false
+$GLOBAL
+
 evt::regimen reg;
 ```
 
@@ -292,6 +295,7 @@ do this once, so you can write this in either `$PREAMBLE`
 ```{c}
 #| eval: false
 $PREAMBLE
+
 reg.init(self);
 ```
 
@@ -300,6 +304,7 @@ or in `$PK` (it's ok to do this multiple times)
 ```{c}
 #| eval: false
 $PK 
+
 if(NEWIND < 1) {
   reg.init(self);
 }
@@ -316,6 +321,7 @@ for a week, it would look like
 ```{c}
 #| eval: false
 $PK
+
 if(NEWIND <= 1) {
   reg.init(self); 
   reg.amt(100); 
@@ -336,10 +342,12 @@ the object at the start of each new individual in the problem.
 ### Execute the regimen
 
 Once you have everything set up, call `execute()` to actually start 
-giving the doses
+giving the doses; this should be done in `$ERROR`.
 
 ```{c}
 #| eval: false
+$ERROR 
+s
 reg.execute();
 ```
 
@@ -459,6 +467,7 @@ dose; this will happen after the first week of dosing.
 ```{c}
 #| eval: false
 $ERROR
+
 if(TIME==168 && EVID > 0) {
   reg.ii(12);
   reg.amt(DOSE/2);
@@ -471,6 +480,7 @@ the dosing interval to every 48 hours
 ```{c}
 #| eval: false
 $ERROR
+
 if(evt::near(TIME, 168) && EVID > 0) {
   reg.ii(reg.ii()/2.0);
   reg.amt(reg.amt()/2.0);
