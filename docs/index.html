@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,7 +17,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 </style>
@@ -47,7 +47,12 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -56,8 +61,10 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script>
@@ -70,10 +77,10 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       page: 25,
     pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
-      searchColumns: ["listing-date","listing-title","listing-author","listing-description","listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -91,20 +98,49 @@ ul.task-list li input[type="checkbox"] {
   })
   </script>
 <style>
-    .quarto-title-block .quarto-title-banner {
-      background: #097f5f;
-    }
-    </style>
 
+      .quarto-title-block .quarto-title-banner {
+        background: #097f5f;
+      }
+</style>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="mrgsolve/blog - mrgsolve blog">
-<meta property="og:description" content="<font color=white>Vignettes, development ideas and announcements about mrgsolve.</font>">
+<meta property="og:description" content="Vignettes, development ideas and announcements about mrgsolve.">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
-<meta property="og:site-name" content="mrgsolve/blog">
+<meta property="og:site_name" content="mrgsolve/blog">
 <meta name="twitter:title" content="mrgsolve/blog - mrgsolve blog">
-<meta name="twitter:description" content="<font color=white>Vignettes, development ideas and announcements about mrgsolve.</font>">
+<meta name="twitter:description" content="Vignettes, development ideas and announcements about mrgsolve.">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -112,42 +148,43 @@ ul.task-list li input[type="checkbox"] {
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">mrgsolve/blog</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="https://mrgsolve.org/user-guide">
- <span class="menu-text">UserGuide</span></a>
+    <a class="nav-link" href="https://mrgsolve.org/user-guide"> 
+<span class="menu-text">UserGuide</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://mrgsolve.org/blog">
- <span class="menu-text">Blog</span></a>
+    <a class="nav-link" href="https://mrgsolve.org/blog"> 
+<span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://mrgsolve.org/vignettes">
- <span class="menu-text">Vignettes</span></a>
+    <a class="nav-link" href="https://mrgsolve.org/vignettes"> 
+<span class="menu-text">Vignettes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://mrgsolve.org/learn.html">
- <span class="menu-text">Learn</span></a>
+    <a class="nav-link" href="https://mrgsolve.org/learn.html"> 
+<span class="menu-text">Learn</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://mrgsolve.org/docs">
- <span class="menu-text">Docs</span></a>
+    <a class="nav-link" href="https://mrgsolve.org/docs"> 
+<span class="menu-text">Docs</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://github.com/mrgsolve/depot">
- <span class="menu-text">Models</span></a>
+    <a class="nav-link" href="https://github.com/mrgsolve/depot"> 
+<span class="menu-text">Models</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-source" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -182,22 +219,23 @@ ul.task-list li input[type="checkbox"] {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="https://mrgsolve.org">
- <span class="menu-text">mrgsolve.org</span></a>
+    <a class="nav-link" href="https://mrgsolve.org"> 
+<span class="menu-text">mrgsolve.org</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/metrumresearchgroup/mrgsolve"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/metrumresearchgroup/mrgsolve"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/mrgsolve"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/mrgsolve"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -211,7 +249,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
     
   
-  <div class="quarto-title-meta">
+  <div class="quarto-title-meta column-page-left">
 
       
     
@@ -224,7 +262,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(28)</span></div><div class="category" data-category="EBE">EBE <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MAP Bayes">MAP Bayes <span class="quarto-category-count">(2)</span></div><div class="category" data-category="data set">data set <span class="quarto-category-count">(1)</span></div><div class="category" data-category="events">events <span class="quarto-category-count">(3)</span></div><div class="category" data-category="example">example <span class="quarto-category-count">(3)</span></div><div class="category" data-category="infusion">infusion <span class="quarto-category-count">(1)</span></div><div class="category" data-category="initial conditions">initial conditions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mixture model">mixture model <span class="quarto-category-count">(1)</span></div><div class="category" data-category="model specification">model specification <span class="quarto-category-count">(3)</span></div><div class="category" data-category="modeled events">modeled events <span class="quarto-category-count">(2)</span></div><div class="category" data-category="mtime">mtime <span class="quarto-category-count">(2)</span></div><div class="category" data-category="new release">new release <span class="quarto-category-count">(5)</span></div><div class="category" data-category="optimization">optimization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pred">pred <span class="quarto-category-count">(1)</span></div><div class="category" data-category="steady state">steady state <span class="quarto-category-count">(2)</span></div><div class="category" data-category="stop">stop <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tad">tad <span class="quarto-category-count">(1)</span></div><div class="category" data-category="time after dose">time after dose <span class="quarto-category-count">(1)</span></div><div class="category" data-category="validation">validation <span class="quarto-category-count">(3)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(29)</span></div><div class="category" data-category="EBE">EBE <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MAP Bayes">MAP Bayes <span class="quarto-category-count">(2)</span></div><div class="category" data-category="data set">data set <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dynamic-dosing">dynamic-dosing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="events">events <span class="quarto-category-count">(3)</span></div><div class="category" data-category="example">example <span class="quarto-category-count">(3)</span></div><div class="category" data-category="infusion">infusion <span class="quarto-category-count">(1)</span></div><div class="category" data-category="initial conditions">initial conditions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mixture model">mixture model <span class="quarto-category-count">(1)</span></div><div class="category" data-category="model specification">model specification <span class="quarto-category-count">(3)</span></div><div class="category" data-category="modeled events">modeled events <span class="quarto-category-count">(2)</span></div><div class="category" data-category="mtime">mtime <span class="quarto-category-count">(2)</span></div><div class="category" data-category="new release">new release <span class="quarto-category-count">(5)</span></div><div class="category" data-category="optimization">optimization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pred">pred <span class="quarto-category-count">(1)</span></div><div class="category" data-category="steady state">steady state <span class="quarto-category-count">(2)</span></div><div class="category" data-category="stop">stop <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tad">tad <span class="quarto-category-count">(1)</span></div><div class="category" data-category="time after dose">time after dose <span class="quarto-category-count">(1)</span></div><div class="category" data-category="validation">validation <span class="quarto-category-count">(3)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -235,31 +273,66 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="validation" data-listing-date-sort="1678082400000" data-listing-file-modified-sort="1678394055887" data-listing-reading-time-sort="5.125">
+<div class="quarto-post image-right" data-index="0" data-categories="dynamic-dosing" data-listing-date-sort="1707976800000" data-listing-file-modified-sort="1707938014644" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1983">
+<div class="thumbnail">
+<p><a href="./posts/2024-new-1-4-0-evtools.html" class="no-external"></a></p><a href="./posts/2024-new-1-4-0-evtools.html" class="no-external">
+<p class="card-img-top"><img src="posts/2024-new-1-4-0-evtools_files/figure-html/unnamed-chunk-10-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2024-new-1-4-0-evtools.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2023-update-validation.html">
 <h3 class="no-anchor listing-title">
-Update: Validate translation from NONMEM
+<a href="./posts/2024-new-1-4-0-evtools.html" class="no-external">Dynamic dosing with mrgsolve and evtools</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2024-new-1-4-0-evtools.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('dynamic-dosing'); return false;">
+dynamic-dosing
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/2024-new-1-4-0-evtools.html" class="no-external">The evtools plugin is a set of functions and classes you can use to implement dosing regimens from <em>inside</em> your model. It first became available in mrgsolve 1.4.1. </a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/2024-new-1-4-0-evtools.html" class="no-external">
+<div class="listing-date">
+Feb 15, 2024
+</div>
+<div class="listing-author">
+Kyle Baron
 </div>
 </a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="validation" data-listing-date-sort="1678082400000" data-listing-file-modified-sort="1678511983608" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1023">
+<div class="thumbnail">
+<p><a href="./posts/2023-update-validation.html" class="no-external"></a></p><a href="./posts/2023-update-validation.html" class="no-external">
+<p class="card-img-top"><img src="posts/2023-update-validation_files/figure-html/unnamed-chunk-17-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2023-update-validation.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/2023-update-validation.html" class="no-external">Update: Validate translation from NONMEM</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/2023-update-validation.html" class="no-external"></a>
+</div>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('validation'); return false;">
 validation
 </div>
 </div>
-<a href="./posts/2023-update-validation.html">
 <div class="listing-description">
-<p>With mrgsolve version 1.0.8, there is a more complete way to validate your model against a completed NONMEM estimation run.</p>
+<a href="./posts/2023-update-validation.html" class="no-external">With mrgsolve version 1.0.8, there is a more complete way to validate your model against a completed NONMEM estimation run. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-update-validation.html">
+<a href="./posts/2023-update-validation.html" class="no-external">
 <div class="listing-date">
 Mar 6, 2023
 </div>
@@ -269,29 +342,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="new release" data-listing-date-sort="1677909600000" data-listing-file-modified-sort="1677959396718" data-listing-reading-time-sort="3.465">
+<div class="quarto-post image-right" data-index="2" data-categories="new release" data-listing-date-sort="1677909600000" data-listing-file-modified-sort="1677959396718" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="693">
+<div class="thumbnail">
+<p><a href="./posts/2023-new-1.0.8.html" class="no-external"></a></p><a href="./posts/2023-new-1.0.8.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/2023-new-1.0.8.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2023-new-1.0.8.html">
 <h3 class="no-anchor listing-title">
-New in 1.0.8
+<a href="./posts/2023-new-1.0.8.html" class="no-external">New in 1.0.8</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-new-1.0.8.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;">
 new release
 </div>
 </div>
-<a href="./posts/2023-new-1.0.8.html">
 <div class="listing-description">
-<p>Find out what’s new in mrgsolve version 1.0.8</p>
+<a href="./posts/2023-new-1.0.8.html" class="no-external">Find out what’s new in mrgsolve version 1.0.8 </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-new-1.0.8.html">
+<a href="./posts/2023-new-1.0.8.html" class="no-external">
 <div class="listing-date">
 Mar 4, 2023
 </div>
@@ -301,22 +375,25 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1664686800000" data-listing-file-modified-sort="1677293434142" data-listing-reading-time-sort="1.57">
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1664686800000" data-listing-file-modified-sort="1677293434142" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="314">
+<div class="thumbnail">
+<p><a href="./posts/2022-10-import-multiple.html" class="no-external"></a></p><a href="./posts/2022-10-import-multiple.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/2022-10-import-multiple.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2022-10-import-multiple.html">
 <h3 class="no-anchor listing-title">
-Import estimates from multiple NONMEM runs
+<a href="./posts/2022-10-import-multiple.html" class="no-external">Import estimates from multiple NONMEM runs</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-10-import-multiple.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>You can use <code>$NMEXT</code> and <code>$NMXML</code> to import estimates from multiple NONMEM runs into a single mrgsolve model.</p>
+<a href="./posts/2022-10-import-multiple.html" class="no-external">You can use <code>$NMEXT</code> and <code>$NMXML</code> to import estimates from multiple NONMEM runs into a single mrgsolve model. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-10-import-multiple.html">
+<a href="./posts/2022-10-import-multiple.html" class="no-external">
 <div class="listing-date">
 Oct 2, 2022
 </div>
@@ -326,16 +403,19 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="model specification,validation" data-listing-date-sort="1653454800000" data-listing-file-modified-sort="1677909505330" data-listing-reading-time-sort="5.285">
+<div class="quarto-post image-right" data-index="4" data-categories="model specification,validation" data-listing-date-sort="1653454800000" data-listing-file-modified-sort="1677909505330" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1057">
+<div class="thumbnail">
+<p><a href="./posts/2022-05-validate-translation/index.html" class="no-external"></a></p><a href="./posts/2022-05-validate-translation/index.html" class="no-external">
+<p class="card-img-top"><img src="posts/2022-05-validate-translation/index_files/figure-html/unnamed-chunk-13-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2022-05-validate-translation/index.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2022-05-validate-translation/index.html">
 <h3 class="no-anchor listing-title">
-Validate model translation from NONMEM
+<a href="./posts/2022-05-validate-translation/index.html" class="no-external">Validate model translation from NONMEM</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-05-validate-translation/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('model specification'); return false;">
 model specification
@@ -344,14 +424,12 @@ model specification
 validation
 </div>
 </div>
-<a href="./posts/2022-05-validate-translation/index.html">
 <div class="listing-description">
-<p>If your mrgsolve model is a translation of a completed NONMEM model run, you can validate it every time; find out how.</p>
+<a href="./posts/2022-05-validate-translation/index.html" class="no-external">If your mrgsolve model is a translation of a completed NONMEM model run, you can validate it every time; find out how. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-05-validate-translation/index.html">
+<a href="./posts/2022-05-validate-translation/index.html" class="no-external">
 <div class="listing-date">
 May 25, 2022
 </div>
@@ -361,29 +439,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="stop" data-listing-date-sort="1650690000000" data-listing-file-modified-sort="1677293434142" data-listing-reading-time-sort="4.22">
+<div class="quarto-post image-right" data-index="5" data-categories="stop" data-listing-date-sort="1650690000000" data-listing-file-modified-sort="1677293434142" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="844">
+<div class="thumbnail">
+<p><a href="./posts/2022-apr-stop.html" class="no-external"></a></p><a href="./posts/2022-apr-stop.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/2022-apr-stop.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2022-apr-stop.html">
 <h3 class="no-anchor listing-title">
-Stopping long-running simulations
+<a href="./posts/2022-apr-stop.html" class="no-external">Stopping long-running simulations</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-apr-stop.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('stop'); return false;">
 stop
 </div>
 </div>
-<a href="./posts/2022-apr-stop.html">
 <div class="listing-description">
-<p>Sometimes, you want to stop a simulation that is running (or might run) longer than you want. Find out how.</p>
+<a href="./posts/2022-apr-stop.html" class="no-external">Sometimes, you want to stop a simulation that is running (or might run) longer than you want. Find out how. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-apr-stop.html">
+<a href="./posts/2022-apr-stop.html" class="no-external">
 <div class="listing-date">
 Apr 23, 2022
 </div>
@@ -393,29 +472,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="new release" data-listing-date-sort="1641016800000" data-listing-file-modified-sort="1677952522473" data-listing-reading-time-sort="5.47">
+<div class="quarto-post image-right" data-index="6" data-categories="new release" data-listing-date-sort="1641016800000" data-listing-file-modified-sort="1677952522473" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1090">
+<div class="thumbnail">
+<p><a href="./posts/new-1-0-0.html" class="no-external"></a></p><a href="./posts/new-1-0-0.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/new-1-0-0.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/new-1-0-0.html">
 <h3 class="no-anchor listing-title">
-New in 1.0.0
+<a href="./posts/new-1-0-0.html" class="no-external">New in 1.0.0</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/new-1-0-0.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;">
 new release
 </div>
 </div>
-<a href="./posts/new-1-0-0.html">
 <div class="listing-description">
-<p>mrgsolve celebrates her version 1.0.0 release. Find out about some very cool and powerful features that we included in this release.</p>
+<a href="./posts/new-1-0-0.html" class="no-external">mrgsolve celebrates her version 1.0.0 release. Find out about some very cool and powerful features that we included in this release. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/new-1-0-0.html">
+<a href="./posts/new-1-0-0.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2022
 </div>
@@ -425,29 +505,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="EBE" data-listing-date-sort="1630472400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="3.295">
+<div class="quarto-post image-right" data-index="7" data-categories="EBE" data-listing-date-sort="1630472400000" data-listing-file-modified-sort="1677293434145" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="659">
+<div class="thumbnail">
+<p><a href="./posts/simulate-ebe.html" class="no-external"></a></p><a href="./posts/simulate-ebe.html" class="no-external">
+<p class="card-img-top"><img src="posts/simulate-ebe_files/figure-html/unnamed-chunk-9-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/simulate-ebe.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/simulate-ebe.html">
 <h3 class="no-anchor listing-title">
-Simulate From EBE
+<a href="./posts/simulate-ebe.html" class="no-external">Simulate From EBE</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/simulate-ebe.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('EBE'); return false;">
 EBE
 </div>
 </div>
-<a href="./posts/simulate-ebe.html">
 <div class="listing-description">
-<p>This blog post will show you how to use a single model to do both population simulation and simulation from a specific set of empirical Bayes estimates. The basic implementation for this approach was pioneered by Tim Waterhouse at MetrumRG.</p>
+<a href="./posts/simulate-ebe.html" class="no-external">This blog post will show you how to use a single model to do both population simulation and simulation from a specific set of empirical Bayes estimates. The basic implementation for this approach was pioneered by Tim Waterhouse at MetrumRG. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/simulate-ebe.html">
+<a href="./posts/simulate-ebe.html" class="no-external">
 <div class="listing-date">
 Sep 1, 2021
 </div>
@@ -457,29 +538,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="new release" data-listing-date-sort="1629090000000" data-listing-file-modified-sort="1677952516912" data-listing-reading-time-sort="6.13">
+<div class="quarto-post image-right" data-index="8" data-categories="new release" data-listing-date-sort="1629090000000" data-listing-file-modified-sort="1677952516912" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1227">
+<div class="thumbnail">
+<p><a href="./posts/new-0-11-0.html" class="no-external"></a></p><a href="./posts/new-0-11-0.html" class="no-external">
+<p class="card-img-top"><img src="posts/new-0-11-0_files/figure-html/unnamed-chunk-9-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/new-0-11-0.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/new-0-11-0.html">
 <h3 class="no-anchor listing-title">
-New in 0.11.0 and 0.11.1
+<a href="./posts/new-0-11-0.html" class="no-external">New in 0.11.0 and 0.11.1</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/new-0-11-0.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;">
 new release
 </div>
 </div>
-<a href="./posts/new-0-11-0.html">
 <div class="listing-description">
-<p>Find out what’s new in mrgsolve version 0.11.0 and 0.11.1.</p>
+<a href="./posts/new-0-11-0.html" class="no-external">Find out what’s new in mrgsolve version 0.11.0 and 0.11.1. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/new-0-11-0.html">
+<a href="./posts/new-0-11-0.html" class="no-external">
 <div class="listing-date">
 Aug 16, 2021
 </div>
@@ -489,29 +571,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="new release" data-listing-date-sort="1606802400000" data-listing-file-modified-sort="1677952513093" data-listing-reading-time-sort="4.55">
+<div class="quarto-post image-right" data-index="9" data-categories="new release" data-listing-date-sort="1606802400000" data-listing-file-modified-sort="1677952513093" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="911">
+<div class="thumbnail">
+<p><a href="./posts/new-0-10-7.html" class="no-external"></a></p><a href="./posts/new-0-10-7.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/new-0-10-7.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/new-0-10-7.html">
 <h3 class="no-anchor listing-title">
-New in 0.10.7
+<a href="./posts/new-0-10-7.html" class="no-external">New in 0.10.7</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/new-0-10-7.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;">
 new release
 </div>
 </div>
-<a href="./posts/new-0-10-7.html">
 <div class="listing-description">
-<p>Find out what’s new in mrgsolve version 0.10.7.</p>
+<a href="./posts/new-0-10-7.html" class="no-external">Find out what’s new in mrgsolve version 0.10.7. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/new-0-10-7.html">
+<a href="./posts/new-0-10-7.html" class="no-external">
 <div class="listing-date">
 Dec 1, 2020
 </div>
@@ -521,29 +604,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="new release" data-listing-date-sort="1580536800000" data-listing-file-modified-sort="1677952508301" data-listing-reading-time-sort="3.69">
+<div class="quarto-post image-right" data-index="10" data-categories="new release" data-listing-date-sort="1580536800000" data-listing-file-modified-sort="1677952508301" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="739">
+<div class="thumbnail">
+<p><a href="./posts/new-0-10-1.html" class="no-external"></a></p><a href="./posts/new-0-10-1.html" class="no-external">
+<p class="card-img-top"><img src="posts/new-0-10-1_files/figure-html/unnamed-chunk-5-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/new-0-10-1.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/new-0-10-1.html">
 <h3 class="no-anchor listing-title">
-New in 0.10.0 and 0.10.1
+<a href="./posts/new-0-10-1.html" class="no-external">New in 0.10.0 and 0.10.1</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/new-0-10-1.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('new release'); return false;">
 new release
 </div>
 </div>
-<a href="./posts/new-0-10-1.html">
 <div class="listing-description">
-<p>Find out what’s new in mrgsolve version 0.10.0 and 0.10.1.</p>
+<a href="./posts/new-0-10-1.html" class="no-external">Find out what’s new in mrgsolve version 0.10.0 and 0.10.1. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/new-0-10-1.html">
+<a href="./posts/new-0-10-1.html" class="no-external">
 <div class="listing-date">
 Feb 1, 2020
 </div>
@@ -553,16 +637,19 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="events,infusion,steady state" data-listing-date-sort="1577858400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="0.77">
+<div class="quarto-post image-right" data-index="11" data-categories="events,infusion,steady state" data-listing-date-sort="1577858400000" data-listing-file-modified-sort="1677293434145" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="154">
+<div class="thumbnail">
+<p><a href="./posts/zero-ss.html" class="no-external"></a></p><a href="./posts/zero-ss.html" class="no-external">
+<p class="card-img-top"><img src="posts/zero-ss_files/figure-html/unnamed-chunk-3-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/zero-ss.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/zero-ss.html">
 <h3 class="no-anchor listing-title">
-Zero-order steady state infusion
+<a href="./posts/zero-ss.html" class="no-external">Zero-order steady state infusion</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/zero-ss.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('events'); return false;">
 events
@@ -574,14 +661,12 @@ infusion
 steady state
 </div>
 </div>
-<a href="./posts/zero-ss.html">
 <div class="listing-description">
-<p>Starting with version 0.10.0, mrgsolve can implement dosing records calling for a zero-order infusion at steady state. Find out more in this blog post.</p>
+<a href="./posts/zero-ss.html" class="no-external">Starting with version 0.10.0, mrgsolve can implement dosing records calling for a zero-order infusion at steady state. Find out more in this blog post. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/zero-ss.html">
+<a href="./posts/zero-ss.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2020
 </div>
@@ -591,29 +676,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="steady state" data-listing-date-sort="1575180000000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="7.11">
+<div class="quarto-post image-right" data-index="12" data-categories="steady state" data-listing-date-sort="1575180000000" data-listing-file-modified-sort="1677293434145" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1422">
+<div class="thumbnail">
+<p><a href="./posts/steady-state.html" class="no-external"></a></p><a href="./posts/steady-state.html" class="no-external">
+<p class="card-img-top"><img src="posts/steady-state_files/figure-html/unnamed-chunk-7-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/steady-state.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/steady-state.html">
 <h3 class="no-anchor listing-title">
-Steady State in mrgsolve
+<a href="./posts/steady-state.html" class="no-external">Steady State in mrgsolve</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/steady-state.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('steady state'); return false;">
 steady state
 </div>
 </div>
-<a href="./posts/steady-state.html">
 <div class="listing-description">
-This blog post describes the…
+<a href="./posts/steady-state.html" class="no-external">This blog post describes the mechanism by which mrgsolve finds steady state under this new change set (starting late 2019 to early 2020) and describes some of the settings…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/steady-state.html">
+<a href="./posts/steady-state.html" class="no-external">
 <div class="listing-date">
 Dec 1, 2019
 </div>
@@ -623,16 +709,19 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-categories="time after dose,tad" data-listing-date-sort="1559365200000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="1.925">
+<div class="quarto-post image-right" data-index="13" data-categories="time after dose,tad" data-listing-date-sort="1559365200000" data-listing-file-modified-sort="1677293434145" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="385">
+<div class="thumbnail">
+<p><a href="./posts/time_after_dose.html" class="no-external"></a></p><a href="./posts/time_after_dose.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/time_after_dose.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/time_after_dose.html">
 <h3 class="no-anchor listing-title">
-Time after dose (TAD)
+<a href="./posts/time_after_dose.html" class="no-external">Time after dose (TAD)</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/time_after_dose.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('time after dose'); return false;">
 time after dose
@@ -641,14 +730,12 @@ time after dose
 tad
 </div>
 </div>
-<a href="./posts/time_after_dose.html">
 <div class="listing-description">
-<p>In this post, we’ll look at different ways you can bring time after dose into your simulated outputs.</p>
+<a href="./posts/time_after_dose.html" class="no-external">In this post, we’ll look at different ways you can bring time after dose into your simulated outputs. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/time_after_dose.html">
+<a href="./posts/time_after_dose.html" class="no-external">
 <div class="listing-date">
 Jun 1, 2019
 </div>
@@ -658,29 +745,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="13" data-categories="events" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="2.78">
+<div class="quarto-post image-right" data-index="14" data-categories="events" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434141" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="557">
+<div class="thumbnail">
+<p><a href="./posts/2019-ev_rx.html" class="no-external"></a></p><a href="./posts/2019-ev_rx.html" class="no-external">
+<p class="card-img-top"><img src="posts/2019-ev_rx_files/figure-html/unnamed-chunk-3-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2019-ev_rx.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2019-ev_rx.html">
 <h3 class="no-anchor listing-title">
-Alternate dosing event syntax
+<a href="./posts/2019-ev_rx.html" class="no-external">Alternate dosing event syntax</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2019-ev_rx.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('events'); return false;">
 events
 </div>
 </div>
-<a href="./posts/2019-ev_rx.html">
 <div class="listing-description">
-<p>A fun syntax for creating event objects for different dosing regimens.</p>
+<a href="./posts/2019-ev_rx.html" class="no-external">A fun syntax for creating event objects for different dosing regimens. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2019-ev_rx.html">
+<a href="./posts/2019-ev_rx.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2019
 </div>
@@ -690,29 +778,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="14" data-categories="validation" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="3.11">
+<div class="quarto-post image-right" data-index="15" data-categories="validation" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="622">
+<div class="thumbnail">
+<p><a href="./posts/validation_pmxtools.html" class="no-external"></a></p><a href="./posts/validation_pmxtools.html" class="no-external">
+<p class="card-img-top"><img src="posts/validation_pmxtools_files/figure-html/unnamed-chunk-6-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/validation_pmxtools.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/validation_pmxtools.html">
 <h3 class="no-anchor listing-title">
-Validating Simulation Results with pmxTools
+<a href="./posts/validation_pmxtools.html" class="no-external">Validating Simulation Results with pmxTools</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/validation_pmxtools.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('validation'); return false;">
 validation
 </div>
 </div>
-<a href="./posts/validation_pmxtools.html">
 <div class="listing-description">
-<p>In this blog post, we run some simulations with mrgsolve and the excellent pmxTools package and compare results.</p>
+<a href="./posts/validation_pmxtools.html" class="no-external">In this blog post, we run some simulations with mrgsolve and the excellent pmxTools package and compare results. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/validation_pmxtools.html">
+<a href="./posts/validation_pmxtools.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2019
 </div>
@@ -722,29 +811,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="15" data-categories="model specification" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="2.98">
+<div class="quarto-post image-right" data-index="16" data-categories="model specification" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="596">
+<div class="thumbnail">
+<p><a href="./posts/rmd_model.html" class="no-external"></a></p><a href="./posts/rmd_model.html" class="no-external">
+<p class="card-img-top"><img src="posts/rmd_model_files/figure-html/unnamed-chunk-4-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/rmd_model.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/rmd_model.html">
 <h3 class="no-anchor listing-title">
-Rmarkdown model specification
+<a href="./posts/rmd_model.html" class="no-external">Rmarkdown model specification</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/rmd_model.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('model specification'); return false;">
 model specification
 </div>
 </div>
-<a href="./posts/rmd_model.html">
 <div class="listing-description">
-<p>I came up with this fun model specification format that looks just like Rmarkdown code chunks.</p>
+<a href="./posts/rmd_model.html" class="no-external">I came up with this fun model specification format that looks just like Rmarkdown code chunks. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/rmd_model.html">
+<a href="./posts/rmd_model.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2019
 </div>
@@ -754,29 +844,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="16" data-categories="example" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-reading-time-sort="0.835">
+<div class="quarto-post image-right" data-index="17" data-categories="example" data-listing-date-sort="1546322400000" data-listing-file-modified-sort="1677293434145" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="167">
+<div class="thumbnail">
+<p><a href="./posts/sir.html" class="no-external"></a></p><a href="./posts/sir.html" class="no-external">
+<p class="card-img-top"><img src="posts/sir_files/figure-html/unnamed-chunk-3-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/sir.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/sir.html">
 <h3 class="no-anchor listing-title">
-Tidy workflow for simulating dynamics in R
+<a href="./posts/sir.html" class="no-external">Tidy workflow for simulating dynamics in R</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/sir.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('example'); return false;">
 example
 </div>
 </div>
-<a href="./posts/sir.html">
 <div class="listing-description">
-I worked an example for a SIR model to show people in the ecology field how they can use mrgsolve for their ODE-based models.
+<a href="./posts/sir.html" class="no-external">I worked an example for a SIR model to show people in the ecology field how they can use mrgsolve for their ODE-based models.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/sir.html">
+<a href="./posts/sir.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2019
 </div>
@@ -786,16 +877,19 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="17" data-categories="modeled events,mtime" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="4.61">
+<div class="quarto-post image-right" data-index="18" data-categories="modeled events,mtime" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434141" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="922">
+<div class="thumbnail">
+<p><a href="./posts/2018-modeled-interventions.html" class="no-external"></a></p><a href="./posts/2018-modeled-interventions.html" class="no-external">
+<p class="card-img-top"><img src="posts/2018-modeled-interventions_files/figure-html/unnamed-chunk-2-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2018-modeled-interventions.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2018-modeled-interventions.html">
 <h3 class="no-anchor listing-title">
-Modeled interventions in mrgsolve
+<a href="./posts/2018-modeled-interventions.html" class="no-external">Modeled interventions in mrgsolve</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2018-modeled-interventions.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('modeled events'); return false;">
 modeled events
@@ -804,14 +898,12 @@ modeled events
 mtime
 </div>
 </div>
-<a href="./posts/2018-modeled-interventions.html">
 <div class="listing-description">
-<p>This post is to introduce modeled interventions in mrgsolve. The main use case is to force mrgsolve to advance the system to a specific time so that some aspect of the system can change at that time.</p>
+<a href="./posts/2018-modeled-interventions.html" class="no-external">This post is to introduce modeled interventions in mrgsolve. The main use case is to force mrgsolve to advance the system to a specific time so that some aspect of the system can change at that time. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2018-modeled-interventions.html">
+<a href="./posts/2018-modeled-interventions.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2018
 </div>
@@ -821,16 +913,19 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="18" data-categories="modeled events,mtime" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="1.205">
+<div class="quarto-post image-right" data-index="19" data-categories="modeled events,mtime" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434144" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="241">
+<div class="thumbnail">
+<p><a href="./posts/mtime.html" class="no-external"></a></p><a href="./posts/mtime.html" class="no-external">
+<p class="card-img-top"><img src="posts/mtime_files/figure-html/unnamed-chunk-2-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/mtime.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/mtime.html">
 <h3 class="no-anchor listing-title">
-mtime
+<a href="./posts/mtime.html" class="no-external">mtime</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/mtime.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('modeled events'); return false;">
 modeled events
@@ -839,14 +934,12 @@ modeled events
 mtime
 </div>
 </div>
-<a href="./posts/mtime.html">
 <div class="listing-description">
-<p>This is just a post on a simplified implementation of modeled events in mrgsolve. There is also another, more complete blog post on this topic published previously .</p>
+<a href="./posts/mtime.html" class="no-external">This is just a post on a simplified implementation of modeled events in mrgsolve. There is also another, more complete blog post on this topic published previously . </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/mtime.html">
+<a href="./posts/mtime.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2018
 </div>
@@ -856,16 +949,19 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="19" data-categories="pred,model specification" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="1.93">
+<div class="quarto-post image-right" data-index="20" data-categories="pred,model specification" data-listing-date-sort="1514786400000" data-listing-file-modified-sort="1677293434141" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="386">
+<div class="thumbnail">
+<p><a href="./posts/2018-pred.html" class="no-external"></a></p><a href="./posts/2018-pred.html" class="no-external">
+<p class="card-img-top"><img src="posts/2018-pred_files/figure-html/unnamed-chunk-4-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2018-pred.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2018-pred.html">
 <h3 class="no-anchor listing-title">
-Models without compartments
+<a href="./posts/2018-pred.html" class="no-external">Models without compartments</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2018-pred.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('pred'); return false;">
 pred
@@ -874,14 +970,12 @@ pred
 model specification
 </div>
 </div>
-<a href="./posts/2018-pred.html">
 <div class="listing-description">
-<p>Introducing a new model block (<code>$PRED</code>) that lets you write models with analytical solutions.</p>
+<a href="./posts/2018-pred.html" class="no-external">Introducing a new model block (<code>$PRED</code>) that lets you write models with analytical solutions. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2018-pred.html">
+<a href="./posts/2018-pred.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2018
 </div>
@@ -891,29 +985,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="20" data-categories="data set" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="4.495">
+<div class="quarto-post image-right" data-index="21" data-categories="data set" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="898">
+<div class="thumbnail">
+<p><a href="./posts/2017-input_data_set.html" class="no-external"></a></p><a href="./posts/2017-input_data_set.html" class="no-external">
+<p class="card-img-top"><img src="posts/2017-input_data_set_files/figure-html/unnamed-chunk-3-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2017-input_data_set.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2017-input_data_set.html">
 <h3 class="no-anchor listing-title">
-Generating input data sets for mrgsolve
+<a href="./posts/2017-input_data_set.html" class="no-external">Generating input data sets for mrgsolve</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2017-input_data_set.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('data set'); return false;">
 data set
 </div>
 </div>
-<a href="./posts/2017-input_data_set.html">
 <div class="listing-description">
-<p>An important mechanism for creating robust, complex simulations is the input data set. In this blog post, we’ll look at some ways you can quickly create input data sets for your simulation.</p>
+<a href="./posts/2017-input_data_set.html" class="no-external">An important mechanism for creating robust, complex simulations is the input data set. In this blog post, we’ll look at some ways you can quickly create input data sets for your simulation. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2017-input_data_set.html">
+<a href="./posts/2017-input_data_set.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2017
 </div>
@@ -923,29 +1018,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="21" data-categories="mixture model" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="3.02">
+<div class="quarto-post image-right" data-index="22" data-categories="mixture model" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="604">
+<div class="thumbnail">
+<p><a href="./posts/2017-mixture-model.html" class="no-external"></a></p><a href="./posts/2017-mixture-model.html" class="no-external">
+<p class="card-img-top"><img src="posts/2017-mixture-model_files/figure-html/unnamed-chunk-2-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2017-mixture-model.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2017-mixture-model.html">
 <h3 class="no-anchor listing-title">
-Mixture model example
+<a href="./posts/2017-mixture-model.html" class="no-external">Mixture model example</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2017-mixture-model.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('mixture model'); return false;">
 mixture model
 </div>
 </div>
-<a href="./posts/2017-mixture-model.html">
 <div class="listing-description">
-<p>In this post, we’ll look at how you can code up a mixture model in mrgsolve.</p>
+<a href="./posts/2017-mixture-model.html" class="no-external">In this post, we’ll look at how you can code up a mixture model in mrgsolve. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2017-mixture-model.html">
+<a href="./posts/2017-mixture-model.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2017
 </div>
@@ -955,29 +1051,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="22" data-categories="example" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="4.245">
+<div class="quarto-post image-right" data-index="23" data-categories="example" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="848">
+<div class="thumbnail">
+<p><a href="./posts/2017-complete-example.html" class="no-external"></a></p><a href="./posts/2017-complete-example.html" class="no-external">
+<p class="card-img-top"><img src="posts/2017-complete-example_files/figure-html/unnamed-chunk-8-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2017-complete-example.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2017-complete-example.html">
 <h3 class="no-anchor listing-title">
-A Complete Example
+<a href="./posts/2017-complete-example.html" class="no-external">A Complete Example</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2017-complete-example.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('example'); return false;">
 example
 </div>
 </div>
-<a href="./posts/2017-complete-example.html">
 <div class="listing-description">
-<p>We had a user who was learning <code>mrgsolve</code> ask for a “complete example”. I wasn’t sure what exactly that meant, but I created this example and I’m sharing it today on the blog.</p>
+<a href="./posts/2017-complete-example.html" class="no-external">We had a user who was learning <code>mrgsolve</code> ask for a “complete example”. I wasn’t sure what exactly that meant, but I created this example and I’m sharing it today on the blog. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2017-complete-example.html">
+<a href="./posts/2017-complete-example.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2017
 </div>
@@ -987,29 +1084,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="23" data-categories="example" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-reading-time-sort="0.37">
+<div class="quarto-post image-right" data-index="24" data-categories="example" data-listing-date-sort="1483250400000" data-listing-file-modified-sort="1677293434141" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="74">
+<div class="thumbnail">
+<p><a href="./posts/2017-reproducible.html" class="no-external"></a></p><a href="./posts/2017-reproducible.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/2017-reproducible.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/2017-reproducible.html">
 <h3 class="no-anchor listing-title">
-Reproducible results with set.seed
+<a href="./posts/2017-reproducible.html" class="no-external">Reproducible results with set.seed</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2017-reproducible.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('example'); return false;">
 example
 </div>
 </div>
-<a href="./posts/2017-reproducible.html">
 <div class="listing-description">
-<p>This post demonstrates that random simulation outputs can be made reproducible by using <code>set.seed()</code>.</p>
+<a href="./posts/2017-reproducible.html" class="no-external">This post demonstrates that random simulation outputs can be made reproducible by using <code>set.seed()</code>. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2017-reproducible.html">
+<a href="./posts/2017-reproducible.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2017
 </div>
@@ -1019,29 +1117,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="24" data-categories="MAP Bayes" data-listing-date-sort="1451714400000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="4.54">
+<div class="quarto-post image-right" data-index="25" data-categories="MAP Bayes" data-listing-date-sort="1451714400000" data-listing-file-modified-sort="1677293434144" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="908">
+<div class="thumbnail">
+<p><a href="./posts/map_bayes.html" class="no-external"></a></p><a href="./posts/map_bayes.html" class="no-external">
+<p class="card-img-top"><img data-src="posts/map_bayes_files/figure-html/unnamed-chunk-18-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/map_bayes.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/map_bayes.html">
 <h3 class="no-anchor listing-title">
-Generate MAP Bayes Parameter Estimates
+<a href="./posts/map_bayes.html" class="no-external">Generate MAP Bayes Parameter Estimates</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/map_bayes.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('MAP Bayes'); return false;">
 MAP Bayes
 </div>
 </div>
-<a href="./posts/map_bayes.html">
 <div class="listing-description">
-<p>This tutorial illustrates now to do MAP Bayes estimation with mrgsolve.</p>
+<a href="./posts/map_bayes.html" class="no-external">This tutorial illustrates now to do MAP Bayes estimation with mrgsolve. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/map_bayes.html">
+<a href="./posts/map_bayes.html" class="no-external">
 <div class="listing-date">
 Jan 2, 2016
 </div>
@@ -1051,16 +1150,19 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="25" data-categories="MAP Bayes,optimization" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="2.7">
+<div class="quarto-post image-right" data-index="26" data-categories="MAP Bayes,optimization" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434144" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="540">
+<div class="thumbnail">
+<p><a href="./posts/map_bayes_example.html" class="no-external"></a></p><a href="./posts/map_bayes_example.html" class="no-external">
+<p class="card-img-top"><img data-src="posts/map_bayes_example_files/figure-html/unnamed-chunk-12-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/map_bayes_example.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/map_bayes_example.html">
 <h3 class="no-anchor listing-title">
-MAP Bayes example
+<a href="./posts/map_bayes_example.html" class="no-external">MAP Bayes example</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/map_bayes_example.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('MAP Bayes'); return false;">
 MAP Bayes
@@ -1069,14 +1171,12 @@ MAP Bayes
 optimization
 </div>
 </div>
-<a href="./posts/map_bayes_example.html">
 <div class="listing-description">
-This is a shortened version of map_bayes.html, showing only the estimation step.
+<a href="./posts/map_bayes_example.html" class="no-external">This is a shortened version of map_bayes.html, showing only the estimation step.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/map_bayes_example.html">
+<a href="./posts/map_bayes_example.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2016
 </div>
@@ -1086,29 +1186,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="26" data-categories="events" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434143" data-listing-reading-time-sort="1.71">
+<div class="quarto-post image-right" data-index="27" data-categories="events" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434143" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="343">
+<div class="thumbnail">
+<p><a href="./posts/events.html" class="no-external"></a></p><a href="./posts/events.html" class="no-external">
+<p class="card-img-top"><img data-src="posts/events_files/figure-html/unnamed-chunk-6-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/events.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/events.html">
 <h3 class="no-anchor listing-title">
-Work with event objects
+<a href="./posts/events.html" class="no-external">Work with event objects</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/events.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('events'); return false;">
 events
 </div>
 </div>
-<a href="./posts/events.html">
 <div class="listing-description">
-<p>event objects are data.frame-like data structures that allow you to quickly and flexibly include dosing interventions into your simulations.</p>
+<a href="./posts/events.html" class="no-external">event objects are data.frame-like data structures that allow you to quickly and flexibly include dosing interventions into your simulations. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/events.html">
+<a href="./posts/events.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2016
 </div>
@@ -1118,29 +1219,30 @@ Kyle Baron
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="27" data-categories="initial conditions" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434144" data-listing-reading-time-sort="5.005">
+<div class="quarto-post image-right" data-index="28" data-categories="initial conditions" data-listing-date-sort="1451628000000" data-listing-file-modified-sort="1677293434144" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1001">
+<div class="thumbnail">
+<p><a href="./posts/init.html" class="no-external"></a></p><a href="./posts/init.html" class="no-external">
+<p class="card-img-top"><img data-src="posts/init_files/figure-html/unnamed-chunk-8-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/init.html" class="no-external"></a></p>
+</div>
 <div class="body">
-<a href="./posts/init.html">
 <h3 class="no-anchor listing-title">
-Set initial conditions
+<a href="./posts/init.html" class="no-external">Set initial conditions</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/init.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('initial conditions'); return false;">
 initial conditions
 </div>
 </div>
-<a href="./posts/init.html">
 <div class="listing-description">
-<p>There are several ways to set initial conditions in mrgsolve. Find out how this can work to your advantage when planning your simulations.</p>
+<a href="./posts/init.html" class="no-external">There are several ways to set initial conditions in mrgsolve. Find out how this can work to your advantage when planning your simulations. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/init.html">
+<a href="./posts/init.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2016
 </div>
@@ -1185,9 +1287,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1223,10 +1339,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1236,8 +1351,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1252,6 +1376,238 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -1292,6 +1648,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

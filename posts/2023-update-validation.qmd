@@ -146,7 +146,7 @@ This `data` object includes the following:
 3. The individual predicted model outputs (`IPRED`)
 
 ::: {.callout-note collapse="true" appearance="simple" icon="false"}
-# Expand to see the data
+# See the data
 ```{r}
 head(data)
 ```
