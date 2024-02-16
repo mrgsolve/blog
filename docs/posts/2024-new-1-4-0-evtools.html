@@ -300,6 +300,7 @@ background: #097f5f;
   <li><a href="#force-the-model-to-stop-at-dose-times" id="toc-force-the-model-to-stop-at-dose-times" class="nav-link" data-scroll-target="#force-the-model-to-stop-at-dose-times"><span class="header-section-number">8.1</span> Force the model to stop at dose times</a></li>
   </ul></li>
   <li><a href="#remember-there-usually-is-no-data-set" id="toc-remember-there-usually-is-no-data-set" class="nav-link" data-scroll-target="#remember-there-usually-is-no-data-set"><span class="header-section-number">9</span> Remember: there (usually) is no data set</a></li>
+  <li><a href="#more-to-come" id="toc-more-to-come" class="nav-link" data-scroll-target="#more-to-come"><span class="header-section-number">10</span> More to come</a></li>
   </ul>
 </nav>
     </div>
@@ -330,6 +331,7 @@ background: #097f5f;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$PLUGIN evtools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Plugins bring in additional functionality or syntax beyond what you get with the basic mrgsolve model code. They either make your model more convenient (to code) or more powerful.</p>
 </section>
 <section id="everything-is-in-the-evt-namespace" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="everything-is-in-the-evt-namespace"><span class="header-section-number">4</span> Everything is in the <code>evt</code> namespace</h2>
@@ -366,7 +368,7 @@ background: #097f5f;
 <li><code>cmt</code> (<code>int</code>) - the dose compartment number</li>
 <li><code>rate</code> (<code>double</code>) - the infusion rate</li>
 </ul>
-<p>You should call <code>evt::bolus()</code> and <code>evt::infuse()</code> from <code>$ERROR</code>. You will also need to figure out <em>when</em> the dose should be triggered. Writing the following code will give you a dose <em>every time $ERROR is called</em></p>
+<p>You should call <code>evt::bolus()</code> and <code>evt::infuse()</code> from <code>$ERROR</code>. You will also need to figure out <em>when</em> the dose should be triggered. Writing the following code will give you a dose <em>every time</em> <code>$ERROR</code> is called</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -394,6 +396,10 @@ See the full model 1 code
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>evtools-1.mod</strong></pre>
+</div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>$PARAM CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>$PKMODEL cmt <span class="op">=</span> <span class="st">"GUT,CENT"</span><span class="op">,</span> depot <span class="op">=</span> TRUE</span>
@@ -407,6 +413,7 @@ See the full model 1 code
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">0</span><span class="op">)</span> evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="fl">100.0</span><span class="op">/</span><span class="fl">20.0</span><span class="op">);</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>capture CP <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -480,6 +487,10 @@ See the full model 2 code
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>evtools-2.mod</strong></pre>
+</div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>$PARAM CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>$PKMODEL cmt <span class="op">=</span> <span class="st">"GUT,CENT"</span><span class="op">,</span> depot <span class="op">=</span> TRUE</span>
@@ -497,6 +508,7 @@ See the full model 2 code
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>capture CP <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -562,7 +574,7 @@ See the full model 2 code
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span> </span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span><span class="dv">100</span><span class="op">);</span> </span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>cmt<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>rate<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()</span> <span class="op">/</span> <span class="fl">1.5</span><span class="op">);</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>rate<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()/</span><span class="fl">1.5</span><span class="op">);</span></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span><span class="dv">24</span><span class="op">);</span></span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>until<span class="op">(</span><span class="dv">168</span><span class="op">);</span></span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -595,6 +607,10 @@ See the full model 3 code
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>evtools-3.mod</strong></pre>
+</div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>$PARAM CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>$PARAM</span>
@@ -625,6 +641,7 @@ See the full model 3 code
 <span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>execute<span class="op">();</span></span>
 <span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>capture CP <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -670,6 +687,10 @@ See the full model 4 code
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>evtools-4.mod</strong></pre>
+</div>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>$PARAM CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>$PARAM KIN <span class="op">=</span> <span class="dv">100</span><span class="op">,</span> KOUT <span class="op">=</span> <span class="fl">0.02</span><span class="op">,</span> EC50 <span class="op">=</span> <span class="dv">7</span></span>
@@ -723,6 +744,7 @@ See the full model 4 code
 <span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>execute<span class="op">();</span></span>
 <span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a>$CAPTURE ec50</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -811,11 +833,13 @@ See the full model 4 code
 <p>In this last example, we’ll change the dosing interval over the course of the simulation. To start, dosing will be every 24 hours. Then, the dosing interval will be cut in half (every 12 hours) while doubling the dose amount; this will happen after the first week of dosing.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">168</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="fl">168.0</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span><span class="dv">12</span><span class="op">);</span></span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>DOSE<span class="op">/</span><span class="dv">2</span><span class="op">);</span></span>
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Notice I’m using <code>evt::near()</code> here to compare two floating point numbers. This works similar to <code>dplyr::near()</code>, including default tolerance of 1e-8.</p>
+<p>Also, I’m checking that <code>EVID &gt; 0</code>; the reason for this is that we are using <code>reg.flagnext()</code> in this model (see below).</p>
 <p>At 300 hours, we’ll bring the dose back to double the starting value and change the dosing interval to every 48 hours</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
@@ -842,6 +866,10 @@ See the full model 5 code
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>evtools-5.mod</strong></pre>
+</div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>$PARAM CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>$PARAM</span>
@@ -881,6 +909,7 @@ See the full model 5 code
 <span id="cb41-37"><a href="#cb41-37" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>execute<span class="op">();</span></span>
 <span id="cb41-38"><a href="#cb41-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-39"><a href="#cb41-39" aria-hidden="true" tabindex="-1"></a>capture CP <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -933,6 +962,10 @@ See the full model 5 code
 <p>In this case, the model <em>will not stop</em> at 14.2 hours because we only have whole number observation times.</p>
 <p>Again, most of the time it’s not difficult to easily get around these issues; but please do be cautious when planning your simulation inputs.</p>
 <p>If you do run into trouble here, it can be helpful to pass in a data set with more carefully thought out observations. Or, write some R code to create a data set with milestones coded with different non-zero event IDs that you can check in your model code to see if something needs to happen. This seems like a lot of work up front, but it can actually save you time fixing issues down the road.</p>
+</section>
+<section id="more-to-come" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="more-to-come"><span class="header-section-number">10</span> More to come</h2>
+<p>This is just the start - basic functionality to get in the game, see how it works, etc. I know of several additional features / nuance that will eventually be needed to handle inevitable complexity in many dose adjustment schemes. This will come, along with features that we don’t even know about yet.</p>
 
 
 </section>

@@ -63,6 +63,10 @@ by `evtools`. Do this with the `$PLUGIN` block
 $PLUGIN evtools
 ```
 
+Plugins bring in additional functionality or syntax beyond what you get with the 
+basic mrgsolve model code. They either make your model more convenient (to code)
+or more powerful.
+
 ## Everything is in the `evt` namespace
 
 All of the functionality provided by `evtools` is within a namespace called 
@@ -128,7 +132,7 @@ add a `rate` argument at the end of the signature.
 
 You should call `evt::bolus()` and `evt::infuse()` from `$ERROR`. 
 You will also need to figure out _when_ the dose should be triggered. Writing 
-the following code will give you a dose _every time $ERROR is called_
+the following code will give you a dose _every time_ `$ERROR` is called
 
 ```{c}
 #| eval: false
@@ -160,6 +164,8 @@ Model `evtools-1.mod` will implement a dose via `evt::infuse()`.
 # See the full model 1 code
 
 ```{c, code = readLines("evtools-1.mod"), eval = FALSE}
+#| filename: evtools-1.mod
+
 ```
 :::
 
@@ -245,6 +251,8 @@ over 28 hours and have it start 12 hours into the simulation.
 ::: {.callout-note collapse="true" appearance="simple"}
 # See the full model 2 code
 ```{c, code = readLines("evtools-2.mod"), eval = FALSE}
+#| filename: evtools-2.mod
+
 ```
 :::
 
@@ -290,8 +298,8 @@ $GLOBAL
 evt::regimen reg;
 ```
 
-When you create the object in `$GLOBAL`, you are allowing any other 
-block to interact with or modify that object. 
+When you create the object in `$GLOBAL`, you are allowing any other block to
+interact with or modify that object.
 
 ### Initializing the `regimen` object
 
@@ -330,7 +338,7 @@ if(NEWIND <= 1) {
   reg.init(self); 
   reg.amt(100); 
   reg.cmt(1);
-  reg.rate(reg.amt() / 1.5);
+  reg.rate(reg.amt()/1.5);
   reg.ii(24);
   reg.until(168);
 }
@@ -365,6 +373,8 @@ dosing regimen using `evt::regmen`.
 # See the full model 3 code
 
 ```{c, code = readLines("evtools-3.mod"), eval = FALSE}
+#| filename: evtools-3.mod
+
 ```
 :::
 
@@ -410,6 +420,8 @@ but we'll stick with it for simplicity.
 # See the full model 4 code
 
 ```{c, code = readLines("evtools-4.mod"), eval = FALSE}
+#| filename: evtools-4.mod
+
 ```
 :::
 
@@ -487,11 +499,17 @@ happen after the first week of dosing.
 ```{c}
 #| eval: false
 $ERROR
-if(TIME==168 && EVID > 0) {
+if(evt::near(TIME, 168.0) && EVID > 0) {
   reg.ii(12);
   reg.amt(DOSE/2);
 }
 ```
+
+Notice I'm using `evt::near()` here to compare two floating point numbers. 
+This works similar to `dplyr::near()`, including default tolerance of 1e-8.
+
+Also, I'm checking that `EVID > 0`; the reason for this is that we are 
+using `reg.flagnext()` in this model (see below).
 
 At 300 hours, we'll bring the dose back to double the starting value and change
 the dosing interval to every 48 hours
@@ -516,6 +534,8 @@ if(evt::near(TIME, 300) && EVID > 0) {
 # See the full model 5 code
 
 ```{c, code = readLines("evtools-5.mod"), eval = FALSE}
+#| filename: evtools-5.mod
+
 ```
 :::
 
@@ -609,3 +629,9 @@ set with milestones coded with different non-zero event IDs that you can check
 in your model code to see if something needs to happen. This seems like a lot of
 work up front, but it can actually save you time fixing issues down the road.
 
+## More to come
+
+This is just the start - basic functionality to get in the game, see how it
+works, etc. I know of several additional features / nuance that will eventually
+be needed to handle inevitable complexity in many dose adjustment schemes. This
+will come, along with features that we don't even know about yet.
