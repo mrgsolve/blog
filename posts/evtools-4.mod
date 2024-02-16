@@ -39,7 +39,7 @@ double inh = cp/(ec50 + cp);
 dxdt_PD = KIN * (1-inh) - KOUT * PD;
 
 $ERROR
-capture CP = CENT/V;
+capture PK = CENT/V;
 
 if(fmod(TIME, 168)==0 && PD < 3000) {
   reg.amt(reg.amt() * 0.75);

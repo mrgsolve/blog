@@ -732,7 +732,7 @@ See the full model 4 code
 <span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>dxdt_PD <span class="op">=</span> KIN <span class="op">*</span> <span class="op">(</span><span class="dv">1</span><span class="op">-</span>inh<span class="op">)</span> <span class="op">-</span> KOUT <span class="op">*</span> PD<span class="op">;</span></span>
 <span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>capture CP <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>capture PK <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span>
 <span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>fmod<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">168</span><span class="op">)==</span><span class="dv">0</span> <span class="op">&amp;&amp;</span> PD <span class="op">&lt;</span> <span class="dv">3000</span><span class="op">)</span> <span class="op">{</span></span>
 <span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()</span> <span class="op">*</span> <span class="fl">0.75</span><span class="op">);</span></span>
@@ -754,7 +754,7 @@ See the full model 4 code
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">expand.idata</span>(<span class="at">ID =</span> <span class="fu">seq</span>(<span class="dv">12</span>), <span class="at">DOSE =</span> <span class="dv">200</span>, <span class="at">UNTIL =</span> <span class="dv">2400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-4.mod"</span>, <span class="at">outvars =</span> <span class="st">"PD,CP,dose,ec50"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-4.mod"</span>, <span class="at">outvars =</span> <span class="st">"PK,PD,dose,ec50"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building evtools-4_mod ... done.</code></pre>
 </div>
@@ -763,14 +763,13 @@ See the full model 4 code
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  mod, </span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">idata =</span> idata, </span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">carry_out =</span> <span class="st">"dose_start = DOSE"</span>,</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">end =</span> <span class="dv">8</span><span class="sc">*</span><span class="dv">168</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">end =</span> <span class="dv">8</span><span class="sc">*</span><span class="dv">168</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Look at PK, PD, and dose versus time; I’ll facet the plots by the simulated EC50, from lowest to highest.</p>
 <p>First, concentration versus time</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, CP, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, PK, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -780,10 +779,11 @@ See the full model 4 code
 </div>
 </div>
 </div>
-<p>Next, pharmacodynamics versus time</p>
+<p>Next, pharmacodynamics versus time; remember, we’re trying to keep the predose response above 3,000</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, PD, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">3000</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -808,34 +808,34 @@ See the full model 4 code
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>out <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(ec50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 12 × 7
-      ID  time dose_start    PD ec50     CP  dose
-   &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1     9  1344        200 3078. 1.38  0.273  26.7
- 2     7  1344        200 3261. 1.65  0.273  26.7
- 3    11  1344        200 3256. 2.16  0.364  35.6
- 4    12  1344        200 3113. 2.51  0.486  47.5
- 5     6  1344        200 3261. 2.9   0.486  47.5
- 6    10  1344        200 3298. 4     0.647  63.3
- 7     5  1344        200 3161. 6.24  1.15  112. 
- 8     8  1344        200 3059. 7.55  1.53  150  
- 9     3  1344        200 3201. 8.64  1.53  150  
-10     1  1344        200 3258. 9.13  1.53  150  
-11     4  1344        200 3002. 9.55  2.05  200  
-12     2  1344        200 3152. 11    2.05  200  </code></pre>
+<pre><code># A tibble: 12 × 6
+      ID  time    PD ec50     PK  dose
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1     9  1344 3078. 1.38  0.273  26.7
+ 2     7  1344 3261. 1.65  0.273  26.7
+ 3    11  1344 3256. 2.16  0.364  35.6
+ 4    12  1344 3113. 2.51  0.486  47.5
+ 5     6  1344 3261. 2.9   0.486  47.5
+ 6    10  1344 3298. 4     0.647  63.3
+ 7     5  1344 3161. 6.24  1.15  112. 
+ 8     8  1344 3059. 7.55  1.53  150  
+ 9     3  1344 3201. 8.64  1.53  150  
+10     1  1344 3258. 9.13  1.53  150  
+11     4  1344 3002. 9.55  2.05  200  
+12     2  1344 3152. 11    2.05  200  </code></pre>
 </div>
 </div>
 </section>
 </section>
 <section id="dynamic-change-in-dosing-interval" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="dynamic-change-in-dosing-interval"><span class="header-section-number">8</span> Dynamic change in dosing interval</h2>
-<p>Model <code>evtools-5.mod</code> gives an example of dynamically changing the dose interval using <code>evt::regmen</code>.</p>
-<p>In this last example, we’ll change the dosing interval over the course of the simulation. To start, dosing will be every 24 hours. Then, the dosing interval will be cut in half (every 12 hours) while doubling the dose amount; this will happen after the first week of dosing.</p>
+<p>Model <code>evtools-5.mod</code> gives an example of dynamically changing the dose interval using <code>evt::regmen</code>. When we’ve done dynamic dosing in the past, it was always pretty easy to change the <em>dose</em> during the simulation, maybe through the bioavailability parameter. But changing the interval seemed impossible … until now.</p>
+<p>To start, doses will be administered every 24 hours. Then, the dosing interval will be cut in half (every 12 hours) while doubling the dose amount; this will happen after the first week of dosing.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="fl">168.0</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span><span class="dv">12</span><span class="op">);</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>DOSE<span class="op">/</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>DOSE<span class="op">/</span><span class="fl">2.0</span><span class="op">);</span></span>
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice I’m using <code>evt::near()</code> here to compare two floating point numbers. This works similar to <code>dplyr::near()</code>, including default tolerance of 1e-8.</p>
@@ -849,8 +849,8 @@ See the full model 4 code
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">300</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>reg<span class="op">.</span>ii<span class="op">()*</span><span class="fl">4.0</span><span class="op">);</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()*</span><span class="fl">4.0</span><span class="op">);</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>reg<span class="op">.</span>ii<span class="op">()*</span><span class="dv">4</span><span class="op">);</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()*</span><span class="dv">4</span><span class="op">);</span></span>
 <span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
@@ -954,7 +954,7 @@ See the full model 5 code
 </div>
 <p>But passed in a time vector of</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">24</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24</code></pre>
 </div>

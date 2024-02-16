@@ -435,14 +435,13 @@ idata <- expand.idata(ID = seq(12), DOSE = 200, UNTIL = 2400)
 ```{r}
 #| fig-width: 8
 #| fig-height: 6
-mod <- mread("evtools-4.mod", outvars = "PD,CP,dose,ec50")
+mod <- mread("evtools-4.mod", outvars = "PK,PD,dose,ec50")
 
 set.seed(12345)
 
 out <- mrgsim(
   mod, 
   idata = idata, 
-  carry_out = "dose_start = DOSE",
   end = 8*168
 )
 ```
@@ -460,20 +459,25 @@ EC50, from lowest to highest.
 First, concentration versus time
 
 ```{r}
-ggplot(out, aes(time, CP, col = ec50)) + 
+#| fig-height: 5.5
+ggplot(out, aes(time, PK, col = ec50)) + 
   geom_line() + facet_wrap(~ec50)
 ```
 
-Next, pharmacodynamics versus time
+Next, pharmacodynamics versus time; remember, we're trying to keep the 
+predose response above 3,000 
 
 ```{r}
+#| fig-height: 5.5
 ggplot(out, aes(time, PD, col = ec50)) + 
+  geom_hline(yintercept = 3000, lty = 2) + 
   geom_line() + facet_wrap(~ec50)
 ```
 
 Finally, the current dose versus time
 
 ```{r}
+#| fig-height: 5.5
 ggplot(out, aes(time, dose, col = ec50)) + 
   geom_line() + facet_wrap(~ec50) + ylim(0, NA)
 ```
@@ -488,11 +492,13 @@ out %>% group_by(ID) %>% slice(n()) %>% ungroup() %>% arrange(ec50)
 
 ## Dynamic change in dosing interval
 
-Model `evtools-5.mod` gives an example of dynamically changing the dose
-interval using `evt::regmen`.
+Model `evtools-5.mod` gives an example of dynamically changing the dose interval
+using `evt::regmen`. When we've done dynamic dosing in the past, it was always
+pretty easy to change the _dose_ during the simulation, maybe through the
+bioavailability parameter. But changing the interval seemed impossible ... until
+now.
 
-In this last example, we'll change the dosing interval over the course of the
-simulation. To start, dosing will be every 24 hours. Then, the dosing interval
+To start, doses will be administered every 24 hours. Then, the dosing interval
 will be cut in half (every 12 hours) while doubling the dose amount; this will
 happen after the first week of dosing.
 
@@ -501,7 +507,7 @@ happen after the first week of dosing.
 $ERROR
 if(evt::near(TIME, 168.0) && EVID > 0) {
   reg.ii(12);
-  reg.amt(DOSE/2);
+  reg.amt(DOSE/2.0);
 }
 ```
 
@@ -523,8 +529,8 @@ if(evt::near(TIME, 168) && EVID > 0) {
 }
 
 if(evt::near(TIME, 300) && EVID > 0) {
-  reg.ii(reg.ii()*4.0);
-  reg.amt(reg.amt()*4.0);
+  reg.ii(reg.ii()*4);
+  reg.amt(reg.amt()*4);
 }
 ```
 
@@ -614,7 +620,7 @@ if(TIME==14.2 && EVID==0) <give a dose>;
 But passed in a time vector of 
 
 ```{r}
-seq(0,24,1)
+seq(0, 24, 1)
 ```
 
 In this case, the model _will not stop_ at 14.2 hours because we only have whole
