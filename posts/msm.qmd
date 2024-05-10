@@ -183,7 +183,7 @@ est <- exp(fit$par)
 
 names(est) <- tnames
 
-est
+est %>% sort()
 
-exp(cav.msm$estimates)
+exp(cav.msm$estimates) %>% sort()
 ```
