@@ -24,11 +24,14 @@ library(minqa)
 options(pillar.width = Inf)
 ```
 
-We'll estimate a multi-state model using the `cav` data from the msm package
+We'll estimate a multi-state model using the `cav` data from the msm package 
+using both msm and mrgsolve.
 
 ```{r}
 statetable.msm(state, PTNUM, data=cav)
 ```
+
+## Fit the model with msm
 
 We'll use this transition matrix
 
