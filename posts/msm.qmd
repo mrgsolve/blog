@@ -57,6 +57,11 @@ cav.msm <- msm(
 cav.msm
 ```
 
+```{r}
+plot(cav.msm)
+```
+
+
 ## Now use mrgsolve
 
 ### Set up
