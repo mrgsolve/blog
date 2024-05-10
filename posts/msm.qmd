@@ -1,19 +1,48 @@
+---
+title: "Estimate multi-state model with mrgsolve"
+author: Kyle Baron
+date: 05-10-2024
+categories:
+- example
+- draft
+---
+
+
+# Introduction 
+
+This post shows how you can fit a multi-state model with mrgsolve. The post is 
+still in draft mode, but I'm pushing it out to the blog in order to share it 
+with someone who was asking about it. 
+
+```{r}
+#| message: false
+#| warning: false
 library(msm)
 library(mrgsolve)
 library(dplyr)
 library(minqa)
-
 options(pillar.width = Inf)
+```
 
+We'll estimate a multi-state model using the `cav` data from the msm package
+
+```{r}
 statetable.msm(state, PTNUM, data=cav)
+```
 
+We'll use this transition matrix
+
+```{r}
 qq <- rbind(
   c(0, 0.25, 0, 0.25), 
   c(0.166, 0, 0.166, 0.166),
   c(0, 0.25, 0, 0.25), 
   c(0, 0, 0, 0)
 )
+qq
+```
 
+```{r}
 cav.msm <- msm(
   state ~ years, 
   subject = PTNUM, 
@@ -23,12 +52,26 @@ cav.msm <- msm(
 )
 
 cav.msm
+```
 
+## Now use mrgsolve
+
+### Set up
+
+Modify the data to use with mrgsolve
+
+```{r}
 data <- rename(
   as_tibble(cav), 
   ID = PTNUM, 
   time = years
 ) 
+```
+
+
+Set up a model with the four states
+
+```{r}
 
 code <- '
 $CMT A1 A2 A3 A4
@@ -87,7 +130,17 @@ if(EVID==0) {
 
 $CAPTURE Y
 '
+```
 
+The key to this model is the `resetCMT()` function, which will reset all 
+compartments to `0` when there is a transition and then initialize the appropriate
+compartment with a `1`. 
+
+### Fit
+
+Load the model and set up for estimation
+
+```{r}
 mod <- mcode("msm", code)
 
 theta <- as.numeric(param(mod))
@@ -101,15 +154,36 @@ pred <- function(p, data) {
   out <- mrgsim_q(mod, data)
   -2*sum(log(out$Y))
 }
+```
 
+Fit the model
+
+```{r}
 fit <- newuoa(
   par = log(theta), 
   fn = pred, 
   data = data, 
   control = list(iprint = 0)
 )
+```
 
+### Compare
+
+Compare Objective function value
+
+```{r}
+fit$fval
+cav.msm$minus2loglik
+```
+
+Compare estimates
+
+```{r}
 est <- exp(fit$par)
+
 names(est) <- tnames
 
 est
+
+exp(cav.msm$estimates)
+```
