@@ -8,9 +8,9 @@
 
 <meta name="author" content="Kyle Baron">
 <meta name="dcterms.date" content="2024-07-26">
-<meta name="description" content="mrgsolve version 1.5.2 was released to CRAN in July, 2024. This release features new functions to write a model back to a file in either yaml format or native mrgsolve.">
+<meta name="description" content="mrgsolve version 1.5.1 was released to CRAN in July, 2024. This release features new functions to write a model back to a file in either yaml format or native mrgsolve.">
 
-<title>New in version 1.5.2 – mrgsolve/blog</title>
+<title>New in version 1.5.1 – mrgsolve/blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -122,12 +122,12 @@ background: #097f5f;
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="New in version 1.5.2 – mrgsolve/blog">
-<meta property="og:description" content="mrgsolve version 1.5.2 was released to CRAN in July, 2024. This release features new functions to write a model back to a file in either yaml format or native mrgsolve.">
+<meta property="og:title" content="New in version 1.5.1 – mrgsolve/blog">
+<meta property="og:description" content="mrgsolve version 1.5.1 was released to CRAN in July, 2024. This release features new functions to write a model back to a file in either yaml format or native mrgsolve.">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta property="og:site_name" content="mrgsolve/blog">
-<meta name="twitter:title" content="New in version 1.5.2 – mrgsolve/blog">
-<meta name="twitter:description" content="mrgsolve version 1.5.2 was released to CRAN in July, 2024. This release features new functions to write a model back to a file in either yaml format or native mrgsolve.">
+<meta name="twitter:title" content="New in version 1.5.1 – mrgsolve/blog">
+<meta name="twitter:description" content="mrgsolve version 1.5.1 was released to CRAN in July, 2024. This release features new functions to write a model back to a file in either yaml format or native mrgsolve.">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -230,10 +230,10 @@ background: #097f5f;
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">New in version 1.5.2</h1>
+      <h1 class="title">New in version 1.5.1</h1>
                   <div>
         <div class="description">
-          <p>mrgsolve version 1.5.2 was released to CRAN in July, 2024. This release features new functions to write a model back to a file in either yaml format or native mrgsolve.</p>
+          <p>mrgsolve version 1.5.1 was released to CRAN in July, 2024. This release features new functions to write a model back to a file in either yaml format or native mrgsolve.</p>
         </div>
       </div>
                           <div class="quarto-categories">
@@ -293,7 +293,7 @@ background: #097f5f;
 
 <section id="mwrite" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="mwrite"><span class="header-section-number">1</span> mwrite</h2>
-<p>mrgsolve has used <code>mread()</code> since the start to <em>read</em>, parse, and compile a model. The 1.5.2 release introduces functions to <em>write</em> the resulting model back to a file.</p>
+<p>mrgsolve has used <code>mread()</code> since the start to <em>read</em>, parse, and compile a model. The 1.5.1 release introduces functions to <em>write</em> the resulting model back to a file.</p>
 <p>Let’s illustrate with a model from the model library inside the mrgsolve package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
@@ -327,7 +327,7 @@ run = "@cppstem"</code></pre>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">outvars  =</span> <span class="st">"IPRED"</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This model is now set up for my simulations and I want to save this model back to a file. With mrgsolve 1.5.2, we can write the model back to a file with <code>mwrite_yaml()</code> (yaml structured code) or <code>mwrite_cpp()</code> (native’ mrgsolve format).</p>
+<p>This model is now set up for my simulations and I want to save this model back to a file. With mrgsolve 1.5.1, we can write the model back to a file with <code>mwrite_yaml()</code> (yaml structured code) or <code>mwrite_cpp()</code> (native’ mrgsolve format).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mwrite_yaml</span>(mod, <span class="at">file =</span> <span class="st">"1005-updated.mod"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -468,8 +468,8 @@ See the code in yaml format
 
 ---------------  source: updated.mod  ---------------
 
-  project: /private/var/fol.../T/Rtmp8PSjnL
-  shared object: updated.mod-so-fdde5d29faf0 
+  project: /private/var/fol.../T/RtmpStWN4k
+  shared object: updated.mod-so-11677157d048b 
 
   time:          start: 0 end: 168 delta: 1
                  add: &lt;none&gt;
@@ -509,7 +509,7 @@ See the code in yaml format
 </section>
 <section id="addition-to-evtools-plugin" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="addition-to-evtools-plugin"><span class="header-section-number">2</span> Addition to <code>evtools</code> plugin</h2>
-<p>The 1.5.2 mrgsolve release also adds a new function to the <code>evtools</code> plugin that allows you to <em>replace</em> the amount in a specific compartment with a new amount. The function is <code>evt::replace()</code> and it works just like <code>evt::bolus()</code> but the compartment is zeroed-out before putting the new “dose” into the compartment.</p>
+<p>The 1.5.1 mrgsolve release also adds a new function to the <code>evtools</code> plugin that allows you to <em>replace</em> the amount in a specific compartment with a new amount. The function is <code>evt::replace()</code> and it works just like <code>evt::bolus()</code> but the compartment is zeroed-out before putting the new “dose” into the compartment.</p>
 <p>The replace functionality uses <code>EVID = 8</code> that mrgsolve already knows how to handle in event objects and data sets. The addition to the <code>evtools</code> plugin allows you to easily access this functionality from within your model. To zero-out the first compartment and reset the second compartment to 100 at 24 hours into the simulation, the code might look like this</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>$PLUGIN evtools</span>
@@ -557,7 +557,7 @@ See the code in yaml format
 2  2    0 200   1    1</code></pre>
 </div>
 </div>
-<p>The 1.5.2 release gives you more flexibility in combining objects. If you have objects with lower and upper case names, mrgsolve will follow the pattern in the first object</p>
+<p>The 1.5.1 release gives you more flexibility in combining objects. If you have objects with lower and upper case names, mrgsolve will follow the pattern in the first object</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_data_set</span>(e1, e3, e2, e4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -568,7 +568,7 @@ See the code in yaml format
 4  4    0 200   1    1</code></pre>
 </div>
 </div>
-<p>The 1.5.2 release also lets you combine data frames or a mixture of data frame and event objects</p>
+<p>The 1.5.1 release also lets you combine data frames or a mixture of data frame and event objects</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(e1, <span class="at">amt =</span> <span class="dv">600</span>) <span class="sc">%&gt;%</span> <span class="fu">ev_rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(e3, <span class="at">amt =</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span> <span class="fu">ev_rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
@@ -590,7 +590,7 @@ See the code in yaml format
 <section id="nm-vars-convenience-functions" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="nm-vars-convenience-functions"><span class="header-section-number">4</span> nm-vars convenience functions</h2>
 <p>The <code>nm-vars</code> plugin gives you syntax in your mrgsolve model that is similar to what you can use in your NONMEM model. Using this plugin makes it much easier to translate between the two formats.</p>
-<p>New in 1.5.2, we have aliases for additional functions</p>
+<p>New in 1.5.1, we have aliases for additional functions</p>
 <ul>
 <li><code>DEXP()</code></li>
 <li><code>LOG10()</code></li>

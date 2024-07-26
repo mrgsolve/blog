@@ -1,9 +1,9 @@
 ---
-title: "New in version 1.5.2"
+title: "New in version 1.5.1"
 author: Kyle Baron
 date: 7/26/2024
 description: > 
-  mrgsolve version 1.5.2 was released to CRAN in July, 2024. This release 
+  mrgsolve version 1.5.1 was released to CRAN in July, 2024. This release 
   features new functions to write a model back to a file in either yaml format
   or native mrgsolve. 
 categories:
@@ -20,7 +20,7 @@ editor_options:
 ## mwrite
 
 mrgsolve has used `mread()` since the start to _read_, parse, and compile a
-model. The 1.5.2 release introduces functions to _write_ the resulting model 
+model. The 1.5.1 release introduces functions to _write_ the resulting model 
 back to a file. 
 
 
@@ -64,7 +64,7 @@ mod <- update(
 ```
 
 This model is now set up for my simulations and I want to save this model 
-back to a file. With mrgsolve 1.5.2, we can write the model back to a file 
+back to a file. With mrgsolve 1.5.1, we can write the model back to a file 
 with `mwrite_yaml()` (yaml structured code) or `mwrite_cpp()` (native'
 mrgsolve format). 
 
@@ -126,7 +126,7 @@ print(basename(x))
 
 ## Addition to `evtools` plugin
 
-The 1.5.2 mrgsolve release also adds a new function to the `evtools` plugin 
+The 1.5.1 mrgsolve release also adds a new function to the `evtools` plugin 
 that allows you to _replace_ the amount in a specific compartment with a new 
 amount. The function is `evt::replace()` and it works just like `evt::bolus()`
 but the compartment is zeroed-out before putting the new "dose" into the 
@@ -180,7 +180,7 @@ Or by calling `uctran()` on the result
 as_data_set(e1, e2) %>% uctran()
 ```
 
-The 1.5.2 release gives you more flexibility in combining objects. If you have 
+The 1.5.1 release gives you more flexibility in combining objects. If you have 
 objects with lower and upper case names, mrgsolve will follow the pattern 
 in the first object
 
@@ -188,7 +188,7 @@ in the first object
 as_data_set(e1, e3, e2, e4)
 ```
 
-The 1.5.2 release also lets you combine data frames or a mixture of data frame
+The 1.5.1 release also lets you combine data frames or a mixture of data frame
 and event objects
 
 ```{r}
@@ -204,7 +204,7 @@ The `nm-vars` plugin gives you syntax in your mrgsolve model that is similar
 to what you can use in your NONMEM model. Using this plugin makes it much 
 easier to translate between the two formats. 
 
-New in 1.5.2, we have aliases for additional functions
+New in 1.5.1, we have aliases for additional functions
 
 - `DEXP()`
 - `LOG10()`
