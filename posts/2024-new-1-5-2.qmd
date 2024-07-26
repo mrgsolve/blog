@@ -25,6 +25,7 @@ package.
 ```{r}
 #| message: false
 library(mrgsolve)
+library(dplyr)
 
 mod <- modlib("1005")
 ```
@@ -186,8 +187,8 @@ The 1.5.2 release also lets you combine data frames or a mixture of data frame
 and event objects
 
 ```{r}
-d1 <- ev_rep(e1, 1:2)
-d3 <- ev_rep(e3, 1:4)
+d1 <- ev_rep(e1, 1:2) %>% mutate(amt = 600)
+d3 <- ev_rep(e3, 1:4) %>% mutate(amt = 50)
 
 as_data_set(d3, e3, e4, d1)
 ```
