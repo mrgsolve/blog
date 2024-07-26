@@ -19,7 +19,8 @@ model. The 1.5.2 release introduces functions to _write_ the resulting model
 back to a file. 
 
 
-Let's illustrate with a model from mrgsolve's model library. 
+Let's illustrate with a model from the model library inside the mrgsolve 
+package. 
 
 ```{r}
 #| message: false
@@ -181,7 +182,7 @@ in the first object
 as_data_set(e1, e3, e2, e4)
 ```
 
-The 1.5.2 rlease also lets you combine data frames or a mixture of data frame
+The 1.5.2 release also lets you combine data frames or a mixture of data frame
 and event objects
 
 ```{r}

@@ -289,7 +289,7 @@ background: #097f5f;
 <section id="mwrite" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="mwrite"><span class="header-section-number">1</span> mwrite</h2>
 <p>mrgsolve has used <code>mread()</code> since the start to <em>read</em>, parse, and compile a model. The 1.5.2 release introduces functions to <em>write</em> the resulting model back to a file.</p>
-<p>Let’s illustrate with a model from mrgsolve’s model library.</p>
+<p>Let’s illustrate with a model from the model library inside the mrgsolve package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -462,8 +462,8 @@ See the code in yaml format
 
 ---------------  source: updated.mod  ---------------
 
-  project: /private/var/fol.../T/Rtmp5hSiLF
-  shared object: updated.mod-so-d52a62186320 
+  project: /private/var/fol.../T/RtmpBeZ4eF
+  shared object: updated.mod-so-db914c740eef 
 
   time:          start: 0 end: 168 delta: 1
                  add: &lt;none&gt;
@@ -562,7 +562,7 @@ See the code in yaml format
 4  4    0 200   1    1</code></pre>
 </div>
 </div>
-<p>The 1.5.2 rlease also lets you combine data frames or a mixture of data frame and event objects</p>
+<p>The 1.5.2 release also lets you combine data frames or a mixture of data frame and event objects</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">ev_rep</span>(e1, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> <span class="fu">ev_rep</span>(e3, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
