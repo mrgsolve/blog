@@ -8,6 +8,9 @@ description: >
   or native mrgsolve. 
 categories:
 - mwrite
+- evtools
+- pkmodel
+- data set
 editor_options: 
   chunk_output_type: console
 ---
