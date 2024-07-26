@@ -9,6 +9,7 @@ description: >
 categories:
 - mwrite
 - evtools
+- dynamic-dosing
 - pkmodel
 - data set
 - new release
