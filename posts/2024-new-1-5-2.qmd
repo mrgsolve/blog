@@ -11,6 +11,7 @@ categories:
 - evtools
 - pkmodel
 - data set
+- new release
 editor_options: 
   chunk_output_type: console
 ---
