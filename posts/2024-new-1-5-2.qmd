@@ -187,8 +187,8 @@ The 1.5.2 release also lets you combine data frames or a mixture of data frame
 and event objects
 
 ```{r}
-d1 <- ev_rep(e1, 1:2) %>% mutate(amt = 600)
-d3 <- ev_rep(e3, 1:4) %>% mutate(amt = 50)
+d1 <- mutate(e1, amt = 600) %>% ev_rep(1:2)
+d3 <- mutate(e3, amt = 50) %>% ev_rep(1:4)
 
 as_data_set(d3, e3, e4, d1)
 ```
