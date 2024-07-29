@@ -14,6 +14,8 @@ This post shows how you can fit a multi-state model with mrgsolve. The post is
 still in draft mode, but I'm pushing it out to the blog in order to share it 
 with someone who was asking about it. 
 
+Updated July 29, 2024 to use mrgsolve 1.5.1.
+
 ```{r}
 #| message: false
 #| warning: false
@@ -100,13 +102,6 @@ firstobs = 0
 state = 1
 statemax = 1
 
-$GLOBAL
-void resetCMT(databox& self, const double amt, const int cmt) {
-  evt::ev x = evt::bolus(amt, cmt);
-  x.evid = 8;
-  self.push(x);
-}
-
 $MAIN 
 A1_0 = 1;
 A2_0 = 0; 
@@ -131,9 +126,9 @@ if(state==4 && EVID==0) {
 
 if(EVID==0) {
   for(int i = 1; i <= 4; ++i) {
-    resetCMT(self, 0, i);
+    evt::replace(self, 0, i);
   }
-  resetCMT(self, 1, state);
+  evt::replace(self, 1, state);
 }
 
 $CAPTURE Y
