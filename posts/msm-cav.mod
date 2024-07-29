@@ -23,14 +23,12 @@ A3_0 = 0;
 A4_0 = 0;
 
 $DES
-
 dxdt_A1 = -A1 * k12 + A2 * k21                       - A1 * k14;
 dxdt_A2 =  A1 * k12 - A2 * k21 - A2 * k23 + A3 * k32 - A2 * k24;
 dxdt_A3 =  A2 * k23 - A3 * k32                       - A3 * k34;
 dxdt_A4 =  A1 * k14 + A2 * k24 + A3 * k34;
 
 $ERROR
-
 if(state==1 && EVID==0) Y = A1;
 if(state==2 && EVID==0) Y = A2;
 if(state==3 && EVID==0) Y = A3;
