@@ -75,7 +75,6 @@ cav.msm
 plot(cav.msm)
 ```
 
-
 ## Now use mrgsolve
 
 ### Set up
@@ -142,7 +141,8 @@ fit$fval
 cav.msm$minus2loglik
 ```
 
-Compare estimates
+Compare estimates (there might be a naming issue on the `cav.msm` estimates, 
+but I think the values match up). 
 
 ```{r}
 est <- exp(fit$par)

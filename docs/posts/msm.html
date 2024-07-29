@@ -415,29 +415,26 @@ State 3 - State 4  0.30648 ( 0.23822, 0.39429)
 <span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>A4_0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>$DES</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="op">=</span> <span class="op">-</span>A1 <span class="op">*</span> k12 <span class="op">+</span> A2 <span class="op">*</span> k21                       <span class="op">-</span> A1 <span class="op">*</span> k14<span class="op">;</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="op">=</span>  A1 <span class="op">*</span> k12 <span class="op">-</span> A2 <span class="op">*</span> k21 <span class="op">-</span> A2 <span class="op">*</span> k23 <span class="op">+</span> A3 <span class="op">*</span> k32 <span class="op">-</span> A2 <span class="op">*</span> k24<span class="op">;</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>dxdt_A3 <span class="op">=</span>  A2 <span class="op">*</span> k23 <span class="op">-</span> A3 <span class="op">*</span> k32                       <span class="op">-</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>dxdt_A4 <span class="op">=</span>  A1 <span class="op">*</span> k14 <span class="op">+</span> A2 <span class="op">*</span> k24 <span class="op">+</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A1<span class="op">;</span></span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">2</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A2<span class="op">;</span></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">3</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A3<span class="op">;</span></span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">4</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  Y <span class="op">=</span> A1 <span class="op">*</span> k14 <span class="op">+</span> A2 <span class="op">*</span> k24 <span class="op">+</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">4</span><span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    evt<span class="op">::</span>replace<span class="op">(</span>self<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> i<span class="op">);</span></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>replace<span class="op">(</span>self<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> state<span class="op">);</span></span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>$CAPTURE Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="op">=</span> <span class="op">-</span>A1 <span class="op">*</span> k12 <span class="op">+</span> A2 <span class="op">*</span> k21 <span class="op">-</span> A1 <span class="op">*</span> k14<span class="op">;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="op">=</span>  A1 <span class="op">*</span> k12 <span class="op">-</span> A2 <span class="op">*</span> k21 <span class="op">-</span> A2 <span class="op">*</span> k23 <span class="op">+</span> A3 <span class="op">*</span> k32 <span class="op">-</span> A2 <span class="op">*</span> k24<span class="op">;</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>dxdt_A3 <span class="op">=</span>  A2 <span class="op">*</span> k23 <span class="op">-</span> A3 <span class="op">*</span> k32 <span class="op">-</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>dxdt_A4 <span class="op">=</span>  A1 <span class="op">*</span> k14 <span class="op">+</span> A2 <span class="op">*</span> k24 <span class="op">+</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A1<span class="op">;</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">2</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A2<span class="op">;</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">3</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A3<span class="op">;</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">4</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  Y <span class="op">=</span> A1 <span class="op">*</span> k14 <span class="op">+</span> A2 <span class="op">*</span> k24 <span class="op">+</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">4</span><span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    evt<span class="op">::</span>replace<span class="op">(</span>self<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> i<span class="op">);</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>replace<span class="op">(</span>self<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> state<span class="op">);</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>$CAPTURE Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>The key to this model is the <code>evt::replace()</code> function, which will reset all compartments to <code>0</code> when there is a transition and then initialize the appropriate compartment with a <code>1</code>. This is available in the <code>evtools</code> plugin starting with mrgsolve 1.5.1.</p>
@@ -485,7 +482,7 @@ State 3 - State 4  0.30648 ( 0.23822, 0.39429)
 <pre><code>[1] 3968.798</code></pre>
 </div>
 </div>
-<p>Compare estimates</p>
+<p>Compare estimates (there might be a naming issue on the <code>cav.msm</code> estimates, but I think the values match up).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">exp</span>(fit<span class="sc">$</span>par)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
