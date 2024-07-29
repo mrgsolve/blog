@@ -289,7 +289,7 @@ background: #097f5f;
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>This post shows how you can fit a multi-state model with mrgsolve. The post is still in draft mode, but I’m pushing it out to the blog in order to share it with someone who was asking about it.</p>
-<p>Updated July 29, 2024 to use mrgsolve 1.5.1 which introduces a <code>replace()</code> function in the <code>evt</code> namespace (see the <a href="https://mrgsolve.org/user-guide/plugins.html#sec-plugin-evtools">evtools</a> plugin). The <code>evt::replace()</code> syntax is just like <code>evt::bolus()</code>, but we replace the the amount in the indicated compartment, rather than adding to it. This utilizes <code>EVID = 8</code>, a long-standing feature in mrgsolve which is only available to be called from <em>within</em> your model starting with 1.5.1.</p>
+<p>Updated July 29, 2024 to use mrgsolve 1.5.1 which introduces a <code>replace()</code> function in the <code>evt</code> namespace (see the <a href="https://mrgsolve.org/user-guide/plugins.html#sec-plugin-evtools">evtools</a> plugin). The <code>evt::replace()</code> syntax is just like <code>evt::bolus()</code>, but we replace the the amount in the indicated compartment, rather than adding to it. This utilizes <code>EVID = 8</code>, a long-standing feature in mrgsolve, which can conveniently be called from <em>within</em> your model starting with 1.5.1.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(msm)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
@@ -440,7 +440,7 @@ State 3 - State 4  0.30648 ( 0.23822, 0.39429)
 <span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>$CAPTURE Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>The key to this model is the <code>evt::replace</code> function, which will reset all compartments to <code>0</code> when there is a transition and then initialize the appropriate compartment with a <code>1</code>. This is available in the <code>evtools</code> plugin starting with mrgsolve 1.5.1.</p>
+<p>The key to this model is the <code>evt::replace()</code> function, which will reset all compartments to <code>0</code> when there is a transition and then initialize the appropriate compartment with a <code>1</code>. This is available in the <code>evtools</code> plugin starting with mrgsolve 1.5.1.</p>
 </section>
 <section id="fit" class="level3" data-number="1.2.2">
 <h3 data-number="1.2.2" class="anchored" data-anchor-id="fit"><span class="header-section-number">1.2.2</span> Fit</h3>

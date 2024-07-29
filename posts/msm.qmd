@@ -18,7 +18,7 @@ Updated July 29, 2024 to use mrgsolve 1.5.1 which introduces a `replace()`
 function in the `evt` namespace (see the [evtools](https://mrgsolve.org/user-guide/plugins.html#sec-plugin-evtools) plugin). 
 The `evt::replace()` syntax is just like `evt::bolus()`, but we replace the
 the amount in the indicated compartment, rather than adding to it. This utilizes
-`EVID = 8`, a long-standing feature in mrgsolve which is only available to be
+`EVID = 8`, a long-standing feature in mrgsolve, which can conveniently be 
 called from _within_ your model starting with 1.5.1. 
 
 
@@ -97,7 +97,7 @@ Set up a model with the four states
 
 ```
 
-The key to this model is the `evt::replace` function, which will reset all 
+The key to this model is the `evt::replace()` function, which will reset all 
 compartments to `0` when there is a transition and then initialize the appropriate
 compartment with a `1`. This is available in the `evtools` plugin starting with 
 mrgsolve 1.5.1. 
