@@ -42,7 +42,7 @@ statetable.msm(state, PTNUM, data=cav)
 The `cav` data is a "series of approximately yearly angiographic examinations of 
 heart transplant recipients. The state at each time is a grade of cardiac 
 allograft vasculopathy (CAV), a deterioration of the arterial walls." 
-((link)[https://chjackson.github.io/msm/reference/cav.html]). 
+([link](https://chjackson.github.io/msm/reference/cav.html)). 
 
 
 ## Fit the model with msm
