@@ -14,7 +14,13 @@ This post shows how you can fit a multi-state model with mrgsolve. The post is
 still in draft mode, but I'm pushing it out to the blog in order to share it 
 with someone who was asking about it. 
 
-Updated July 29, 2024 to use mrgsolve 1.5.1.
+Updated July 29, 2024 to use mrgsolve 1.5.1 which introduces a `replace()` 
+function in the `evt` namespace (see the [evtools](https://mrgsolve.org/user-guide/plugins.html#sec-plugin-evtools) plugin). 
+The `evt::replace()` syntax is just like `evt::bolus()`, but we replace the
+the amount in the indicated compartment, rather than adding to it. This utilizes
+`EVID = 8`, a long-standing feature in mrgsolve which is only available to be
+called from _within_ your model starting with 1.5.1. 
+
 
 ```{r}
 #| message: false
@@ -32,6 +38,12 @@ using both msm and mrgsolve.
 ```{r}
 statetable.msm(state, PTNUM, data=cav)
 ```
+
+The `cav` data is a "series of approximately yearly angiographic examinations of 
+heart transplant recipients. The state at each time is a grade of cardiac 
+allograft vasculopathy (CAV), a deterioration of the arterial walls." 
+((link)[https://chjackson.github.io/msm/reference/cav.html]). 
+
 
 ## Fit the model with msm
 
@@ -81,70 +93,21 @@ data <- rename(
 
 Set up a model with the four states
 
-```{r}
+```{c, code = readLines("msm-cav.mod"), eval = FALSE, filename="msm-cav.mod"}
 
-code <- '
-$CMT A1 A2 A3 A4
-
-$PLUGIN autodec evtools
-
-$PARAM
-k12 = 0.1/2 
-k21 = 0.1/2
-k23 = 0.1/2
-k32 = 0.1/2
-k14 = 0.1/2
-k24 = 0.1/2
-k34 = 0.1/2
-
-$INPUT 
-firstobs = 0
-state = 1
-statemax = 1
-
-$MAIN 
-A1_0 = 1;
-A2_0 = 0; 
-A3_0 = 0; 
-A4_0 = 0;
-
-$DES
-
-dxdt_A1 = -A1 * k12 + A2 * k21                       - A1 * k14;
-dxdt_A2 =  A1 * k12 - A2 * k21 - A2 * k23 + A3 * k32 - A2 * k24;
-dxdt_A3 =  A2 * k23 - A3 * k32                       - A3 * k34;
-dxdt_A4 =  A1 * k14 + A2 * k24 + A3 * k34;
-
-$ERROR
-
-if(state==1 && EVID==0) Y = A1;
-if(state==2 && EVID==0) Y = A2;
-if(state==3 && EVID==0) Y = A3;
-if(state==4 && EVID==0) {
-  Y = A1 * k14 + A2 * k24 + A3 * k34;
-}
-
-if(EVID==0) {
-  for(int i = 1; i <= 4; ++i) {
-    evt::replace(self, 0, i);
-  }
-  evt::replace(self, 1, state);
-}
-
-$CAPTURE Y
-'
 ```
 
-The key to this model is the `resetCMT()` function, which will reset all 
+The key to this model is the `evt::replace` function, which will reset all 
 compartments to `0` when there is a transition and then initialize the appropriate
-compartment with a `1`. 
+compartment with a `1`. This is available in the `evtools` plugin starting with 
+mrgsolve 1.5.1. 
 
 ### Fit
 
 Load the model and set up for estimation
 
 ```{r}
-mod <- mcode("msm", code)
+mod <- mread("msm-cav.mod")
 
 theta <- as.numeric(param(mod))
 theta <- theta[grep("^k", names(theta))]
