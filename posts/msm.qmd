@@ -16,12 +16,13 @@ This post shows how you can fit a multi-state model with mrgsolve. The post is
 still in draft mode, but I'm pushing it out to the blog in order to share it 
 with someone who was asking about it. 
 
-Updated July 29, 2024 to use mrgsolve 1.5.1 which introduces a `replace()` 
-function in the `evt` namespace (see the [evtools](https://mrgsolve.org/user-guide/plugins.html#sec-plugin-evtools) plugin). 
-The `evt::replace()` syntax is just like `evt::bolus()`, but we replace the
-the amount in the indicated compartment, rather than adding to it. This utilizes
-`EVID = 8`, a long-standing feature in mrgsolve, which can conveniently be 
-called from _within_ your model starting with 1.5.1. 
+Updated July 29, 2024 to use mrgsolve 1.5.1 which introduces a `replace()`
+function in the `evt` namespace (see the
+[evtools](https://mrgsolve.org/user-guide/plugins.html#sec-plugin-evtools)
+plugin). The `evt::replace()` syntax is just like `evt::bolus()`, but we replace
+the the amount in the indicated compartment, rather than adding to it. This
+utilizes `EVID = 8`, a long-standing feature in mrgsolve, which can be
+conveniently called from _within_ your model starting with 1.5.1.
 
 
 ```{r}
@@ -37,14 +38,15 @@ options(pillar.width = Inf)
 We'll estimate a multi-state model using the `cav` data from the msm package 
 using both msm and mrgsolve.
 
-```{r}
-statetable.msm(state, PTNUM, data=cav)
-```
-
 The `cav` data is a "series of approximately yearly angiographic examinations of 
 heart transplant recipients. The state at each time is a grade of cardiac 
 allograft vasculopathy (CAV), a deterioration of the arterial walls." 
 ([link](https://chjackson.github.io/msm/reference/cav.html)). 
+
+
+```{r}
+statetable.msm(state, PTNUM, data=cav)
+```
 
 There are four states in the CAV data set
 
@@ -90,7 +92,7 @@ plot(cav.msm)
 
 ## Now use mrgsolve
 
-### Set up
+### Data
 
 Modify the data to use with mrgsolve, adding columns for `ID` and `TIME`
 
@@ -102,6 +104,7 @@ data <- rename(
 ) 
 ```
 
+### Model
 
 Set up a model with the four states
 
@@ -154,7 +157,7 @@ fit <- newuoa(
 )
 ```
 
-### Compare
+## Compare msm and mrgsolve fits
 
 The objective function values for the msm and mrgsolve fits are similar
 
