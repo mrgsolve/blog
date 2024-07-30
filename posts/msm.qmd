@@ -3,6 +3,8 @@ title: "Estimate multi-state model with mrgsolve"
 author: Kyle Baron
 date: 05-10-2024
 categories:
+- evtools
+- msm
 - example
 - draft
 ---
@@ -44,6 +46,12 @@ heart transplant recipients. The state at each time is a grade of cardiac
 allograft vasculopathy (CAV), a deterioration of the arterial walls." 
 ([link](https://chjackson.github.io/msm/reference/cav.html)). 
 
+There are four states in the CAV data set
+
+1. No CAV
+1. Mild or moderate CAV
+1. Severe CAV
+1. Death
 
 ## Fit the model with msm
 
@@ -58,6 +66,9 @@ qq <- rbind(
 )
 qq
 ```
+Fit the model with `deathexact = 4`, indicating that `A4` is an absorbing 
+state whose time of entry is known exactly, but with unknown transient state
+just prior to death.
 
 ```{r}
 cav.msm <- msm(
@@ -71,6 +82,8 @@ cav.msm <- msm(
 cav.msm
 ```
 
+msm provides some visualization of the result
+
 ```{r}
 plot(cav.msm)
 ```
@@ -79,13 +92,13 @@ plot(cav.msm)
 
 ### Set up
 
-Modify the data to use with mrgsolve
+Modify the data to use with mrgsolve, adding columns for `ID` and `TIME`
 
 ```{r}
 data <- rename(
   as_tibble(cav), 
   ID = PTNUM, 
-  time = years
+  TIME = years
 ) 
 ```
 
@@ -107,11 +120,20 @@ Load the model and set up for estimation
 
 ```{r}
 mod <- mread("msm-cav.mod")
+```
 
+The initial estimates will be whatever we wrote into the model file
+
+```{r}
 theta <- as.numeric(param(mod))
 theta <- theta[grep("^k", names(theta))]
 tnames <- names(theta)
+```
 
+This function takes in a set of parameters and returns the -2 log-likelihood
+returned from the model. 
+
+```{r}
 pred <- function(p, data) {
   p <- lapply(p, exp)
   names(p) <- tnames
@@ -121,7 +143,7 @@ pred <- function(p, data) {
 }
 ```
 
-Fit the model
+Use `minqa::newuoa()` to fit the model
 
 ```{r}
 fit <- newuoa(
@@ -134,7 +156,7 @@ fit <- newuoa(
 
 ### Compare
 
-Compare Objective function value
+The objective function values for the msm and mrgsolve fits are similar
 
 ```{r}
 fit$fval

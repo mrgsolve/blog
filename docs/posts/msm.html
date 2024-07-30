@@ -231,6 +231,8 @@ background: #097f5f;
     <div class="quarto-title column-body">
       <h1 class="title">Estimate multi-state model with mrgsolve</h1>
                                 <div class="quarto-categories">
+                <div class="quarto-category">evtools</div>
+                <div class="quarto-category">msm</div>
                 <div class="quarto-category">example</div>
                 <div class="quarto-category">draft</div>
               </div>
@@ -309,6 +311,13 @@ from    1    2    3    4
 </div>
 </div>
 <p>The <code>cav</code> data is a “series of approximately yearly angiographic examinations of heart transplant recipients. The state at each time is a grade of cardiac allograft vasculopathy (CAV), a deterioration of the arterial walls.” (<a href="https://chjackson.github.io/msm/reference/cav.html">link</a>).</p>
+<p>There are four states in the CAV data set</p>
+<ol type="1">
+<li>No CAV</li>
+<li>Mild or moderate CAV</li>
+<li>Severe CAV</li>
+<li>Death</li>
+</ol>
 <section id="fit-the-model-with-msm" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="fit-the-model-with-msm"><span class="header-section-number">1.1</span> Fit the model with msm</h2>
 <p>We’ll use this transition matrix</p>
@@ -328,6 +337,7 @@ from    1    2    3    4
 [4,] 0.000 0.00 0.000 0.000</code></pre>
 </div>
 </div>
+<p>Fit the model with <code>deathexact = 4</code>, indicating that <code>A4</code> is an absorbing state whose time of entry is known exactly, but with unknown transient state just prior to death.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cav.msm <span class="ot">&lt;-</span> <span class="fu">msm</span>(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  state <span class="sc">~</span> years, </span>
@@ -361,6 +371,7 @@ State 3 - State 4  0.30648 ( 0.23822, 0.39429)
 -2 * log-likelihood:  3968.798 </code></pre>
 </div>
 </div>
+<p>msm provides some visualization of the result</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cav.msm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -376,12 +387,12 @@ State 3 - State 4  0.30648 ( 0.23822, 0.39429)
 <h2 data-number="1.2" class="anchored" data-anchor-id="now-use-mrgsolve"><span class="header-section-number">1.2</span> Now use mrgsolve</h2>
 <section id="set-up" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="set-up"><span class="header-section-number">1.2.1</span> Set up</h3>
-<p>Modify the data to use with mrgsolve</p>
+<p>Modify the data to use with mrgsolve, adding columns for <code>ID</code> and <code>TIME</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rename</span>(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(cav), </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> PTNUM, </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> years</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">TIME =</span> years</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Set up a model with the four states</p>
@@ -390,51 +401,52 @@ State 3 - State 4  0.30648 ( 0.23822, 0.39429)
 <div class="code-with-filename-file">
 <pre><strong>msm-cav.mod</strong></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>$CMT @number <span class="dv">4</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>$PLUGIN autodec evtools</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>$PLUGIN autodec evtools</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>$PARAM</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>k12 <span class="op">=</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>k21 <span class="op">=</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>k23 <span class="op">=</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>k32 <span class="op">=</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>k14 <span class="op">=</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>k24 <span class="op">=</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>k34 <span class="op">=</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>$INPUT</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>firstobs <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>state <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>statemax <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>$MAIN</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>A1_0 <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>A2_0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>A3_0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>A4_0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>$DES</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="op">=</span> <span class="op">-</span>A1 <span class="op">*</span> k12 <span class="op">+</span> A2 <span class="op">*</span> k21 <span class="op">-</span> A1 <span class="op">*</span> k14<span class="op">;</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="op">=</span>  A1 <span class="op">*</span> k12 <span class="op">-</span> A2 <span class="op">*</span> k21 <span class="op">-</span> A2 <span class="op">*</span> k23 <span class="op">+</span> A3 <span class="op">*</span> k32 <span class="op">-</span> A2 <span class="op">*</span> k24<span class="op">;</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>dxdt_A3 <span class="op">=</span>  A2 <span class="op">*</span> k23 <span class="op">-</span> A3 <span class="op">*</span> k32 <span class="op">-</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>dxdt_A4 <span class="op">=</span>  A1 <span class="op">*</span> k14 <span class="op">+</span> A2 <span class="op">*</span> k24 <span class="op">+</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A1<span class="op">;</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">2</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A2<span class="op">;</span></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">3</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A3<span class="op">;</span></span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">4</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  Y <span class="op">=</span> A1 <span class="op">*</span> k14 <span class="op">+</span> A2 <span class="op">*</span> k24 <span class="op">+</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">4</span><span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    evt<span class="op">::</span>replace<span class="op">(</span>self<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> i<span class="op">);</span></span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>replace<span class="op">(</span>self<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> state<span class="op">);</span></span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>$CAPTURE Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>$CMT @annotated</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>A1 <span class="op">:</span> <span class="dv">0</span> <span class="op">:</span> No CAV</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>A2 <span class="op">:</span> <span class="dv">0</span> <span class="op">:</span> Mild or moderate CAV</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>A3 <span class="op">:</span> <span class="dv">0</span> <span class="op">:</span> Severe CAV</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>A4 <span class="op">:</span> <span class="dv">0</span> <span class="op">:</span> Death</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>$PARAM @annotated</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>k12 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> None to mild or moderate</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>k21 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> Mild or moderate to none</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>k23 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> Mild or moderate to severe</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>k32 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> Severe to mild or moderate</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>k14 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> None to death</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>k24 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> Mild or moderate to death</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>k34 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> Severe to death</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>$INPUT</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>firstobs <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>state <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>statemax <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>$MAIN</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>A1_0 <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>$DES</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="op">=</span> <span class="op">-</span>A1 <span class="op">*</span> k12 <span class="op">+</span> A2 <span class="op">*</span> k21 <span class="op">-</span> A1 <span class="op">*</span> k14<span class="op">;</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="op">=</span>  A1 <span class="op">*</span> k12 <span class="op">-</span> A2 <span class="op">*</span> k21 <span class="op">-</span> A2 <span class="op">*</span> k23 <span class="op">+</span> A3 <span class="op">*</span> k32 <span class="op">-</span> A2 <span class="op">*</span> k24<span class="op">;</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>dxdt_A3 <span class="op">=</span>  A2 <span class="op">*</span> k23 <span class="op">-</span> A3 <span class="op">*</span> k32 <span class="op">-</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>dxdt_A4 <span class="op">=</span>  A1 <span class="op">*</span> k14 <span class="op">+</span> A2 <span class="op">*</span> k24 <span class="op">+</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A1<span class="op">;</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">2</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A2<span class="op">;</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">3</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> Y <span class="op">=</span> A3<span class="op">;</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>state<span class="op">==</span><span class="dv">4</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>  Y <span class="op">=</span> A1 <span class="op">*</span> k14 <span class="op">+</span> A2 <span class="op">*</span> k24 <span class="op">+</span> A3 <span class="op">*</span> k34<span class="op">;</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">4</span><span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    evt<span class="op">::</span>replace<span class="op">(</span>self<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> i<span class="op">);</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>replace<span class="op">(</span>self<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> state<span class="op">);</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>$CAPTURE Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>The key to this model is the <code>evt::replace()</code> function, which will reset all compartments to <code>0</code> when there is a transition and then initialize the appropriate compartment with a <code>1</code>. This is available in the <code>evtools</code> plugin starting with mrgsolve 1.5.1.</p>
@@ -447,53 +459,58 @@ State 3 - State 4  0.30648 ( 0.23822, 0.39429)
 <div class="cell-output cell-output-stderr">
 <pre><code>Building msm-cav_mod ... done.</code></pre>
 </div>
+</div>
+<p>The initial estimates will be whatever we wrote into the model file</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">param</span>(mod))</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> theta[<span class="fu">grep</span>(<span class="st">"^k"</span>, <span class="fu">names</span>(theta))]</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>tnames <span class="ot">&lt;-</span> <span class="fu">names</span>(theta)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="cf">function</span>(p, data) {</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">lapply</span>(p, exp)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(p) <span class="ot">&lt;-</span> tnames</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  mod <span class="ot">&lt;-</span> <span class="fu">param</span>(mod, p)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">mrgsim_q</span>(mod, data)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">sum</span>(<span class="fu">log</span>(out<span class="sc">$</span>Y))</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>tnames <span class="ot">&lt;-</span> <span class="fu">names</span>(theta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Fit the model</p>
+<p>This function takes in a set of parameters and returns the -2 log-likelihood returned from the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">newuoa</span>(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">par =</span> <span class="fu">log</span>(theta), </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fn =</span> pred, </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data, </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">iprint =</span> <span class="dv">0</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="cf">function</span>(p, data) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">lapply</span>(p, exp)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(p) <span class="ot">&lt;-</span> tnames</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  mod <span class="ot">&lt;-</span> <span class="fu">param</span>(mod, p)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">mrgsim_q</span>(mod, data)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">sum</span>(<span class="fu">log</span>(out<span class="sc">$</span>Y))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use <code>minqa::newuoa()</code> to fit the model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">newuoa</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">par =</span> <span class="fu">log</span>(theta), </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fn =</span> pred, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">iprint =</span> <span class="dv">0</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="compare" class="level3" data-number="1.2.3">
 <h3 data-number="1.2.3" class="anchored" data-anchor-id="compare"><span class="header-section-number">1.2.3</span> Compare</h3>
-<p>Compare Objective function value</p>
+<p>The objective function values for the msm and mrgsolve fits are similar</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>fval</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>fval</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3968.798</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cav.msm<span class="sc">$</span>minus2loglik</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cav.msm<span class="sc">$</span>minus2loglik</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3968.798</code></pre>
 </div>
 </div>
 <p>Compare estimates (there might be a naming issue on the <code>cav.msm</code> estimates, but I think the values match up).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">exp</span>(fit<span class="sc">$</span>par)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(est) <span class="ot">&lt;-</span> tnames</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>est <span class="sc">%&gt;%</span> <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">exp</span>(fit<span class="sc">$</span>par)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(est) <span class="ot">&lt;-</span> tnames</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>est <span class="sc">%&gt;%</span> <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       k24        k14        k12        k32        k21        k34        k23 
 0.04026564 0.04248537 0.12787425 0.13062398 0.22510175 0.30645998 0.34259602 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(cav.msm<span class="sc">$</span>estimates) <span class="sc">%&gt;%</span> <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(cav.msm<span class="sc">$</span>estimates) <span class="sc">%&gt;%</span> <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     qbase      qbase      qbase      qbase      qbase      qbase      qbase 
 0.04021023 0.04250042 0.12787033 0.13062235 0.22511913 0.30647512 0.34261129 </code></pre>

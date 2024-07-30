@@ -1,15 +1,19 @@
-$CMT @number 4
-
 $PLUGIN autodec evtools
 
-$PARAM
-k12 = 0.1/2
-k21 = 0.1/2
-k23 = 0.1/2
-k32 = 0.1/2
-k14 = 0.1/2
-k24 = 0.1/2
-k34 = 0.1/2
+$CMT @annotated
+A1 : 0 : No CAV
+A2 : 0 : Mild or moderate CAV
+A3 : 0 : Severe CAV
+A4 : 0 : Death
+
+$PARAM @annotated
+k12 : 0.1/2 : None to mild or moderate
+k21 : 0.1/2 : Mild or moderate to none
+k23 : 0.1/2 : Mild or moderate to severe
+k32 : 0.1/2 : Severe to mild or moderate
+k14 : 0.1/2 : None to death
+k24 : 0.1/2 : Mild or moderate to death
+k34 : 0.1/2 : Severe to death
 
 $INPUT
 firstobs = 0
@@ -18,9 +22,6 @@ statemax = 1
 
 $MAIN
 A1_0 = 1;
-A2_0 = 0;
-A3_0 = 0;
-A4_0 = 0;
 
 $DES
 dxdt_A1 = -A1 * k12 + A2 * k21 - A1 * k14;
