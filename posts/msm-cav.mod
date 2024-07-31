@@ -16,9 +16,7 @@ k24 : 0.1 : Mild or moderate to death
 k34 : 0.1 : Severe to death
 
 $INPUT
-firstobs = 0
 state = 1
-statemax = 1
 
 $PK
 A1_0 = 1;

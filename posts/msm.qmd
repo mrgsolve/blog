@@ -19,7 +19,7 @@ and then compare the results.
 
 Some references for the data and analysis include
 
-- Sharples, L. D., Jackson, C. H., Parameshwar, J., Wallwork, J. & Large, S. R. Diagnostic accuracy of coronary angiography and risk factors for post-heart-transplant cardiac allograft vasculopathy. Transplantation 76, 679–682 (2003). [[Link](https://journals.lww.com/transplantjournal/fulltext/2003/08270/diagnostic_accuracy_of_coronary_angiography_and.12.aspx)]
+- Sharples, L. D., Jackson, C. H., Parameshwar, J., Wallwork, J. & Large, S. R. Diagnostic accuracy of coronary angiography and risk factors for post-heart-transplant cardiac allograft vasculopathy. Transplantation 76, 679–682 (2003). [[Link](https://journals.lww.com/transplantjournal/fulltext/2003/08270/diagnostic_accuracy_of_coronary_angiography_and.12.aspx)] 
 
 - Jackson, C. H. Multi-State Models for Panel Data: The msm Package for R. J. Stat. Softw. 38, 1–28 (2011).
   [[Link](https://www.jstatsoft.org/article/view/v038i08)]
