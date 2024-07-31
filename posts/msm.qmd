@@ -14,7 +14,7 @@ categories:
 
 This post shows how you can fit a simple multi-state model with mrgsolve. We'll
 fit a model to the `cav` data from the msm package using both msm and mrgsolve
-and then compare the results.
+and then compare the results. 
 
 
 Some references for the data and analysis include
