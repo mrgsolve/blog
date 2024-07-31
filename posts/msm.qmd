@@ -100,22 +100,37 @@ Modify the data to use with mrgsolve, adding columns for `ID` and `TIME`
 data <- rename(
   as_tibble(cav), 
   ID = PTNUM, 
-  TIME = years
+  time = years
 ) 
 ```
 
-### Model
+The data set is really fairly simple
 
-Set up a model with the four states
+```{r}
+head(data, n = 4)
+```
+- The `state` column marks the state at the examination, ranging from 1 
+  (no CAV) to 4 (death)
+- Every subject starts in `state` 1
+- There are also some covariates that we won't use in this example
+
+You can also verify that there are no records in the data set to reset or dose
+into any compartment; we'll handle all of that from _inside_ the model.
+
+
+### Model 
+
+Set up a model with the four states 
 
 ```{c, code = readLines("msm-cav.mod"), eval = FALSE, filename="msm-cav.mod"}
 
 ```
 
-The key to this model is the `evt::replace()` function, which will reset all 
-compartments to `0` when there is a transition and then initialize the appropriate
-compartment with a `1`. This is available in the `evtools` plugin starting with 
-mrgsolve 1.5.1. 
+The key to this model is the `evt::replace()` function, which will reset all
+compartments to `0` when there is an examination and then initialize the
+appropriate compartment with a `1` based on the value of `state` in the data
+set. We do this with a simple `for` loop in C++. The `replace()` functionality
+is available in the `evtools` plugin starting with mrgsolve 1.5.1.
 
 ### Fit
 
@@ -159,7 +174,7 @@ fit <- newuoa(
 
 ## Compare msm and mrgsolve fits
 
-The objective function values for the msm and mrgsolve fits are similar
+The final objective function values for the msm and mrgsolve fits are similar
 
 ```{r}
 fit$fval

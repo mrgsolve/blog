@@ -20,7 +20,7 @@ firstobs = 0
 state = 1
 statemax = 1
 
-$MAIN
+$PK
 A1_0 = 1;
 
 $DES
