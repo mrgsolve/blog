@@ -248,7 +248,7 @@ data.frame(
   lower = exp(log(est) - 1.96*se), 
   upper = exp(log(est) + 1.96*se)
 )
-msm.cav
+msm.cav 
 ```
 ```
 

@@ -37,10 +37,10 @@ if(state==4 && EVID==0) {
   Y = A1 * k14 + A2 * k24 + A3 * k34;
 }
 if(EVID==0) {
-  for(int i = 1; i <= 4; ++i) {
-    evt::replace(self, 0, i);
+  for(int st = 1; st <= 4; ++st) {
+    evt::replace(self, 0, st);
   }
-  evt::replace(self, 1, state);
+  evt::bolus(self, 1, state);
 }
 
 $CAPTURE Y
