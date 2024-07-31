@@ -12,18 +12,43 @@ categories:
 
 # Introduction 
 
-This post shows how you can fit a multi-state model with mrgsolve. The post is 
-still in draft mode, but I'm pushing it out to the blog in order to share it 
-with someone who was asking about it. 
+This post shows how you can fit a simple multi-state model with mrgsolve. We'll
+fit a model to the `cav` data from the msm package using both msm and mrgsolve
+and then compare the results. Some references for the data and analysis include
 
-Updated July 29, 2024 to use mrgsolve 1.5.1 which introduces a `replace()`
+- Sharples, L. D., Jackson, C. H., Parameshwar, J., Wallwork, J. & Large, S. R. Diagnostic accuracy of coronary angiography and risk factors for post-heart-transplant cardiac allograft vasculopathy. Transplantation 76, 679–682 (2003). [[Link](https://journals.lww.com/transplantjournal/fulltext/2003/08270/diagnostic_accuracy_of_coronary_angiography_and.12.aspx)]
+
+- Jackson, C. H. Multi-State Models for Panel Data: The msm Package for R. J. Stat. Softw. 38, 1–28 (2011).
+  [[Link](https://www.jstatsoft.org/article/view/v038i08)]
+  
+- Multi-state modelling in R: the `msm` package [[Link](https://cran.r-project.org/web/packages/msm/vignettes/msm-manual.pdf)]
+
+
+::: {.callout-tip appearance="simple"}
+This post updated July 2024 to use mrgsolve 1.5.1 which introduces a `replace()`
 function in the `evt` namespace (see the
 [evtools](https://mrgsolve.org/user-guide/plugins.html#sec-plugin-evtools)
 plugin). The `evt::replace()` syntax is just like `evt::bolus()`, but we replace
 the the amount in the indicated compartment, rather than adding to it. This
 utilizes `EVID = 8`, a long-standing feature in mrgsolve, which can be
 conveniently called from _within_ your model starting with 1.5.1.
+:::
 
+
+The `cav` data is a "series of approximately yearly angiographic examinations of 
+heart transplant recipients. The state at each time is a grade of cardiac 
+allograft vasculopathy (CAV), a deterioration of the arterial walls." 
+([Link](https://chjackson.github.io/msm/reference/cav.html)). 
+
+
+There are four states in the CAV data set
+
+1. No CAV
+1. Mild or moderate CAV
+1. Severe CAV
+1. Death
+
+# Fit the model with msm
 
 ```{r}
 #| message: false
@@ -35,29 +60,16 @@ library(minqa)
 options(pillar.width = Inf)
 ```
 
-We'll estimate a multi-state model using the `cav` data from the msm package 
-using both msm and mrgsolve.
+## Transition matrix
 
-The `cav` data is a "series of approximately yearly angiographic examinations of 
-heart transplant recipients. The state at each time is a grade of cardiac 
-allograft vasculopathy (CAV), a deterioration of the arterial walls." 
-([link](https://chjackson.github.io/msm/reference/cav.html)). 
-
+The transitions in the data set look like
 
 ```{r}
 statetable.msm(state, PTNUM, data=cav)
 ```
 
-There are four states in the CAV data set
-
-1. No CAV
-1. Mild or moderate CAV
-1. Severe CAV
-1. Death
-
-## Fit the model with msm
-
-We'll use this transition matrix
+We'll follow the analysis presented by the msm package, using this transition
+matrix
 
 ```{r}
 qq <- rbind(
@@ -68,9 +80,18 @@ qq <- rbind(
 )
 qq
 ```
-Fit the model with `deathexact = 4`, indicating that `A4` is an absorbing 
-state whose time of entry is known exactly, but with unknown transient state
-just prior to death.
+
+This assumes that transitions between State 1 and State 3 must pass through
+State 2. 
+
+![Transitions for CAV model. Figure adapted from https://chjackson.github.io/msm/msmcourse/theory.html and Sharples et al. 2003](images/msm.png)
+
+
+## Call to fit the model
+
+Fit the model with `deathexact = 4`, indicating that 4 (death) is an
+absorbing state whose time of entry is known exactly, but with unknown transient
+state just prior to entering.
 
 ```{r}
 cav.msm <- msm(
@@ -84,15 +105,15 @@ cav.msm <- msm(
 cav.msm
 ```
 
-msm provides some visualization of the result
+The msm package provides some visualization of the result
 
 ```{r}
 plot(cav.msm)
 ```
 
-## Now use mrgsolve
+# Now use mrgsolve
 
-### Data
+## Data
 
 Modify the data to use with mrgsolve, adding columns for `ID` and `TIME`
 
@@ -118,7 +139,7 @@ You can also verify that there are no records in the data set to reset or dose
 into any compartment; we'll handle all of that from _inside_ the model.
 
 
-### Model 
+## Model 
 
 Set up a model with the four states 
 
@@ -132,11 +153,12 @@ appropriate compartment with a `1` based on the value of `state` in the data
 set. We do this with a simple `for` loop in C++. The `replace()` functionality
 is available in the `evtools` plugin starting with mrgsolve 1.5.1.
 
-### Fit
+## Call to fit the model
 
 Load the model and set up for estimation
 
 ```{r}
+#| message: false
 mod <- mread("msm-cav.mod")
 ```
 
@@ -172,7 +194,7 @@ fit <- newuoa(
 )
 ```
 
-## Compare msm and mrgsolve fits
+# Compare msm and mrgsolve fits
 
 The final objective function values for the msm and mrgsolve fits are similar
 
