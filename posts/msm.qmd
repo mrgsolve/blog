@@ -1,5 +1,5 @@
 ---
-title: "Estimate multi-state model with mrgsolve"
+title: "Estimate a multi-state model with mrgsolve"
 author: Kyle Baron
 date: 05-10-2024
 categories:
@@ -131,7 +131,7 @@ The data set is really fairly simple
 head(data, n = 4)
 ```
 - The `state` column marks the state at the examination, ranging from 1 
-  (no CAV) to 4 (death)
+  (no CAV) to 3 (severe CAV) as well as State 4 (death).
 - Every subject starts in `state` 1
 - There are also some covariates that we won't use in this example
 
