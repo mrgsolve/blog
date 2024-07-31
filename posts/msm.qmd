@@ -181,7 +181,7 @@ This function takes in a set of parameters and returns the -2 log-likelihood
 returned from the model. 
 
 ```{r}
-pred <- function(p, data) {
+ofv <- function(p, data) {
   p <- lapply(p, exp)
   names(p) <- tnames
   mod <- param(mod, p)
@@ -195,7 +195,7 @@ Use `minqa::newuoa()` to fit the model
 ```{r}
 fit <- newuoa(
   par = log(theta), 
-  fn = pred, 
+  fn = ofv, 
   data = data, 
   control = list(iprint = 1)
 )
