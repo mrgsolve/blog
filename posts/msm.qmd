@@ -89,7 +89,7 @@ qq
 This assumes that transitions between State 1 and State 3 must pass through
 State 2. 
 
-![Transitions for CAV model. Figure adapted from https://chjackson.github.io/msm/msmcourse/theory.html and Sharples et al. 2003.](images/msm.png){width=500}
+![Transitions for CAV model. Figure adapted from https://chjackson.github.io/msm/msmcourse/theory.html and Sharples et al. 2003.](images/msm.png){width=500} 
 
 
 ## Call to fit the model

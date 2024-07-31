@@ -28,17 +28,16 @@ dxdt_A3 =  A2 * k23 - A3 * k32 - A3 * k34;
 dxdt_A4 =  A1 * k14 + A2 * k24 + A3 * k34;
 
 $ERROR
-if(state==1 && EVID==0) Y = A1;
-if(state==2 && EVID==0) Y = A2;
-if(state==3 && EVID==0) Y = A3;
-if(state==4 && EVID==0) {
-  Y = A1 * k14 + A2 * k24 + A3 * k34;
+if(EVID != 0) return;
+
+if(state==1) Y = A1;
+if(state==2) Y = A2;
+if(state==3) Y = A3;
+if(state==4) Y = A1 * k14 + A2 * k24 + A3 * k34;
+
+for(int st = 1; st <= 4; ++st) {
+  evt::replace(self, 0, st);
 }
-if(EVID==0) {
-  for(int st = 1; st <= 4; ++st) {
-    evt::replace(self, 0, st);
-  }
-  evt::bolus(self, 1, state);
-}
+evt::bolus(self, 1, state);
 
 $CAPTURE Y
