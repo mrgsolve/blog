@@ -48,6 +48,8 @@ There are four states in the CAV data set
 1. Severe CAV
 1. Death
 
+The data set includes observations for 622 subjects. 
+
 # Fit the model with msm
 
 ```{r}
