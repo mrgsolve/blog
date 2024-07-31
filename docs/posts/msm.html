@@ -280,7 +280,7 @@ background: #097f5f;
   <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">3.2</span> Model</a></li>
   <li><a href="#call-to-fit-the-model-1" id="toc-call-to-fit-the-model-1" class="nav-link" data-scroll-target="#call-to-fit-the-model-1"><span class="header-section-number">3.3</span> Call to fit the model</a></li>
   </ul></li>
-  <li><a href="#compare-msm-and-mrgsolve-fits" id="toc-compare-msm-and-mrgsolve-fits" class="nav-link" data-scroll-target="#compare-msm-and-mrgsolve-fits"><span class="header-section-number">4</span> Compare msm and mrgsolve fits</a></li>
+  <li><a href="#compare-msm-and-mrgsolve-results" id="toc-compare-msm-and-mrgsolve-results" class="nav-link" data-scroll-target="#compare-msm-and-mrgsolve-results"><span class="header-section-number">4</span> Compare msm and mrgsolve results</a></li>
   </ul>
 </nav>
     </div>
@@ -463,13 +463,13 @@ State 3 - State 4  0.30648 ( 0.23822, 0.39429)
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>A4 <span class="op">:</span> <span class="dv">0</span> <span class="op">:</span> Death</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>$PARAM @annotated</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>k12 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> None to mild or moderate</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>k21 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> Mild or moderate to none</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>k23 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> Mild or moderate to severe</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>k32 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> Severe to mild or moderate</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>k14 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> None to death</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>k24 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> Mild or moderate to death</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>k34 <span class="op">:</span> <span class="fl">0.1</span><span class="op">/</span><span class="dv">2</span> <span class="op">:</span> Severe to death</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>k12 <span class="op">:</span> <span class="fl">0.1</span> <span class="op">:</span> None to mild or moderate</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>k21 <span class="op">:</span> <span class="fl">0.1</span> <span class="op">:</span> Mild or moderate to none</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>k23 <span class="op">:</span> <span class="fl">0.1</span> <span class="op">:</span> Mild or moderate to severe</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>k32 <span class="op">:</span> <span class="fl">0.1</span> <span class="op">:</span> Severe to mild or moderate</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>k14 <span class="op">:</span> <span class="fl">0.1</span> <span class="op">:</span> None to death</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>k24 <span class="op">:</span> <span class="fl">0.1</span> <span class="op">:</span> Mild or moderate to death</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>k34 <span class="op">:</span> <span class="fl">0.1</span> <span class="op">:</span> Severe to death</span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>$INPUT</span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>firstobs <span class="op">=</span> <span class="dv">0</span></span>
@@ -502,7 +502,7 @@ State 3 - State 4  0.30648 ( 0.23822, 0.39429)
 <span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>$CAPTURE Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>The key to this model is the <code>evt::replace()</code> function, which will reset all compartments to <code>0</code> when there is an examination and then initialize the appropriate compartment with a <code>1</code> based on the value of <code>state</code> in the data set. We do this with a simple <code>for</code> loop in C++. The <code>replace()</code> functionality is available in the <code>evtools</code> plugin starting with mrgsolve 1.5.1.</p>
+<p>The key to this model is the <code>evt::replace()</code> function, which will reset all compartments to <code>0</code> when there is an examination and then initialize the appropriate compartment with a <code>1</code> based on the value of <code>state</code> in the data set. We do this with a simple <code>for</code> loop in C++. The <code>replace()</code> functionality is available in the <code>evtools</code> plugin starting with mrgsolve 1.5.1. More on <a href="https://mrgsolve.org/user-guide/plugins.html#sec-plugin-evtools">evtools</a> in the mrgsolve user guide.</p>
 </section>
 <section id="call-to-fit-the-model-1" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="call-to-fit-the-model-1"><span class="header-section-number">3.3</span> Call to fit the model</h2>
@@ -532,41 +532,48 @@ State 3 - State 4  0.30648 ( 0.23822, 0.39429)
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">par =</span> <span class="fu">log</span>(theta), </span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fn =</span> pred, </span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data, </span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">iprint =</span> <span class="dv">0</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">iprint =</span> <span class="dv">1</span>)</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>start par. =  -2.302585 -2.302585 -2.302585 -2.302585 -2.302585 -2.302585 -2.302585 fn =  4208.405 
+At return
+eval: 247 fn:      3968.7979 par: -2.05671 -1.49120 -1.07120 -2.03544 -3.15859 -3.21225 -1.18267</code></pre>
 </div>
+</div>
+<p>This takes 4 to 4.5 seconds on my MacBook M1 Pro.</p>
 </section>
 </section>
-<section id="compare-msm-and-mrgsolve-fits" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Compare msm and mrgsolve fits</h1>
+<section id="compare-msm-and-mrgsolve-results" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Compare msm and mrgsolve results</h1>
 <p>The final objective function values for the msm and mrgsolve fits are similar</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>fval</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>fval</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3968.798</code></pre>
+<pre><code>[1] 3968.79787942</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cav.msm<span class="sc">$</span>minus2loglik</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cav.msm<span class="sc">$</span>minus2loglik</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3968.798</code></pre>
+<pre><code>[1] 3968.79789305</code></pre>
 </div>
 </div>
-<p>Compare estimates (there might be a naming issue on the <code>cav.msm</code> estimates, but I think the values match up).</p>
+<p>Compare estimated transition intensities (there might be a naming issue on the <code>cav.msm</code> estimates, but I think the values match up).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">exp</span>(fit<span class="sc">$</span>par)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(est) <span class="ot">&lt;-</span> tnames</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>est <span class="sc">%&gt;%</span> <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">exp</span>(fit<span class="sc">$</span>par)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(est) <span class="ot">&lt;-</span> tnames</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>est <span class="sc">%&gt;%</span> <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       k24        k14        k12        k32        k21        k34        k23 
-0.04026564 0.04248537 0.12787425 0.13062398 0.22510175 0.30645998 0.34259602 </code></pre>
+0.04026573 0.04248539 0.12787425 0.13062362 0.22510161 0.30645974 0.34259570 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(cav.msm<span class="sc">$</span>estimates) <span class="sc">%&gt;%</span> <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(cav.msm<span class="sc">$</span>estimates) <span class="sc">%&gt;%</span> <span class="fu">sort</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     qbase      qbase      qbase      qbase      qbase      qbase      qbase 
 0.04021023 0.04250042 0.12787033 0.13062235 0.22511913 0.30647512 0.34261129 </code></pre>
 </div>
 </div>
+<p>```</p>
 
 
 </section>

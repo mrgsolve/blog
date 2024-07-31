@@ -151,7 +151,9 @@ The key to this model is the `evt::replace()` function, which will reset all
 compartments to `0` when there is an examination and then initialize the
 appropriate compartment with a `1` based on the value of `state` in the data
 set. We do this with a simple `for` loop in C++. The `replace()` functionality
-is available in the `evtools` plugin starting with mrgsolve 1.5.1.
+is available in the `evtools` plugin starting with mrgsolve 1.5.1. More on
+[evtools](https://mrgsolve.org/user-guide/plugins.html#sec-plugin-evtools) in
+the mrgsolve user guide.
 
 ## Call to fit the model
 
@@ -190,21 +192,35 @@ fit <- newuoa(
   par = log(theta), 
   fn = pred, 
   data = data, 
-  control = list(iprint = 0)
+  control = list(iprint = 1)
 )
 ```
+This takes 4 to 4.5 seconds on my MacBook M1 Pro.
 
-# Compare msm and mrgsolve fits
+
+# Compare msm and mrgsolve results
 
 The final objective function values for the msm and mrgsolve fits are similar
+
+```{r}
+#| include: false
+options(digits = 12)
+```
+
 
 ```{r}
 fit$fval
 cav.msm$minus2loglik
 ```
 
-Compare estimates (there might be a naming issue on the `cav.msm` estimates, 
-but I think the values match up). 
+```{r}
+#| include: false
+options(digits = 7)
+```
+
+
+Compare estimated transition intensities (there might be a naming issue on the
+`cav.msm` estimates, but I think the values match up).
 
 ```{r}
 est <- exp(fit$par)
@@ -215,3 +231,24 @@ est %>% sort()
 
 exp(cav.msm$estimates) %>% sort()
 ```
+
+```{r}
+#| eval: false
+#| include: false
+mod <- update(mod, rtol = 1e-12)
+se <- numDeriv::hessian(func = pred, x = fit$par, data = data) %>% solve() %>% diag() %>% sqrt()
+
+h <- nlme::fdHess(fit$par, fun = pred, data = data) 
+se <- h$Hessian %>% solve() %>% diag() %>% sqrt()
+
+data.frame(
+  parameter = tnames, 
+  estimate = est, 
+  se = se, 
+  lower = exp(log(est) - 1.96*se), 
+  upper = exp(log(est) + 1.96*se)
+)
+msm.cav
+```
+```
+
