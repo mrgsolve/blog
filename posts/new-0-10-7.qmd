@@ -78,6 +78,16 @@ mread("popexample.mod") %>% outvars
 
 # Smarter warnings when non-numeric columns are dropped
 
+::: {.callout-important appearance="simple"}
+
+## Pay Attention
+
+This behavior has been updated in more recent mrgsolve versions. 
+mrgsolve will now generate an error when a parameter is in the data
+set but it is not numeric. 
+
+:::
+
 mrgsolve warns you when non-numeric columns are dropped from the data 
 set when you run the model.  For example
 
@@ -87,7 +97,7 @@ mod <- modlib("popex") %>% update(outvars = "IPRED")
 
 In this model, we have the following parameters
 
-```{r}
+```{r, eval = FALSE}
 param(mod)
 ```
 
@@ -101,7 +111,7 @@ data <- expand.ev(amt = 100, WT = "500", TVV = "ABC", name = "KYLE")
 When we simulation, we get some messages for dropped columns
 
 ```{r}
-mrgsim(mod, data)
+try(mrgsim(mod, data))
 ```
 
 Previously, mrgsolve would have warned you about all 3 columns; now 
@@ -120,7 +130,6 @@ data <- expand.ev(
 )
 
 mrgsim(mod, data)
-
 ```
 
 Remember, we can still ask for non-numeric items to be brought into the 
@@ -131,8 +140,8 @@ mrgsim(mod, data, recover = "name,state")
 ```
 
 # `$ERROR`
-There is a new block alias called `$ERROR` that is just an alias for `$TABLE`
 
+There is a new block alias called `$ERROR` that is just an alias for `$TABLE`
 
 ```{r}
 code <- '

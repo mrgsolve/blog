@@ -209,6 +209,15 @@ mod %>%
 
 # Example: modeled dosing events
 
+::: {.callout-important appearance="simple"}
+
+## This content has been superseded
+
+Please see the `evtools` plugin for executing doses from within your model.
+
+:::
+
+
 In the previous example, we used the `mevent` call to 
 to force the simulation to stop at the time we wanted a model 
 parameter to change. This was accomplished by an event object
@@ -225,15 +234,14 @@ $PARAM CL = 1, V = 20, KA = 2
 
 $PKMODEL cmt = "GUT CENT", depot = TRUE
 
-$MAIN
-
+$TABLE
 if(TIME/12 ==floor(TIME/12) && TIME < 120) {
   mrg::evdata ev(TIME,1);
   ev.cmt = 1;
   ev.amt = 100; 
+  ev.check_unique = true;
   self.mevector.push_back(ev);
 }
-
 ' 
 ```
 
@@ -251,8 +259,5 @@ dosing from within the model.  This isn't the way you should be implementing
 dosing like this on a regular basis, but it shows how you can 
 trigger doses from within the model based on what has gone on up to that 
 point in the simulation. 
-
-
-
 
 

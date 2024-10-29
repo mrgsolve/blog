@@ -255,5 +255,9 @@ data.frame(
 )
 msm.cav 
 ```
-```
 
+```{r}
+#| include: false
+saveRDS(object = est, file = here::here("posts/data/msm-estimates.rds"))
+saveRDS(object = data, file = here::here("posts/data/cav.rds"))
+```
