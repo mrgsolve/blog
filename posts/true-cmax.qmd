@@ -5,6 +5,7 @@ subtitle: >
   PK model using differential equations.
 author: Kyle Baron
 date: 2024-11-14
+image: true-cmax_files/figure-html/visualize-overshoot-1.png
 categories: 
 - Cmax
 - ODE
@@ -72,10 +73,13 @@ We'll put 1000 mg into the depot compartment as a single dose.
 dose <- ev(amt = 1000, cmt = 1)
 ```
 
+
 On simulation, we can check the maximum value of `CP` (calculated only at output
 records) and `Cmax` (calculated with the code in `$DES`). 
 
 ```{r}
+#| fig-align: center
+#| fig-height: 4
 out <- mrgsim(mod, dose)
 
 plot(out, scales = "same")
@@ -105,17 +109,18 @@ max(out2$Cmax) # Max concentration from $DES
 Here, we see good agreement with the approximated Cmax and the true Cmax.
 
 But we don't _need_ to go to these lengths; we can get a good approximation of
-Cmax just by reducing `delta` to a reasonably small value.
+Cmax from `CP` just by reducing `delta` to a reasonably small value. 
 
 ```{r}
 out3 <- mrgsim(mod, dose, delta = 0.1)
 
-true <- max(out3$Cmax)
 approx <- max(out3$CP)
 
 approx
 
-100*(approx-true)/true
+true_bolus <- max(out2$Cmax)
+
+100 * (approx - true_bolus) / true_bolus
 ```
 
 But note this is likely problem-dependent: a smaller `delta` value may be 
@@ -158,6 +163,8 @@ and the "true" Cmax  for the infusion is `35.08074`
 out <- mrgsim_df(mod, event = dose, end = -1, add = end, obsonly = TRUE)
 
 select(out, time, CP)
+
+true_infusion <- max(out$CP)
 ```
 
 
@@ -169,6 +176,7 @@ out <- mrgsim(mod, event = dose)
 
 max(out$Cmax) # Max concentration from $DES
 ```
+
 
 This happens because the ODE solver overshoots the end of the infusion and 
 corrects this overshoot later; but our Cmax logging code can't deal with 
@@ -208,21 +216,28 @@ out4 <- mrgsim(mod, event = dose, delta = 0.1)
 max(out4$CP) # Concentration from output records
 ```
 
+```{r visualize-overshoot}
+#| include: false
+#| fig-align: center
+#| fig-height: 4
+out <- mrgsim(mod, dose, delta = 0.1)
+plot(out, scales = "same")
+```
+
+
 The approximate Cmax is a little off the true, but still pretty reasonable.
 
 ```{r}
-true <- max(out$Cmax)
 approx <- max(out$CP)
-100 * (approx - true) / true
+100 * (approx - true_infusion) / true_infusion
 ```
 
 
 ### Get Cmax from the end of the infusion
 
 As an alternative, we can get Cmax as the predicted concentration exactly at the
-end of the infusion. It is possible to do this in mrgsolve right now, but I'm
-not going to publish it here since there is no public api for doing it. If you
-really need it, contact me and I'll help you out. I'll be working on public api
-for testing for end of infusion and update the vignette when that gets rolled
-out. In the meantime, I'll continue to use the reasonable approximation for 
-most cases. 
+end of the infusion and it seems like this should be the gold standard for an
+infusion. It is possible to do this in mrgsolve right now, but I'm not going to
+publish it here since there is no public api for doing it. If you really need
+it, contact me and I'll help you out. I'll be working on public api for testing
+for end of infusion and update the vignette when that gets rolled out. 

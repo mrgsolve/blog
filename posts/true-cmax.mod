@@ -12,9 +12,9 @@ if(NEWIND <= 1 || EVID==1 || EVID==4) {
 }
 
 $DES
-CP = A2/V;
+CPode = A2/V;
 
-if(CP > Cmax) Cmax = CP;
+if(CPode > Cmax) Cmax = CPode;
 
 dxdt_A1 = -KA * A1;
 dxdt_A2 =  KA * A1 - (CL/V)*A2;
