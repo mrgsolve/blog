@@ -15,7 +15,10 @@ editor_options:
 It's a common practice to find a true maximum concentration after a dose 
 (Cmax) through simulation from a PK model written using differential equations. 
 In this post, we'll show this implementation and note some important points
-to consider when using this method for an infusion.
+to consider when using this method for an infusion. My thanks to 
+[Félicien Le Louedec](https://www.linkedin.com/in/f%C3%A9licien-le-louedec-5a9736152/)
+for discussion of the issue and inspiration to create the post.
+
 
 ## Implementation 
 
@@ -23,9 +26,9 @@ The true Cmax approach involves the following steps:
 
 1. Initialize a variable (like `Cmax`) to zero when starting on a new individual
    or with a subsequent dose within the same individual.
-2. Calculate concentration (say `CP`) in the `$DES` block. 
-3. Update `Cmax` to the value of `CP` calculated in `$DES` whenever `CP` is 
-   greater than the current value of `Cmax`. 
+2. Calculate concentration in the `$DES` block (`CPode`) . 
+3. Update `Cmax` to the value of `CPode` calculated in `$DES` whenever `CPode` 
+   is greater than the current value of `Cmax`. 
 
 The code might look like this
 
@@ -36,13 +39,13 @@ The code might look like this
 ```
 
 I call this a "true" Cmax because the ODE solver will need to explore the shape
-of the concentration-time profile around Cmax to understand when the
-concentration stops increasing and starts to decrease. increasing and start
-decreasing. The solver will explore this part of the curve whether or not you
-ask for simulated output at the time of Cmax (Tmax) and you can get the true
-Cmax by logging the concentration at Tmax. If, instead, you simulated, say,
-every hour and then took the maximum `CP` over the dosing interval, it will be
-and approximate Cmax since you likely didn't ask for an output time exactly at
+of the concentration-time profile around Cmax in detail to understand when the
+concentration stops increasing and starts to decrease. And the solver will
+explore this part of the curve whether or not you ask for simulated output at
+the time of Cmax (Tmax) and you can get the true Cmax by logging the
+concentration at Tmax. If, instead, you simulated, say, every hour and then took
+the maximum `CP` over the dosing interval just from the output records, it will
+be an approximate Cmax since you likely didn't ask for an output time exactly at
 Tmax.
 
 
@@ -50,9 +53,10 @@ Tmax.
 
 After loading packages and our model, let's calculate Cmax for an extravascular
 dose. We set the default output time step (`delta`) to 6 hours to reduce the 
-resolution of the simulated output; if we only look at `CP` on output records, 
-we'll get a poor approximation of Cmax. This just means we _have_ to use the 
-ODE-derived Cmax to get a the true value back. 
+resolution of the simulated output; this is pretty extreme, but I wanted to 
+make the point that we'll get poor approximation of Cmax if we only look at `CP` 
+on output records. In other words, we _have_ to use the ODE-derived Cmax to get 
+a the true value back. 
 
 ```{r}
 #| message: false
@@ -80,8 +84,8 @@ plot(out, scales = "same")
 And these are the results from the different approaches.
 
 ```{r}
-max(out$CP)
-max(out$Cmax)
+max(out$CP)   # Concentration from output records
+max(out$Cmax) # Max concentration from $DES
 ```
 
 We see that 
@@ -95,8 +99,8 @@ settings for the ODE solver.
 ```{r}
 out2 <- mrgsim(mod, dose, delta = 1e-3, rtol = 1e-12, hmax = 1e-3)
 
-max(out2$CP)
-max(out2$Cmax)
+max(out2$CP)   # Concentration from output records
+max(out2$Cmax) # Max concentration from $DES
 ```
 Here, we see good agreement with the approximated Cmax and the true Cmax.
 
@@ -163,7 +167,7 @@ reported Cmax is _higher_ than the true Cmax.
 ```{r}
 out <- mrgsim(mod, event = dose)
 
-max(out$Cmax)
+max(out$Cmax) # Max concentration from $DES
 ```
 
 This happens because the ODE solver overshoots the end of the infusion and 
@@ -180,7 +184,7 @@ true value.
 ```{r}
 out <- mrgsim(mod, event = dose, hmax = 1e-3)
 
-max(out$Cmax)
+max(out$Cmax) # Max concentration from $DES
 ```
 
 Now, our Cmax is looking better. We can get even closer by lowering 
@@ -189,7 +193,7 @@ Now, our Cmax is looking better. We can get even closer by lowering
 ```{r}
 out <- mrgsim(mod, event = dose, hmax = 1e-3, delta = 1e-4, rtol = 1e-12)
 
-max(out$Cmax)
+max(out$Cmax) # Max concentration from $DES
 ```
 
 Now, we're getting much closer to the true Cmax value. Of course, there is a 
@@ -201,7 +205,7 @@ Here's what happens with the reasonable approximation we used earlier.
 ```{r}
 out4 <- mrgsim(mod, event = dose, delta = 0.1)
 
-max(out4$CP)
+max(out4$CP) # Concentration from output records
 ```
 
 The approximate Cmax is a little off the true, but still pretty reasonable.
