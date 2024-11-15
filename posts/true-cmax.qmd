@@ -4,9 +4,10 @@ subtitle: >
   This post outlines some considerations when simulating a true Cmax in your
   PK model using differential equations.
 author: Kyle Baron
-date: today
+date: 2024-11-14
 categories: 
-- cmax
+- Cmax
+- ODE
 editor_options: 
   chunk_output_type: console
 ---
@@ -35,21 +36,23 @@ The code might look like this
 ```
 
 I call this a "true" Cmax because the ODE solver will need to explore the shape
-of the concentration-time profile around Cmax to understand when to stop
-increasing and start decreasing. The solver will explore this part of the curve
-whether or not you ask for simulated output at that time. If, instead, you
-simulated, say, every hour and then took the maximum `CP` over the dosing
-interval, it will be approximate since you likely didn't ask for an output time
-exactly at the time of the maximum concentration (Tmax).
+of the concentration-time profile around Cmax to understand when the
+concentration stops increasing and starts to decrease. increasing and start
+decreasing. The solver will explore this part of the curve whether or not you
+ask for simulated output at the time of Cmax (Tmax) and you can get the true
+Cmax by logging the concentration at Tmax. If, instead, you simulated, say,
+every hour and then took the maximum `CP` over the dosing interval, it will be
+and approximate Cmax since you likely didn't ask for an output time exactly at
+Tmax.
 
 
 ## Dose into extravascular compartment
 
 After loading packages and our model, let's calculate Cmax for an extravascular
 dose. We set the default output time step (`delta`) to 6 hours to reduce the 
-resolution on the Cmax calculation if we only looked at `CP` when it appears
-on an output record. This means we are relying on the ODEs to give us the 
-true value. 
+resolution of the simulated output; if we only look at `CP` on output records, 
+we'll get a poor approximation of Cmax. This just means we _have_ to use the 
+ODE-derived Cmax to get a the true value back. 
 
 ```{r}
 #| message: false
@@ -66,13 +69,17 @@ dose <- ev(amt = 1000, cmt = 1)
 ```
 
 On simulation, we can check the maximum value of `CP` (calculated only at output
-records and `Cmax` calculated with the code in `$DES`. 
+records) and `Cmax` (calculated with the code in `$DES`). 
 
 ```{r}
 out <- mrgsim(mod, dose)
 
 plot(out, scales = "same")
+```
 
+And these are the results from the different approaches.
+
+```{r}
 max(out$CP)
 max(out$Cmax)
 ```
@@ -99,12 +106,17 @@ Cmax just by reducing `delta` to a reasonably small value.
 ```{r}
 out3 <- mrgsim(mod, dose, delta = 0.1)
 
-max(out3$CP)
-max(out3$Cmax)
+true <- max(out3$Cmax)
+approx <- max(out3$CP)
+
+approx
+
+100*(approx-true)/true
 ```
 
 But note this is likely problem-dependent: a smaller `delta` value may be 
-required for a good approximation in certain problems. 
+required for a good approximation in certain problems. But I find this approach
+works well for most situations.
 
 
 ## Infusion dosing
@@ -160,9 +172,10 @@ the overshoot and retains the Cmax value that was falsely inflated
 during that overshoot. 
 
 
-We can verify this behavior by reducing `hmax`, the maximum step 
-size. When `hmax` is smaller, the ODE solver takes smaller steps and the 
-overshoot won't be as severe. 
+We can verify this is what is happening by reducing `hmax`, the maximum step 
+size. When `hmax` is smaller, the ODE solver takes smaller steps, the 
+overshoot won't be as severe, and the simulated Cmax will be closer to the 
+true value. 
 
 ```{r}
 out <- mrgsim(mod, event = dose, hmax = 1e-3)
@@ -207,11 +220,5 @@ end of the infusion. It is possible to do this in mrgsolve right now, but I'm
 not going to publish it here since there is no public api for doing it. If you
 really need it, contact me and I'll help you out. I'll be working on public api
 for testing for end of infusion and update the vignette when that gets rolled
-out. In the meantime, I'll continue to use the approximate for most cases. 
-
-
-
-
-
-
-
+out. In the meantime, I'll continue to use the reasonable approximation for 
+most cases. 
