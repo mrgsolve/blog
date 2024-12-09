@@ -273,6 +273,7 @@ background: #097f5f;
   <ul class="collapse">
   <li><a href="#get-cmax-from-the-end-of-the-infusion" id="toc-get-cmax-from-the-end-of-the-infusion" class="nav-link" data-scroll-target="#get-cmax-from-the-end-of-the-infusion"><span class="header-section-number">3.1</span> Get Cmax from the end of the infusion</a></li>
   </ul></li>
+  <li><a href="#special-code-needed-when-advancing-system-to-steady-state" id="toc-special-code-needed-when-advancing-system-to-steady-state" class="nav-link" data-scroll-target="#special-code-needed-when-advancing-system-to-steady-state"><span class="header-section-number">4</span> Special code needed when advancing system to steady state</a></li>
   </ul>
 </nav>
     </div>
@@ -473,9 +474,27 @@ background: #097f5f;
 <section id="get-cmax-from-the-end-of-the-infusion" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="get-cmax-from-the-end-of-the-infusion"><span class="header-section-number">3.1</span> Get Cmax from the end of the infusion</h3>
 <p>As an alternative, we can get Cmax as the predicted concentration exactly at the end of the infusion and it seems like this should be the gold standard for an infusion. It is possible to do this in mrgsolve right now, but I’m not going to publish it here since there is no public api for doing it. If you really need it, contact me and I’ll help you out. I’ll be working on public api for testing for end of infusion and update the vignette when that gets rolled out.</p>
-
-
 </section>
+</section>
+<section id="special-code-needed-when-advancing-system-to-steady-state" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="special-code-needed-when-advancing-system-to-steady-state"><span class="header-section-number">4</span> Special code needed when advancing system to steady state</h2>
+<p>Remember we had this code in <code>$DES</code> for keeping track of <code>Cmax</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>$DES</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>CPode <span class="op">=</span> A2<span class="op">/</span>V<span class="op">;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CPode <span class="op">&gt;</span> Cmax<span class="op">)</span> Cmax <span class="op">=</span> CPode<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When mrgsolve is advancing the system to steady state (with <code>SS = 1</code> in the dosing record, it will call the <code>$DES</code> block over and over until it has determined a steady state has been reached. You probably don’t want or need to track <code>Cmax</code> while the system is advancing. You can update this code to prevent <code>Cmax</code> from getting updated using the <code>SS_ADVANCE</code> variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>$DES</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>CPode <span class="op">=</span> A2<span class="op">/</span>V<span class="op">;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CPode <span class="op">&gt;</span> Cmax <span class="op">&amp;&amp;</span> <span class="op">!</span>SS_ADVANCE<span class="op">)</span> Cmax <span class="op">=</span> CPode<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This says to only update <code>Cmax</code> if the system is not in the process of advancing to steady state.</p>
+
+
 </section>
 
 </main> <!-- /main -->
