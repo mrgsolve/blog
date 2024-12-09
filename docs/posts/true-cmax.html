@@ -423,7 +423,7 @@ background: #097f5f;
 <pre><code>      time       CP
 1 6.711409 35.08074</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>true_infusion <span class="ot">&lt;-</span> <span class="fu">max</span>(out<span class="sc">$</span>CP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>true_infusion <span class="ot">&lt;-</span> out<span class="sc">$</span>CP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>But what happens when we assess Cmax with our code in <code>$DES</code>? We see that the reported Cmax is <em>higher</em> than the true Cmax.</p>
 <div class="cell">
@@ -465,10 +465,10 @@ background: #097f5f;
 </div>
 <p>The approximate Cmax is a little off the true, but still pretty reasonable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">max</span>(out<span class="sc">$</span>CP)</span>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">max</span>(out4<span class="sc">$</span>CP)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> (approx <span class="sc">-</span> true_infusion) <span class="sc">/</span> true_infusion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.147726</code></pre>
+<pre><code>[1] -0.1482349</code></pre>
 </div>
 </div>
 <section id="get-cmax-from-the-end-of-the-infusion" class="level3" data-number="3.1">

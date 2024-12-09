@@ -164,7 +164,7 @@ out <- mrgsim_df(mod, event = dose, end = -1, add = end, obsonly = TRUE)
 
 select(out, time, CP)
 
-true_infusion <- max(out$CP)
+true_infusion <- out$CP
 ```
 
 
@@ -220,14 +220,14 @@ max(out4$CP) # Concentration from output records
 #| include: false
 #| fig-align: center
 #| fig-height: 4
-out <- mrgsim(mod, dose, delta = 1)
-plot(out, scales = "same")
+outx <- mrgsim(mod, dose, delta = 1)
+plot(outx, scales = "same")
 ```
 
 The approximate Cmax is a little off the true, but still pretty reasonable.
 
 ```{r}
-approx <- max(out$CP)
+approx <- max(out4$CP)
 100 * (approx - true_infusion) / true_infusion
 ```
 
