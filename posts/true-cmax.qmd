@@ -123,9 +123,9 @@ true_bolus <- max(out2$Cmax)
 100 * (approx - true_bolus) / true_bolus
 ```
 
-But note this is likely problem-dependent: a smaller `delta` value may be 
-required for a good approximation in certain problems. But I find this approach
-works well for most situations.
+But note this is likely problem-dependent: a smaller `delta` value may be
+required for a good approximation in problems with different absorption
+characteristics. But I find this approach works well for most situations.
 
 
 ## Infusion dosing
@@ -220,10 +220,9 @@ max(out4$CP) # Concentration from output records
 #| include: false
 #| fig-align: center
 #| fig-height: 4
-out <- mrgsim(mod, dose, delta = 0.1)
+out <- mrgsim(mod, dose, delta = 1)
 plot(out, scales = "same")
 ```
-
 
 The approximate Cmax is a little off the true, but still pretty reasonable.
 
@@ -231,7 +230,6 @@ The approximate Cmax is a little off the true, but still pretty reasonable.
 approx <- max(out$CP)
 100 * (approx - true_infusion) / true_infusion
 ```
-
 
 ### Get Cmax from the end of the infusion
 
@@ -264,6 +262,10 @@ $DES
 CPode = A2/V;
 
 if(CPode > Cmax && !SS_ADVANCE) Cmax = CPode;
+
+dxdt_A1 = -KA * A1;
+
+dxdt_A2 =  KA * A1 - CL * CPode;
 ```
 
 This says to only update `Cmax` if the system is not in the process of 

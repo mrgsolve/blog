@@ -314,7 +314,7 @@ background: #097f5f;
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(CPode <span class="sc">&gt;</span> Cmax) Cmax <span class="ot">=</span> CPode;</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="ot">=</span> <span class="sc">-</span>KA <span class="sc">*</span> A1;</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="ot">=</span>  KA <span class="sc">*</span> A1 <span class="sc">-</span> (CL<span class="sc">/</span>V)<span class="sc">*</span>A2;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="ot">=</span>  KA <span class="sc">*</span> A1 <span class="sc">-</span> CL <span class="sc">*</span> CPode;</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>CP <span class="ot">=</span> A2<span class="sc">/</span>V;</span>
@@ -396,7 +396,7 @@ background: #097f5f;
 <pre><code>[1] -0.001783364</code></pre>
 </div>
 </div>
-<p>But note this is likely problem-dependent: a smaller <code>delta</code> value may be required for a good approximation in certain problems. But I find this approach works well for most situations.</p>
+<p>But note this is likely problem-dependent: a smaller <code>delta</code> value may be required for a good approximation in problems with different absorption characteristics. But I find this approach works well for most situations.</p>
 </section>
 <section id="infusion-dosing" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="infusion-dosing"><span class="header-section-number">3</span> Infusion dosing</h2>
@@ -468,7 +468,7 @@ background: #097f5f;
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">max</span>(out<span class="sc">$</span>CP)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> (approx <span class="sc">-</span> true_infusion) <span class="sc">/</span> true_infusion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.1482349</code></pre>
+<pre><code>[1] -1.147726</code></pre>
 </div>
 </div>
 <section id="get-cmax-from-the-end-of-the-infusion" class="level3" data-number="3.1">
@@ -490,7 +490,11 @@ background: #097f5f;
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>$DES</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>CPode <span class="op">=</span> A2<span class="op">/</span>V<span class="op">;</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CPode <span class="op">&gt;</span> Cmax <span class="op">&amp;&amp;</span> <span class="op">!</span>SS_ADVANCE<span class="op">)</span> Cmax <span class="op">=</span> CPode<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CPode <span class="op">&gt;</span> Cmax <span class="op">&amp;&amp;</span> <span class="op">!</span>SS_ADVANCE<span class="op">)</span> Cmax <span class="op">=</span> CPode<span class="op">;</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="op">=</span> <span class="op">-</span>KA <span class="op">*</span> A1<span class="op">;</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="op">=</span>  KA <span class="op">*</span> A1 <span class="op">-</span> CL <span class="op">*</span> CPode<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This says to only update <code>Cmax</code> if the system is not in the process of advancing to steady state.</p>
 
