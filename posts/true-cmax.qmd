@@ -13,13 +13,22 @@ editor_options:
   chunk_output_type: console
 ---
 
-It's a common practice to find a true maximum concentration after a dose 
+It's a common practice to find a "true" maximum concentration after a dose 
 (Cmax) through simulation from a PK model written using differential equations. 
 In this post, we'll show this implementation and note some important points
 to consider when using this method for an infusion. My thanks to 
 [Félicien Le Louedec](https://www.linkedin.com/in/f%C3%A9licien-le-louedec-5a9736152/)
 for discussion of the issue and inspiration to create the post.
 
+<!--
+::: {.callout-note}
+I'm calling this a "true" Cmax in contrast to a Cmax that you might get from 
+non-compartmental analysis. It's "true" in the sense that it follows from the 
+estimated PK model parameters, rather than concentrations that were observed
+in a clinical trial. A different way to describe this might be "model-based"
+Cmax.
+:::
+-->
 
 ## Implementation 
 
@@ -67,10 +76,42 @@ library(dplyr)
 mod <- mread("true-cmax.mod", delta = 6) 
 ```
 
+```{r}
+#| include: false
+modd <- modlib("pk1")
+modd <- update(modd, param = as.list(param(mod)))
+dosee <- ev(amt = 1000, cmt = 1)
+out <- mrgsim(modd, dosee, delta = 0.0001, end = 3)
+max(out$CP)
+```
+
+
+```{r}
+#| include: false
+ka <- mod$KA
+ke <- mod$CL/mod$V
+tmax <- log(ka/ke)/(ka-ke)
+```
+
+
 We'll put 1000 mg into the depot compartment as a single dose.
 
 ```{r}
 dose <- ev(amt = 1000, cmt = 1)
+```
+
+The time of the maximum concentration for this model is given by
+
+$$
+\mathrm{Tmax} = \mathrm{\frac{\log(ka/ke)}{(ka-ke)}} = 1.680962 \ \mathrm{hours}
+$$
+
+and the actual Cmax for 1000 mg x1 is 
+
+```{r}
+out <- mrgsim(mod, dose, end = -1, add = 1.680962, obsonly = TRUE)
+true_bolus <- out$CP
+true_bolus
 ```
 
 
@@ -114,13 +155,11 @@ Cmax from `CP` just by reducing `delta` to a reasonably small value.
 ```{r}
 out3 <- mrgsim(mod, dose, delta = 0.1)
 
-approx <- max(out3$CP)
+approx_bolus <- max(out3$CP)
 
-approx
+approx_bolus
 
-true_bolus <- max(out2$Cmax)
-
-100 * (approx - true_bolus) / true_bolus
+100 * (approx_bolus - true_bolus) / true_bolus
 ```
 
 But note this is likely problem-dependent: a smaller `delta` value may be
@@ -227,8 +266,8 @@ plot(outx, scales = "same")
 The approximate Cmax is a little off the true, but still pretty reasonable.
 
 ```{r}
-approx <- max(out4$CP)
-100 * (approx - true_infusion) / true_infusion
+approx_infusion <- max(out4$CP)
+100 * (approx_infusion - true_infusion) / true_infusion
 ```
 
 ### Get Cmax from the end of the infusion
