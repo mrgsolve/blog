@@ -75,7 +75,8 @@ library(dplyr)
 
 mod <- mread("true-cmax.mod", delta = 6) 
 ```
-
+    \caption{Simulation: Predicted net benefit in \smwt\ distance from exposure 
+    boost with \drugy\ versus time, stratified by exposure percentile.}
 ```{r}
 #| include: false
 modd <- modlib("pk1")
