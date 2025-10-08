@@ -418,15 +418,15 @@ Full model code - spilt first-order absorption
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ka1 <span class="op">=</span> <span class="fl">0.07</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ka2 <span class="op">=</span> <span class="fl">0.7</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>$pk</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>F1 <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>F2 <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CMT<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;&amp;</span> <span class="op">(</span>EVID<span class="op">==</span><span class="dv">1</span> <span class="op">||</span> EVID<span class="op">==</span><span class="dv">4</span><span class="op">))</span> <span class="op">{</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>bolus<span class="op">(</span>self<span class="op">,</span> AMT<span class="op">,</span> <span class="dv">2</span><span class="op">);</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>$cmt depot1 depot2 central</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>$cmt depot1 depot2 central</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>$pk</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>F1 <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>F2 <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CMT<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;&amp;</span> <span class="op">(</span>EVID<span class="op">==</span><span class="dv">1</span> <span class="op">||</span> EVID<span class="op">==</span><span class="dv">4</span><span class="op">))</span> <span class="op">{</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>bolus<span class="op">(</span>self<span class="op">,</span> AMT<span class="op">,</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>$des</span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>dxdt_depot1 <span class="op">=</span> <span class="op">-</span>ka1 <span class="op">*</span> depot1<span class="op">;</span></span>
@@ -450,12 +450,22 @@ Full model code - spilt first-order absorption
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="split-dose_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="768"></p>
+<p><img src="split-dose_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Now we see 100 mg going into <code>depot1</code> with slow exit and 100 mg going into <code>depot2</code> with faster exit. The way I’ve set up the example, the concentration increases much more quickly after adding the fast absorption through <code>depot2</code> in combination with the slower absorption via <code>depot1</code>. I don’t know the specifics about the diastereomers from the original question, but we can see that this code splits the dose in two compartments as requested.</p>
+<p>Now we see 100 mg going into <code>depot1</code> with slow exit and 100 mg going into <code>depot2</code> with faster exit. The way I’ve set up the example, the concentration increases much more quickly after adding the fast absorption through <code>depot2</code> in combination with the slower absorption via <code>depot1</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="split-dose_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I don’t know the specifics about the diastereomers from the original question, but we can see that this code splits the dose in two compartments as requested.</p>
 </section>
 <section id="another-example" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Another example</h1>
@@ -485,15 +495,15 @@ Full model code - spilt first/zero-first order absorption
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ka1 <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>ka2 <span class="op">=</span> <span class="fl">0.5</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>$pk</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>F1 <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>F2 <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CMT<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;&amp;</span> <span class="op">(</span>EVID<span class="op">==</span><span class="dv">1</span> <span class="op">||</span> EVID<span class="op">==</span><span class="dv">4</span><span class="op">))</span> <span class="op">{</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> AMT<span class="op">,</span> <span class="dv">2</span><span class="op">,</span> AMT<span class="op">/</span><span class="dv">10</span><span class="op">);</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>$cmt depot1 depot2 central</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>$cmt depot1 depot2 central</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>$pk</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>F1 <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>F2 <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CMT<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;&amp;</span> <span class="op">(</span>EVID<span class="op">==</span><span class="dv">1</span> <span class="op">||</span> EVID<span class="op">==</span><span class="dv">4</span><span class="op">))</span> <span class="op">{</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> AMT<span class="op">,</span> <span class="dv">2</span><span class="op">,</span> AMT<span class="op">/</span><span class="dv">10</span><span class="op">);</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>$des</span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>dxdt_depot1 <span class="op">=</span> <span class="op">-</span>ka1 <span class="op">*</span> depot1<span class="op">;</span></span>
@@ -533,7 +543,7 @@ Full model code - spilt first/zero-first order absorption
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="split-dose_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="768"></p>
+<p><img src="split-dose_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>

@@ -14,6 +14,9 @@ categories:
 #| echo: false
 library(mrgsolve)
 library(here)
+library(ggplot2)
+library(dplyr)
+theme_set(theme_bw() + theme(legend.position = "top"))
 options(mrgsolve.project = here("posts/model/"))
 ```
 
@@ -71,6 +74,12 @@ out <- mrgsim(mod, dose, recsort = 3)
 
 plot(out, "depot1, depot2, cp")
 ```
+```{r}
+#| echo: false
+out1 <- out
+```
+
+
 Ok, we see that all 200 mg went into the first compartment (`depot1`). Let's 
 modify this to accomplish the dose split. 
 
@@ -140,9 +149,27 @@ Now we see 100 mg going into `depot1` with slow exit and 100 mg going
 into `depot2` with faster exit. The way I've set up the example, the 
 concentration increases much more quickly after adding the fast 
 absorption through `depot2` in combination with the slower absorption 
-via `depot1`. I don't know the specifics about the 
-diastereomers from the original question, but we can see that this 
-code splits the dose in two compartments as requested. 
+via `depot1`. 
+
+```{r}
+#| echo: false
+#| fig-width: 5
+#| fig-height: 4
+#| fig-align: center
+out2 <- out
+
+compare <- dplyr::bind_rows(
+  mutate(out1, model = "200 mg all to depot1"), 
+  mutate(out2, model = "200 mg split depot1/depot2")
+)
+
+ggplot(compare) + 
+  geom_line(aes(time, cp, group = model, color = model), lwd = 1) + 
+  scale_color_brewer(palette = "Dark2")
+```
+
+I don't know the specifics about the diastereomers from the original question, 
+but we can see that this code splits the dose in two compartments as requested. 
 
 # Another example
 

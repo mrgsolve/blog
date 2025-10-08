@@ -6,6 +6,8 @@ v   = 20
 ka1 = 2
 ka2 = 0.5
 
+$cmt depot1 depot2 central
+
 $pk
 F1 = 0.5;
 F2 = 0.5;
@@ -13,8 +15,6 @@ F2 = 0.5;
 if(CMT==1 && (EVID==1 || EVID==4)) {
   evt::infuse(self, AMT, 2, AMT/10);
 }
-
-$cmt depot1 depot2 central
 
 $des
 dxdt_depot1 = -ka1 * depot1;
