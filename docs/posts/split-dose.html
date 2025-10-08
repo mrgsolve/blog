@@ -353,7 +353,7 @@ background: #097f5f;
 </section>
 <section id="split-the-dose-with-evtools" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Split the dose with <code>evtools</code></h1>
-<p>Now, we’ll update this model to split the 200 mg dose 50/50 between the two <code>depot</code> compartments. Recall, that we can reduce any dose by setting the bioavailability parameter (<code>F1</code> for compartment 1) to 0.5</p>
+<p>We’ll update this model to split the 200 mg dose 50/50 between the two <code>depot</code> compartments. Recall, that we can modify any dose amount by setting the bioavailability parameter (<code>F1</code> for compartment 1); in this example, we reduce by 50% with:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$pk</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -382,7 +382,7 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>I set both <code>F1</code> and <code>F2</code> under the assumption that we are always using this split-dose approach</li>
+<li>I set both <code>F1</code> and <code>F2</code> under the assumption that we are always using this split-dose approach; I could have also just halved <code>AMT</code> in the <code>evt::bolus()</code> call.</li>
 <li>Whenever we see a dose into <code>depot1</code>, we trigger another dose into <code>depot2</code> with the same amount.</li>
 </ol>
 </div>
