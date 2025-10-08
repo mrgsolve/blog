@@ -355,10 +355,13 @@ background: #097f5f;
 <h1 data-number="3"><span class="header-section-number">3</span> Split the dose with <code>evtools</code></h1>
 <p>We’ll update this model to split the 200 mg dose 50/50 between the two <code>depot</code> compartments. Recall, that we can modify any dose amount by setting the bioavailability parameter (<code>F1</code> for compartment 1); in this example, we reduce by 50% with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$pk</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$plugin nm<span class="op">-</span>vars</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>F1 <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>$pk</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>F1 <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>We have to use the <code>nm-vars</code> plugin to get the <code>F1</code> syntax; otherwise, we could have set <code>F_depot1</code> instead.</p>
 <p>Now, we will add some code using <code>evtools</code> to “clone” any dose into <code>depot1</code> that comes along and create a <em>new</em> dose into <code>depot2</code> with half the dose.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>$plugin nm<span class="op">-</span>vars evtools</span>

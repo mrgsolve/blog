@@ -91,10 +91,15 @@ dose amount by setting the bioavailability parameter (`F1` for compartment 1);
 in this example, we reduce by 50% with:
 
 ```{c, eval = FALSE}
+$plugin nm-vars
+
 $pk
 
 F1 = 0.5;
 ```
+
+We have to use the `nm-vars` plugin to get the `F1` syntax; otherwise, we could 
+have set `F_depot1` instead.
 
 Now, we will add some code using `evtools` to "clone" any dose into 
 `depot1` that comes along and create a _new_ dose into `depot2` with 
