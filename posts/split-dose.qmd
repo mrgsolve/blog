@@ -1,5 +1,5 @@
 ---
-title: "Split dosing using `evtools`"
+title: "Split dosing using evtools"
 subtitle: > 
   This post shows you how to easily split a dose on a single data set 
   record to be administered into multiple compartments.
@@ -117,10 +117,7 @@ Remember that the signature for `evt::bolus()` is:
 - `amt`, the dose amount
 - `cmt`, the dosing compartment 
 
-
-You can see the full model here:
-
-::: {.callout-note title="Split dose with first-order input" collapse=true}
+::: {.callout-note title="Full model code - spilt first-order absorption" collapse=true appearance="minimal"}
 ```{c, eval = FALSE, code = readLines(here("posts/model/split-dose-2.mod"))}
 #| filename: "spilt-dose-2.mod"
 ```
@@ -152,10 +149,19 @@ code splits the dose in two compartments as requested.
 Here's another example where we have fast first order input
 in combination with slower zero-/first-order input. 
 
-::: {.callout-note title="Split first, first/zero order input" collapse=true}
+::: {.callout-note title="Full model code - spilt first/zero-first order absorption" collapse=true appearance="minimal"}
 ```{c, eval = FALSE, code = readLines(here("posts/model/split-dose-3.mod"))}
 #| filename: "spilt-dose-3.mod"
+
 ```
+
+Recall that the signature for `evt::infuse()` is:
+
+- `self`, an object connecting the model code with `mrgsolve` engine
+- `amt`, the dose amount
+- `cmt`, the dosing compartment 
+- `rate`, the infusion rate
+
 :::
 
 Remember, we still have this simple dosing input, with 100% of the dose

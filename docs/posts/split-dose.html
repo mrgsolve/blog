@@ -242,7 +242,7 @@ background: #097f5f;
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Split dosing using <code>evtools</code></h1>
+      <h1 class="title">Split dosing using evtools</h1>
             <p class="subtitle lead"></p><p>This post shows you how to easily split a dose on a single data set record to be administered into multiple compartments.</p><p></p>
                                 <div class="quarto-categories">
                 <div class="quarto-category">evtools</div>
@@ -393,14 +393,13 @@ Note
 <li><code>amt</code>, the dose amount</li>
 <li><code>cmt</code>, the dosing compartment</li>
 </ul>
-<p>You can see the full model here:</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Split dose with first-order input">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Full model code - spilt first-order absorption">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Split dose with first-order input
+Full model code - spilt first-order absorption
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -461,13 +460,13 @@ Split dose with first-order input
 <section id="another-example" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Another example</h1>
 <p>Here’s another example where we have fast first order input in combination with slower zero-/first-order input.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Split first, first/zero order input">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Full model code - spilt first/zero-first order absorption">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Split first, first/zero order input
+Full model code - spilt first/zero-first order absorption
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -505,6 +504,13 @@ Split first, first/zero order input
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>capture cp <span class="op">=</span> central<span class="op">/</span>v<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+<p>Recall that the signature for <code>evt::infuse()</code> is:</p>
+<ul>
+<li><code>self</code>, an object connecting the model code with <code>mrgsolve</code> engine</li>
+<li><code>amt</code>, the dose amount</li>
+<li><code>cmt</code>, the dosing compartment</li>
+<li><code>rate</code>, the infusion rate</li>
+</ul>
 </div>
 </div>
 </div>
