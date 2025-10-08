@@ -1,5 +1,8 @@
 ---
 title: "Split dosing using `evtools`"
+subtitle: > 
+  This post shows you how to easily split a dose on a single data set 
+  record to be administered into multiple compartments.
 author: Kyle Baron
 date: 10-08-2025
 categories:
