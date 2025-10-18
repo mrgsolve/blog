@@ -73,9 +73,12 @@ dose <- ev(amt = 200, cmt = 1)
 out <- mrgsim(mod, dose, recsort = 3) 
 
 plot(out, "depot1, depot2, cp")
+
 ```
 ```{r}
 #| echo: false
+dose2 <- mutate(dose, cmt = 2)
+out2 <- mrgsim(mod, dose2, recsort = 3)
 out1 <- out
 ```
 
@@ -158,14 +161,15 @@ via `depot1`.
 
 ```{r}
 #| echo: false
-#| fig-width: 5
-#| fig-height: 4
+#| fig-width: 6
+#| fig-height: 5
 #| fig-align: center
-out2 <- out
+out3 <- out
 
 compare <- dplyr::bind_rows(
   mutate(out1, model = "200 mg all to depot1"), 
-  mutate(out2, model = "200 mg split depot1/depot2")
+  mutate(out2, model = "200 mg all to depot2"), 
+  mutate(out3, model = "200 mg split depot1/depot2")
 )
 
 ggplot(compare) + 
