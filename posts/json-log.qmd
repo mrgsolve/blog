@@ -1,8 +1,9 @@
 ---
-title: "Log model outputs in JSON format"
+title: "Log model data in JSON format"
 subtitle: > 
-  This post shows you how to easily split a dose on a single data set 
-  record to be administered into multiple compartments.
+  This post shows you how you can gather information in your model as the 
+  simulation progresses and generate JSON-formatted outputs that you can easily
+  work with in R after the simulation is finished.
 author: Kyle Baron
 date: 02-11-2025
 categories:
@@ -25,13 +26,31 @@ options(mrgsolve.project = here("posts/model/"))
 
 # Introduction 
 
+`mrgsolve` typically returns simulated outputs in rectangular format, with 
+rows advancing in time for different subjects and columns giving you different 
+outputs, including the simulated values, quantities calculated inside the 
+model, items carried from the input data, etc. 
 
-Complete documentation of the boost json libaray is here: 
-<https://www.boost.org/doc/libs/latest/libs/json/doc/html/index.html>.
+Sometimes, you'd like to record what is happening inside the simulation in a 
+way that doesn't match up with the standard rectangular format. For example,
+
+- **Did any one reach a critically low platelet count? **
+  - Who was it?
+  - When did it happen?
+- **While running dynamic dosing simulations**
+  - When were doses changed?
+  - What were they changed from? and to?
+  - What were the circumstances that lead to those dose adjustments?
+
+This blog post will show you a simple way to log information as a simulation 
+progresses and work with it after the simulation ends. We will use a C++
+library to create records in JSON format for the data associated with these
+different events. When the simulation ends, we'll recover that JSON code, parse 
+it, and work with it in R. 
 
 ## Example
 
-As an example, we'll run a one-compartment model with 100 mg administered at 
+As an example, we'll run a one-compartment PK model with 100 mg administered at 
 at different dosing intervals: every 6, 12, or 24 hours. 
 
 Sounds pretty basic, right? The "new" part of this is we'll write some code 
@@ -42,6 +61,8 @@ Don't get too hung up on the specifics here. I invented this _as an example_
 to show you the mechanics of how to collect information inside your model and 
 save it in a format you can get to later. You might have other, more nuanced 
 use cases where you could use this same approach. 
+
+## Example simulation
 
 Here is the data set we'll use:
 
@@ -65,12 +86,10 @@ And we load the model here:
 
 ```{r}
 #| message: false
-mod <- mread("json.mod")
+mod <- mread("ctrough-log.mod")
 ```
 
-An example simulation from the model is included below. As expected, the most
-accumulation is seen in the 6 hour dosing interval and the least in the 24 hour 
-interval. 
+An example simulation from the model is included below. 
 
 ```{r}
 #| fig-height: 4
@@ -79,6 +98,7 @@ interval.
 #| fig-cap-location: top
 #| fig-cap: Trough concentration versus time for different dosing intervals.
 out <- mrgsim(mod, data, end = 240, delta = 0.1, recover = "interval")
+
 sims <- as_tibble(out)
 
 ggplot() + 
@@ -88,6 +108,12 @@ ggplot() +
   scale_y_continuous(limits = c(0,20)) + 
   labs(x = "Time (days)", y = "Ctrough (ng/mL)")
 ```
+
+As expected, the most accumulation is seen in the 6 hour dosing interval and 
+the least in the 24 hour interval. In the model code, we'll show you out to 
+log each pre-dose concentration for each individual and work with that after
+the simulation ends. 
+
 
 # The model 
 
@@ -107,7 +133,8 @@ in the sections below.
 ::: {.callout-note appearance="simple" collapse=true}
 # View the full model code
 
-```{r, code = readLines(here("posts/model/json.mod"))}
+```{r, code = readLines(here("posts/model/ctrough-log.mod"))}
+#| filename: "posts/model/ctrough-log.mod"
 #| eval: false
 
 ```
@@ -119,9 +146,15 @@ in the sections below.
 
 ```{r}
 #| echo: false
-blocks <- modelparse(readLines(here("posts/model/json.mod")), drop_blank=FALSE, comment_re = "##")
+code <- readLines(here("posts/model/ctrough-log.mod"))
+blocks <- modelparse(code, drop_blank=FALSE, comment_re = "##")
 b <- paste0("$", names(blocks))
-blocks <- Map(\(x,y) c(y,x), blocks, b)
+blocks <- Map(\(x,y) {
+  if(x[1]=="") {
+    x <- x[-1]  
+  }
+  return(c(y,x))
+}, blocks, b)  
 ```
 
 
@@ -133,7 +166,9 @@ Use the **BH** `$PLUGIN` to get access the the `boost::json` library.
 Recall that a plugin is a way to bring additional syntax or code in to your 
 model that you typically wouldn't use. Boost is an open-source C++ library, 
 providing sophisticated, high-performance numerical computation code to your 
-model. You can read about Boost here: <https://www.boost.org/>.
+model. 
+
+You can read about Boost here: <https://www.boost.org/>. 
 
 
 In `$GLOBAL`, we include header the boost header files and invoke some 
@@ -151,6 +186,9 @@ json-formatted output.
 
 With this aliasing in place, we can initialize with array with `js::array logg`
 rather than `boost::json::array logg`. 
+
+There is full documentation for `boost::json` here: 
+<https://www.boost.org/doc/libs/latest/libs/json/doc/html/index.html>.
 
 
 In `$PREAMBLE`, we clear or reset json vector. 
@@ -175,6 +213,28 @@ out
 ```
 
 ## Read in the logged Ctrough data
+
+
+The raw json code for the first two Ctrough points looks like this
+
+```{r}
+#| echo: false
+code <- readLines(here("ctrough.json"))
+x <- capture.output(print(jsonlite::prettify(code)))
+```
+
+```{json, code = x[1:15]}
+#| filename: "ctrough.json"
+#| eval: false
+```
+
+
+We'll use the `RcppSimdJson` package to read in the file we wrote in the model. 
+
+::: {.column-margin}
+RcppSimdJson: <https://cran.r-project.org/package=RcppSimdJson>
+::::
+
 
 ```{r}
 ct <- RcppSimdJson::fload(here("ctrough.json"))
@@ -223,10 +283,15 @@ ggplot() +
 
 ```{r}
 #| echo: false
-code_env <- readLines(here("posts/model/json-env.mod"))
+code_env <- readLines(here("posts/model/ctrough-log-env.mod"))
 blocks <- modelparse(code_env, drop_blank=FALSE, comment_re = "##")
 b <- paste0("$", names(blocks))
-blocks <- Map(\(x,y) c(y,x), blocks, b)
+blocks <- Map(\(x,y) {
+  if(x[1]=="") {
+    x <- x[-1]  
+  }
+  return(c(y,x))
+}, blocks, b)  
 ```
 
 It might not be that easy or safe to write outputs to a file on disk. In that
@@ -249,7 +314,7 @@ Part 2 of the `$ERROR` block from the original model has been updated to this
 
 ```{r, code = code_env}
 #| eval: false
-
+#| filename: "posts/model/ctrough-log-env.mod"
 ```
 
 :::
@@ -258,7 +323,7 @@ Part 2 of the `$ERROR` block from the original model has been updated to this
 
 ```{r}
 #| message: false
-alt <- mread("json-env.mod")
+alt <- mread("ctrough-log-env.mod")
 
 out <- mrgsim(alt, data, end = 240, delta = 0.1, recover = "interval")
 ```
