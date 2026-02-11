@@ -284,7 +284,7 @@ for end of infusion and update the vignette when that gets rolled out.
 
 Remember we had this code in `$DES` for keeping track of `Cmax` 
 
-```{c, eval = FALSE}
+```{r, eval = FALSE}
 $DES
 CPode = A2/V;
 
@@ -297,7 +297,7 @@ determined a steady state has been reached. You probably don't want or need to
 track `Cmax` while the system is advancing. You can update this code to prevent
 `Cmax` from getting updated using the `SS_ADVANCE` variable.
 
-```{c, eval = FALSE}
+```{r, eval = FALSE}
 $DES
 CPode = A2/V;
 

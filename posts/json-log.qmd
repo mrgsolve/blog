@@ -5,7 +5,7 @@ subtitle: >
   simulation progresses and generate JSON-formatted outputs that you can easily
   work with in R after the simulation is finished.
 author: Kyle Baron
-date: 02-11-2025
+date: 02-11-2026
 categories:
 - evtools
 ---

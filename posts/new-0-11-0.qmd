@@ -145,7 +145,7 @@ project = "../model/nonmem"
 This is equivalent to invoking the new `root` argument and setting it to 
 `"working"`:
 
-```{cpp, eval = FALSE}
+```{r, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = "../model/nonmem"
@@ -156,7 +156,7 @@ root = "working"
 which tells mrgsolve to interpret the path relative to wherever the 
 model code is located:
 
-```{cpp, eval = FALSE}
+```{r, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = "../model/nonmem"
@@ -182,7 +182,7 @@ relative to your `Rstudio` project root. So, if all my models were in the
 regardless of the working directory and regardless of where the `cpp` file 
 is located. 
 
-```{cpp, eval = FALSE}
+```{r, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = here::here("model/nonmem")
@@ -204,7 +204,7 @@ table in the `.ext` file to import from when there are multiple.
 
 To select the 2nd table:
 
-```{cpp, eval = FALSE}
+```{r, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = "../model/nonmem"
@@ -214,7 +214,7 @@ index = 2
 
 The default is to select the `last` table:
 
-```{cpp, eval = FALSE}
+```{r, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = "../model/nonmem"
@@ -273,7 +273,7 @@ you the ability to easily initialize this matrix.
 In the example, we used the `@as_object` directive. The other way to do it would
 be to create the object in `$ENV` and then use `@object`:
 
-```{cpp, eval = FALSE}
+```{r, eval = FALSE}
 $ENV
 foo <- matrix(0, nrow = 30, ncol = 30)
 

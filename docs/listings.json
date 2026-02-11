@@ -2,8 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/split-dose.html",
       "/posts/json-log.html",
+      "/posts/split-dose.html",
       "/posts/true-cmax.html",
       "/posts/evtools.html",
       "/posts/2024-new-1-5-1.html",
@@ -12,7 +12,6 @@
       "/posts/2023-update-validation.html",
       "/posts/2023-new-1.0.8.html",
       "/posts/2022-10-import-multiple.html",
-      "/posts/2022-05-validate-translation/index.html",
       "/posts/2022-apr-stop.html",
       "/posts/new-1-0-0.html",
       "/posts/simulate-ebe.html",

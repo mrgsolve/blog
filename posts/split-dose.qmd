@@ -56,7 +56,7 @@ plugin and just a single dose record in the data set.
 Let's start by coding up a basic PK model with two depot compartments as in the 
 original request.
 
-```{c, code = readLines(here("posts/model/split-dose-1.mod")), eval = FALSE}
+```{r, code = readLines(here("posts/model/split-dose-1.mod")), eval = FALSE}
 #| filename: "split-dose-1.mod"
 ```
 
@@ -93,7 +93,7 @@ between the two `depot` compartments. Recall, that we can modify any
 dose amount by setting the bioavailability parameter (`F1` for compartment 1);
 in this example, we reduce by 50% with:
 
-```{c, eval = FALSE}
+```{r, eval = FALSE}
 $plugin nm-vars
 
 $pk
@@ -108,7 +108,7 @@ Now, we will add some code using `evtools` to "clone" any dose into
 `depot1` that comes along and create a _new_ dose into `depot2` with 
 half the dose. 
 
-```{c, eval = FALSE}
+```{r, eval = FALSE}
 $plugin nm-vars evtools
 
 $pk
@@ -135,7 +135,7 @@ Remember that the signature for `evt::bolus()` is:
 - `cmt`, the dosing compartment 
 
 ::: {.callout-note title="Full model code - spilt first-order absorption" collapse=true appearance="minimal"}
-```{c, eval = FALSE, code = readLines(here("posts/model/split-dose-2.mod"))}
+```{r, eval = FALSE, code = readLines(here("posts/model/split-dose-2.mod"))}
 #| filename: "spilt-dose-2.mod"
 ```
 :::
@@ -186,7 +186,7 @@ Here's another example where we have fast first order input
 in combination with slower zero-/first-order input. 
 
 ::: {.callout-note title="Full model code - spilt first/zero-first order absorption" collapse=true appearance="minimal"}
-```{c, eval = FALSE, code = readLines(here("posts/model/split-dose-3.mod"))}
+```{r, eval = FALSE, code = readLines(here("posts/model/split-dose-3.mod"))}
 #| filename: "spilt-dose-3.mod"
 
 ```

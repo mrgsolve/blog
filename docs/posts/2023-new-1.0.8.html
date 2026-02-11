@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -70,14 +70,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1f0350de2ecdad20e55f10b05729bb57.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-122d777f2c3aea4cc84ab561bb62f904.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -141,6 +142,8 @@ background: #097f5f;
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">mrgsolve/blog</span>
     </a>
@@ -304,9 +307,9 @@ background: #097f5f;
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>mrgsolve version 1.0.8 was released to CRAN on March 4th, 2023. This blog post introduces some of the new features in 1.0.8 as well as 1.0.7, which was not released to CRAN.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="missing-values-and-input-data-sets" class="level1" data-number="2">
@@ -337,17 +340,17 @@ background: #097f5f;
 <h1 data-number="3"><span class="header-section-number">3</span> Convenient ETA capture</h1>
 <p>The <code>$CAPTURE</code> block gains a new option for capturing any or all <code>ETA</code>s into the simulated output. The user writes an expression which evaluates to the integer numbers of <code>ETA</code>s to capture into the <code>@etas</code> option. For example</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$OMEGA <span class="fl">0.1</span> <span class="fl">0.2</span> <span class="fl">0.3</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$OMEGA <span class="fl">0.1</span> <span class="fl">0.2</span> <span class="fl">0.3</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>$CAPTURE @etas <span class="dv">1</span><span class="op">:</span>LAST</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>CL Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>CL Y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>will capture ETAs 1, 2, and 3 into <code>ETA1</code>, <code>ETA2</code>, and <code>ETA3</code> in the simulated output.</p>
 <p><strong>Note</strong> that the syntax <em>resembles</em> what you might write in NONMEM where <code>last</code> is the total number of <code>ETA</code>s in the problem.</p>
 <p><strong>Note</strong> also that <code>ETA</code> naming resembles what you would get from NONMEM. This is contrasted with the naming that you continue to get when you simply capture <code>ETA(1)</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$CAPTURE </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>CL Y ETA<span class="op">(</span><span class="dv">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$CAPTURE </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>CL Y ETA<span class="op">(</span><span class="dv">1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>In this case, the name would be <code>ETA_1</code>, with <code>()</code> getting removed and replaced with <code>_</code>. This sanitization of names happens any time a captured item has parens or brackets in the name.</p>
 </section>
@@ -355,10 +358,10 @@ background: #097f5f;
 <h1 data-number="4"><span class="header-section-number">4</span> New model macro: <code>SIGMA()</code></h1>
 <p>The user can now access on-diagonal elements of <code>$SIGMA</code> through the <code>SIGMA()</code> macro. For example</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>$SIGMA <span class="fl">0.1</span> <span class="dv">12</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>$SIGMA <span class="fl">0.1</span> <span class="dv">12</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>$TABLE</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> STD<span class="op">=</span>sqrt<span class="op">(</span>SIGMA<span class="op">(</span><span class="dv">1</span><span class="op">)+</span>pow<span class="op">(</span>F<span class="op">,</span><span class="dv">2</span><span class="op">)*</span>SIGMA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> STD<span class="op">=</span>sqrt<span class="op">(</span>SIGMA<span class="op">(</span><span class="dv">1</span><span class="op">)+</span>pow<span class="op">(</span>F<span class="op">,</span><span class="dv">2</span><span class="op">)*</span>SIGMA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This macro provides read-only access to the <code>$SIGMA</code> elements.</p>
 </section>
@@ -367,16 +370,16 @@ background: #097f5f;
 <p>When a mrgsolve model is translated from a NONMEM run, it is common to give them matching file names. For example, if <code>101.ctl</code> is the NONMEM control stream name, we might create an mrgsolve version of that run as <code>101.cpp</code> or <code>101.mod</code>.</p>
 <p>In this case, we will likely use <code>$NMEXT</code> or <code>$NMXML</code> blocks to import the estimates from the completed NONMEM run with code like this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>$NMEXT</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>$NMEXT</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">101</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"model/nonmem"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"model/nonmem"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>if the run completed in the <code>model/nonmem</code> directory.</p>
 <p>Starting with mrgsolve version 1.0.7, users can assume this connection in run numbers by setting the <code>run</code> to <code>@cppstem</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>$NMEXT</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>$NMEXT</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="st">"@cppstem"</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"model/nonmem"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">"model/nonmem"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This tells <code>$NMEXT</code> (and <code>$NMXML</code>) to look for <code>101.ext</code> (or <code>101.xml</code>) in the <code>model/nonmem/101</code> directory. Using this syntax will relieve the user from having to update the run number in these blocks when forking one model file to match a new NONMEM run.</p>
 </section>
@@ -385,33 +388,33 @@ background: #097f5f;
 <p><code>mrgsim()</code> gains a new argument called <code>etasrc</code> which allows you to look to the data set for <code>ETA</code>s rather than simulating them from <code>$OMEGA</code>. This feature has several applications, including validation of your model translation from NONMEM and simulating from empirical Bayes estimates. These topics will be covered more in depth in separate blog posts.</p>
 <p>For now, let’s look at an example. This model has three <code>ETAs</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"etas"</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"etas"</span>, </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">  $OMEGA 1 2 3</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">  $CAPTURE @etas 1:last</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">  '</span>, </span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">end =</span> <span class="dv">3</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>By default, the <code>ETA</code>s are random draws from <code>$OMEGA</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">nid =</span> <span class="dv">4</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">nid =</span> <span class="dv">4</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model:  etas 
 Dim:    4 x 5 
 Time:   0 to 0 
 ID:     4 
-    ID time     ETA1    ETA2    ETA3
-1:   1    0 -0.08064  0.2625  0.4160
-2:   2    0  0.22828  0.9758 -1.5180
-3:   3    0  0.45809  3.0437  0.8761
-4:   4    0 -1.45897 -0.2954  0.1237</code></pre>
+    ID time     ETA1   ETA2    ETA3
+1:   1    0 -1.69967 0.2689  1.6990
+2:   2    0  0.40378 0.2982  0.1426
+3:   3    0 -0.38311 0.9331 -0.9161
+4:   4    0  0.08664 1.0483 -0.1050</code></pre>
 </div>
 </div>
 <p>When you have <code>ETA</code>s coded into your data set</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">cmt =</span> <span class="dv">0</span>, <span class="at">ETA1 =</span> <span class="fl">0.1</span>, <span class="at">ETA2 =</span> <span class="fl">0.2</span>, <span class="at">ETA3 =</span> <span class="fl">0.3</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">cmt =</span> <span class="dv">0</span>, <span class="at">ETA1 =</span> <span class="fl">0.1</span>, <span class="at">ETA2 =</span> <span class="fl">0.2</span>, <span class="at">ETA3 =</span> <span class="fl">0.3</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID time amt cmt evid ETA1 ETA2 ETA3
 1  1    0   0   0    1  0.1  0.2  0.3</code></pre>
@@ -419,7 +422,7 @@ ID:     4
 </div>
 <p>you can ask mrgsolve to use the data set <code>ETA</code>s rather than simulating new ones</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, data, <span class="at">etasrc =</span> <span class="st">"data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, data, <span class="at">etasrc =</span> <span class="st">"data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model:  etas 
 Dim:    5 x 5 
@@ -435,9 +438,9 @@ ID:     1
 </div>
 <p>If the data set is missing one of the <code>ETA</code>s, it will be filled with <code>0</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>miss2 <span class="ot">&lt;-</span> <span class="fu">select</span>(data, <span class="sc">-</span>ETA2)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>miss2 <span class="ot">&lt;-</span> <span class="fu">select</span>(data, <span class="sc">-</span>ETA2)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, miss2, <span class="at">etasrc =</span> <span class="st">"data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, miss2, <span class="at">etasrc =</span> <span class="st">"data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model:  etas 
 Dim:    5 x 5 
@@ -453,23 +456,23 @@ ID:     1
 </div>
 <p>You can ask for an error to be generated if not <em>all</em> <code>ETA</code>s are found on the data set by using <code>etasrc = "data.all"</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">mrgsim</span>(mod, miss2, <span class="at">etasrc =</span> <span class="st">"data.all"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">mrgsim</span>(mod, miss2, <span class="at">etasrc =</span> <span class="st">"data.all"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Error : all 3 ETAs must be provided when `etasrc` is "data.all".</code></pre>
 </div>
 </div>
 <p>Also, an error will be generated if you ask for <code>ETA</code>s from the data set, but there are <em>none</em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>missall <span class="ot">&lt;-</span> <span class="fu">select</span>(data, <span class="sc">-</span><span class="fu">contains</span>(<span class="st">"ETA"</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>missall <span class="ot">&lt;-</span> <span class="fu">select</span>(data, <span class="sc">-</span><span class="fu">contains</span>(<span class="st">"ETA"</span>))</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">mrgsim</span>(mod, missall, <span class="at">etasrc =</span> <span class="st">"data"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">mrgsim</span>(mod, missall, <span class="at">etasrc =</span> <span class="st">"data"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Error : at least one ETA must be provided when `etasrc` is "data".</code></pre>
 </div>
 </div>
 <p>You can get more information about the <code>etasrc</code> argument in the ‘Details’ section of the <code>mrgsim()</code> help page.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>?mrgsim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>?mrgsim</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -527,13 +530,14 @@ ID:     1
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -168,7 +168,7 @@ and the calculations for steady state just don't work out right to call it
 In your model, you can now give a vector of compartment to not look at 
 for handling steady state:
 
-```{c,eval=FALSE}
+```{r,eval=FALSE}
 [ set ] ss_cmt = "-DEPOT"
 
 [ cmt ] DEPOT CENT PERIPH
@@ -189,7 +189,7 @@ Let's say you're accumulating stuff in a compartment for AUC calculation.  When
 you have this in the model, you'll never make it to steady state according to 
 the definition set out above.  
 
-```{c,eval=FALSE}
+```{r,eval=FALSE}
 [ set ] ss_cmt = "-AUC"
 
 [ cmt ] DEPOT CENT PERIPH AUC
@@ -208,7 +208,7 @@ There is another (better) way to handle this. Users have a new variable that
 they can check that evaluates to `true` when mrgsolve is advancing the system
 to steady state.  So you might write this:
 
-```{c,eval=FALSE}
+```{r,eval=FALSE}
 [ cmt ] DEPOT CENT PERIPH AUC
 
 [ ode ]
@@ -230,7 +230,7 @@ the SS determination (as described above).
 Rather than excluding the misbehaving compartment, we can also request that 
 only one compartment be evaluated for SS
 
-```{c,eval=FALSE}
+```{r,eval=FALSE}
 [ set ] ss_cmt = "CENT"
 
 [ cmt ] DEPOT CENT PERIPH 

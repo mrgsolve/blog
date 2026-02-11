@@ -76,7 +76,7 @@ mwrite_yaml(mod, file = "1005-updated.mod")
 ::: {.callout-note collapse="true" appearance="simple"}
 # See the code in yaml format
 
-```{c, code = readLines("1005-updated.mod"), eval = FALSE}
+```{r, code = readLines("1005-updated.mod"), eval = FALSE}
 #| filename: 1005-updated.mod
 
 ```

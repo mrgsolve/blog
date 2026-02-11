@@ -59,7 +59,7 @@ theme_set(theme_bw() + theme(legend.position = "top"))
 Like any plugin, you need to opt in to using the functionality provided 
 by `evtools`. Do this with the `$PLUGIN` block
 
-```{c}
+```{r}
 #| eval: false
 $PLUGIN evtools
 ```
@@ -84,7 +84,7 @@ Another example is a typedef called `evt::ev` for the C++ event objects we use
 in the model. That `evt::bolus()` function an be called in a way that
 _returns_ an event object. You can use the typedef in `evt` like this
 
-```{c}
+```{r}
 #| eval: false
 evt::ev dose = evt::bolus(100, 1);
 ```
@@ -101,7 +101,7 @@ easy to remember syntax.
 
 To trigger a single **bolus** dose of 100 units into the first compartment, call 
 
-```{c}
+```{r}
 #| eval: false
 evt::bolus(self, 100, 1); 
 ```
@@ -118,7 +118,7 @@ dose and sends it back to mrgsolve via `self` to implement.
 To trigger a single **infusion** of 100 units into the first compartment with 
 rate of 5 units / time, call
 
-```{c}
+```{r}
 #| eval: false
 evt::infuse(self, 100, 1, 5);
 ```
@@ -135,7 +135,7 @@ You should call `evt::bolus()` and `evt::infuse()` from `$ERROR`.
 You will also need to figure out _when_ the dose should be triggered. Writing 
 the following code will give you a dose _every time_ `$ERROR` is called
 
-```{c}
+```{r}
 #| eval: false
 $ERROR
 evt::infuse(self, 100, 1, 5);
@@ -144,7 +144,7 @@ evt::infuse(self, 100, 1, 5);
 This is probably not what you want. There are multiple ways you can handle this. 
 The simplest way is to check `TIME` _and_ `EVID`
 
-```{c}
+```{r}
 #| eval: false
 if(TIME==0 & EVID==0) {
   evt::infuse(self, 100, 1, 5);
@@ -164,7 +164,7 @@ Model `evtools-1.mod` will implement a dose via `evt::infuse()`.
 ::: {.callout-note collapse="true" appearance="simple"}
 # See the full model 1 code
 
-```{c, code = readLines("evtools-1.mod"), eval = FALSE}
+```{r, code = readLines("evtools-1.mod"), eval = FALSE}
 #| filename: evtools-1.mod
 
 ```
@@ -186,7 +186,7 @@ you to interact with the event object prior to sending it back to mrgsolve.
 
 To create an object for a 100 unit **bolus** dose into compartment 1, call
 
-```{c}
+```{r}
 #| eval: false
 evt::ev dose = evt::bolus(100, 1); 
 ```
@@ -198,7 +198,7 @@ for us to work with.
 To create an object for a 100 unit **infusion** into compartment 1 with rate of 
 5 units / time, call
 
-```{c}
+```{r}
 #| eval: false
 evt::ev dose = evt::infuse(100, 1, 5); 
 ```
@@ -222,7 +222,7 @@ You can use the following functions to work on the event objects returned by
 
 When you create an event object through
 
-```{c}
+```{r}
 #| eval: false
 evt::ev dose = evt::infuse(100, 1, 5); 
 ```
@@ -233,7 +233,7 @@ call back to mrgsolve for processing.
 New in mrgsolve 1.4.1 is a `push()` method in the `self` object that lets you 
 "push" the event back for processing. For the dose object, it would look like
 
-```{c}
+```{r}
 #| eval: false
 self.push(dose);
 ```
@@ -251,7 +251,7 @@ over 28 hours and have it start 12 hours into the simulation.
 
 ::: {.callout-note collapse="true" appearance="simple"}
 # See the full model 2 code
-```{c, code = readLines("evtools-2.mod"), eval = FALSE}
+```{r, code = readLines("evtools-2.mod"), eval = FALSE}
 #| filename: evtools-2.mod
 
 ```
@@ -293,7 +293,7 @@ each part in order and then show a complete example.
 To create the regimen object, you have to declare this in the 
 `$GLOBAL` block
 
-```{c}
+```{r}
 #| eval: false
 $GLOBAL
 evt::regimen reg;
@@ -308,7 +308,7 @@ We initialize by passing in the `self` object to the `init()` method. This makes
 sure the `regimen` can communicate with mrgsolve (via `self`). You only need to 
 do this once, so you can write this in either `$PREAMBLE` 
 
-```{c}
+```{r}
 #| eval: false
 $PREAMBLE
 reg.init(self);
@@ -316,7 +316,7 @@ reg.init(self);
 
 or in `$PK` (it's ok to do this multiple times)
 
-```{c}
+```{r}
 #| eval: false
 $PK 
 if(NEWIND < 1) {
@@ -332,7 +332,7 @@ each of these attributes For a 100 mg infusion into the first compartment over
 1.5 hours every 24 hours for a week, it would look like
 
 
-```{c}
+```{r}
 #| eval: false
 $PK
 if(NEWIND <= 1) {
@@ -357,7 +357,7 @@ the object at the start of each new individual in the problem.
 Once you have everything set up, call `execute()` to actually start 
 giving the doses; this should be done in `$ERROR`.
 
-```{c}
+```{r}
 #| eval: false
 $ERROR 
 reg.execute();
@@ -373,7 +373,7 @@ dosing regimen using `evt::regmen`.
 ::: {.callout-note collapse="true" appearance="simple"}
 # See the full model 3 code
 
-```{c, code = readLines("evtools-3.mod"), eval = FALSE}
+```{r, code = readLines("evtools-3.mod"), eval = FALSE}
 #| filename: evtools-3.mod
 
 ```
@@ -420,7 +420,7 @@ but we'll stick with it for simplicity.
 ::: {.callout-note collapse="true" appearance="simple"}
 # See the full model 4 code
 
-```{c, code = readLines("evtools-4.mod"), eval = FALSE}
+```{r, code = readLines("evtools-4.mod"), eval = FALSE}
 #| filename: evtools-4.mod
 
 ```
@@ -503,7 +503,7 @@ To start, doses will be administered every 24 hours. Then, the dosing interval
 will be cut in half (every 12 hours) while doubling the dose amount; this will
 happen after the first week of dosing.
 
-```{c}
+```{r}
 #| eval: false
 $ERROR
 if(evt::near(TIME, 168.0) && EVID > 0) {
@@ -521,7 +521,7 @@ using `reg.flagnext()` in this model (see below).
 At 300 hours, we'll bring the dose back to double the starting value and change
 the dosing interval to every 48 hours
 
-```{c}
+```{r}
 #| eval: false
 $ERROR
 if(evt::near(TIME, 168) && EVID > 0) {
@@ -540,7 +540,7 @@ if(evt::near(TIME, 300) && EVID > 0) {
 ::: {.callout-note collapse="true" appearance="simple"}
 # See the full model 5 code
 
-```{c, code = readLines("evtools-5.mod"), eval = FALSE}
+```{r, code = readLines("evtools-5.mod"), eval = FALSE}
 #| filename: evtools-5.mod
 
 ```
@@ -591,7 +591,7 @@ Along the same lines, be very careful when requesting that model stops to give
 a dose based on `TIME` alone. For example I might want the model to stop 
 at 24 hours to give a dose
 
-```{c}
+```{r}
 #| eval: false
 if(TIME==24) <give a dose>;
 ```
@@ -602,7 +602,7 @@ that would give you multiple doses in this case?
 
 I'd recommend refactoring this check to include `EVID` as well
 
-```{c}
+```{r}
 #| eval: false
 if(TIME==24 && EVID==0) <give a dose>;
 ```
@@ -613,7 +613,7 @@ a second dose for another, non-EVID==0 record.
 
 Also, what if we wanted this to happen
 
-```{c}
+```{r}
 #| eval: false
 if(TIME==14.2 && EVID==0) <give a dose>;
 ```

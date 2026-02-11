@@ -166,7 +166,7 @@ mod <- mread_cache("106.txt", project = here("model/pk"))
 ::: {.callout-note collapse="true" appearance="simple" icon="false"}
 # See the model code
 
-```{c, eval = FALSE, code = mod@code, filename = "106.txt"}
+```{r, eval = FALSE, code = mod@code, filename = "106.txt"}
 
 ```
 :::

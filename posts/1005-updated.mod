@@ -1,5 +1,5 @@
 source: mrgsolve::mwrite
-mrgsolve: 1.5.2
+mrgsolve: 1.7.2.9000
 format: yaml
 version: 1.0
 model: '1005'

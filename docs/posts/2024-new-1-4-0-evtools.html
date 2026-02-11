@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -70,14 +70,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1f0350de2ecdad20e55f10b05729bb57.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-122d777f2c3aea4cc84ab561bb62f904.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -141,6 +142,8 @@ background: #097f5f;
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">mrgsolve/blog</span>
     </a>
@@ -334,16 +337,16 @@ background: #097f5f;
 <section id="setup" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="setup"><span class="header-section-number">2</span> Setup</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="invoking-evtools" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="invoking-evtools"><span class="header-section-number">3</span> Invoking <code>evtools</code></h2>
 <p>Like any plugin, you need to opt in to using the functionality provided by <code>evtools</code>. Do this with the <code>$PLUGIN</code> block</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$PLUGIN evtools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PLUGIN evtools</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Plugins bring in additional functionality or syntax beyond what you get with the basic mrgsolve model code. They either make your model more convenient (to code) or more powerful.</p>
 </section>
@@ -353,7 +356,7 @@ background: #097f5f;
 <p>For example, there a function called <code>bolus()</code> which is located in the <code>evt</code> namespace. So we have to call that function with <code>evt::bolus()</code> rather than plain old <code>bolus()</code>. This prefixing is roughly equivalent to calling <code>dplyr::mutate()</code> or <code>purrr::map()</code> which is currently a popular R coding style.</p>
 <p>Another example is a typedef called <code>evt::ev</code> for the C++ event objects we use in the model. That <code>evt::bolus()</code> function an be called in a way that <em>returns</em> an event object. You can use the typedef in <code>evt</code> like this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>ev dose <span class="op">=</span> evt<span class="op">::</span>bolus<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span>ev dose <span class="ot">=</span> evt<span class="sc">::</span><span class="fu">bolus</span>(<span class="dv">100</span>, <span class="dv">1</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then work with the <code>dose</code> object as you wish (keep reading for more discussion about how this works).</p>
 </section>
@@ -362,7 +365,7 @@ background: #097f5f;
 <p>Users have been able to give doses from inside their mrgsolve model for a while now. With the <code>evtools</code> plugin, this should be much easier to do, with a simple, easy to remember syntax.</p>
 <p>To trigger a single <strong>bolus</strong> dose of 100 units into the first compartment, call</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>bolus<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span><span class="fu">bolus</span>(self, <span class="dv">100</span>, <span class="dv">1</span>); </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The arguments here are</p>
 <ul>
@@ -373,7 +376,7 @@ background: #097f5f;
 <p>Notice there is no return value to this function; this one call specifies the dose and sends it back to mrgsolve via <code>self</code> to implement.</p>
 <p>To trigger a single <strong>infusion</strong> of 100 units into the first compartment with rate of 5 units / time, call</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span><span class="fu">infuse</span>(self, <span class="dv">100</span>, <span class="dv">1</span>, <span class="dv">5</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The signature for <code>evt::infuse()</code> is similar to <code>evt::bolus()</code>, but just add a <code>rate</code> argument at the end of the signature.</p>
 <ul>
@@ -384,26 +387,26 @@ background: #097f5f;
 </ul>
 <p>You should call <code>evt::bolus()</code> and <code>evt::infuse()</code> from <code>$ERROR</code>. You will also need to figure out <em>when</em> the dose should be triggered. Writing the following code will give you a dose <em>every time</em> <code>$ERROR</code> is called</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span><span class="fu">infuse</span>(self, <span class="dv">100</span>, <span class="dv">1</span>, <span class="dv">5</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This is probably not what you want. There are multiple ways you can handle this. The simplest way is to check <code>TIME</code> <em>and</em> <code>EVID</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(TIME<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span> EVID<span class="sc">==</span><span class="dv">0</span>) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  evt<span class="sc">::</span><span class="fu">infuse</span>(self, <span class="dv">100</span>, <span class="dv">1</span>, <span class="dv">5</span>);</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This will get you a dose when <code>TIME==0</code> and <code>EVID==0</code>. I highly recommend checking something other than just <code>TIME</code> when deciding to dose since there may be other “events” that are taking place at the time you want to check for giving a dose. You can easily fire off two doses at the dose time rather than just the intended one dose.</p>
 <section id="example" class="level3" data-number="5.1">
 <h3 data-number="5.1" class="anchored" data-anchor-id="example"><span class="header-section-number">5.1</span> Example</h3>
 <p>Model <code>evtools-1.mod</code> will implement a dose via <code>evt::infuse()</code>.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-See the full model 1 code
+<span class="screen-reader-only">Note</span>See the full model 1 code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -414,32 +417,32 @@ See the full model 1 code
 <div class="code-with-filename-file">
 <pre><strong>evtools-1.mod</strong></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>$PARAM CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PARAM CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">10</span>, KA <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>$PKMODEL cmt <span class="op">=</span> <span class="st">"GUT,CENT"</span><span class="op">,</span> depot <span class="op">=</span> TRUE</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PKMODEL cmt <span class="ot">=</span> <span class="st">"GUT,CENT"</span>, depot <span class="ot">=</span> <span class="cn">TRUE</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>$SET outvars <span class="op">=</span> <span class="st">"CP"</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SET outvars <span class="ot">=</span> <span class="st">"CP"</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>$PLUGIN evtools</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PLUGIN evtools</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">0</span><span class="op">)</span> evt<span class="op">::</span>infuse<span class="op">(</span>self<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="fl">100.0</span><span class="op">/</span><span class="fl">20.0</span><span class="op">);</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(TIME<span class="sc">==</span><span class="dv">0</span>) evt<span class="sc">::</span><span class="fu">infuse</span>(self, <span class="dv">100</span>, <span class="dv">2</span>, <span class="fl">100.0</span><span class="sc">/</span><span class="fl">20.0</span>);</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>capture CP <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>capture CP <span class="ot">=</span> CENT<span class="sc">/</span>V;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-1.mod"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-1.mod"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building evtools-1_mod ... done.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">end =</span> <span class="dv">72</span>, <span class="at">delta =</span> <span class="fl">0.2</span>) </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">end =</span> <span class="dv">72</span>, <span class="at">delta =</span> <span class="fl">0.2</span>) </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -455,12 +458,12 @@ See the full model 1 code
 <p>A similar set of functions will implement bolus or infusion doses, but allowing you to interact with the event object prior to sending it back to mrgsolve.</p>
 <p>To create an object for a 100 unit <strong>bolus</strong> dose into compartment 1, call</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>ev dose <span class="op">=</span> evt<span class="op">::</span>bolus<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span>ev dose <span class="ot">=</span> evt<span class="sc">::</span><span class="fu">bolus</span>(<span class="dv">100</span>, <span class="dv">1</span>); </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The arguments here are dose <code>amt</code> and the dosing <code>compartment</code> number. Notice that we don’t pass in <code>self</code>, but rather we get the object back (as <code>dose</code>) for us to work with.</p>
 <p>To create an object for a 100 unit <strong>infusion</strong> into compartment 1 with rate of 5 units / time, call</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>ev dose <span class="op">=</span> evt<span class="op">::</span>infuse<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span>ev dose <span class="ot">=</span> evt<span class="sc">::</span><span class="fu">infuse</span>(<span class="dv">100</span>, <span class="dv">1</span>, <span class="dv">5</span>); </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Again, the arguments are: <code>amt</code>, <code>cmt</code>, <code>rate</code> and we get an object back with which we can work.</p>
 <section id="functions-to-work-on-event-objects" class="level3" data-number="6.1">
@@ -476,12 +479,12 @@ See the full model 1 code
 <h3 data-number="6.2" class="anchored" data-anchor-id="be-sure-to-send-the-object-back-to-mrgsolve"><span class="header-section-number">6.2</span> Be sure to send the object back to mrgsolve</h3>
 <p>When you create an event object through</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>ev dose <span class="op">=</span> evt<span class="op">::</span>infuse<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">);</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span>ev dose <span class="ot">=</span> evt<span class="sc">::</span><span class="fu">infuse</span>(<span class="dv">100</span>, <span class="dv">1</span>, <span class="dv">5</span>); </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>you have to be sure to “send” the event object (<code>dose</code>) object created by the call back to mrgsolve for processing.</p>
 <p>New in mrgsolve 1.4.1 is a <code>push()</code> method in the <code>self</code> object that lets you “push” the event back for processing. For the dose object, it would look like</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>self<span class="op">.</span>push<span class="op">(</span>dose<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">self.push</span>(dose);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The previous syntax for pushing event objects back was pretty technical and difficult to remember. That old syntax is still valid, but we recommend calling <code>push()</code> as shown above.</p>
 </section>
@@ -489,12 +492,12 @@ See the full model 1 code
 <h3 data-number="6.3" class="anchored" data-anchor-id="example-1"><span class="header-section-number">6.3</span> Example</h3>
 <p>Model <code>evtools-2.mod</code> shows an example of creating an event object, retiming the dose and sending it back to mrgsolve. We’ll start an infusion of 100 mg over 28 hours and have it start 12 hours into the simulation.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-See the full model 2 code
+<span class="screen-reader-only">Note</span>See the full model 2 code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -505,36 +508,36 @@ See the full model 2 code
 <div class="code-with-filename-file">
 <pre><strong>evtools-2.mod</strong></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>$PARAM CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PARAM CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">10</span>, KA <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>$PKMODEL cmt <span class="op">=</span> <span class="st">"GUT,CENT"</span><span class="op">,</span> depot <span class="op">=</span> TRUE</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PKMODEL cmt <span class="ot">=</span> <span class="st">"GUT,CENT"</span>, depot <span class="ot">=</span> <span class="cn">TRUE</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>$PLUGIN evtools</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PLUGIN evtools</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>$SET outvars <span class="op">=</span> <span class="st">"CP"</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SET outvars <span class="ot">=</span> <span class="st">"CP"</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR</span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>ev dose <span class="op">=</span> evt<span class="op">::</span>infuse<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="fl">100.0</span><span class="op">/</span><span class="fl">28.0</span><span class="op">);</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  evt<span class="op">::</span>retime<span class="op">(</span>dose<span class="op">,</span> <span class="dv">12</span><span class="op">);</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  self<span class="op">.</span>push<span class="op">(</span>dose<span class="op">);</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(TIME<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;&amp;</span> EVID<span class="sc">==</span><span class="dv">0</span>) {</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  evt<span class="sc">::</span>ev dose <span class="ot">=</span> evt<span class="sc">::</span><span class="fu">infuse</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="fl">100.0</span><span class="sc">/</span><span class="fl">28.0</span>);</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  evt<span class="sc">::</span><span class="fu">retime</span>(dose, <span class="dv">12</span>);</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">self.push</span>(dose);</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>capture CP <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>capture CP <span class="ot">=</span> CENT<span class="sc">/</span>V;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-2.mod"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-2.mod"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building evtools-2_mod ... done.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">end =</span> <span class="dv">72</span>, <span class="at">delta =</span> <span class="fl">0.2</span>) </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">end =</span> <span class="dv">72</span>, <span class="at">delta =</span> <span class="fl">0.2</span>) </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -559,8 +562,8 @@ See the full model 2 code
 <h3 data-number="7.1" class="anchored" data-anchor-id="setting-up-a-regimen-object"><span class="header-section-number">7.1</span> Setting up a <code>regimen</code> object</h3>
 <p>To create the regimen object, you have to declare this in the <code>$GLOBAL</code> block</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>$GLOBAL</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>regimen reg<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GLOBAL</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span>regimen reg;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>When you create the object in <code>$GLOBAL</code>, you are allowing any other block to interact with or modify that object.</p>
 </section>
@@ -568,30 +571,30 @@ See the full model 2 code
 <h3 data-number="7.2" class="anchored" data-anchor-id="initializing-the-regimen-object"><span class="header-section-number">7.2</span> Initializing the <code>regimen</code> object</h3>
 <p>We initialize by passing in the <code>self</code> object to the <code>init()</code> method. This makes sure the <code>regimen</code> can communicate with mrgsolve (via <code>self</code>). You only need to do this once, so you can write this in either <code>$PREAMBLE</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>$PREAMBLE</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PREAMBLE</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">reg.init</span>(self);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>or in <code>$PK</code> (it’s ok to do this multiple times)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>$PK </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>NEWIND <span class="op">&lt;</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PK </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(NEWIND <span class="sc">&lt;</span> <span class="dv">1</span>) {</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.init</span>(self);</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="setting-up-the-regimen-object" class="level3" data-number="7.3">
 <h3 data-number="7.3" class="anchored" data-anchor-id="setting-up-the-regimen-object"><span class="header-section-number">7.3</span> Setting up the <code>regimen</code> object</h3>
 <p>For every subject, we want to set (or reset) this object to the starting dose, interval, etc. There are a series of “setter” functions that allow you to set each of these attributes For a 100 mg infusion into the first compartment over 1.5 hours every 24 hours for a week, it would look like</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>$PK</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>NEWIND <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span> </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span><span class="dv">100</span><span class="op">);</span> </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>cmt<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>rate<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()/</span><span class="fl">1.5</span><span class="op">);</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span><span class="dv">24</span><span class="op">);</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>until<span class="op">(</span><span class="dv">168</span><span class="op">);</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PK</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(NEWIND <span class="sc">&lt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.init</span>(self); </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.amt</span>(<span class="dv">100</span>); </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.cmt</span>(<span class="dv">1</span>);</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.rate</span>(<span class="fu">reg.amt</span>()<span class="sc">/</span><span class="fl">1.5</span>);</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.ii</span>(<span class="dv">24</span>);</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.until</span>(<span class="dv">168</span>);</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Note that you will probably want to avoid hard-coding these numbers in to your model. It will work better if you pass them as parameters, so they can be adjusted from simulation to simulation.</p>
 <p>Also note that I’ve put this in <code>$PK</code> because we are setting up the object at the start of each new individual in the problem.</p>
@@ -600,8 +603,8 @@ See the full model 2 code
 <h3 data-number="7.4" class="anchored" data-anchor-id="execute-the-regimen"><span class="header-section-number">7.4</span> Execute the regimen</h3>
 <p>Once you have everything set up, call <code>execute()</code> to actually start giving the doses; this should be done in <code>$ERROR</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>$ERROR </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>execute<span class="op">();</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">reg.execute</span>();</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>That’s it! Your dosing regimen is now active.</p>
 </section>
@@ -609,12 +612,12 @@ See the full model 2 code
 <h3 data-number="7.5" class="anchored" data-anchor-id="example-2"><span class="header-section-number">7.5</span> Example</h3>
 <p>Model <code>evtools-3.mod</code> gives a very simple example of setting up a dosing regimen using <code>evt::regmen</code>.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-See the full model 3 code
+<span class="screen-reader-only">Note</span>See the full model 3 code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -625,49 +628,49 @@ See the full model 3 code
 <div class="code-with-filename-file">
 <pre><strong>evtools-3.mod</strong></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>$PARAM CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PARAM CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">10</span>, KA <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>$PARAM</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>DOSE <span class="op">=</span> <span class="dv">100</span><span class="op">,</span> INTERVAL <span class="op">=</span> <span class="dv">24</span><span class="op">,</span> DUR <span class="op">=</span> <span class="fl">0.5</span><span class="op">,</span> UNTIL <span class="op">=</span> <span class="dv">168</span><span class="op">,</span> WHERE <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PARAM</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>DOSE <span class="ot">=</span> <span class="dv">100</span>, INTERVAL <span class="ot">=</span> <span class="dv">24</span>, DUR <span class="ot">=</span> <span class="fl">0.5</span>, UNTIL <span class="ot">=</span> <span class="dv">168</span>, WHERE <span class="ot">=</span> <span class="dv">2</span></span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>$PKMODEL cmt <span class="op">=</span> <span class="st">"GUT,CENT"</span><span class="op">,</span> depot <span class="op">=</span> TRUE</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PKMODEL cmt <span class="ot">=</span> <span class="st">"GUT,CENT"</span>, depot <span class="ot">=</span> <span class="cn">TRUE</span></span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>$SET outvars <span class="op">=</span> <span class="st">"CP"</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SET outvars <span class="ot">=</span> <span class="st">"CP"</span></span>
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>$PLUGIN evtools</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PLUGIN evtools</span>
 <span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>$GLOBAL</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>regimen reg<span class="op">;</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GLOBAL</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span>regimen reg;</span>
 <span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>$PK</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PK</span>
 <span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>NEWIND <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>DOSE<span class="op">);</span></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>INTERVAL<span class="op">);</span></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>rate<span class="op">(</span>DOSE<span class="op">/</span>DUR<span class="op">);</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>until<span class="op">(</span>UNTIL<span class="op">);</span></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>cmt<span class="op">(</span>WHERE<span class="op">);</span></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(NEWIND <span class="sc">&lt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.init</span>(self);</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.amt</span>(DOSE);</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.ii</span>(INTERVAL);</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.rate</span>(DOSE<span class="sc">/</span>DUR);</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.until</span>(UNTIL);</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.cmt</span>(WHERE);</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR</span>
 <span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>execute<span class="op">();</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="fu">reg.execute</span>();</span>
 <span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>capture CP <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>capture CP <span class="ot">=</span> CENT<span class="sc">/</span>V;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-3.mod"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-3.mod"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building evtools-3_mod ... done.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">end =</span> <span class="dv">200</span>, <span class="at">delta =</span> <span class="fl">0.1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">end =</span> <span class="dv">200</span>, <span class="at">delta =</span> <span class="fl">0.1</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -689,12 +692,12 @@ See the full model 3 code
 <p>In this example, we have a indirect response PKPD model where concentration inhibits the production of the response. The EC50 is 7 ng / mL but with substantial between subject variability.</p>
 <p>Every subject starts on 200 mg once daily. Once a week, we’ll reduce the dose by 25% if the PD response is smaller than 3,000. This isn’t terribly sophisticated decision rule but we’ll stick with it for simplicity.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-See the full model 4 code
+<span class="screen-reader-only">Note</span>See the full model 4 code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -705,59 +708,59 @@ See the full model 4 code
 <div class="code-with-filename-file">
 <pre><strong>evtools-4.mod</strong></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>$PARAM CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PARAM CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">10</span>, KA <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>$PARAM KIN <span class="op">=</span> <span class="dv">100</span><span class="op">,</span> KOUT <span class="op">=</span> <span class="fl">0.02</span><span class="op">,</span> EC50 <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PARAM KIN <span class="ot">=</span> <span class="dv">100</span>, KOUT <span class="ot">=</span> <span class="fl">0.02</span>, EC50 <span class="ot">=</span> <span class="dv">7</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>$PARAM</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>DOSE <span class="op">=</span> <span class="dv">100</span><span class="op">,</span> INTERVAL <span class="op">=</span> <span class="dv">24</span><span class="op">,</span> DUR <span class="op">=</span> <span class="fl">0.5</span><span class="op">,</span> UNTIL <span class="op">=</span> <span class="dv">168</span><span class="op">,</span> WHERE <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PARAM</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>DOSE <span class="ot">=</span> <span class="dv">100</span>, INTERVAL <span class="ot">=</span> <span class="dv">24</span>, DUR <span class="ot">=</span> <span class="fl">0.5</span>, UNTIL <span class="ot">=</span> <span class="dv">168</span>, WHERE <span class="ot">=</span> <span class="dv">2</span></span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>$OMEGA <span class="fl">0.5</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>OMEGA <span class="fl">0.5</span></span>
 <span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>$CMT GUT CENT PD</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>CMT GUT CENT PD</span>
 <span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>$PLUGIN evtools</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PLUGIN evtools</span>
 <span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>$GLOBAL</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>regimen reg<span class="op">;</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GLOBAL</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span>regimen reg;</span>
 <span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>$PK</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PK</span>
 <span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>NEWIND <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span></span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>DOSE<span class="op">);</span></span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>INTERVAL<span class="op">);</span></span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>rate<span class="op">(</span>DOSE<span class="op">/</span>DUR<span class="op">);</span></span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>until<span class="op">(</span>UNTIL<span class="op">);</span></span>
-<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>cmt<span class="op">(</span>WHERE<span class="op">);</span></span>
-<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(NEWIND <span class="sc">&lt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.init</span>(self);</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.amt</span>(DOSE);</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.ii</span>(INTERVAL);</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.rate</span>(DOSE<span class="sc">/</span>DUR);</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.until</span>(UNTIL);</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.cmt</span>(WHERE);</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>PD_0 <span class="op">=</span> KIN <span class="op">/</span> KOUT<span class="op">;</span></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>PD_0 <span class="ot">=</span> KIN <span class="sc">/</span> KOUT;</span>
 <span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> ec50 <span class="op">=</span> exp<span class="op">(</span>log<span class="op">(</span>EC50<span class="op">)</span> <span class="op">+</span> ETA<span class="op">(</span><span class="dv">1</span><span class="op">));</span></span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>double ec50 <span class="ot">=</span> <span class="fu">exp</span>(<span class="fu">log</span>(EC50) <span class="sc">+</span> <span class="fu">ETA</span>(<span class="dv">1</span>));</span>
 <span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>$ODE</span>
-<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>dxdt_GUT <span class="op">=</span> <span class="op">-</span>KA <span class="op">*</span> GUT<span class="op">;</span></span>
-<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>dxdt_CENT <span class="op">=</span> KA <span class="op">*</span> GUT <span class="op">-</span> <span class="op">(</span>CL<span class="op">/</span>V<span class="op">)</span> <span class="op">*</span> CENT<span class="op">;</span></span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ODE</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>dxdt_GUT <span class="ot">=</span> <span class="sc">-</span>KA <span class="sc">*</span> GUT;</span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>dxdt_CENT <span class="ot">=</span> KA <span class="sc">*</span> GUT <span class="sc">-</span> (CL<span class="sc">/</span>V) <span class="sc">*</span> CENT;</span>
 <span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> cp <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span>
-<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> inh <span class="op">=</span> cp<span class="op">/(</span>ec50 <span class="op">+</span> cp<span class="op">);</span></span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>double cp <span class="ot">=</span> CENT<span class="sc">/</span>V;</span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>double inh <span class="ot">=</span> cp<span class="sc">/</span>(ec50 <span class="sc">+</span> cp);</span>
 <span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>dxdt_PD <span class="op">=</span> KIN <span class="op">*</span> <span class="op">(</span><span class="dv">1</span><span class="op">-</span>inh<span class="op">)</span> <span class="op">-</span> KOUT <span class="op">*</span> PD<span class="op">;</span></span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>dxdt_PD <span class="ot">=</span> KIN <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>inh) <span class="sc">-</span> KOUT <span class="sc">*</span> PD;</span>
 <span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>capture PK <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR</span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>capture PK <span class="ot">=</span> CENT<span class="sc">/</span>V;</span>
 <span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>fmod<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">168</span><span class="op">)==</span><span class="dv">0</span> <span class="op">&amp;&amp;</span> PD <span class="op">&lt;</span> <span class="dv">3000</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()</span> <span class="op">*</span> <span class="fl">0.75</span><span class="op">);</span></span>
-<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>rate<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()</span> <span class="op">/</span> DUR<span class="op">);</span></span>
-<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">fmod</span>(TIME, <span class="dv">168</span>)<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;&amp;</span> PD <span class="sc">&lt;</span> <span class="dv">3000</span>) {</span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.amt</span>(<span class="fu">reg.amt</span>() <span class="sc">*</span> <span class="fl">0.75</span>);</span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.rate</span>(<span class="fu">reg.amt</span>() <span class="sc">/</span> DUR);</span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>capture dose <span class="op">=</span> reg<span class="op">.</span>amt<span class="op">();</span></span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>capture dose <span class="ot">=</span> <span class="fu">reg.amt</span>();</span>
 <span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>execute<span class="op">();</span></span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a><span class="fu">reg.execute</span>();</span>
 <span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a>$CAPTURE ec50</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>CAPTURE ec50</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -765,26 +768,26 @@ See the full model 4 code
 </div>
 <p>We’ll simulate 12 random subjects</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">expand.idata</span>(<span class="at">ID =</span> <span class="fu">seq</span>(<span class="dv">12</span>), <span class="at">DOSE =</span> <span class="dv">200</span>, <span class="at">UNTIL =</span> <span class="dv">2400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">expand.idata</span>(<span class="at">ID =</span> <span class="fu">seq</span>(<span class="dv">12</span>), <span class="at">DOSE =</span> <span class="dv">200</span>, <span class="at">UNTIL =</span> <span class="dv">2400</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-4.mod"</span>, <span class="at">outvars =</span> <span class="st">"PK,PD,dose,ec50"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-4.mod"</span>, <span class="at">outvars =</span> <span class="st">"PK,PD,dose,ec50"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building evtools-4_mod ... done.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  mod, </span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">idata =</span> idata, </span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">end =</span> <span class="dv">8</span><span class="sc">*</span><span class="dv">168</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Look at PK, PD, and dose versus time; I’ll facet the plots by the simulated EC50, from lowest to highest.</p>
 <p>First, concentration versus time</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, PK, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, PK, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -795,9 +798,9 @@ See the full model 4 code
 </div>
 <p>Next, pharmacodynamics versus time; remember, we’re trying to keep the predose response above 3,000</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, PD, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, PD, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">3000</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -808,8 +811,8 @@ See the full model 4 code
 </div>
 <p>Finally, the current dose versus time</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, dose, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(time, dose, <span class="at">col =</span> ec50)) <span class="sc">+</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>ec50) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="cn">NA</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -820,7 +823,7 @@ See the full model 4 code
 </div>
 <p>Finally, we can look at how doses, PK and PD fared at the end of the simulation. Only a handful of subjects stayed at the starting dose; most got dose reduced with some ending on doses far below the 200 mg starting dose.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>out <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(ec50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>out <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(ec50)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 6
       ID  time    PD ec50     PK  dose
@@ -846,34 +849,34 @@ See the full model 4 code
 <p>Model <code>evtools-5.mod</code> gives an example of dynamically changing the dose interval using <code>evt::regmen</code>. When we’ve done dynamic dosing in the past, it was always pretty easy to change the <em>dose</em> during the simulation, maybe through the bioavailability parameter. But changing the interval seemed impossible … until now.</p>
 <p>To start, doses will be administered every 24 hours. Then, the dosing interval will be cut in half (every 12 hours) while doubling the dose amount; this will happen after the first week of dosing.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="fl">168.0</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span><span class="dv">12</span><span class="op">);</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>DOSE<span class="op">/</span><span class="fl">2.0</span><span class="op">);</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(evt<span class="sc">::</span><span class="fu">near</span>(TIME, <span class="fl">168.0</span>) <span class="sc">&amp;&amp;</span> EVID <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.ii</span>(<span class="dv">12</span>);</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.amt</span>(DOSE<span class="sc">/</span><span class="fl">2.0</span>);</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Notice I’m using <code>evt::near()</code> here to compare two floating point numbers. This works similar to <code>dplyr::near()</code>, including default tolerance of 1e-8.</p>
 <p>Also, I’m checking that <code>EVID &gt; 0</code>; the reason for this is that we are using <code>reg.flagnext()</code> in this model (see below).</p>
 <p>At 300 hours, we’ll bring the dose back to double the starting value and change the dosing interval to every 48 hours</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">168</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>reg<span class="op">.</span>ii<span class="op">()/</span><span class="fl">2.0</span><span class="op">);</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()/</span><span class="fl">2.0</span><span class="op">);</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(evt<span class="sc">::</span><span class="fu">near</span>(TIME, <span class="dv">168</span>) <span class="sc">&amp;&amp;</span> EVID <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.ii</span>(<span class="fu">reg.ii</span>()<span class="sc">/</span><span class="fl">2.0</span>);</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.amt</span>(<span class="fu">reg.amt</span>()<span class="sc">/</span><span class="fl">2.0</span>);</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">300</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>reg<span class="op">.</span>ii<span class="op">()*</span><span class="dv">4</span><span class="op">);</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()*</span><span class="dv">4</span><span class="op">);</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(evt<span class="sc">::</span><span class="fu">near</span>(TIME, <span class="dv">300</span>) <span class="sc">&amp;&amp;</span> EVID <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.ii</span>(<span class="fu">reg.ii</span>()<span class="sc">*</span><span class="dv">4</span>);</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.amt</span>(<span class="fu">reg.amt</span>()<span class="sc">*</span><span class="dv">4</span>);</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-See the full model 5 code
+<span class="screen-reader-only">Note</span>See the full model 5 code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -884,56 +887,56 @@ See the full model 5 code
 <div class="code-with-filename-file">
 <pre><strong>evtools-5.mod</strong></pre>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>$PARAM CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PARAM CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">10</span>, KA <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>$PARAM</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>DOSE <span class="op">=</span> <span class="dv">100</span><span class="op">,</span> INTERVAL <span class="op">=</span> <span class="dv">24</span><span class="op">,</span> DUR <span class="op">=</span> <span class="fl">0.5</span><span class="op">,</span> UNTIL <span class="op">=</span> <span class="dv">540</span><span class="op">,</span> WHERE <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PARAM</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>DOSE <span class="ot">=</span> <span class="dv">100</span>, INTERVAL <span class="ot">=</span> <span class="dv">24</span>, DUR <span class="ot">=</span> <span class="fl">0.5</span>, UNTIL <span class="ot">=</span> <span class="dv">540</span>, WHERE <span class="ot">=</span> <span class="dv">2</span></span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>$PKMODEL cmt <span class="op">=</span> <span class="st">"GUT,CENT"</span><span class="op">,</span> depot <span class="op">=</span> TRUE</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PKMODEL cmt <span class="ot">=</span> <span class="st">"GUT,CENT"</span>, depot <span class="ot">=</span> <span class="cn">TRUE</span></span>
 <span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>$SET outvars <span class="op">=</span> <span class="st">"CP"</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SET outvars <span class="ot">=</span> <span class="st">"CP"</span></span>
 <span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>$PLUGIN evtools</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PLUGIN evtools</span>
 <span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>$GLOBAL</span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>evt<span class="op">::</span>regimen reg<span class="op">;</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GLOBAL</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>evt<span class="sc">::</span>regimen reg;</span>
 <span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>$PK</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PK</span>
 <span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>NEWIND <span class="op">&lt;=</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>init<span class="op">(</span>self<span class="op">);</span></span>
-<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>DOSE<span class="op">);</span></span>
-<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>INTERVAL<span class="op">);</span></span>
-<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>cmt<span class="op">(</span>WHERE<span class="op">);</span></span>
-<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>until<span class="op">(</span>UNTIL<span class="op">);</span></span>
-<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>flagnext<span class="op">();</span></span>
-<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(NEWIND <span class="sc">&lt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.init</span>(self);</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.amt</span>(DOSE);</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.ii</span>(INTERVAL);</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.cmt</span>(WHERE);</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.until</span>(UNTIL);</span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.flagnext</span>();</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
-<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">168</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>reg<span class="op">.</span>ii<span class="op">()</span> <span class="op">/</span> <span class="fl">2.0</span><span class="op">);</span></span>
-<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()</span> <span class="op">/</span> <span class="fl">2.0</span><span class="op">);</span></span>
-<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR</span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(evt<span class="sc">::</span><span class="fu">near</span>(TIME, <span class="dv">168</span>) <span class="sc">&amp;&amp;</span> EVID <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.ii</span>(<span class="fu">reg.ii</span>() <span class="sc">/</span> <span class="fl">2.0</span>);</span>
+<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.amt</span>(<span class="fu">reg.amt</span>() <span class="sc">/</span> <span class="fl">2.0</span>);</span>
+<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-32"><a href="#cb41-32" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>evt<span class="op">::</span>near<span class="op">(</span>TIME<span class="op">,</span> <span class="dv">300</span><span class="op">)</span> <span class="op">&amp;&amp;</span> EVID <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb41-33"><a href="#cb41-33" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>ii<span class="op">(</span>reg<span class="op">.</span>ii<span class="op">()</span> <span class="op">*</span> <span class="dv">4</span><span class="op">);</span></span>
-<span id="cb41-34"><a href="#cb41-34" aria-hidden="true" tabindex="-1"></a>  reg<span class="op">.</span>amt<span class="op">(</span>reg<span class="op">.</span>amt<span class="op">()</span> <span class="op">*</span> <span class="dv">4</span><span class="op">);</span></span>
-<span id="cb41-35"><a href="#cb41-35" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb41-32"><a href="#cb41-32" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(evt<span class="sc">::</span><span class="fu">near</span>(TIME, <span class="dv">300</span>) <span class="sc">&amp;&amp;</span> EVID <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb41-33"><a href="#cb41-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.ii</span>(<span class="fu">reg.ii</span>() <span class="sc">*</span> <span class="dv">4</span>);</span>
+<span id="cb41-34"><a href="#cb41-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reg.amt</span>(<span class="fu">reg.amt</span>() <span class="sc">*</span> <span class="dv">4</span>);</span>
+<span id="cb41-35"><a href="#cb41-35" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb41-36"><a href="#cb41-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-37"><a href="#cb41-37" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>execute<span class="op">();</span></span>
+<span id="cb41-37"><a href="#cb41-37" aria-hidden="true" tabindex="-1"></a><span class="fu">reg.execute</span>();</span>
 <span id="cb41-38"><a href="#cb41-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-39"><a href="#cb41-39" aria-hidden="true" tabindex="-1"></a>capture CP <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-39"><a href="#cb41-39" aria-hidden="true" tabindex="-1"></a>capture CP <span class="ot">=</span> CENT<span class="sc">/</span>V;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-5.mod"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"evtools-5.mod"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building evtools-5_mod ... done.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="at">end =</span> <span class="dv">600</span>, <span class="at">delta =</span> <span class="fl">0.1</span>) <span class="sc">%&gt;%</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="at">end =</span> <span class="dv">600</span>, <span class="at">delta =</span> <span class="fl">0.1</span>) <span class="sc">%&gt;%</span> <span class="fu">plot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -954,21 +957,21 @@ See the full model 5 code
 <p>This means there is more pressure on <em>you</em> to make sure you are requesting observations at times when you might need to give a dose. If you don’t do that, there is no reason why mrgsolve will stop to give a dose when you think it should. There is some functionality baked into these tools to help that, but you need to be aware of the model time and when the model might be stopping to let you make an intervention. This isn’t always very difficult to do, but it could be a little surprising if you forget to consider this issue.</p>
 <p>Along the same lines, be very careful when requesting that model stops to give a dose based on <code>TIME</code> alone. For example I might want the model to stop at 24 hours to give a dose</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">24</span><span class="op">)</span> <span class="op">&lt;</span>give a dose<span class="op">&gt;;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(TIME<span class="sc">==</span><span class="dv">24</span>) <span class="sc">&lt;</span>give a dose<span class="sc">&gt;</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This seems like a very reasonable thing to do. But do you know that the model will only stop once at <code>TIME==24</code>? could there be multiple stops at <code>TIME==24</code> that would give you multiple doses in this case?</p>
 <p>I’d recommend refactoring this check to include <code>EVID</code> as well</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="dv">24</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;</span>give a dose<span class="op">&gt;;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(TIME<span class="sc">==</span><span class="dv">24</span> <span class="sc">&amp;&amp;</span> EVID<span class="sc">==</span><span class="dv">0</span>) <span class="sc">&lt;</span>give a dose<span class="sc">&gt;</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here, assuming we have a single time vector for each individual, you can know that the model stops only once for an observation at 24 hours and you won’t get a second dose for another, non-EVID==0 record.</p>
 <p>Also, what if we wanted this to happen</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>TIME<span class="op">==</span><span class="fl">14.2</span> <span class="op">&amp;&amp;</span> EVID<span class="op">==</span><span class="dv">0</span><span class="op">)</span> <span class="op">&lt;</span>give a dose<span class="op">&gt;;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(TIME<span class="sc">==</span><span class="fl">14.2</span> <span class="sc">&amp;&amp;</span> EVID<span class="sc">==</span><span class="dv">0</span>) <span class="sc">&lt;</span>give a dose<span class="sc">&gt;</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>But passed in a time vector of</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24</code></pre>
 </div>
@@ -1036,13 +1039,14 @@ See the full model 5 code
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

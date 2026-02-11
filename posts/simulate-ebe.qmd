@@ -24,7 +24,7 @@ run). The basic implementation for this approach was pioneered by
 The situation is this: you've coded your population model in terms of 
 `THETA`, `ETA`, some covariates and the like:
 
-```{c, eval = FALSE}
+```{r, eval = FALSE}
 [ param ] WT = 70 , BMI = 23
 
 [ main ] 
@@ -78,7 +78,7 @@ other than what you used in the model.
 Now you need to add these as parameters in the model so mrgsolve will pick them 
 up when you pass them in on the data set
 
-```{c, eval = FALSE}
+```{r, eval = FALSE}
 [ param ] 
 WT = 70 , BMI = 23
 CLI = -1, VI = -1
@@ -94,7 +94,7 @@ put a block of code that updates those variables only if `CLI` is greater than
 zero; that is, if the updated parameter is something other than that special / 
 null value, we'll use that; otherwise use the random simulated value
 
-```{c, eval = FALSE}
+```{r, eval = FALSE}
 [ main ] 
 
 double CL = THETA1 * pow(WT/70,0.75)    * exp(ETA(1));

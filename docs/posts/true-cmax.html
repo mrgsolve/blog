@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1f0350de2ecdad20e55f10b05729bb57.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-122d777f2c3aea4cc84ab561bb62f904.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -135,7 +136,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -169,6 +170,8 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">mrgsolve/blog</span>
     </a>
@@ -346,7 +349,7 @@ Cmax.
 </ol>
 <p>The code might look like this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PLUGIN autodec</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>PLUGIN autodec</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SET outvars <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"CP"</span>, <span class="st">"Cmax"</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -370,7 +373,7 @@ Cmax.
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ERROR</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>CP <span class="ot">=</span> A2<span class="sc">/</span>V;</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>CAPTURE Cmax CP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>CAPTURE Cmax CP</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>I call this a “true” Cmax because the ODE solver will need to explore the shape of the concentration-time profile around Cmax in detail to understand when the concentration stops increasing and starts to decrease. And the solver will explore this part of the curve whether or not you ask for simulated output at the time of Cmax (Tmax) and you can get the true Cmax by logging the concentration at Tmax. If, instead, you simulated, say, every hour and then took the maximum <code>CP</code> over the dosing interval just from the output records, it will be an approximate Cmax since you likely didn’t ask for an output time exactly at Tmax.</p>
 </section>
@@ -378,16 +381,16 @@ Cmax.
 <h2 data-number="2" class="anchored" data-anchor-id="dose-into-extravascular-compartment"><span class="header-section-number">2</span> Dose into extravascular compartment</h2>
 <p>After loading packages and our model, let’s calculate Cmax for an extravascular dose. We set the default output time step (<code>delta</code>) to 6 hours to reduce the resolution of the simulated output; this is pretty extreme, but I wanted to make the point that we’ll get poor approximation of Cmax if we only look at <code>CP</code> on output records. In other words, we <em>have</em> to use the ODE-derived Cmax to get a the true value back.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"true-cmax.mod"</span>, <span class="at">delta =</span> <span class="dv">6</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"true-cmax.mod"</span>, <span class="at">delta =</span> <span class="dv">6</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <pre><code>\caption{Simulation: Predicted net benefit in \smwt\ distance from exposure 
 boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
 <p>We’ll put 1000 mg into the depot compartment as a single dose.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dose <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">1000</span>, <span class="at">cmt =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dose <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">1000</span>, <span class="at">cmt =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The time of the maximum concentration for this model is given by</p>
 <p><span class="math display">\[
@@ -395,18 +398,18 @@ boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
 \]</span></p>
 <p>and the actual Cmax for 1000 mg x1 is</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, dose, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">add =</span> <span class="fl">1.680962</span>, <span class="at">obsonly =</span> <span class="cn">TRUE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, dose, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">add =</span> <span class="fl">1.680962</span>, <span class="at">obsonly =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>true_bolus <span class="ot">&lt;-</span> out<span class="sc">$</span>CP</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>true_bolus</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>true_bolus</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 37.39889</code></pre>
 </div>
 </div>
 <p>On simulation, we can check the maximum value of <code>CP</code> (calculated only at output records) and <code>Cmax</code> (calculated with the code in <code>$DES</code>).</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, dose)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, dose)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, <span class="at">scales =</span> <span class="st">"same"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, <span class="at">scales =</span> <span class="st">"same"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -417,11 +420,11 @@ boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
 </div>
 <p>And these are the results from the different approaches.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out<span class="sc">$</span>CP)   <span class="co"># Concentration from output records</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out<span class="sc">$</span>CP)   <span class="co"># Concentration from output records</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 31.97673</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out<span class="sc">$</span>Cmax) <span class="co"># Max concentration from $DES</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out<span class="sc">$</span>Cmax) <span class="co"># Max concentration from $DES</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 37.39886</code></pre>
 </div>
@@ -433,13 +436,13 @@ boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
 </ol>
 <p>We can run this simulation with <em>much</em> smaller <code>delta</code> and with some more strict settings for the ODE solver.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>out2 <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, dose, <span class="at">delta =</span> <span class="fl">1e-3</span>, <span class="at">rtol =</span> <span class="fl">1e-12</span>, <span class="at">hmax =</span> <span class="fl">1e-3</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>out2 <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, dose, <span class="at">delta =</span> <span class="fl">1e-3</span>, <span class="at">rtol =</span> <span class="fl">1e-12</span>, <span class="at">hmax =</span> <span class="fl">1e-3</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out2<span class="sc">$</span>CP)   <span class="co"># Concentration from output records</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out2<span class="sc">$</span>CP)   <span class="co"># Concentration from output records</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 37.39889</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out2<span class="sc">$</span>Cmax) <span class="co"># Max concentration from $DES</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out2<span class="sc">$</span>Cmax) <span class="co"># Max concentration from $DES</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 37.39889</code></pre>
 </div>
@@ -447,15 +450,15 @@ boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
 <p>Here, we see good agreement with the approximated Cmax and the true Cmax.</p>
 <p>But we don’t <em>need</em> to go to these lengths; we can get a good approximation of Cmax from <code>CP</code> just by reducing <code>delta</code> to a reasonably small value.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>out3 <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, dose, <span class="at">delta =</span> <span class="fl">0.1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>out3 <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, dose, <span class="at">delta =</span> <span class="fl">0.1</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>approx_bolus <span class="ot">&lt;-</span> <span class="fu">max</span>(out3<span class="sc">$</span>CP)</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>approx_bolus</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>approx_bolus</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 37.39822</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> (approx_bolus <span class="sc">-</span> true_bolus) <span class="sc">/</span> true_bolus</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> (approx_bolus <span class="sc">-</span> true_bolus) <span class="sc">/</span> true_bolus</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.001783357</code></pre>
 </div>
@@ -467,33 +470,33 @@ boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
 <p>Some care must be taken when utilizing the approach for doses that are administered by infusion into the central compartment. In this case, the true Cmax happens at the end of the infusion and mrgsolve creates a discontinuity in the simulation when the infusion is turned off. When the ODE solver runs into this discontinuity, it will “overshoot” the infusion end time and then get the right solution by interpolating back in time. This isn’t a bug in the solver; it’s a feature, enabling the ODE solver to more efficiently run through your simulation. The trouble is with the code we have in the model for tracking Cmax: the logged value will keep increasing during the overshoot period and we will have a higher than expected Cmax value at the end of the simulation. This part of the vignette will demonstrate this behavior and show you some ways to address it.</p>
 <p>Let’s create a new event object infusing the dose into the central compartment.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dose <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">1000</span>, <span class="at">rate =</span> <span class="dv">149</span>, <span class="at">cmt =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dose <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">1000</span>, <span class="at">rate =</span> <span class="dv">149</span>, <span class="at">cmt =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We expect the infusion to end at <code>6.711409</code> hours</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' This infusion ends at </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' This infusion ends at </span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>end <span class="ot">&lt;-</span> dose<span class="sc">$</span>amt <span class="sc">/</span> dose<span class="sc">$</span>rate</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>end</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>end</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6.711409</code></pre>
 </div>
 </div>
 <p>and the “true” Cmax for the infusion is <code>35.08074</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim_df</span>(mod, <span class="at">event =</span> dose, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">add =</span> end, <span class="at">obsonly =</span> <span class="cn">TRUE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim_df</span>(mod, <span class="at">event =</span> dose, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">add =</span> end, <span class="at">obsonly =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(out, time, CP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(out, time, CP)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      time       CP
 1 6.711409 35.08074</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>true_infusion <span class="ot">&lt;-</span> out<span class="sc">$</span>CP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>true_infusion <span class="ot">&lt;-</span> out<span class="sc">$</span>CP</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>But what happens when we assess Cmax with our code in <code>$DES</code>? We see that the reported Cmax is <em>higher</em> than the true Cmax.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">event =</span> dose)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">event =</span> dose)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out<span class="sc">$</span>Cmax) <span class="co"># Max concentration from $DES</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out<span class="sc">$</span>Cmax) <span class="co"># Max concentration from $DES</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 38.51896</code></pre>
 </div>
@@ -501,18 +504,18 @@ boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
 <p>This happens because the ODE solver overshoots the end of the infusion and corrects this overshoot later; but our Cmax logging code can’t deal with the overshoot and retains the Cmax value that was falsely inflated during that overshoot.</p>
 <p>We can verify this is what is happening by reducing <code>hmax</code>, the maximum step size. When <code>hmax</code> is smaller, the ODE solver takes smaller steps, the overshoot won’t be as severe, and the simulated Cmax will be closer to the true value.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">event =</span> dose, <span class="at">hmax =</span> <span class="fl">1e-3</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">event =</span> dose, <span class="at">hmax =</span> <span class="fl">1e-3</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out<span class="sc">$</span>Cmax) <span class="co"># Max concentration from $DES</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out<span class="sc">$</span>Cmax) <span class="co"># Max concentration from $DES</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 35.08344</code></pre>
 </div>
 </div>
 <p>Now, our Cmax is looking better. We can get even closer by lowering <code>delta</code> and <code>rtol</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">event =</span> dose, <span class="at">hmax =</span> <span class="fl">1e-3</span>, <span class="at">delta =</span> <span class="fl">1e-4</span>, <span class="at">rtol =</span> <span class="fl">1e-12</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">event =</span> dose, <span class="at">hmax =</span> <span class="fl">1e-3</span>, <span class="at">delta =</span> <span class="fl">1e-4</span>, <span class="at">rtol =</span> <span class="fl">1e-12</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out<span class="sc">$</span>Cmax) <span class="co"># Max concentration from $DES</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out<span class="sc">$</span>Cmax) <span class="co"># Max concentration from $DES</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 35.08085</code></pre>
 </div>
@@ -520,17 +523,17 @@ boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
 <p>Now, we’re getting much closer to the true Cmax value. Of course, there is a cost to this: all of these changes will cause the ODE solver to be less efficient and the simulation will take longer.</p>
 <p>Here’s what happens with the reasonable approximation we used earlier.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>out4 <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">event =</span> dose, <span class="at">delta =</span> <span class="fl">0.1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>out4 <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">event =</span> dose, <span class="at">delta =</span> <span class="fl">0.1</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out4<span class="sc">$</span>CP) <span class="co"># Concentration from output records</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out4<span class="sc">$</span>CP) <span class="co"># Concentration from output records</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 35.02874</code></pre>
 </div>
 </div>
 <p>The approximate Cmax is a little off the true, but still pretty reasonable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>approx_infusion <span class="ot">&lt;-</span> <span class="fu">max</span>(out4<span class="sc">$</span>CP)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> (approx_infusion <span class="sc">-</span> true_infusion) <span class="sc">/</span> true_infusion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>approx_infusion <span class="ot">&lt;-</span> <span class="fu">max</span>(out4<span class="sc">$</span>CP)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> (approx_infusion <span class="sc">-</span> true_infusion) <span class="sc">/</span> true_infusion</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.1482349</code></pre>
 </div>
@@ -544,21 +547,21 @@ boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
 <h2 data-number="4" class="anchored" data-anchor-id="special-code-needed-when-advancing-system-to-steady-state"><span class="header-section-number">4</span> Special code needed when advancing system to steady state</h2>
 <p>Remember we had this code in <code>$DES</code> for keeping track of <code>Cmax</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>$DES</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>CPode <span class="op">=</span> A2<span class="op">/</span>V<span class="op">;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>DES</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>CPode <span class="ot">=</span> A2<span class="sc">/</span>V;</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CPode <span class="op">&gt;</span> Cmax<span class="op">)</span> Cmax <span class="op">=</span> CPode<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(CPode <span class="sc">&gt;</span> Cmax) Cmax <span class="ot">=</span> CPode;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>When mrgsolve is advancing the system to steady state (with <code>SS = 1</code> in the dosing record, it will call the <code>$DES</code> block over and over until it has determined a steady state has been reached. You probably don’t want or need to track <code>Cmax</code> while the system is advancing. You can update this code to prevent <code>Cmax</code> from getting updated using the <code>SS_ADVANCE</code> variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>$DES</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>CPode <span class="op">=</span> A2<span class="op">/</span>V<span class="op">;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>DES</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>CPode <span class="ot">=</span> A2<span class="sc">/</span>V;</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span>CPode <span class="op">&gt;</span> Cmax <span class="op">&amp;&amp;</span> <span class="op">!</span>SS_ADVANCE<span class="op">)</span> Cmax <span class="op">=</span> CPode<span class="op">;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(CPode <span class="sc">&gt;</span> Cmax <span class="sc">&amp;&amp;</span> <span class="sc">!</span>SS_ADVANCE) Cmax <span class="ot">=</span> CPode;</span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="op">=</span> <span class="op">-</span>KA <span class="op">*</span> A1<span class="op">;</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="ot">=</span> <span class="sc">-</span>KA <span class="sc">*</span> A1;</span>
 <span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="op">=</span>  KA <span class="op">*</span> A1 <span class="op">-</span> CL <span class="op">*</span> CPode<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="ot">=</span>  KA <span class="sc">*</span> A1 <span class="sc">-</span> CL <span class="sc">*</span> CPode;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This says to only update <code>Cmax</code> if the system is not in the process of advancing to steady state.</p>
 
@@ -617,13 +620,14 @@ boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
