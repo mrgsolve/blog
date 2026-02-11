@@ -1,9 +1,6 @@
-$PLUGIN BH
+$PLUGIN BH Rcpp mrgx
 
 $GLOBAL
-#include <iostream>
-#include <fstream>
-
 #include <boost/json/src.hpp>
 #include <boost/json.hpp>
 
@@ -34,7 +31,8 @@ if(EVID==1) {
     {"dosen", ++dosen},
     {"interval", interval},
     {"time", TIME},
-    {"ctrough", cp}
+    {"ctrough", cp},
+    {"source", "env"}
   };
 
   logg.push_back(obj);
@@ -42,9 +40,8 @@ if(EVID==1) {
 
 // Part 2:
 if(self.nrow == self.rown+1) {
-  std::ofstream logFile;
-  logFile.open("ctrough.json", std::ios::trunc);
-  logFile << js::serialize(logg) << std::endl;
-  logFile.close();
+  std::string result = js::serialize(logg);
+  Rcpp::Environment env = mrgx::get_envir(self);
+  env.assign("ctrough.json", result);
   logg.clear();
 }
