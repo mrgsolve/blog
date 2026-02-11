@@ -3,3 +3,5 @@ _freeze
 .Rproj.user
 /.quarto/
 mrgsolve-so-*
+
+**/*.quarto_ipynb

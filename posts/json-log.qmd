@@ -1,0 +1,163 @@
+---
+title: "Log model outputs in JSON format"
+subtitle: > 
+  This post shows you how to easily split a dose on a single data set 
+  record to be administered into multiple compartments.
+author: Kyle Baron
+date: 02-11-2025
+categories:
+- evtools
+---
+
+```{r}
+#| message: false
+#| echo: false
+library(mrgsolve)
+library(here)
+library(ggplot2)
+library(dplyr)
+theme_set(theme_bw() + theme(legend.position = "top"))
+options(ggplot2.discrete.colour = RColorBrewer::brewer.pal(name = "Dark2", n = 8))
+options(ggplot2.discrete.fill = RColorBrewer::brewer.pal(name = "Dark2", n = 8))
+options(mrgsolve.project = here("posts/model/"))
+```
+
+
+# Introduction 
+
+
+## Example
+
+::: {.callout-note appearance="simple" collapse=true}
+# See how we made the data
+
+```{r}
+e0 <- ev(amt = 100,   ii =  6, until = 145)
+e1 <- ev(amt = 100,   ii = 12, until = 145)
+e2 <- ev(amt = 100,   ii = 24, until = 145)
+data <- as_data_set(e0, e1, e2) %>% mutate(interval = ii)
+```
+
+:::
+
+```{r}
+data
+```
+
+
+```{r}
+#| message: false
+mod <- mread("json.mod", preclean = TRUE)
+```
+
+```{r}
+#| fig-height: 4
+#| fig-width: 8
+#| fig-cap: Trough concentration versus time for different dosing intervals.
+out <- mrgsim(mod, data, end = 240, delta = 0.1, recover = "interval")
+sims <- as_tibble(out)
+
+ggplot() + 
+  geom_line(data = sims, aes(time/24, cp)) + 
+  facet_wrap(~interval) + 
+  scale_x_continuous(breaks = seq(0, 10, 2)) +
+  scale_y_continuous(limits = c(0,20)) + 
+  labs(x = "Time (days)", y = "Ctrough (ng/mL)")
+```
+
+::: {.callout-note appearance="simple" collapse=true}
+# Here is the full model code
+
+```{r, code = readLines(here("posts/model/json.mod"))}
+#| eval: false
+
+```
+
+:::
+
+
+
+```{r}
+#| echo: false
+blocks <- modelparse(readLines(here("posts/model/json.mod")), drop_blank=FALSE)
+b <- paste0("$", names(blocks))
+blocks <- Map(\(x,y) c(y,x), blocks, b)
+```
+
+
+# Blocks
+
+## Use the `BH` plugin
+
+```{r, code = blocks$PLUGIN}
+#| eval: false
+```
+
+## Include the json header files in `$GLOBAL`
+
+```{r, code = blocks$GLOBAL}
+#| eval: false
+```
+
+## Clear the vector of output lines
+
+```{r, code = blocks$PREAMBLE}
+#| eval: false
+```
+
+## Most of the work happens in `$ERROR`
+
+```{r, code = blocks$ERROR}
+#| eval: false
+```
+
+# Run the simulation
+
+
+## Simulate
+
+```{r}
+out <- mrgsim(mod, data, end = 240, delta = 0.1, recover = "interval")
+
+out
+```
+
+## Read in the logged Ctrough data
+
+```{r}
+ct <- RcppSimdJson::fload(here("ctrough.json"))
+
+slice(ct, 1:3, .by = id)
+```
+
+
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| fig-cap: Trough concentration versus time for different dosing intervals.
+ggplot(ct, aes(time/24, ctrough, color = factor(interval))) + 
+  geom_line() + geom_point() + 
+  facet_grid(~interval) + 
+  scale_y_continuous(limits = c(0, 15), breaks = seq(0,15,1)) + 
+  scale_x_continuous(limits = c(0, 10), breaks = seq(0,10,2)) + 
+  labs(x = "Time (days)", y = "Ctrough (ng/mL)")
+```
+
+
+
+```{r}
+#| fig-height: 4
+#| fig-width: 8
+#| fig-cap: Concentration versus time; the shaded area is the Ctrough data.
+sims <- as_tibble(out)
+
+ggplot() + 
+  geom_line(data = ct, aes(time/24, ctrough, col = factor(interval)), 
+            lwd = 3, alpha = 0.6) + 
+  geom_line(data = sims, aes(time/24, cp)) + 
+  facet_wrap(~interval) + 
+  scale_x_continuous(breaks = seq(0, 10, 2)) +
+  scale_y_continuous(limits = c(0,20)) + 
+  labs(x = "Time (days)", y = "Ctrough (ng/mL)")
+```
