@@ -37,7 +37,7 @@ model, items carried from the input data, etc.
 Sometimes, you'd like to record what is happening inside the simulation in a 
 way that doesn't match up with the standard rectangular format. For example,
 
-- **Did any one reach a critically low platelet count? **
+- **Did anyone reach a critically low platelet count? **
   - Who was it?
   - When did it happen?
 - **While running dynamic dosing simulations**
