@@ -24,7 +24,7 @@ if(NEWIND <=1 ) {
 }
 
 $ERROR
-capture cp = B/V;
+capture CP = B/V;
 
 // Part 1:
 if(EVID==1) {
@@ -33,7 +33,7 @@ if(EVID==1) {
     {"dosen", ++dosen},
     {"interval", interval},
     {"time", TIME},
-    {"ctrough", cp}
+    {"ctrough", CP}
   };
 
   logg.push_back(obj);

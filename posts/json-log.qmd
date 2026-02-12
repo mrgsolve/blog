@@ -7,6 +7,8 @@ subtitle: >
 author: Kyle Baron
 date: 02-11-2026
 image: images/json.png
+open-graph:
+  image: images/json.png
 categories:
 - evtools
 ---
@@ -42,6 +44,9 @@ way that doesn't match up with the standard rectangular format. For example,
   - When were doses changed?
   - What were they changed from? and to?
   - What were the circumstances that lead to those dose adjustments?
+- **Dynamic sampling schedules**
+  - Can I get samples at times that I didn't specify in the input data?
+  - Can I control the density of sampling depending on how the system advances?
 
 This blog post will show you a simple way to log information as a simulation 
 progresses and work with it after the simulation ends. We will use a C++
@@ -71,10 +76,10 @@ Here is the data set we'll use:
 # See how we made the data
 
 ```{r}
-e0 <- ev(amt = 100,   ii =  6, until = 145)
-e1 <- ev(amt = 100,   ii = 12, until = 145)
-e2 <- ev(amt = 100,   ii = 24, until = 145)
-data <- as_data_set(e0, e1, e2) %>% mutate(interval = ii)
+e0 <- evd(amt = 100,   ii =  6, until = 145)
+e1 <- evd(amt = 100,   ii = 12, until = 145)
+e2 <- evd(amt = 100,   ii = 24, until = 145)
+data <- as_data_set(e0, e1, e2) %>% mutate(interval = II)
 ```
 
 :::
@@ -97,23 +102,23 @@ An example simulation from the model is included below.
 #| fig-width: 8
 #| label: fig-conc-time-intro
 #| fig-cap-location: top
-#| fig-cap: Trough concentration versus time for different dosing intervals.
+#| fig-cap: Concentration versus time for 6-, 12-, and 24-hour dosing intervals.
 out <- mrgsim(mod, data, end = 240, delta = 0.1, recover = "interval")
 
 sims <- as_tibble(out)
 
 ggplot() + 
-  geom_line(data = sims, aes(time/24, cp)) + 
+  geom_line(data = sims, aes(TIME/24, CP)) + 
   facet_wrap(~interval) + 
-  scale_x_continuous(breaks = seq(0, 10, 2)) +
+  scale_x_continuous(breaks = seq(0,10,2)) +
   scale_y_continuous(limits = c(0,20)) + 
   labs(x = "Time (days)", y = "Ctrough (ng/mL)")
 ```
 
 As expected, the most accumulation is seen in the 6 hour dosing interval and 
-the least in the 24 hour interval. In the model code, we'll show you out to 
-log each pre-dose concentration for each individual and work with that after
-the simulation ends. 
+the least in the 24 hour interval. In the model code, we'll show you how to 
+log each pre-dose concentration for each individual inside the simulation model
+and work with that data after the simulation ends. 
 
 
 # The model 
@@ -125,7 +130,7 @@ include:
 2. Collecting simulated data each time we administer a dose, and logging that 
    information in JSON format
 3. Once the simulation is finished, write the JSON output to a file
-4. We will read that file once the simulation is over and work with it
+4. We will read that file once the simulation is completed and work with it
    
 I've included the complete model code here; you can look at it to get a 
 birds eye view. I'll be going block-by-block, explaining what is happening 
@@ -148,7 +153,7 @@ in the sections below.
 ```{r}
 #| echo: false
 code <- readLines(here("posts/model/ctrough-log.mod"))
-blocks <- modelparse(code, drop_blank=FALSE, comment_re = "##")
+blocks <- modelparse(code, drop_blank = FALSE, comment_re = "##")
 b <- paste0("$", names(blocks))
 blocks <- Map(\(x,y) {
   if(x[1]=="") {
@@ -159,7 +164,7 @@ blocks <- Map(\(x,y) {
 ```
 
 
-Use the **BH** `$PLUGIN` to get access the the `boost::json` library.
+Use the **BH** `$PLUGIN` to get access the the Boost.JSON library.
 
 ```{cpp, code = blocks$PLUGIN, eval = FALSE}
 ```
@@ -167,32 +172,33 @@ Use the **BH** `$PLUGIN` to get access the the `boost::json` library.
 Recall that a plugin is a way to bring additional syntax or code in to your 
 model that you typically wouldn't use. Boost is an open-source C++ library, 
 providing sophisticated, high-performance numerical computation code to your 
-model. 
+model, including the Boost.JSON API for working with JSON code in C++. 
 
-You can read about Boost here: <https://www.boost.org/>. 
+::: {.column-margin}
+Boost : <https://www.boost.org/>
+Boost.JSON [documentation](https://www.boost.org/doc/libs/latest/libs/json/doc/html/index.html)
+:::
 
-
-In `$GLOBAL`, we include header the boost header files and invoke some 
-additional C++ functionality for writing the json to file.
+In `$GLOBAL`, we include the Boost.JSON header files and load some additional 
+C++ functionality for writing the JSON to file.
 
 ```{cpp, code = blocks$GLOBAL[1:6], eval = FALSE}
 ```
 
 We also alias the `boost::json` namespace to a friendlier name (just `json`) and 
 we initialize an array called `logg` where we will collect records for the 
-json-formatted output. 
+JSON-formatted output. 
 
 ```{cpp, code = blocks$GLOBAL[8:10], eval = FALSE}
 ```
 
 With this aliasing in place, we can initialize with array with `json::array logg`
-rather than `boost::json::array logg`. 
-
-There is full documentation for `boost::json` here: 
-<https://www.boost.org/doc/libs/latest/libs/json/doc/html/index.html>.
+rather than `boost::json::array logg`. This is optional; you can use the full 
+name with no change in result.
 
 
-In `$PREAMBLE`, we clear or reset json vector. 
+In `$PREAMBLE`, we clear or reset json vector; this gets called just _once_
+at the very start of the simulation run.
 
 ```{cpp, code = blocks$PREAMBLE, eval = FALSE}
 ```
@@ -205,7 +211,7 @@ In `$PREAMBLE`, we clear or reset json vector.
 
 There are two Parts to discuss here. 
 
-In **Part 1** we create a json object
+In **Part 1** we create a json object for a single log entry 
 
 - Use the `boost::json::object` type
 - The constructor is through an initialization list, enclosed in curly braces
@@ -214,23 +220,26 @@ In **Part 1** we create a json object
   in `{}`
   - Put the _name_ first as a quoted string
   - Put the _value_ next as a number or a string
-  - For example `{"ctrough", cp}`
+  - For example `{"ctrough", CP}`
 - Use the `push_back()` method to append this row to the `logg` array
 
-In **Part 2** we write the completed `json` array to a file
+In **Part 2** we write the completed `boost::json` array to a file
 
 - We check that we are at the _last_ record in the output data set
   - `self.rown` is the current row number (zero-indexed)
   - `self.nrow` is the total number of rows 
 - Then we write the data to file
   - First `open`ing the file
-  - Then serialize the `json` array, writing it to the file
+  - Then serialize the `boost::json` array, writing it to the file
   - Finally close the file then
-  - Clear the `json` array for safety
+  - Clear the `boost::json` array for safety
 
+
+Remember: you will probably be logging something other than Ctrough in your 
+simulation model. Take this code as an example to help you create your own JSON 
+objects at the appropriate time with the information you need. 
 
 # Run the simulation
-
 
 We simulate from this model just like we would any other model.
 
@@ -241,7 +250,8 @@ out
 ```
 
 After the simulation runs, we need to read in the logged Ctrough data. The raw 
-json code for the first two Ctrough points looks like this.
+JSON code was saved to `ctrough.json`; the first two Ctrough points looks like 
+this:
 
 ```{r}
 #| echo: false
@@ -249,14 +259,15 @@ code <- readLines(here("ctrough.json"))
 x <- capture.output(print(jsonlite::prettify(code)))
 ```
 
+::: {.column-margin}
+I've made the JSON code "pretty" to show you; in the file it won't look as 
+nicely formatted as this.
+:::
+
 ```{json, code = x[1:15]}
 #| filename: "ctrough.json"
 #| eval: false
 ```
-
-I've made the code "pretty" to show you; in the file it won't look as nicely 
-formatted as this.
-
 
 We'll use the `RcppSimdJson` package to read in the file we wrote in the model. 
 
@@ -271,6 +282,15 @@ ct <- RcppSimdJson::fload(here("ctrough.json"))
 slice(ct, 1:3, .by = id)
 ```
 
+`RcppSimdJson::fload()` returned our data nicely formatted in a data frame. When
+you are logging information, it doesn't have to all fit into a square data 
+structure. You can request the data back as a list as well. For example:
+
+```{r}
+ct_list <- RcppSimdJson::fload(here("ctrough.json"), max_simplify_lvl = "list")
+length(ct_list)
+ct_list[[2]]
+```
 
 
 ```{r}
@@ -278,13 +298,13 @@ slice(ct, 1:3, .by = id)
 #| fig-height: 4
 #| label: fig-trough-time-results
 #| fig-cap-location: top
-#| fig-cap: Trough concentration versus time for different dosing intervals.
+#| fig-cap: Trough concentration versus time for 6-, 12-, and 24-hour dosing intervals.
 ggplot(ct, aes(time/24, ctrough, color = factor(interval))) + 
   geom_line() + geom_point() + 
   facet_grid(~interval) + 
-  scale_y_continuous(limits = c(0, 16), breaks = seq(0,16,2)) + 
-  scale_x_continuous(limits = c(0, 10), breaks = seq(0,10,2)) + 
-  labs(x = "Time (days)", y = "Ctrough (ng/mL)")
+  scale_y_continuous(limits = c(0,16), breaks = seq(0,16,2)) + 
+  scale_x_continuous(limits = c(0,10), breaks = seq(0,10,2)) + 
+  labs(x = "Time (days)", y = "Ctrough (ng/mL)", color = "Interval (hr)")
 ```
 
 
@@ -294,17 +314,17 @@ ggplot(ct, aes(time/24, ctrough, color = factor(interval))) +
 #| fig-width: 8
 #| label: fig-trough-concentration-time-overlay-results
 #| fig-cap-location: top
-#| fig-cap: Concentration versus time; the shaded area is the Ctrough data.
+#| fig-cap: Concentration versus time stratified by dosing interval; the shaded area is the Ctrough data.
 sims <- as_tibble(out)
 
 ggplot() + 
   geom_line(data = ct, aes(time/24, ctrough, col = factor(interval)), 
             lwd = 3, alpha = 0.6) + 
-  geom_line(data = sims, aes(time/24, cp)) + 
+  geom_line(data = sims, aes(TIME/24, CP)) + 
   facet_wrap(~interval) + 
-  scale_x_continuous(breaks = seq(0, 10, 2)) +
-  scale_y_continuous(limits = c(0,20)) + 
-  labs(x = "Time (days)", y = "Ctrough (ng/mL)")
+  scale_x_continuous(breaks = seq(0,10,2)) +
+  scale_y_continuous(limits = c(0, 20)) + 
+  labs(x = "Time (days)", y = "Ctrough (ng/mL)", color = "Interval (hr)")
 ```
 
 
@@ -313,7 +333,7 @@ ggplot() +
 ```{r}
 #| echo: false
 code_env <- readLines(here("posts/model/ctrough-log-env.mod"))
-blocks <- modelparse(code_env, drop_blank=FALSE, comment_re = "##")
+blocks <- modelparse(code_env, drop_blank = FALSE, comment_re = "##")
 b <- paste0("$", names(blocks))
 blocks <- Map(\(x,y) {
   if(x[1]=="") {
@@ -325,9 +345,10 @@ blocks <- Map(\(x,y) {
 
 It might not be that easy or safe to write outputs to a file on disk. In that
 case, you can form the JSON object like we did in the model above, and 
-assign it as an R object in the models environment. 
+assign it as an R object in the model environment. 
 
-Part 2 of the `$ERROR` block from the original model has been updated to this
+**Part 2** of the `$ERROR` block from the original model has been updated to 
+this:
 
 ```{cpp, code = blocks$ERROR, eval = FALSE}
 
@@ -350,12 +371,19 @@ Part 2 of the `$ERROR` block from the original model has been updated to this
 
 ## Working example
 
+The simulation runs like before:
+
 ```{r}
 #| message: false
 alt <- mread("ctrough-log-env.mod")
 
 out <- mrgsim(alt, data, end = 240, delta = 0.1, recover = "interval")
 ```
+
+Now, to extract the result, we need to
+
+1. Pull the JSON code from model environment then
+2. Parse the code to get the result in R
 
 ```{r}
 env <- env_get(out@mod)
@@ -364,3 +392,36 @@ ct2 <- RcppSimdJson::fparse(env$ctrough.json)
 
 head(ct2)
 ```
+
+# Discussion
+
+**Why JSON?** With this Boost.JSON approach, I really like how simple the syntax 
+is to create different rows in the output. I like not having to think about the 
+type of data when constructing a row. And I like the ease of collecting the 
+rows into a single, organized, growing object to return (or write out) at the 
+end of the simulation. I've experimented with several ways to get additional 
+information out of an `mrgsolve` simulation. For example, you can use [C++ 
+STL containers](STL: https://en.cppreference.com/w/cpp/container.html) to 
+collect information for the different columns and then use the **Rcpp** plugin 
+to create an R data.frame on exit, assigning that to the model environment. 
+I usually use a double-ended queues (`std::deque`)  for this because they grow 
+easily. It works great and it's _pretty_ easy; just not as easy as this JSON 
+setup. 
+
+**Is the JSON performant?** I've done a little pressure testing on this
+approach, putting out some fairly large data sets. So far, it's worked really 
+well. Of course this will slow down your model a little bit; but so far it's 
+been difficult to detect a meaningful change in simulation run time with the 
+logging on or off. Of course, this will depend on your application and there
+will be some limit. But especially if you are only _logging_ events where
+you might have 1k to 50k rows in the output, it should be no problem. But don't
+let that limit you; I've created some fairly large, dense outputs and so far 
+I've been very happy with the performance. 
+
+**A drawback** One downside is that I don't believe you can interact with your
+data once you have created the JSON object. There's probably a way to do it, 
+but might not be that easy. When I was collecting information in STL 
+containers, it was easy to iterate back in time if I needed to check on 
+information or do some computation. It took a little bookkeeping, but it was 
+worth it. Nevertheless, if you are _only_ saving outputs, the JSON solution 
+works great.
