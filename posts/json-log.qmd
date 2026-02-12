@@ -8,7 +8,7 @@ author: Kyle Baron
 date: 02-11-2026
 image: images/json-open-graph.png
 open-graph:
-  image: images/json-open-graph.png
+  image: images/json-open-wide.png
 categories:
 - evtools
 ---
