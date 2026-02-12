@@ -174,17 +174,17 @@ You can read about Boost here: <https://www.boost.org/>.
 In `$GLOBAL`, we include header the boost header files and invoke some 
 additional C++ functionality for writing the json to file.
 
-```{cpp, code = blocks$GLOBAL[1:7], eval = FALSE}
+```{cpp, code = blocks$GLOBAL[1:6], eval = FALSE}
 ```
 
-We also alias the `boost::json` namespace to a friendlier name (just `js`) and 
+We also alias the `boost::json` namespace to a friendlier name (just `json`) and 
 we initialize an array called `logg` where we will collect records for the 
 json-formatted output. 
 
-```{cpp, code = blocks$GLOBAL[9:11], eval = FALSE}
+```{cpp, code = blocks$GLOBAL[8:10], eval = FALSE}
 ```
 
-With this aliasing in place, we can initialize with array with `js::array logg`
+With this aliasing in place, we can initialize with array with `json::array logg`
 rather than `boost::json::array logg`. 
 
 There is full documentation for `boost::json` here: 
@@ -198,13 +198,40 @@ In `$PREAMBLE`, we clear or reset json vector.
 
 ### Most of the work happens in `$ERROR`
 
+
 ```{cpp, code = blocks$ERROR, eval = FALSE}
 ```
+
+There are two Parts to discuss here. 
+
+In **Part 1** we create a json object
+
+- Use the `boost::json::object` type
+- The constructor is through an initialization list, enclosed in curly braces
+  `{}`
+- Create an output row as a comma-separated `name,value` pair, also enclosed 
+  in `{}`
+  - Put the _name_ first as a quoted string
+  - Put the _value_ next as a number or a string
+  - For example `{"ctrough", cp}`
+- Use the `push_back()` method to append this row to the `logg` array
+
+In **Part 2** we write the completed `json` array to a file
+
+- We check that we are at the _last_ record in the output data set
+  - `self.rown` is the current row number (zero-indexed)
+  - `self.nrow` is the total number of rows 
+- Then we write the data to file
+  - First `open`ing the file
+  - Then serialize the `json` array, writing it to the file
+  - Finally close the file then
+  - Clear the `json` array for safety
+
 
 # Run the simulation
 
 
-## Simulate
+We simulate from this model just like we would any other model.
 
 ```{r}
 out <- mrgsim(mod, data, end = 240, delta = 0.1, recover = "interval")
@@ -212,10 +239,8 @@ out <- mrgsim(mod, data, end = 240, delta = 0.1, recover = "interval")
 out
 ```
 
-## Read in the logged Ctrough data
-
-
-The raw json code for the first two Ctrough points looks like this
+After the simulation runs, we need to read in the logged Ctrough data. The raw 
+json code for the first two Ctrough points looks like this.
 
 ```{r}
 #| echo: false
@@ -227,6 +252,9 @@ x <- capture.output(print(jsonlite::prettify(code)))
 #| filename: "ctrough.json"
 #| eval: false
 ```
+
+I've made the code "pretty" to show you; in the file it won't look as nicely 
+formatted as this.
 
 
 We'll use the `RcppSimdJson` package to read in the file we wrote in the model. 

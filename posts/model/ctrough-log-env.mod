@@ -4,9 +4,9 @@ $GLOBAL
 #include <boost/json/src.hpp>
 #include <boost/json.hpp>
 
-namespace js = boost::json;
+namespace json = boost::json;
 
-js::array logg;
+json::array logg;
 
 $PARAM CL = 1, V = 25, KA = 2.5, interval = 24
 
@@ -25,8 +25,7 @@ capture cp = B/V;
 
 // Part 1:
 if(EVID==1) {
-
-  js::object obj = {
+  json::object obj = {
     {"id", ID},
     {"dosen", ++dosen},
     {"interval", interval},
@@ -40,7 +39,7 @@ if(EVID==1) {
 
 // Part 2:
 if(self.nrow == self.rown+1) {
-  std::string result = js::serialize(logg);
+  std::string result = json::serialize(logg);
   Rcpp::Environment env = mrgx::get_envir(self);
   env.assign("ctrough.json", result);
   logg.clear();

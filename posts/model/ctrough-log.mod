@@ -7,9 +7,9 @@ $GLOBAL
 #include <boost/json/src.hpp>
 #include <boost/json.hpp>
 
-namespace js = boost::json;
+namespace json = boost::json;
 
-js::array logg;
+json::array logg;
 
 $PARAM CL = 1, V = 25, KA = 2.5, interval = 24
 
@@ -28,8 +28,7 @@ capture cp = B/V;
 
 // Part 1:
 if(EVID==1) {
-
-  js::object obj = {
+  json::object obj = {
     {"id", ID},
     {"dosen", ++dosen},
     {"interval", interval},
@@ -44,7 +43,7 @@ if(EVID==1) {
 if(self.nrow == self.rown+1) {
   std::ofstream logFile;
   logFile.open("ctrough.json", std::ios::trunc);
-  logFile << js::serialize(logg) << std::endl;
+  logFile << json::serialize(logg) << std::endl;
   logFile.close();
   logg.clear();
 }
