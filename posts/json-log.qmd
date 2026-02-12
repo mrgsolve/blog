@@ -401,8 +401,9 @@ type of data when constructing a row. And I like the ease of collecting the
 rows into a single, organized, growing object to return (or write out) at the 
 end of the simulation. I've experimented with several ways to get additional 
 information out of an `mrgsolve` simulation. For example, you can use [C++ 
-STL containers](STL: https://en.cppreference.com/w/cpp/container.html) to 
-collect information for the different columns and then use the **Rcpp** plugin 
+STL containers](https://en.cppreference.com/w/cpp/container.html) to 
+collect information for the different columns and then use the **Rcpp** 
+[plugin](https://mrgsolve.org/user-guide/plugins.html)
 to create an R data.frame on exit, assigning that to the model environment. 
 I usually use a double-ended queues (`std::deque`)  for this because they grow 
 easily. It works great and it's _pretty_ easy; just not as easy as this JSON 
