@@ -411,18 +411,18 @@ setup.
 
 **Is the JSON performant?** I've done a little pressure testing on this
 approach, putting out some fairly large data sets. So far, it's worked really 
-well. Of course this will slow down your model a little bit; but so far it's 
+well. This will naturally slow down your model a little bit; but so far it's 
 been difficult to detect a meaningful change in simulation run time with the 
-logging on or off. Of course, this will depend on your application and there
-will be some limit. But especially if you are only _logging_ events where
+logging on or off. And, of course, this will depend on your application and 
+there will be some limit. But especially if you are only _logging_ events where
 you might have 1k to 50k rows in the output, it should be no problem. But don't
 let that limit you; I've created some fairly large, dense outputs and so far 
 I've been very happy with the performance. 
 
 **A drawback** One downside is that I don't believe you can interact with your
 data once you have created the JSON object. There's probably a way to do it, 
-but might not be that easy. When I was collecting information in STL 
+but might not be that easy. When I was collecting information in C++ STL 
 containers, it was easy to iterate back in time if I needed to check on 
 information or do some computation. It took a little bookkeeping, but it was 
-worth it. Nevertheless, if you are _only_ saving outputs, the JSON solution 
-works great.
+worth it for the extra flexibility. Nevertheless, if you are _only_ saving
+outputs, the JSON solution works great.
