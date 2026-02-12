@@ -6,9 +6,9 @@ subtitle: >
   work with in R after the simulation is finished.
 author: Kyle Baron
 date: 02-11-2026
-image: images/json.png
+image: images/json-open-graph.png
 open-graph:
-  image: images/json.png
+  image: images/json-open-graph.png
 categories:
 - evtools
 ---
