@@ -4,6 +4,7 @@ project:
 
 website:
   title: "mrgsolve/blog"
+  favicon: images/MRG-Solve-Hex.png
   open-graph:
     image: "https://mrgsolve.org/blog/images/preview.png"
   twitter-card:
