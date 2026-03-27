@@ -693,6 +693,13 @@
     "text": "4 Special code needed when advancing system to steady state\nRemember we had this code in $DES for keeping track of Cmax\n\n$DES\nCPode = A2/V;\n\nif(CPode &gt; Cmax) Cmax = CPode;\n\nWhen mrgsolve is advancing the system to steady state (with SS = 1 in the dosing record, it will call the $DES block over and over until it has determined a steady state has been reached. You probably don’t want or need to track Cmax while the system is advancing. You can update this code to prevent Cmax from getting updated using the SS_ADVANCE variable.\n\n$DES\nCPode = A2/V;\n\nif(CPode &gt; Cmax && !SS_ADVANCE) Cmax = CPode;\n\ndxdt_A1 = -KA * A1;\n\ndxdt_A2 =  KA * A1 - CL * CPode;\n\nThis says to only update Cmax if the system is not in the process of advancing to steady state."
   },
   {
+    "objectID": "posts/true-cmax.html#new-feature-updated-march-2026",
+    "href": "posts/true-cmax.html#new-feature-updated-march-2026",
+    "title": "Simulate true Cmax with ODE",
+    "section": "5 New feature (updated March 2026)",
+    "text": "5 New feature (updated March 2026)\nI’m testing out a feature where the user can limit this calculation to only calls to ODE when the step has been accepted.\n\n$DES\nCPode = A2/V;\nif(CPode &gt; Cmax && ACCEPTED_STEP) Cmax = CPode;\ndxdt_A1 = -KA * A1;\ndxdt_A2 =  KA * A1 - CL * CPode;\n\n\nmod &lt;- mread(\"true-cmax-accepted-step.mod\")\ndose &lt;- ev(amt = 1000, cmt = 2, rate = 149)\nout5 &lt;- mrgsim(mod, dose)\nplot(out5)\n\n\n\n\n\n\n\ntrue_infusion\n\n[1] 35.08074\n\nmax(out5$Cmax)\n\n[1] 35.0798"
+  },
+  {
     "objectID": "posts/2017-complete-example.html",
     "href": "posts/2017-complete-example.html",
     "title": "A Complete Example",
