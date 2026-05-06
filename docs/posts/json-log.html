@@ -835,7 +835,7 @@ Figure&nbsp;3: Concentration versus time stratified by dosing interval; the shad
 <li>Parse the code to get the result in R</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>env <span class="ot">&lt;-</span> <span class="fu">env_get</span>(out<span class="sc">@</span>mod)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>env <span class="ot">&lt;-</span> <span class="fu">env_get_env</span>(out<span class="sc">@</span>mod)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>ct2 <span class="ot">&lt;-</span> RcppSimdJson<span class="sc">::</span><span class="fu">fparse</span>(env<span class="sc">$</span>ctrough.json)</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>

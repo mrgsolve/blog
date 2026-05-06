@@ -297,7 +297,6 @@ background: #097f5f;
   <li><a href="#assign_ev" id="toc-assign_ev" class="nav-link" data-scroll-target="#assign_ev"><span class="header-section-number">2.4</span> <code>assign_ev</code></a></li>
   <li><a href="#ev_days" id="toc-ev_days" class="nav-link" data-scroll-target="#ev_days"><span class="header-section-number">2.5</span> <code>ev_days</code></a></li>
   </ul></li>
-  <li><a href="#filter-input-data-set-inline" id="toc-filter-input-data-set-inline" class="nav-link" data-scroll-target="#filter-input-data-set-inline"><span class="header-section-number">3</span> Filter input data set inline</a></li>
   </ul>
 </nav>
     </div>
@@ -621,32 +620,9 @@ background: #097f5f;
 </div>
 You can use this as an event object or just coerce to <code>data.frame</code> to use as a <code>data_set</code>.
 <hr>
-</section>
-</section>
-<section id="filter-input-data-set-inline" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Filter input data set inline</h1>
-<p>Remember, when you pass in your input data set via <code>data_set</code>, you can filter in line:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>))</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">data_set</span>(data, amt<span class="sc">==</span><span class="dv">300</span>) <span class="sc">%&gt;%</span> <span class="fu">Req</span>(GUT,CP) <span class="sc">%&gt;%</span> mrgsim</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Model:  housemodel 
-Dim:    482 x 4 
-Time:   0 to 120 
-ID:     1 
-    ID time    GUT     CP
-1:   3 0.00   0.00  0.000
-2:   3 0.00 300.00  0.000
-3:   3 0.25 222.25  3.862
-4:   3 0.50 164.64  6.676
-5:   3 0.75 121.97  8.712
-6:   3 1.00  90.36 10.174
-7:   3 1.25  66.94 11.211
-8:   3 1.50  49.59 11.934</code></pre>
-</div>
-</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

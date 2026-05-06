@@ -56,7 +56,7 @@ We can implement this series of doses by passing `e` in as the `events` argument
 to `mrgsim`
 
 ```{r}
-mod %>% mrgsim(events=e) %>% plot(EV1+CP~time)
+mod %>% mrgsim(events=e) %>% plot(EV+CP~time)
 ```
 
 

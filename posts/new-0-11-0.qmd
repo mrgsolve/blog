@@ -112,7 +112,7 @@ sims <-
 
 sims
 
-plot(sims, "EV1 CP RESP")
+plot(sims, "EV CP RESP")
 ```
 
 # Path to NM results using NMEXT and NMXML 

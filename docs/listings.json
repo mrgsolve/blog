@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/duckdb.html",
       "/posts/json-log.html",
       "/posts/split-dose.html",
       "/posts/true-cmax.html",

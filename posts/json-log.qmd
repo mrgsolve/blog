@@ -386,7 +386,7 @@ Now, to extract the result, we need to
 2. Parse the code to get the result in R
 
 ```{r}
-env <- env_get(out@mod)
+env <- env_get_env(out@mod)
 
 ct2 <- RcppSimdJson::fparse(env$ctrough.json)
 

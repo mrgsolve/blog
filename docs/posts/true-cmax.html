@@ -320,7 +320,6 @@ window.Quarto = {
   <li><a href="#get-cmax-from-the-end-of-the-infusion" id="toc-get-cmax-from-the-end-of-the-infusion" class="nav-link" data-scroll-target="#get-cmax-from-the-end-of-the-infusion"><span class="header-section-number">3.1</span> Get Cmax from the end of the infusion</a></li>
   </ul></li>
   <li><a href="#special-code-needed-when-advancing-system-to-steady-state" id="toc-special-code-needed-when-advancing-system-to-steady-state" class="nav-link" data-scroll-target="#special-code-needed-when-advancing-system-to-steady-state"><span class="header-section-number">4</span> Special code needed when advancing system to steady state</a></li>
-  <li><a href="#new-feature-updated-march-2026" id="toc-new-feature-updated-march-2026" class="nav-link" data-scroll-target="#new-feature-updated-march-2026"><span class="header-section-number">5</span> New feature (updated March 2026)</a></li>
   </ul>
 </nav>
     </div>
@@ -566,38 +565,6 @@ boost with \drugy\ versus time, stratified by exposure percentile.}</code></pre>
 <span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="ot">=</span>  KA <span class="sc">*</span> A1 <span class="sc">-</span> CL <span class="sc">*</span> CPode;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This says to only update <code>Cmax</code> if the system is not in the process of advancing to steady state.</p>
-</section>
-<section id="new-feature-updated-march-2026" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="new-feature-updated-march-2026"><span class="header-section-number">5</span> New feature (updated March 2026)</h2>
-<p>I’m testing out a feature where the user can limit this calculation to only calls to ODE when the step has been accepted.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>DES</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>CPode <span class="ot">=</span> A2<span class="sc">/</span>V;</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(CPode <span class="sc">&gt;</span> Cmax <span class="sc">&amp;&amp;</span> ACCEPTED_STEP) Cmax <span class="ot">=</span> CPode;</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="ot">=</span> <span class="sc">-</span>KA <span class="sc">*</span> A1;</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="ot">=</span>  KA <span class="sc">*</span> A1 <span class="sc">-</span> CL <span class="sc">*</span> CPode;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">"true-cmax-accepted-step.mod"</span>)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>dose <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">1000</span>, <span class="at">cmt =</span> <span class="dv">2</span>, <span class="at">rate =</span> <span class="dv">149</span>)</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>out5 <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, dose)</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out5)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="true-cmax_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>true_infusion</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 35.08074</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(out5<span class="sc">$</span>Cmax)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 35.0798</code></pre>
-</div>
-</div>
 
 
 </section>

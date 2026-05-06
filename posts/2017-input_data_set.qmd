@@ -223,14 +223,6 @@ You can use this as an event object or just coerce to `data.frame` to use as
 a `data_set`.
 <hr>
 
-# Filter input data set inline
-Remember, when you pass in your input data set via `data_set`, you can 
-filter in line:
-
-```{r}
-data <- expand.ev(amt=c(100,200,300))
-mod %>% data_set(data, amt==300) %>% Req(GUT,CP) %>% mrgsim
-```
 
 
 

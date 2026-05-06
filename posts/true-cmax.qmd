@@ -311,30 +311,3 @@ dxdt_A2 =  KA * A1 - CL * CPode;
 This says to only update `Cmax` if the system is not in the process of 
 advancing to steady state. 
 
-
-## New feature (updated March 2026)
-
-I'm testing out a feature where the user can limit this calculation to only
-calls to ODE when the step has been accepted. 
-
-```{r, echo = FALSE}
-code <- readLines("true-cmax-accepted-step.mod") 
-code <- c("$DES", modelparse(code)$DES)
-```
-
-
-```{r, eval = FALSE, code = code}
-
-```
-
-
-```{r}
-#| message: false
-mod <- mread("true-cmax-accepted-step.mod")
-dose <- ev(amt = 1000, cmt = 2, rate = 149)
-out5 <- mrgsim(mod, dose)
-plot(out5)
-true_infusion
-max(out5$Cmax)
-```
-

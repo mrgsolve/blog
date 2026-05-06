@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kyle Baron">
-<meta name="dcterms.date" content="2019-01-01">
+<meta name="dcterms.date" content="2026-05-06">
 
-<title>Tidy workflow for simulating dynamics in R – mrgsolve/blog</title>
+<title>Summarize simulated data with duckdb – mrgsolve/blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -125,12 +125,12 @@ background: #097f5f;
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Tidy workflow for simulating dynamics in R – mrgsolve/blog">
-<meta property="og:description" content="">
+<meta property="og:title" content="Summarize simulated data with duckdb – mrgsolve/blog">
+<meta property="og:description" content="duckdb provides a high-performance to summarize massive data sets.">
 <meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta property="og:site_name" content="mrgsolve/blog">
-<meta name="twitter:title" content="Tidy workflow for simulating dynamics in R – mrgsolve/blog">
-<meta name="twitter:description" content="">
+<meta name="twitter:title" content="Summarize simulated data with duckdb – mrgsolve/blog">
+<meta name="twitter:description" content="duckdb provides a high-performance to summarize massive data sets.">
 <meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -246,9 +246,10 @@ background: #097f5f;
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Tidy workflow for simulating dynamics in R</h1>
+      <h1 class="title">Summarize simulated data with duckdb</h1>
+            <p class="subtitle lead"></p><p>duckdb provides a high-performance to summarize massive data sets.</p><p></p>
                                 <div class="quarto-categories">
-                <div class="quarto-category">example</div>
+                <div class="quarto-category">duckdb</div>
               </div>
                   </div>
   </div>
@@ -266,7 +267,7 @@ background: #097f5f;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 1, 2019</p>
+        <p class="date">May 6, 2026</p>
       </div>
     </div>
     
@@ -282,9 +283,7 @@ background: #097f5f;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#write-the-sir-model" id="toc-write-the-sir-model" class="nav-link active" data-scroll-target="#write-the-sir-model"><span class="header-section-number">1</span> Write the SIR model</a></li>
-  <li><a href="#compile-and-load" id="toc-compile-and-load" class="nav-link" data-scroll-target="#compile-and-load"><span class="header-section-number">2</span> Compile and load</a></li>
-  <li><a href="#simulate" id="toc-simulate" class="nav-link" data-scroll-target="#simulate"><span class="header-section-number">3</span> Simulate</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
   </ul>
 </nav>
     </div>
@@ -295,60 +294,126 @@ background: #097f5f;
 
 
 
-<p>I worked an example for a SIR model to show people in the ecology field how they can use mrgsolve for their ODE-based models.</p>
-<section id="write-the-sir-model" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Write the SIR model</h1>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>This is a quick blog post showing how you can summarize a very large set of simulations using duckdb.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM B = 1/70, mu = 1/70, Beta = 400, gamma = 365/14</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">$INIT S = 1-0.001-0.9, I = 0.001, R = 0.9</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">$ODE</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st">double N = S+I+R;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">dxdt_S = B-Beta*S*I/N-mu*S;</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">dxdt_I = Beta*S*I/N-(mu+gamma)*I;</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">dxdt_R = gamma*I-mu*R;</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">$TABLE</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="st">double R0 = Beta/(mu+gamma);</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsim.ds)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(duckdb)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section>
-<section id="compile-and-load" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Compile and load</h1>
+<p>Set up a large simulation; we’ll check the number of rows in the output once it finishes.</p>
+<ul>
+<li>3000 subjects</li>
+<li>2 dose levels</li>
+<li>28 days of dosing</li>
+<li>Sample every hour</li>
+</ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">"sir"</span>, model,  <span class="at">end =</span> <span class="dv">30</span>, <span class="at">delta =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">120</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib_ds</span>(<span class="st">"popex"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Building sir ... done.</code></pre>
+<pre><code>Building popex ... done.</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">update</span>(mod, <span class="at">outvars =</span> <span class="st">"IPRED"</span>, <span class="at">end =</span> <span class="dv">4</span><span class="sc">*</span><span class="dv">168</span>, <span class="at">delta =</span> <span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3000</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">amt =</span> <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">1000</span>), </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ii =</span> <span class="dv">24</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">addl =</span> <span class="dv">27</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">mutate</span>(data, <span class="at">dose =</span> amt)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section>
-<section id="simulate" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Simulate</h1>
+<p>Simulate 1000 replicates</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>() <span class="sc">%&gt;%</span> <span class="fu">plot</span>(<span class="at">scales =</span> <span class="st">"same"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="sir_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">output=</span><span class="st">"df"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="st">"temp-post"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(S,I)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="sir_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">set_io_thread_count</span>(<span class="dv">2</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  \(x) {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mrgsim_ds</span>(mod, data, <span class="at">tags =</span> <span class="fu">list</span>(<span class="at">rep =</span> x), <span class="at">recover =</span> <span class="st">"dose"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  }, </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">mc.cores =</span> <span class="dv">5</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">reduce_ds</span>(out)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">save_ds</span>(out, <span class="st">"temp-post/duckdb.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>There are 4 billion rows in this simulation set across 1000 parquet files totaling 31 Gb of data on disk that is highly compressed.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">read_ds</span>(<span class="st">"temp-post/duckdb.rds"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sims</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model: popex
+Dim  : 4.0B x 5
+Files: 1000 [31.1 Gb]
+Owner: yes (no gc)
+    ID time    IPRED dose rep
+1:   1    0 0.000000  300   1
+2:   1    0 0.000000  300   1
+3:   1    1 5.335456  300   1
+4:   1    2 7.536079  300   1
+5:   1    3 8.399812  300   1
+6:   1    4 8.694028  300   1
+7:   1    5 8.746235  300   1
+8:   1    6 8.696203  300   1</code></pre>
+</div>
+</div>
+<p>Summarize using duckdb; we’ll take median, 5th and 95th percentiles of the Week 4 trough concentration by dose and replicate.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">duckdb</span>())</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">as_arrow_ds</span>(sims)  <span class="co"># or pass a vector of paths</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">duckdb_register_arrow</span>(con, <span class="st">"sims"</span>, ds)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Query normally</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  summ <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, <span class="st">"</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">      dose,</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">      time,</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="st">      rep, </span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="st">      COUNT(*)                     AS n,</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="st">      QUANTILE_CONT(IPRED, 0.025)  AS Lower,</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="st">      QUANTILE_CONT(IPRED, 0.5)    AS Median,</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="st">      QUANTILE_CONT(IPRED, 0.975)  AS Upper</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM sims</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE time = 672</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY time, dose, rep</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="st">    ORDER BY time, dose, rep</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="st">  "</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   user  system elapsed 
+ 61.964   8.996  11.462 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con, <span class="at">shutdown =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(summ)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,000 × 7
+    dose  time   rep     n Lower Median Upper
+   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+ 1   300   672     1  3000 0.855   7.97  31.4
+ 2   300   672     2  3000 0.756   7.85  30.3
+ 3   300   672     3  3000 0.870   8.10  30.3
+ 4   300   672     4  3000 0.734   8.25  31.9
+ 5   300   672     5  3000 0.781   7.77  31.0
+ 6   300   672     6  3000 0.644   8.16  32.6
+ 7   300   672     7  3000 0.872   8.10  32.5
+ 8   300   672     8  3000 0.874   8.20  32.7
+ 9   300   672     9  3000 0.751   8.24  32.2
+10   300   672    10  3000 0.823   8.03  30.9
+# ℹ 1,990 more rows</code></pre>
 </div>
 </div>
 

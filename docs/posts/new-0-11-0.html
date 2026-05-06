@@ -333,7 +333,7 @@ background: #097f5f;
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">outvars</span>(mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$cmt
-[1] "EV1"    "CENT"   "PERIPH" "RESP"   "EV2"   
+[1] "EV"     "CENT"   "PERIPH" "RESP"   "EV2"   
 
 $capture
 [1] "CP"</code></pre>
@@ -366,7 +366,7 @@ $capture
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">outvars</span>(mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$cmt
-[1] "EV1"    "CENT"   "PERIPH" "RESP"   "EV2"   
+[1] "EV"     "CENT"   "PERIPH" "RESP"   "EV2"   
 
 $capture
 [1] "CP"   "CT"   "CLNL" "INH" </code></pre>
@@ -380,7 +380,7 @@ $capture
 Dim:    26 x 11 
 Time:   0 to 24 
 ID:     1 
-    ID time      EV1  CENT PERIPH  RESP EV2    CP     CT   CLNL    INH
+    ID time       EV  CENT PERIPH  RESP EV2    CP     CT   CLNL    INH
 1:   1    0   0.0000  0.00  0.000 5.000   0 0.000 0.0000 1.0000 0.0000
 2:   1    0 100.0000  0.00  0.000 5.000   0 0.000 0.0000 1.0000 0.0000
 3:   1    1  36.7879 57.40  3.221 2.837   0 2.870 0.3221 0.4107 0.5893
@@ -459,17 +459,17 @@ ID:     21
 Dim:    314 x 8 
 Time:   -72 to 240 
 ID:     1 
-    ID time EV1 CENT PERIPH RESP EV2 CP
-1:   1  -72   0    0      0  200   0  0
-2:   1  -71   0    0      0  200   0  0
-3:   1  -70   0    0      0  200   0  0
-4:   1  -69   0    0      0  200   0  0
-5:   1  -68   0    0      0  200   0  0
-6:   1  -67   0    0      0  200   0  0
-7:   1  -66   0    0      0  200   0  0
-8:   1  -65   0    0      0  200   0  0</code></pre>
+    ID time EV CENT PERIPH RESP EV2 CP
+1:   1  -72  0    0      0  200   0  0
+2:   1  -71  0    0      0  200   0  0
+3:   1  -70  0    0      0  200   0  0
+4:   1  -69  0    0      0  200   0  0
+5:   1  -68  0    0      0  200   0  0
+6:   1  -67  0    0      0  200   0  0
+7:   1  -66  0    0      0  200   0  0
+8:   1  -65  0    0      0  200   0  0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sims, <span class="st">"EV1 CP RESP"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sims, <span class="st">"EV CP RESP"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -560,7 +560,7 @@ ID:     1
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.list</span>(mod)<span class="sc">$</span>nm_import</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "/Users/kyleb/renv/renv/library/R-4.5/aarch64-apple-darwin20/mrgsolve/nonmem/1005/1005.xml"</code></pre>
+<pre><code>[1] "/Users/kyleb/renv/renv/library/R-4.5/aarch64-apple-darwin24.6.0/mrgsolve/nonmem/1005/1005.xml"</code></pre>
 </div>
 </div>
 </section>

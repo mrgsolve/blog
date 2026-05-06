@@ -366,7 +366,7 @@ run = "@cppstem"</code></pre>
 <pre><strong>1005-updated.mod</strong></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>source<span class="sc">:</span> mrgsolve<span class="sc">::</span>mwrite</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mrgsolve<span class="sc">:</span> <span class="dv">1</span>.<span class="dv">7</span>.<span class="fl">2.9000</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mrgsolve<span class="sc">:</span> <span class="dv">2</span>.<span class="dv">0</span>.<span class="fl">0.9001</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>format<span class="sc">:</span> yaml</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>version<span class="sc">:</span> <span class="fl">1.0</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>model<span class="sc">:</span> <span class="st">'1005'</span></span>
@@ -376,15 +376,15 @@ run = "@cppstem"</code></pre>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="fu">file.show</span>(<span class="fu">system.file</span>(<span class="st">"nonmem"</span>, <span class="st">"1005"</span>, <span class="st">"1005.ctl"</span>, <span class="at">package =</span> <span class="st">"mrgsolve"</span>))</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="cf">for</span> equivalent NONMEM control stream.</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>param<span class="sc">:</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  SEX<span class="sc">:</span> <span class="fl">1.0</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  WT<span class="sc">:</span> <span class="fl">70.0</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  THETA1<span class="sc">:</span> <span class="fl">8.51</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  THETA2<span class="sc">:</span> <span class="fl">22.79098949</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  THETA3<span class="sc">:</span> <span class="fl">0.07143366</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  THETA4<span class="sc">:</span> <span class="fl">3.47450589</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  THETA5<span class="sc">:</span> <span class="fl">113.27671224</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  THETA6<span class="sc">:</span> <span class="fl">1.02435433</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  THETA7<span class="sc">:</span> <span class="fl">1.19211818</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  THETA1<span class="sc">:</span> <span class="fl">8.51</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  THETA2<span class="sc">:</span> <span class="fl">22.79098949</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  THETA3<span class="sc">:</span> <span class="fl">0.07143366</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  THETA4<span class="sc">:</span> <span class="fl">3.47450589</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  THETA5<span class="sc">:</span> <span class="fl">113.27671224</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  THETA6<span class="sc">:</span> <span class="fl">1.02435433</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  THETA7<span class="sc">:</span> <span class="fl">1.19211818</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  SEX<span class="sc">:</span> <span class="fl">1.0</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  WT<span class="sc">:</span> <span class="fl">70.0</span></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>init<span class="sc">:</span></span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  GUT<span class="sc">:</span> <span class="fl">0.0</span></span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  CENT<span class="sc">:</span> <span class="fl">0.0</span></span>
@@ -429,44 +429,49 @@ run = "@cppstem"</code></pre>
 <span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> <span class="st">'.'</span></span>
 <span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>  names<span class="sc">:</span> <span class="st">'...'</span></span>
 <span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>envir<span class="sc">:</span> []</span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>plugin<span class="sc">:</span> base</span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>update<span class="sc">:</span></span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>  start<span class="sc">:</span> <span class="fl">0.0</span></span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>  end<span class="sc">:</span> <span class="fl">168.0</span></span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>  delta<span class="sc">:</span> <span class="fl">1.0</span></span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>  add<span class="sc">:</span> []</span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>  atol<span class="sc">:</span> <span class="fl">1.0e-08</span></span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>  rtol<span class="sc">:</span> <span class="fl">1.0e-05</span></span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>  ss_atol<span class="sc">:</span> <span class="fl">1.0e-08</span></span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  ss_rtol<span class="sc">:</span> <span class="fl">0.0001</span></span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>  maxsteps<span class="sc">:</span> <span class="fl">20000.0</span></span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>  hmax<span class="sc">:</span> <span class="fl">0.0</span></span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>  hmin<span class="sc">:</span> <span class="fl">0.0</span></span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>  mxhnil<span class="sc">:</span> <span class="fl">2.0</span></span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>  ixpr<span class="sc">:</span> <span class="fl">0.0</span></span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>  mindt<span class="sc">:</span> <span class="fl">2.22044605e-15</span></span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>  digits<span class="sc">:</span> <span class="sc">-</span><span class="fl">1.0</span></span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>  tscale<span class="sc">:</span> <span class="fl">1.0</span></span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>  outvars<span class="sc">:</span> IPRED</span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>set<span class="sc">:</span> []</span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>code<span class="sc">:</span></span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="er">$</span>PKMODEL</span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> depot <span class="ot">=</span> <span class="cn">TRUE</span></span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> ncmt <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">' '</span></span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="er">$</span>PK</span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> double CL <span class="ot">=</span> <span class="fu">THETA</span>(<span class="dv">1</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="fu">ETA</span>(<span class="dv">1</span>)) <span class="sc">*</span> <span class="fu">pow</span>(<span class="fu">THETA</span>(<span class="dv">6</span>),SEX) <span class="sc">*</span> <span class="fu">pow</span>(WT<span class="sc">/</span><span class="fl">70.0</span>,<span class="fu">THETA</span>(<span class="dv">7</span>));</span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> double V2 <span class="ot">=</span> <span class="fu">THETA</span>(<span class="dv">2</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="fu">ETA</span>(<span class="dv">2</span>));</span>
-<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> double KA <span class="ot">=</span> <span class="fu">THETA</span>(<span class="dv">3</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="fu">ETA</span>(<span class="dv">3</span>));</span>
-<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> double Q  <span class="ot">=</span> <span class="fu">THETA</span>(<span class="dv">4</span>);</span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> double V3 <span class="ot">=</span> <span class="fu">THETA</span>(<span class="dv">5</span>);</span>
-<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> double S2 <span class="ot">=</span> V2;</span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">' '</span></span>
-<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="er">$</span>ERROR</span>
-<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> double F <span class="ot">=</span> CENT<span class="sc">/</span>S2;</span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> double Y <span class="ot">=</span> F<span class="sc">*</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">EPS</span>(<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">EPS</span>(<span class="dv">2</span>);</span>
-<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> double IPRED <span class="ot">=</span> F;</span>
-<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">' '</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>plugin<span class="sc">:</span></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> autodec</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> base</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>update<span class="sc">:</span></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>  start<span class="sc">:</span> <span class="fl">0.0</span></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>  end<span class="sc">:</span> <span class="fl">168.0</span></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>  delta<span class="sc">:</span> <span class="fl">1.0</span></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>  add<span class="sc">:</span> []</span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>  atol<span class="sc">:</span> <span class="fl">1.0e-08</span></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  rtol<span class="sc">:</span> <span class="fl">1.0e-05</span></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>  ss_atol<span class="sc">:</span> <span class="fl">1.0e-08</span></span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>  ss_rtol<span class="sc">:</span> <span class="fl">0.0001</span></span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>  maxsteps<span class="sc">:</span> <span class="fl">20000.0</span></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>  hmax<span class="sc">:</span> <span class="fl">0.0</span></span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>  hmin<span class="sc">:</span> <span class="fl">0.0</span></span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>  mxhnil<span class="sc">:</span> <span class="fl">2.0</span></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>  ixpr<span class="sc">:</span> <span class="fl">0.0</span></span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>  mindt<span class="sc">:</span> <span class="fl">2.22044605e-15</span></span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>  digits<span class="sc">:</span> <span class="sc">-</span><span class="fl">1.0</span></span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>  tscale<span class="sc">:</span> <span class="fl">1.0</span></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>  outvars<span class="sc">:</span> IPRED</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>set<span class="sc">:</span> []</span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>code<span class="sc">:</span></span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="er">$</span>PLUGIN</span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> autodec</span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">' '</span></span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="er">$</span>PKMODEL</span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> advan <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> ncmt <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">' '</span></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="er">$</span>PK</span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> CL <span class="ot">=</span> <span class="fu">THETA</span>(<span class="dv">1</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="fu">ETA</span>(<span class="dv">1</span>))<span class="sc">*</span><span class="fu">THETA</span>(<span class="dv">6</span>)<span class="sc">**</span>SEX<span class="sc">*</span>(WT<span class="sc">/</span><span class="dv">70</span>)<span class="sc">**</span><span class="fu">THETA</span>(<span class="dv">7</span>);</span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> V2 <span class="ot">=</span> <span class="fu">THETA</span>(<span class="dv">2</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="fu">ETA</span>(<span class="dv">2</span>));</span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> KA <span class="ot">=</span> <span class="fu">THETA</span>(<span class="dv">3</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="fu">ETA</span>(<span class="dv">3</span>));</span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> Q  <span class="ot">=</span> <span class="fu">THETA</span>(<span class="dv">4</span>);</span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> V3 <span class="ot">=</span> <span class="fu">THETA</span>(<span class="dv">5</span>);</span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> S2 <span class="ot">=</span> V2;</span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">' '</span></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="er">$</span>ERROR</span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> F <span class="ot">=</span> CENT<span class="sc">/</span>S2;</span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> Y <span class="ot">=</span> F<span class="sc">*</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">EPS</span>(<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">EPS</span>(<span class="dv">2</span>);</span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> IPRED <span class="ot">=</span> F;</span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">' '</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -485,14 +490,14 @@ run = "@cppstem"</code></pre>
 
 ---------------  source: updated.mod  ---------------
 
-  project: /private/var/fol.../T/Rtmpbua3ag
-  shared object: updated.mod-so-14a9c20d1146c 
+  project: /private/var/fol.../T/RtmpvcVX1f
+  shared object: updated.mod-so-cc076a8b55c5 
 
   time:          start: 0 end: 168 delta: 1
                  add: &lt;none&gt;
   compartments:  GUT CENT PERIPH [3]
-  parameters:    SEX WT THETA1 THETA2 THETA3 THETA4
-                 THETA5 THETA6 THETA7 [9]
+  parameters:    THETA1 THETA2 THETA3 THETA4 THETA5
+                 THETA6 THETA7 SEX WT [9]
   captures:      CL Q V2 V3 KA ETA_1 ETA_2 ETA_3 IPRED [9]
   omega:         3x3 
   sigma:         2x2 

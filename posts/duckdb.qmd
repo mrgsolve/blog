@@ -1,0 +1,117 @@
+---
+title: "Summarize simulated data with duckdb"
+subtitle: > 
+  duckdb provides a high-performance to summarize massive data sets.
+author: Kyle Baron
+date: 2026-05-06
+#image: true-cmax_files/figure-html/visualize-overshoot-1.png
+categories: 
+- duckdb
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introduction
+This is a quick blog post showing how you can summarize a very 
+large set of simulations using duckdb.
+
+
+```{r}
+#| message: false
+library(mrgsim.ds)
+library(DBI)
+library(duckdb)
+library(parallel)
+library(dplyr)
+```
+
+Set up a large simulation; we'll check the number of rows in the 
+output once it finishes.
+
+- 3000 subjects
+- 2 dose levels
+- 28 days of dosing
+- Sample every hour
+
+```{r}
+mod <- modlib_ds("popex")
+
+mod <- update(mod, outvars = "IPRED", end = 4*168, delta = 1)
+
+data <- expand.ev(
+  ID = 1:3000,
+  amt = c(300, 1000), 
+  ii = 24, 
+  addl = 27
+)
+
+data <- mutate(data, dose = amt)
+```
+
+Simulate 1000 replicates
+
+```{r}
+#| eval: false
+unlink("temp-post", recursive = TRUE)
+
+arrow::set_io_thread_count(2)
+
+out <- mclapply(
+  1:1000, 
+  \(x) {
+    mrgsim_ds(mod, data, tags = list(rep = x), recover = "dose")
+  }, 
+  mc.cores = 5
+)
+
+out <- reduce_ds(out)
+
+save_ds(out, "temp-post/duckdb.rds")
+```
+
+There are 4 billion rows in this simulation set across
+1000 parquet files totaling 31 Gb of data on disk that 
+is highly compressed. 
+
+```{r}
+sims <- read_ds("temp-post/duckdb.rds")
+
+sims
+```
+
+Summarize using duckdb; we'll take median, 5th and 95th 
+percentiles of the Week 4 trough concentration by dose 
+and replicate. 
+
+
+```{r}
+con <- dbConnect(duckdb())
+
+ds <- as_arrow_ds(sims)  # or pass a vector of paths
+
+duckdb_register_arrow(con, "sims", ds)
+
+# Query normally
+system.time(
+  summ <- dbGetQuery(con, "
+    SELECT
+      dose,
+      time,
+      rep, 
+      COUNT(*)                     AS n,
+      QUANTILE_CONT(IPRED, 0.025)  AS Lower,
+      QUANTILE_CONT(IPRED, 0.5)    AS Median,
+      QUANTILE_CONT(IPRED, 0.975)  AS Upper
+    FROM sims
+    WHERE time = 672
+    GROUP BY time, dose, rep
+    ORDER BY time, dose, rep
+  ")
+)
+
+dbDisconnect(con, shutdown = TRUE)
+```
+
+```{r}
+as_tibble(summ)
+```

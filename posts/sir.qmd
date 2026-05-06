@@ -52,34 +52,4 @@ ggplot(out, aes(S,I)) + geom_point()
 ```
 
 
-# Challenge
-
-Explore the dynamics of the system for different values of the beta and b 
-parameters by simulating and plotting trajectories as time series and in 
-phase space (e.g., I vs. S). How the beta, B, and R0 related to the type of 
-trajectories you get?
-
-
-```{r}
-mod %>%
-  wf_sweep(Beta, cv = 10) %>%
-  plot(R~time)
-```
-
-
-```{r}
-mod %>%
-  wf_sweep(B, cv = 10) %>%
-  plot(R~time)
-```
-
-
-```{r}
-idata <- tibble(Beta = seq(350,450,10))
-
-mod %>% 
-  idata_set(idata) %>% 
-  mrgsim() %>% 
-  plot(S~time)
-```
 

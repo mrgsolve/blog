@@ -1,5 +1,5 @@
 source: mrgsolve::mwrite
-mrgsolve: 1.7.2.9000
+mrgsolve: 2.0.0.9001
 format: yaml
 version: 1.0
 model: '1005'
@@ -9,8 +9,6 @@ prob:
 - file.show(system.file("nonmem", "1005", "1005.ctl", package = "mrgsolve"))
 - for equivalent NONMEM control stream.
 param:
-  SEX: 1.0
-  WT: 70.0
   THETA1: 8.51
   THETA2: 22.79098949
   THETA3: 0.07143366
@@ -18,6 +16,8 @@ param:
   THETA5: 113.27671224
   THETA6: 1.02435433
   THETA7: 1.19211818
+  SEX: 1.0
+  WT: 70.0
 init:
   GUT: 0.0
   CENT: 0.0
@@ -62,7 +62,9 @@ sigma:
     - '.'
   names: '...'
 envir: []
-plugin: base
+plugin:
+- autodec
+- base
 update:
   start: 0.0
   end: 168.0
@@ -83,20 +85,23 @@ update:
   outvars: IPRED
 set: []
 code:
+- $PLUGIN
+- autodec
+- ' '
 - $PKMODEL
-- depot = TRUE
+- advan = 4
 - ncmt = 2
 - ' '
 - $PK
-- double CL = THETA(1)*exp(ETA(1)) * pow(THETA(6),SEX) * pow(WT/70.0,THETA(7));
-- double V2 = THETA(2)*exp(ETA(2));
-- double KA = THETA(3)*exp(ETA(3));
-- double Q  = THETA(4);
-- double V3 = THETA(5);
-- double S2 = V2;
+- CL = THETA(1)*exp(ETA(1))*THETA(6)**SEX*(WT/70)**THETA(7);
+- V2 = THETA(2)*exp(ETA(2));
+- KA = THETA(3)*exp(ETA(3));
+- Q  = THETA(4);
+- V3 = THETA(5);
+- S2 = V2;
 - ' '
 - $ERROR
-- double F = CENT/S2;
-- double Y = F*(1+EPS(1)) + EPS(2);
-- double IPRED = F;
+- F = CENT/S2;
+- Y = F*(1+EPS(1)) + EPS(2);
+- IPRED = F;
 - ' '
