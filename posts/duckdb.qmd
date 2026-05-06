@@ -15,6 +15,7 @@ editor_options:
 This is a quick blog post showing how you can summarize a very 
 large set of simulations using duckdb.
 
+# Setup 
 
 ```{r}
 #| message: false
@@ -48,6 +49,8 @@ data <- expand.ev(
 data <- mutate(data, dose = amt)
 ```
 
+# Simulate
+
 Simulate 1000 replicates
 
 ```{r}
@@ -78,6 +81,8 @@ sims <- read_ds("temp-post/duckdb.rds")
 
 sims
 ```
+
+# Summarize
 
 Summarize using duckdb; we'll take median, 5th and 95th 
 percentiles of the Week 4 trough concentration by dose 
