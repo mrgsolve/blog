@@ -4,7 +4,7 @@ subtitle: >
   duckdb provides a high-performance to summarize massive data sets.
 author: Kyle Baron
 date: 2026-05-06
-#image: true-cmax_files/figure-html/visualize-overshoot-1.png
+image: images/duckdb.png
 categories: 
 - duckdb
 editor_options: 
@@ -13,7 +13,10 @@ editor_options:
 
 # Introduction
 This is a quick blog post showing how you can summarize a very 
-large set of simulations using duckdb.
+large set of simulations using duckdb. You can learn more about 
+duckdb [here](https://duckdb.org/). The duckdb 
+[R package](https://cran.r-project.org/package=duckdb) can take a long time to install, 
+but will be worth it once your simulations grow out of control.
 
 # Setup 
 
