@@ -1,0 +1,416 @@
+---
+title: "New in version 2.0.1"
+author: Kyle Baron
+date: 06/01/2026
+description: > 
+  mrgsolve version 2.0.1 was released to CRAN in May, 2026. 
+  This release adds several new features making it easier to 
+  convert your model from NONMEM as well as some much-needed
+  refactoring under the hood. 
+categories:
+- nm-vars
+- nonmem
+- pkmodel
+- new release
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(dplyr)
+library(mrgsolve)
+```
+
+## Use `**` to raise <base> to <power>
+
+A good portion of the mrgsolve model code is essentially C++. 
+To raise base `a` to power `b` in C++, you use a function: 
+`pow(a, b)`. This is what we've done since the start of mrgsolve. 
+
+Starting with version 2.0.1, mrgsolve recognizes `**` to do 
+this calculation. So `pow(a, b)` becomes `a ** b`. 
+
+Taking a common idiom seen in population PK modeling, this 
+covariate model 
+
+```{c, eval = FALSE}
+CL = THETA(1) * pow(WT/70, 0.75); 
+```
+
+can become
+
+```{c, eval = FALSE}
+CL = THETA(1) * (WT/70) ** 0.75;
+```
+
+Similarly, 
+
+```{c, eval = FALSE}
+pow(IPRED, 2)
+```
+
+can become
+
+```{c, eval = FALSE}
+IPRED**2
+```
+
+
+mrgsolve recognizes `**` without or without any plugin and will manage
+the conversion for you under the hood. While we recommend letting mrgsolve
+do this conversion, we also export a function that will do this conversion. 
+
+```{r}
+code <- c(
+  "CL = THETA(1) * (WT/70) ** 0.75", 
+  "V  = THETA(2) * (IBW/60) ** 0.9", 
+  "HAZT = BETA * (EDRUGT**BETA) * (T**(BETA - 1)) * EXP(covar)"
+)
+
+mrgsolve::convert_pow(code) %>% cat(sep = "\n")
+```
+
+You'll notice the result has some missing whitespace from the original. This 
+is expected given the configuration of the parser and is one reason why we
+recommend letting mrgsolve handle this conversion. 
+
+
+## Fortran IF/ELSE/THEN
+
+When invoking the `nm-vars` plugin in version 2.0.1, mrgsolve will recognize 
+Fortran-style IF/ELSE/THEN constructs. Unlike `**` which is always available, 
+you must be using `nm-vars` to get this syntax recognized. 
+
+For example, in your nonmem model, you might write
+
+```{c, eval = FALSE}
+IF(SEX.EQ.1) THEN
+  TVCL = TVCL * THETA(5);
+ENDIF
+```
+
+mrgsolve will recognize this syntax and convert to the appropriate C++ construct. This is 
+also done under the hood, but there is an exported function to let you do it yourself 
+if needed. 
+
+```{r}
+nmcode <- '
+IF(SEX.EQ.1) THEN
+  TVCL = TVCL * THETA(5)
+ENDIF
+'
+
+nmcode <- strsplit(nmcode, "\n")[[1]]
+
+cpp <- mrgsolve::convert_fort_if(nmcode)
+
+cat(cpp, sep = "\n")
+```
+
+The mrgsolve `nm-vars` plugin will handle simpler constructs
+
+```{r}
+nmcode <- "IF(FORM.LE.2) FORMF = THETA(9)"
+
+mrgsolve::convert_fort_if(nmcode)
+```
+or more complex constructs
+
+```{r}
+nmcode <- '
+IF(SEX.EQ.1) THEN
+  TVCL = TVCL * THETA(5)
+ELSEIF (STUDY.NE.5) THEN
+  TVCL = TVCL - THETA(12)
+ENDIF
+'
+
+nmcode <- strsplit(nmcode, "\n")[[1]]
+
+cpp <- mrgsolve::convert_fort_if(nmcode)
+
+cat(cpp, sep = "\n")
+```
+
+## What about the semicolons?
+
+mrgsolve now provides a `semicolons` plugin that will attempt to place
+semicolons at the end of each statement in select model blocks. This
+plugin requires you to also invoke `nm-vars`. This is required because 
+we only want users to invoke this plugin when coming to mrgsolve from 
+nonmem; the use case is converting from nonmem, not to overcome laziness 
+when writing the mode de-novo.
+
+As an example, this compiles
+
+```{r}
+code <- '
+$PKMODEL advan = 1
+
+$PARAM TVCL = 1, V = 20, FLAG = 1, THETA2 = 1.2
+
+$PLUGIN nm-vars autodec semicolons
+
+$PK
+CL = TVCL
+IF(FLAG.EQ.2) THEN 
+  CL = TVCL * THETA2 
+ENDIF
+'
+
+mod <- mcode("semicolons-example", code)
+
+mrgsim(mod, ev(amt = 100), end = 2)
+```
+
+mrgsolve version 2.0.1 also provides a plugin called `nm-like` that 
+combines 
+1. `nm-vars`
+2. `autodec`
+3. `semicolons`
+
+This will give you the most nonmem-like coding experience. 
+
+The semicolons plugin is probably the most fragile among the three we've 
+discussed so far; we don't recommend using it unless you're copying code
+over verbatim from a nonmem model. 
+
+If you're using Rstudio for coding your model, you will have access to 
+a `addin` that will let you select a chunk of code (or the whole model) 
+and mrgsolve will do the conversion, including addition of semicolons, 
+into your model file. This lets you review what happened and save the 
+semicolons into the model source file rather than relying on mrgsolve to 
+always get the conversion right.
+
+
+## Closed-form 3-compartment model
+
+mrgsolve has provide 1- and 2-compartment pharmacokinetic models for a while now.
+Starting with mrgsolve 2.0.1, a 3-compartment model is also provided. 
+
+```{r}
+mod <- modlib("pk3", compile = FALSE)
+
+param(mod)
+```
+
+Using the analytic solutions can provide a large speed advantage 
+over using the differential equations.
+
+## PKMODEL gains `advan` argument
+
+PKMODEL is the code block that you use to ask for 1, 2, or 
+3-compartment PK models in your model file. Starting with 
+mrgsolve 2.0.1, you can use the `advan` argument to select the 
+compartmental structure as well as automatically specifying the 
+compartments. 
+
+For example, I can get a 1-compartment model with first-order
+absorption with 
+
+```{r}
+code <- '
+$PKMODEL advan = 2
+
+$PARAM CL = 1, V = 20, KA = 1.2
+'
+
+mod <- mcode("advan-example", code)
+
+param(mod)
+init(mod)
+```
+
+Because I left the compartments unspecified, `$PKMODEL` will automatically give you `A1` and `A2`. You can still ask for 
+compartments named the way you want, but you don't have to.
+
+- `advan =  1` - one-compartment, bolus
+- `advan =  2` - one-compartment, first-order input
+- `advan =  3` - two-compartment, bolus
+- `advan =  4` - two-compartment, first-order input
+- `advan = 11` - three-compartment, bolus
+- `advan = 12` - three-compartment, first-order input
+
+
+## ERR(n)
+
+When using the `nm-vars` plugin, `ERR(n)` is now available as a synonym 
+for `EPS(n)`. 
+
+```{c, eval = FALSE}
+$PLUGIN nm-vars autodec
+
+$ERROR 
+
+IPRED = A(2) / V;
+
+Y = IPRED * EXP(ERR(1));
+```
+
+
+## Work with objects in the model environment
+
+Did you know that the model object contains an R environment where you can 
+assign and get R objects before, during or after a simulation? New in 
+mrgsolve 2.0.1, you can `assign()` an object to that environment from inside
+your model. But first, let lay some groundwork.
+
+### Initialize the model environment 
+
+You can use the `$ENV` block to initialize the model with an object 
+in the model environment. 
+
+```{r}
+code <- '
+$ENV vec <- c(1,2,3)
+'
+```
+
+```{r}
+mod <- mcode("env", code)
+```
+
+## Get objects from the environment
+
+Once you have the model object, you can extract the environment.
+
+```{r}
+env_get_env(mod)
+
+env_get_env(mod) %>% as.list()
+```
+
+Or you could `get()` the object with `env_get()`.
+
+```{r}
+env_get(mod, "vec")
+```
+
+If I wanted to change the value of `vec` in the environment, run this.
+
+```{r}
+mod <- env_update(mod, vec = c(3,4,5))
+
+env_get(mod, "vec")
+```
+
+Or just use assign.
+
+```{r}
+assign("vec", c(7,8,9), env_get_env(mod))
+
+env_get(mod, "vec")
+```
+
+The simulation output object _also_ has a copy of the model object; 
+so you can `get()` an object from the simulation output as well. 
+
+```{r}
+out <- mrgsim(mod)
+
+env_get(out, "vec")
+```
+
+But you might coerce the simulated output to data frame; then you would 
+_have_ to look at the model object to find the objects in that environment.
+
+## Create and assign objects `en model`
+
+New in mrgsolve 2.0.1, the `mrgx` plugin gives you access to an `assign()`
+function that will let you put R objects into this environment 
+_from inside your model_.
+
+The call is `mrgx::assign("name", value, self)`
+
+- `"name"` - a string literal with the name for the object
+- `value` - the object you want to assign
+- `self` - the model self object; this isn't the environment, but it knows
+  where to find the environment 
+
+Consider this model where we run dynamic dosing and collect pieces of output
+data in C++ deques. Once we hit the final row of the simulation, we will take 
+that data, create a data frame, and `assign()` it into the model environment. 
+
+
+```{c, eval = FALSE, filename = "model/assign-2-0-1.solv", code = readLines("model/assign-2-0-1.solv")}
+
+```
+
+
+Let's compile and run that model.
+
+```{r}
+mod <- mread("model/assign-2-0-1.solv")
+
+out <- mrgsim(mod, end = -1, add = c(0,336))
+
+out
+```
+
+Remember, we assigned the output data frame to `data` in the model; so we 
+look there once the simulation is complete. 
+
+```{r}
+data <- env_get(mod, "data")
+
+head(data)
+
+library(ggplot2)
+ggplot(data, aes(TIME, DV)) + geom_line() + theme_bw()
+```
+
+## Last record for an individual or dataset
+
+Two macros were added:
+
+- `LAST_ROW` is true when processing the last row in the entire simulation
+- `LAST_IROW` is true when processing the last row for an indvidual 
+
+## Internal improvements
+
+- Prevent an unneeded copy of the data when returning simulated data.
+
+- During population simulation, and individual's data records are cleared
+  prior to moving on to the next individual; this provides a theoretical 
+  improvement in memory utilization for big simulations.
+
+## Breaking changes
+
+- mrgsolve now depends on `R >= 4.1`
+
+- `data_set()` and `idata_set()` no longer accept `.subset`, `.select`,
+  `object`, or `need` arguments. These arguments allowed filtering and
+  column selection inside the call; that processing should now be done on the
+  data frame before passing it to `data_set()` or `idata_set()`. (#1374)
+
+- The `n` argument to `simeta()` and `simeps()` has been discouraged for a
+  while and is now removed. Calling `simeta(n)` or `simeps(n)` to resimulate 
+  a single ETA or EPS value is no longer supported. Use `simeta()` or `simeps()` 
+  (no argument) to resimulate all values. (#1373)
+
+- `knobs()`, `wf_sweep()`, and `render()` have been removed. These
+  functions were previously deprecated. (#1369)
+
+- The default value of `root` in `$NMXML` and `$NMEXT` has changed from
+  `"working"` to `"cppfile"`. The root directory for locating NONMEM
+  output files now defaults to the directory containing the model `.cpp` file
+  rather than the R working directory. Pass `root = "working"` to restore the
+  previous behavior; but users are _highly_ encouraged to use the new default.
+  (#1368)
+
+- `summarise.each()` is removed; it has not been practically reachable by the 
+  user for several years (#1352).
+
+- Several `modlib` model library models have had parameter and compartment
+  names standardized (#1361):
+  - The first extravascular compartment is now named `EV` (was `EV1`) in
+    `pk1cmt`, `pk2cmt`, `irm1`-`irm4`, and `emax`.
+  - The first absorption rate constant is now named `KA` (was `KA1`) in
+    models that previously used numbered names.
+  - Code that references these compartments or parameters by name (e.g.,
+    `init(mod, EV1 = 0)` or `param(mod, KA1 = 1)`) will need to be updated.
+  - We continue to discourage users from using these models in production 
+    code. 

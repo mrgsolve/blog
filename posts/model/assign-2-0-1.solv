@@ -1,0 +1,33 @@
+[ plugin] mrgx evtools
+
+[ global ]
+evt::regimen reg; 
+std::deque<double> Time;
+std::deque<double> Dv;
+
+[ param ] CL = 1, V = 20
+
+[ pkmodel ] advan = 1
+
+[ error ] 
+if(NEWIND <=1) {
+  reg.init(self);
+  reg.ii(24); 
+  reg.amt(100); 
+  reg.until(168); 
+  evt::ev obs = evt::tgrid(0, 240, 1);
+  self.push(obs);
+}
+
+reg.execute();
+
+Time.push_back(TIME);
+Dv.push_back(A1/V);
+
+if(FINAL_ROW) {
+  Rcpp::DataFrame data = Rcpp::DataFrame::create(
+    Rcpp::Named("TIME") = Time, 
+    Rcpp::Named("DV") = Dv
+  );
+  mrgx::assign("data", data, self);
+}

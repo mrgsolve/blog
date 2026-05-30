@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2026-new-2-0-1.html",
       "/posts/duckdb.html",
       "/posts/json-log.html",
       "/posts/split-dose.html",
