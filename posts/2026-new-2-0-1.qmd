@@ -24,7 +24,7 @@ library(dplyr)
 library(mrgsolve)
 ```
 
-## Use `**` to raise <base> to <power>
+## Use `**` rather than `pow()`
 
 A good portion of the mrgsolve model code is essentially C++. 
 To raise base `a` to power `b` in C++, you use a function: 
@@ -184,6 +184,11 @@ and mrgsolve will do the conversion, including addition of semicolons,
 into your model file. This lets you review what happened and save the 
 semicolons into the model source file rather than relying on mrgsolve to 
 always get the conversion right.
+
+## NONMEM to mrgsolve Rstudio addin
+
+If you're working in Rstudio, you can convert nonmem code to mrgsolve
+with this addin.  [Watch on YouTube](https://www.youtube.com/watch?v=yLne27x-ZH8)
 
 
 ## Closed-form 3-compartment model

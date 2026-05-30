@@ -61,8 +61,6 @@ Simulate 1000 replicates.
 #| eval: false
 unlink("temp-post", recursive = TRUE)
 
-arrow::set_io_thread_count(2)
-
 daemons(5, seed = 3579)
 
 everywhere(library(mrgsim.ds))
@@ -83,14 +81,7 @@ save_ds(out, "temp-post/duckdb.rds")
 ```
 
 There are 4 billion rows in this simulation set across 1000 parquet files 
-totaling 31 Gb of data on disk. It is important to note that the data are
-stored in highly-compressed parquet files; it's only the simulation output 
-object which provides access to tat data that is stored in `.rds` format. 
-So the `.rds` file is very light. 
-
-```{r}
-fs::file_size("temp-post/duckdb.rds")
-```
+totaling 31 Gb of data on disk. 
 
 ```{r}
 sims <- read_ds("temp-post/duckdb.rds")
@@ -103,10 +94,25 @@ session crashes or restarts for whatever reason, you can easily restart and
 pick up right where you left off without having to re-run the expensive 
 simulation step.
 
+It is also important to note that the data are stored in highly-compressed 
+parquet files; it's only the simulation output object (providing access to that
+data) that is stored in `.rds` format. So the `.rds` file is very light. 
+
+```{r}
+fs::file_size("temp-post/duckdb.rds")
+```
+
+
 # Summarize using duckdb
 
 Summarize using duckdb; we'll take median, 5th and 95th percentiles of the 
-Week 4 trough concentration by dose and replicate. 
+Week 4 trough concentration by dose and replicate. We can do this in about 
+15 seconds on my macbook pro m1 with omp.
+
+```{r}
+#| echo: false
+arrow::set_io_thread_count(8)
+```
 
 
 ```{r}
@@ -129,8 +135,8 @@ system.time(
       QUANTILE_CONT(IPRED, 0.975)  AS Upper
     FROM sims
     WHERE time = 672
-    GROUP BY time, dose, rep
-    ORDER BY time, dose, rep
+    GROUP BY time, rep, dose
+    ORDER BY time, rep, dose
   ")
 
 )
@@ -139,7 +145,7 @@ dbDisconnect(con, shutdown = TRUE)
 ```
 
 ```{r}
-as_tibble(summ)
+as_tibble(summ) %>% arrange(time, rep, dose)
 ```
 
 ## Summarize using duckdb pipeline
@@ -153,17 +159,17 @@ library(arrow)
 system.time({ 
 
 summ2 <- 
-  ds %>% 
-  to_duckdb() %>% 
+  sims %>% 
+  as_duckdb_ds() %>% 
   filter(time == 672) %>% 
-  group_by(dose, time, rep) %>% 
+  group_by(time, rep, dose) %>% 
   summarise(
     n = n(), 
     Lower = quantile(IPRED, 0.025, na.rm = TRUE), 
     Median = median(IPRED, na.rm = TRUE), 
     Upper = quantile(IPRED, 0.975, na.rm = TRUE), 
     .groups = "drop"
-  ) %>% collect()
+  ) %>% arrange(time, rep, dose) %>% collect()
   
 })
 
