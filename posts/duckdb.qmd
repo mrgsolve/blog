@@ -103,17 +103,50 @@ fs::file_size("temp-post/duckdb.rds")
 ```
 
 
-# Summarize using duckdb
-
-Summarize using duckdb; we'll take median, 5th and 95th percentiles of the 
-Week 4 trough concentration by dose and replicate. We can do this in about 
-15 seconds on my macbook pro m1 with omp.
-
 ```{r}
 #| echo: false
 arrow::set_io_thread_count(8)
 ```
 
+
+## Summarize using arrow / duckdb pipeline
+
+Summarize using duckdb; we'll take median, 5th and 95th percentiles of the 
+Week 4 trough concentration by dose and replicate. We can do this in about 
+15 seconds on my macbook pro m1 with omp.
+
+To do this, we work in the Apache Arrow R package and convert the arrow data 
+set to a duckdb object first, without copying any data.
+
+```{r}
+library(arrow)
+
+system.time({ 
+
+summ2 <- 
+  sims %>% 
+  as_duckdb_ds() %>% 
+  filter(time == 672) %>% 
+  group_by(time, rep, dose) %>% 
+  summarise(
+    n = n(), 
+    Lower = quantile(IPRED, 0.025, na.rm = TRUE), 
+    Median = median(IPRED, na.rm = TRUE), 
+    Upper = quantile(IPRED, 0.975, na.rm = TRUE), 
+    .groups = "drop"
+  ) %>% arrange(time, rep, dose) %>% collect()
+  
+})
+
+summ2
+```
+
+
+# Summarize using duckdb
+
+This summary uses straight duckdb, writing the summary specification in SQL
+code. I've found some applications where this is slightly faster than the 
+arrow / duckdb pipeline; in this example, the timing is identical.
 
 ```{r}
 con <- dbConnect(duckdb())
@@ -146,32 +179,4 @@ dbDisconnect(con, shutdown = TRUE)
 
 ```{r}
 as_tibble(summ) %>% arrange(time, rep, dose)
-```
-
-## Summarize using duckdb pipeline
-
-To do this, we work in the Apache Arrow R package and convert the arrow data 
-set to a duckdb object first, without copying any data.
-
-```{r}
-library(arrow)
-
-system.time({ 
-
-summ2 <- 
-  sims %>% 
-  as_duckdb_ds() %>% 
-  filter(time == 672) %>% 
-  group_by(time, rep, dose) %>% 
-  summarise(
-    n = n(), 
-    Lower = quantile(IPRED, 0.025, na.rm = TRUE), 
-    Median = median(IPRED, na.rm = TRUE), 
-    Upper = quantile(IPRED, 0.975, na.rm = TRUE), 
-    .groups = "drop"
-  ) %>% arrange(time, rep, dose) %>% collect()
-  
-})
-
-summ2
 ```
