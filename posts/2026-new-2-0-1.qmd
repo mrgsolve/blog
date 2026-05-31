@@ -384,7 +384,7 @@ ggplot(data, aes(TIME, DV)) + geom_line() + theme_bw()
 Two macros were added:
 
 - `LAST_ROW` is true when processing the last row in the entire simulation
-- `LAST_IROW` is true when processing the last row for an indvidual 
+- `LAST_IROW` is true when processing the last row for an individual 
 
 ## Internal improvements
 
