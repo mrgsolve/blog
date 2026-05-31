@@ -30,6 +30,20 @@ library(dplyr)
 library(arrow)
 ```
 
+
+```{r}
+#| echo: false
+set.seed(1234)
+post <- data.frame(
+  TVCL = rnorm(2000, 1, 0.20), 
+  TVV = rnorm(2000, 24, 5), 
+  TVKA = rnorm(2000, 0.5, 0.1)
+)
+postfile <- file.path(tempdir(), "post.csv")
+data.table::fwrite(x = post, file = postfile)
+```
+
+
 Set up a large simulation; we'll check the number of rows in the 
 output once it finishes.
 
@@ -51,6 +65,8 @@ data <- expand.ev(
 )
 
 data <- mutate(data, dose = amt)
+
+post <- read.csv(postfile)
 ```
 
 # Simulate
@@ -61,16 +77,21 @@ Simulate 1000 replicates.
 #| eval: false
 unlink("temp-post", recursive = TRUE)
 
-daemons(5, seed = 3579)
+daemons(7, seed = 3579)
 
 everywhere(library(mrgsim.ds))
 
 out <- mirai_map(
   1:1000,
-  \(x, mod, data) {
+  
+  \(x, mod, data, post) {
+    
+    mod <- param(mod, post[x,])
+    
     mrgsim_ds(mod, data, tags = list(rep = x), recover = "dose")
+  
   },
-  .args = list(mod = mod, data = data)
+  .args = list(mod = mod, data = data, post = post)
 )[.]
 
 daemons(0)
@@ -142,6 +163,46 @@ summ2
 ```
 
 
+Another summary: generate a 95% confidence interval around Cmax after the 
+seventh dose.
+
+```{r}
+
+system.time({ 
+
+summ3 <- 
+  sims %>% 
+  as_duckdb_ds() %>% 
+  filter(time >= 144 & time <= 168) %>%
+  summarise(
+    Cmax = max(IPRED, na.rm = TRUE), 
+    .by = c(ID, rep, dose)
+  ) %>% 
+  compute() %>% 
+  summarise(
+    n = n(),
+    Median = median(Cmax, na.rm = TRUE), 
+    .by = c(rep, dose)
+  ) %>% arrange(rep, dose) %>% collect()
+  
+})
+
+summ3
+```
+
+
+```{r}
+summ3 %>% 
+  summarise(
+    Lower = quantile(Median, 0.025), 
+    Med = median(Median),
+    Upper = quantile(Median, 0.975), 
+    n = n(),
+    .by = dose
+  )
+```
+
+
 # Summarize using duckdb
 
 This summary uses straight duckdb, writing the summary specification in SQL
@@ -149,6 +210,7 @@ code. I've found some applications where this is slightly faster than the
 arrow / duckdb pipeline; in this example, the timing is identical.
 
 ```{r}
+#| eval: false
 con <- dbConnect(duckdb())
 
 ds <- as_arrow_ds(sims)
@@ -175,8 +237,7 @@ system.time(
 )
 
 dbDisconnect(con, shutdown = TRUE)
-```
 
-```{r}
 as_tibble(summ) %>% arrange(time, rep, dose)
 ```
+
