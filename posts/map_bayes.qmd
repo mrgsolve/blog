@@ -42,7 +42,7 @@ update it later
 * The control stream is set up so that we can either simulate
 the etas or pass them in.  `ETA(1)` and `ETA(2)` are the etas
 that `mrgsolve` will draw from `$OMEGA`.  `ETA1` and `ETA2` 
-are fixed and known at the time of time of the simulation.  The 
+are fixed and known at the time of the simulation.  The 
 optimizer will search for values of `ETA1` and `ETA2` that 
 optimize the objective function.  Note that `ETA1` and `ETA2` must
 be in the parameter list for this to work
