@@ -1,7 +1,7 @@
 ---
 title: "Summarize simulated data with duckdb"
 subtitle: > 
-  duckdb provides a high-performance to summarize massive data sets.
+  duckdb with arrow lets you summarize massive data sets with ease.
 author: Kyle Baron
 date: 2026-05-30
 image: images/duckdb.png
