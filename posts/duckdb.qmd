@@ -55,7 +55,13 @@ output once it finishes.
 ```{r}
 mod <- modlib_ds("popex")
 
-mod <- update(mod, outvars = "IPRED", end = 4*168, delta = 1)
+mod <- update(
+  mod, 
+  outvars = "IPRED", 
+  end = 4*168, 
+  delta = 1, 
+  add = seq(144, 168, 0.1)
+)
 
 data <- expand.ev(
   ID = 1:3000,
@@ -67,6 +73,10 @@ data <- expand.ev(
 data <- mutate(data, dose = amt)
 
 post <- read.csv(postfile)
+
+head(data)
+
+head(post)
 ```
 
 # Simulate
