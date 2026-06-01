@@ -4,7 +4,7 @@ subtitle: >
   duckdb provides a high-performance to summarize massive data sets.
 author: Kyle Baron
 date: 2026-05-30
-#image: images/duckdb.png
+image: images/duckdb.png
 categories: 
 - duckdb
 editor_options: 
