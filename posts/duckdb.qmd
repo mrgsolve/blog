@@ -190,14 +190,15 @@ summ3 <-
 summ3
 ```
 
+There appears to be substantial uncertainty in the median Cmax.
 
 ```{r}
 summ3 %>% 
   summarise(
+    n = n(), 
     Lower = quantile(Median, 0.025), 
     Med = median(Median),
     Upper = quantile(Median, 0.975), 
-    n = n(),
     .by = dose
   )
 ```
