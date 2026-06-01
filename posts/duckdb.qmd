@@ -108,14 +108,14 @@ out <- mirai_map(
 
 )[.]
 
-daemons(0)
-
 out <- reduce_ds(out)
+
+daemons(0)
 
 save_ds(out, "temp-post/duckdb.rds")
 ```
 
-There are 5 billion rows in this simulation set across 1000 parquet files 
+There are 5.3 billion rows in this simulation set across 1000 parquet files 
 totaling 41 Gb of data on disk. 
 
 ```{r}
@@ -129,9 +129,10 @@ session crashes or restarts for whatever reason, you can easily restart and
 pick up right where you left off without having to re-run the expensive 
 simulation step.
 
-It is also important to note that the data are stored in highly-compressed 
-parquet files; it's only the simulation output object (providing access to that
-data) that is stored in `.rds` format. So the `.rds` file is very light. 
+It is also important to note that the data are stored in efficiently-organized /
+compressed parquet files; it's only the simulation output object (providing 
+access to that data) that is stored in `.rds` format. So the `.rds` file is 
+very light. 
 
 ```{r}
 fs::file_size("temp-post/duckdb.rds")

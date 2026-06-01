@@ -393,13 +393,13 @@ background: #097f5f;
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>)[.]</span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="fu">daemons</span>(<span class="dv">0</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">reduce_ds</span>(out)</span>
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">reduce_ds</span>(out)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="fu">daemons</span>(<span class="dv">0</span>)</span>
 <span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="fu">save_ds</span>(out, <span class="st">"temp-post/duckdb.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>There are 5 billion rows in this simulation set across 1000 parquet files totaling 41 Gb of data on disk.</p>
+<p>There are 5.3 billion rows in this simulation set across 1000 parquet files totaling 41 Gb of data on disk.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">read_ds</span>(<span class="st">"temp-post/duckdb.rds"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -421,7 +421,7 @@ Owner: yes (no gc)
 </div>
 </div>
 <p>Note that all your simulated data is now safely stored on disk. If your R session crashes or restarts for whatever reason, you can easily restart and pick up right where you left off without having to re-run the expensive simulation step.</p>
-<p>It is also important to note that the data are stored in highly-compressed parquet files; it’s only the simulation output object (providing access to that data) that is stored in <code>.rds</code> format. So the <code>.rds</code> file is very light.</p>
+<p>It is also important to note that the data are stored in efficiently-organized / compressed parquet files; it’s only the simulation output object (providing access to that data) that is stored in <code>.rds</code> format. So the <code>.rds</code> file is very light.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">file_size</span>(<span class="st">"temp-post/duckdb.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -457,7 +457,7 @@ Owner: yes (no gc)
 <span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 79.903  13.062  15.748 </code></pre>
+ 79.623  12.353  14.244 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>summ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -503,7 +503,7 @@ Owner: yes (no gc)
 <span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-144.481  17.766  29.117 </code></pre>
+143.898  14.733  24.781 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>summ2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
