@@ -16,9 +16,8 @@ This is a quick blog post showing how you can summarize a very
 large set of simulations using duckdb. You can learn more about 
 duckdb [here](https://duckdb.org/). The duckdb 
 [R package](https://cran.r-project.org/package=duckdb) can take a long time to 
-install, but will be worth it once your simulations grow out of control.
-
-You can get mrgsim.ds [here](https://github.com/p-emex/mrgsim.ds).
+install, but will be worth it once your simulations grow out of control. You 
+can get mrgsim.ds [here](https://github.com/p-emex/mrgsim.ds).
 
 # Setup 
 
