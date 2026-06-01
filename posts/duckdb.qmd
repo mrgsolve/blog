@@ -4,7 +4,7 @@ subtitle: >
   duckdb provides a high-performance to summarize massive data sets.
 author: Kyle Baron
 date: 2026-05-30
-image: images/duckdb.png
+#image: images/duckdb.png
 categories: 
 - duckdb
 editor_options: 
@@ -17,6 +17,8 @@ large set of simulations using duckdb. You can learn more about
 duckdb [here](https://duckdb.org/). The duckdb 
 [R package](https://cran.r-project.org/package=duckdb) can take a long time to 
 install, but will be worth it once your simulations grow out of control.
+
+You can get mrgsim.ds [here](https://github.com/p-emex/mrgsim.ds).
 
 # Setup 
 
@@ -92,6 +94,7 @@ daemons(7, seed = 3579)
 everywhere(library(mrgsim.ds))
 
 out <- mirai_map(
+
   1:1000,
   
   \(x, mod, data, post) {
@@ -101,7 +104,9 @@ out <- mirai_map(
     mrgsim_ds(mod, data, tags = list(rep = x), recover = "dose")
   
   },
+
   .args = list(mod = mod, data = data, post = post)
+
 )[.]
 
 daemons(0)
@@ -111,8 +116,8 @@ out <- reduce_ds(out)
 save_ds(out, "temp-post/duckdb.rds")
 ```
 
-There are 4 billion rows in this simulation set across 1000 parquet files 
-totaling 31 Gb of data on disk. 
+There are 5 billion rows in this simulation set across 1000 parquet files 
+totaling 41 Gb of data on disk. 
 
 ```{r}
 sims <- read_ds("temp-post/duckdb.rds")
@@ -154,7 +159,7 @@ library(arrow)
 
 system.time({ 
 
-summ2 <- 
+summ <- 
   sims %>% 
   as_duckdb_ds() %>% 
   filter(time == 672) %>% 
@@ -165,11 +170,15 @@ summ2 <-
     Median = median(IPRED, na.rm = TRUE), 
     Upper = quantile(IPRED, 0.975, na.rm = TRUE), 
     .groups = "drop"
-  ) %>% arrange(time, rep, dose) %>% collect()
-  
+  ) %>% arrange(
+    time, 
+    rep, 
+    dose
+  ) %>% collect()
+
 })
 
-summ2
+summ
 ```
 
 
@@ -180,7 +189,7 @@ seventh dose.
 
 system.time({ 
 
-summ3 <- 
+summ2 <- 
   sims %>% 
   as_duckdb_ds() %>% 
   filter(time >= 144 & time <= 168) %>%
@@ -193,17 +202,21 @@ summ3 <-
     n = n(),
     Median = median(Cmax, na.rm = TRUE), 
     .by = c(rep, dose)
-  ) %>% arrange(rep, dose) %>% collect()
+  ) %>% 
+  arrange(
+    rep, 
+    dose
+  ) %>% collect()
   
 })
 
-summ3
+summ2
 ```
 
 There appears to be substantial uncertainty in the median Cmax.
 
 ```{r}
-summ3 %>% 
+summ2 %>% 
   summarise(
     n = n(), 
     Lower = quantile(Median, 0.025), 
@@ -230,7 +243,7 @@ duckdb_register_arrow(con, "sims", ds)
 
 system.time(
   
-  summ <- dbGetQuery(con, "
+  summ3 <- dbGetQuery(con, "
     SELECT
       dose,
       time,
@@ -249,6 +262,6 @@ system.time(
 
 dbDisconnect(con, shutdown = TRUE)
 
-as_tibble(summ) %>% arrange(time, rep, dose)
+as_tibble(summ3) %>% arrange(time, rep, dose)
 ```
 
