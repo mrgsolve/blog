@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kyle Baron">
-<meta name="dcterms.date" content="2026-06-01">
+<meta name="dcterms.date" content="2026-06-02">
 <meta name="description" content="mrgsolve version 2.0.1 was released to CRAN in May, 2026. This release adds several new features making it easier to convert your model from NONMEM as well as some much-needed refactoring under the hood.">
 
 <title>New in version 2.0.1 – mrgsolve/blog</title>
@@ -130,11 +130,11 @@ background: #097f5f;
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="New in version 2.0.1 – mrgsolve/blog">
 <meta property="og:description" content="mrgsolve version 2.0.1 was released to CRAN in May, 2026. This release adds several new features making it easier to convert your model from NONMEM as well as some much-needed refactoring under the hood.">
-<meta property="og:image" content="https://mrgsolve.org/blog/images/preview.png">
+<meta property="og:image" content="../images/mrgsolve-std.png">
 <meta property="og:site_name" content="mrgsolve/blog">
 <meta name="twitter:title" content="New in version 2.0.1 – mrgsolve/blog">
 <meta name="twitter:description" content="mrgsolve version 2.0.1 was released to CRAN in May, 2026. This release adds several new features making it easier to convert your model from NONMEM as well as some much-needed refactoring under the hood.">
-<meta name="twitter:image" content="https://mrgsolve.org/blog/images/preview.png">
+<meta name="twitter:image" content="../images/mrgsolve-std.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -275,7 +275,7 @@ background: #097f5f;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">June 1, 2026</p>
+        <p class="date">June 2, 2026</p>
       </div>
     </div>
     
@@ -317,6 +317,27 @@ background: #097f5f;
 
 
 
+<p>mrgsolve version 2.0.1 was released to <a href="https://cran.r-project.org/package=mrgsolve">CRAN</a> in May, 2026. This release adds several new features making it easier to convert your model from NONMEM as well as some much-needed refactoring under the hood. This blog post will tell you all about it.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>tl;dr
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>A new <code>**</code> operator to calculate <code>pow(a,b)</code></li>
+<li>Plugins available to convert Fortran-style <code>IF/ELSE/THEN</code> and terminate lines with semicolons</li>
+<li>All the conversion stuff can be handled behind the scenes by mrgsolve or use an Rstudio <a href="https://youtu.be/yLne27x-ZH8">addin</a> to interactively convert block by block</li>
+<li>3-compartment PK model now available in closed form</li>
+<li>Easier to invoke 1-, 2-, and 3-compartment PK models in closed form</li>
+</ul>
+</div>
+</div>
+<p>Ok … let’s get into it.</p>
 <section id="use-rather-than-pow" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="use-rather-than-pow"><span class="header-section-number">1</span> Use <code>**</code> rather than <code>pow()</code></h2>
 <p>A good portion of the mrgsolve model code is essentially C++. To raise base <code>a</code> to power <code>b</code> in C++, you use a function: <code>pow(a, b)</code>. This is what we’ve done since the start of mrgsolve.</p>
@@ -564,7 +585,7 @@ ID:     1
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">env_get_env</span>(mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;environment: 0xbae110cf0&gt;</code></pre>
+<pre><code>&lt;environment: 0x9c3128bd8&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">env_get_env</span>(mod) <span class="sc">%&gt;%</span> <span class="fu">as.list</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">

@@ -1,7 +1,7 @@
 ---
 title: "New in version 2.0.1"
 author: Kyle Baron
-date: 06/01/2026
+date: 06/02/2026
 description: > 
   mrgsolve version 2.0.1 was released to CRAN in May, 2026. 
   This release adds several new features making it easier to 
@@ -12,7 +12,12 @@ categories:
 - nonmem
 - pkmodel
 - new release
-editor_options: 
+image: ../images/mrgsolve-std.png
+open-graph:
+  image: ../images/mrgsolve-std.png
+twitter-card:
+  image: ../images/mrgsolve-std.png
+editor_options:
   chunk_output_type: console
 ---
 
@@ -23,6 +28,26 @@ editor_options:
 library(dplyr)
 library(mrgsolve)
 ```
+
+mrgsolve version 2.0.1 was released to [CRAN](https://cran.r-project.org/package=mrgsolve) in May, 2026. This release adds 
+several new features making it easier to convert your model from NONMEM as 
+well as some much-needed refactoring under the hood. This blog post will 
+tell you all about it. 
+
+::: {.callout-tip icon=false}
+## tl;dr
+
+- A new `**` operator to calculate `pow(a,b)`
+- Plugins available to convert Fortran-style `IF/ELSE/THEN` and terminate
+  lines with semicolons
+- All the conversion stuff can be handled behind the scenes by mrgsolve
+  or use an Rstudio [addin](https://youtu.be/yLne27x-ZH8) to interactively
+  convert block by block
+- 3-compartment PK model now available in closed form
+- Easier to invoke 1-, 2-, and 3-compartment PK models in closed form
+:::
+
+Ok ... let's get into it.
 
 ## Use `**` rather than `pow()`
 
@@ -93,9 +118,9 @@ IF(SEX.EQ.1) THEN
 ENDIF
 ```
 
-mrgsolve will recognize this syntax and convert to the appropriate C++ construct. This is 
-also done under the hood, but there is an exported function to let you do it yourself 
-if needed. 
+mrgsolve will recognize this syntax and convert to the appropriate C++ 
+construct. This is also done under the hood, but there is an exported function 
+to let you do it yourself if needed. 
 
 ```{r}
 nmcode <- '
