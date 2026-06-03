@@ -84,9 +84,10 @@ IPRED**2
 ```
 
 
-mrgsolve recognizes `**` without or without any plugin and will manage
-the conversion for you under the hood. While we recommend letting mrgsolve
-do this conversion, we also export a function that will do this conversion. 
+mrgsolve recognizes `**` with or without any plugin; if you're converting from 
+a nonmem model, just leave the `**` in your code and mrgsolve will take care of 
+it under the hood. While we recommend letting mrgsolve do this conversion, we 
+also export a function that will do this conversion. 
 
 ```{r}
 code <- c(
@@ -119,13 +120,13 @@ ENDIF
 ```
 
 mrgsolve will recognize this syntax and convert to the appropriate C++ 
-construct. This is also done under the hood, but there is an exported function 
-to let you do it yourself if needed. 
+construct. This is also done under the hood when the `nm-vars` plugin is in 
+play, but there is an exported function to let you do it yourself if needed. 
 
 ```{r}
 nmcode <- '
 IF(SEX.EQ.1) THEN
-  TVCL = TVCL * THETA(5)
+  TVCL = TVCL * THETA(5);
 ENDIF
 '
 
@@ -139,18 +140,19 @@ cat(cpp, sep = "\n")
 The mrgsolve `nm-vars` plugin will handle simpler constructs
 
 ```{r}
-nmcode <- "IF(FORM.LE.2) FORMF = THETA(9)"
+nmcode <- "IF(FORM.LE.2) FORMF = THETA(9);"
 
 convert_fort_if(nmcode)
 ```
+
 or more complex constructs
 
 ```{r}
 nmcode <- '
 IF(SEX.EQ.1) THEN
-  TVCL = TVCL * THETA(5)
+  TVCL = TVCL * THETA(5);
 ELSEIF (STUDY.NE.5) THEN
-  TVCL = TVCL - THETA(12)
+  TVCL = TVCL - THETA(12);
 ENDIF
 '
 
@@ -168,9 +170,9 @@ semicolons at the end of each statement in select model blocks. This
 plugin requires you to also invoke `nm-vars`. This is required because 
 we only want users to invoke this plugin when coming to mrgsolve from 
 nonmem; the use case is converting from nonmem, not to overcome laziness 
-when writing the mode de-novo.
+when writing the mode _de novo_.
 
-As an example, this compiles
+As an example, this model compiles as-is and we can run it.
 
 ```{r}
 code <- '
@@ -182,6 +184,7 @@ $PARAM TVCL = 1, V = 20, FLAG = 1, THETA2 = 1.2
 
 $PK
 CL = TVCL
+
 IF(FLAG.EQ.2) THEN 
   CL = TVCL * THETA2 
 ENDIF
@@ -192,14 +195,30 @@ mod <- mcode("semicolons-example", code)
 mrgsim(mod, ev(amt = 100), end = 2)
 ```
 
+The semicolons are added via  `convert_semicolons()`.
+
+```{r}
+sp <- modelparse(code, split = TRUE)
+
+convert_semicolons(sp$PK) %>% cat(sep = "\n")
+```
+
 mrgsolve version 2.0.1 also provides a plugin called `nm-like` that 
-combines 
+combines the following.
 
 1. `nm-vars`
 2. `autodec`
 3. `semicolons`
 
-This will give you the most nonmem-like coding experience. 
+This will give you the most nonmem-like coding experience. See the following
+`modlib()` model for an example.
+
+```{r}
+mod <- modlib("nm-like")
+
+see(mod)
+```
+
 
 We recommend you only use the semicolons plugin when porting model code from 
 and existing nonmem run. The reason is that it can be difficult to discern 
