@@ -215,8 +215,10 @@ This will give you the most nonmem-like coding experience. See the following
 
 ```{r}
 mod <- modlib("nm-like")
+```
 
-see(mod)
+```{c, eval = FALSE, code = mod@code}
+
 ```
 
 
