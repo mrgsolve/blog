@@ -6,6 +6,8 @@ listing:
   sort: "date desc"
   type: default
   categories: true
+  exclude:
+    unlisted: true
 page-layout: full
 title-block-banner: "#097f5f"
 ---

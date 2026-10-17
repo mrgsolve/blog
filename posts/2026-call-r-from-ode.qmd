@@ -1,0 +1,109 @@
+---
+title: "Call an R function from $DES"
+date: 10/17/2026
+description: > 
+  I’d like to call an R function from the $DES block. The function 
+  takes in the current value of the state variables and returns 
+  transformed values.
+unlisted: true
+author: Kyle Baron
+---
+
+
+```{r}
+#| message: false
+#| warning: false
+library(mrgsolve)
+library(dplyr)
+library(here)
+```
+
+# Define a function in R that transforms state variables
+
+Stand-in function for transformation routine. This takes in the current values
+of the state variables, transforms them, and then returns the transformed
+values.
+
+
+```{r}
+denom <- 1.1
+
+run_transform <- function(states, scale) {
+  ans <- states * scale / denom
+  ans
+}
+```
+
+I've set this up so that you can pass config info for the transformation
+function from the model via a parameter that you can set. You can also pull
+objects from the global environment. So, you could load the transformation model
+into the R session and just call that from inside the you call from the model.
+
+::: {.callout-important}
+
+## Important
+
+It's important to note that you could implement this stand-in function way 
+more efficiently if you coded it in C++ since there is overhead for calling 
+back to R like this. The example is only a stand-in for more complicated code
+that you presumably could _only_ access by calling back to R. 
+
+:::
+
+# Read in the model 
+
+```{r}
+mod <- mread(
+  here("posts/2026-call-r-from-ode.mod"), 
+  soloc = "build", 
+  delta = 0.1, end = 12
+)
+```
+
+## Here's the model code
+
+::: {.callout-note collapse="true"}
+
+## Model code: call-r-from-ode.mod
+
+```{r}
+#| eval: false
+#| file: !expr here("posts/2026-call-r-from-ode.mod")
+```
+
+**Notes**
+
+1. Some code in `[env]` to verify we can find the transformation function.    
+2. Vectors to send state variables into and out of the transformation function are initialized in `[env]` too.  
+3. The vectors have zero-based indexing; I've made them one longer so 
+we can ignore the `0` position, but this isn't required.   
+3. All `Rcpp` objects need to be declared globally, then assigned inside a model function; we do this in `[global]` and `[preamble]`, respectively.  
+4. The transformation function gets called every time the ode block is called.   
+5. I call the transformation function one more time in `[error]` to get the transformed values for final states after the system advances; 
+you don't have to do this.  
+
+
+:::
+
+# Simulate
+
+Try running the model with a couple different values of `SCALE`; these
+values will be passed thorugh the model back to `run_ml()`.
+
+```{r}
+id <- expand.idata(SCALE = c(1, 0.5, 0))
+id
+```
+
+
+```{r}
+out <- mrgsim(mod, idata = id,  events = ev(amt = 100))
+```
+
+# Output
+
+```{r}
+out 
+
+plot(out)
+```
