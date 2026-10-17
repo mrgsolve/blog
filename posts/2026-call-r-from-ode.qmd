@@ -88,7 +88,7 @@ you don't have to do this.
 # Simulate
 
 Try running the model with a couple different values of `SCALE`; these
-values will be passed thorugh the model back to `run_ml()`.
+values will be passed thorugh the model back to `run_transform()`.
 
 ```{r}
 id <- expand.idata(SCALE = c(1, 0.5, 0))
